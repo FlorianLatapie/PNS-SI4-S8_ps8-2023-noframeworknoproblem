@@ -1,5 +1,6 @@
 * {
-    font-family: "Verdana"
+    font-family: "Verdana";
+    box-sizing: border-box;
 }
 
 body {
