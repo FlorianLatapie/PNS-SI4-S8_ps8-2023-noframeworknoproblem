@@ -67,7 +67,6 @@ function Grid(width, height) {
 
         ge.currentPlayingPlayer = ge.getOtherPlayer(); // bad
 
-        ge.checkDraw(); // bad
         hollowSpacesInColumns[chosenColumn] -= 1;
 
         console.log(ge.grid.toString()); // ok
@@ -130,42 +129,11 @@ function Grid(width, height) {
     this.cells = createGrid();
 }
 
-// class Player
-function Player(name, id) {
-    // Attributes
-    this.name = name
-    this.id = id
-    this.color = "no"
-}
-
-// class GameEngine
-function GameEngine(player1, player2) {
+function GridChecker(grid) {
     // Attributes ------------------------------------------------------------------------------------------------------
-    this.player1 = player1
-    this.player2 = player2
-    this.currentPlayingPlayer = player1
-    this.grid = new Grid(7, 6);
-    this.isGameOver = false;
+    this.grid = grid;
 
     // Methods ---------------------------------------------------------------------------------------------------------
-    this.getRandomPlayer = function (playersArray) {
-        let index = Math.floor(Math.random() * playersArray.length)
-        return playersArray[index]
-    }
-
-    this.getOtherPlayer = function () {
-        if (this.currentPlayingPlayer === this.player1) {
-            return this.player2
-        } else if (this.currentPlayingPlayer === this.player2) {
-            return this.player1
-        } else {
-            throw new Error("Invalid player");
-        }
-    }
-
-    // responsabilité de la grille et non du moteur de jeu : moteur de jeu : gérer grille et joueur
-    // grille : poser des trucs et check son propre contenu
-    // ou alors mettre un gridchecker avec une grid et les méthodes ci dessous
     this.checkHorizontal = function (row, column, color) {
         let count = 0;
         for (let i = -3; i < 4; i++) {
@@ -257,20 +225,6 @@ function GameEngine(player1, player2) {
         }
     }
 
-    // Verify the end condition of the game
-    this.checkWin = function (row, column, color) {
-        if (this.checkHorizontal(row, column, color)
-            || this.checkVertical(row, column, color)
-            || this.checkDiagonalBottomLeftTopRight(row, column, color)
-            || this.checkDiagonalTopRightBottomLeft(row, column, color)) {
-            this.isGameOver = true;
-            let winner = document.getElementById("winner");
-            winner.innerText = color + " wins !"; // bad do not use html GameEngine
-            return true;
-        }
-        return false;
-    }
-
     this.checkDraw = function () {
         for (let column = 0; column < this.grid.width; column++) {
             if (!this.grid.isColumnFull(column)) {
@@ -282,6 +236,58 @@ function GameEngine(player1, player2) {
         winner.innerText = "Draw !"; // bad do not use html GameEngine
         return true;
     }
+}
+
+// class Player
+function Player(name, id) {
+    // Attributes
+    this.name = name
+    this.id = id
+    this.color = "no"
+}
+
+// class GameEngine
+function GameEngine(player1, player2) {
+    // Attributes ------------------------------------------------------------------------------------------------------
+    this.player1 = player1
+    this.player2 = player2
+    this.currentPlayingPlayer = player1
+    this.grid = new Grid(7, 6);
+    this.gridChecker = new GridChecker(this.grid);
+    this.isGameOver = false;
+
+    // Methods ---------------------------------------------------------------------------------------------------------
+    this.getRandomPlayer = function (playersArray) {
+        let index = Math.floor(Math.random() * playersArray.length)
+        return playersArray[index]
+    }
+
+    this.getOtherPlayer = function () {
+        if (this.currentPlayingPlayer === this.player1) {
+            return this.player2
+        } else if (this.currentPlayingPlayer === this.player2) {
+            return this.player1
+        } else {
+            throw new Error("Invalid player");
+        }
+    }
+
+    // Verify the end condition of the game
+    this.checkWin = function (row, column, color) {
+        if (this.gridChecker.checkHorizontal(row, column, color)
+            || this.gridChecker.checkVertical(row, column, color)
+            || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
+            || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
+            this.isGameOver = true;
+            let winner = document.getElementById("winner");
+            winner.innerText = color + " wins !"; // bad do not use html GameEngine
+            return true;
+        }
+        this.gridChecker.checkDraw();
+        return false;
+    }
+
+
 
     // Play a turn for a player
     this.playTurn = function (player, column) {
@@ -309,7 +315,7 @@ function GameEngine(player1, player2) {
         }
 
         // Check equality condition
-        if (this.checkDraw()) {
+        if (this.gridChecker.checkDraw()) {
             console.log("Game Finished : draw");
         }
 
