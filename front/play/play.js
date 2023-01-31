@@ -11,70 +11,68 @@ function Grid(width, height) {
     const defaultCellValue = "_";
     const redCellValue = "R";
     const yellowCellValue = "Y";
-    let currColumns = [];
+    let hollowSpacesInColumns = [];
 
     // Methods
     let createGrid = function () {
-        currColumns = [5,5,5,5,5,5,5];
+        hollowSpacesInColumns = [height - 1, height - 1, height - 1, height - 1, height - 1, height - 1, height - 1]; // bad
         let cells = new Array(height);
 
         for (let i = 0; i < height; i++) {
             cells[i] = new Array(width);
             for (let j = 0; j < width; j++) {
                 let cell = document.getElementById(j + "-" + i);
-                //console.log(cell.id);
-                //cells[i][j] = document.getElementById(i + "-" + j);
-                //cells[i][j].setAttribute(defaultCellValue);
                 cells[i][j] = defaultCellValue;
                 cell.setAttribute("value", cells[i][j]);
-                cell.addEventListener("click", addPiece);
+                cell.addEventListener("click", addDisc);
             }
         }
         return cells;
     }
 
-    function addPiece() {
-        if(ge.isGameOver){
-            document.querySelectorAll(".grid-item").forEach(
-                c => {
-                    c.removeEventListener("click", addPiece);
-                    c.style.cursor = "not-allowed";
-                });
-            return;
+    // here you should use "ge.playturn()"
+    function addDisc() {
+        // Check if we can place a disc in this column
+        if (ge.isGameOver) {
+            document.querySelectorAll(".grid-item").forEach(c => {
+                c.removeEventListener("click", addDisc);
+                c.style.cursor = "not-allowed";
+            });
+            return "Game is over";
         }
 
-        let coords = this.id.split("-");
-        let c = parseInt(coords[0]);
-        let r = parseInt(coords[1]);
+        let clickCoords = this.id.split("-");
+        let chosenColumn = parseInt(clickCoords[0]); // ok
+        let hollowSpacesInColumn = hollowSpacesInColumns[chosenColumn]; // bad
 
-        r = currColumns[c];
-
-        if (r < 0) {
-            return;
+        if (hollowSpacesInColumn < 0) {
+            return "Column is full";
         }
 
-        let cell = document.getElementById(c + "-" + (5-r));
+        // Place disc
+        let cellX = chosenColumn; // ok
+        let cellY = height - 1 - hollowSpacesInColumn; // bad
+        let cell = document.getElementById(cellX + "-" + cellY); // ok
+
         cell.classList.add("fall");
+
         if (ge.currentPlayingPlayer.color === "R") {
-            cell.classList.add("red-piece");
-            ge.grid.cells[r][c] = redCellValue;
-            ge.checkWin(r, c, redCellValue);
-            ge.currentPlayingPlayer = ge.getOtherPlayer();
+            cell.classList.add("red-piece"); // ok
+            ge.grid.cells[hollowSpacesInColumn][chosenColumn] = redCellValue; // bad
+            ge.checkWin(hollowSpacesInColumn, chosenColumn, redCellValue); // bad
+        } else {
+            cell.classList.add("yellow-piece"); // ok
+            ge.grid.cells[hollowSpacesInColumn][chosenColumn] = yellowCellValue; // bad
+            ge.checkWin(hollowSpacesInColumn, chosenColumn, yellowCellValue); // bad
         }
-        else {
-            cell.classList.add("yellow-piece");
-            ge.grid.cells[r][c] = yellowCellValue;
-            ge.checkWin(r, c, yellowCellValue);
-            ge.currentPlayingPlayer = ge.getOtherPlayer();
-        }
-        ge.checkEquality();
-        r -= 1;
-        currColumns[c] = r;
 
-        console.log(ge.grid.toString());
+        ge.currentPlayingPlayer = ge.getOtherPlayer(); // bad
 
+        ge.checkEquality(); // bad
+        hollowSpacesInColumns[chosenColumn] -= 1;
+
+        console.log(ge.grid.toString()); // ok
     }
-
 
     this.isColumnFull = function (column) {
         return this.cells[0][column] !== defaultCellValue;
@@ -99,33 +97,33 @@ function Grid(width, height) {
     }
 
     this.toString = function () {
-        let str = ""
+        let str = "";
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                str += this.cells[i][j]
+                str += this.cells[i][j];
             }
-            str += "\n"
+            str += "\n";
         }
-        return str
+        return str;
     }
 
-        Object.defineProperty(this, "defaultCellValue", {
-            get: function () {
-                return defaultCellValue;
-            }
-        });
+    Object.defineProperty(this, "defaultCellValue", {
+        get: function () {
+            return defaultCellValue;
+        }
+    });
 
-        Object.defineProperty(this, "redCellValue", {
-            get: function () {
-                return redCellValue;
-            }
-        });
+    Object.defineProperty(this, "redCellValue", {
+        get: function () {
+            return redCellValue;
+        }
+    });
 
-        Object.defineProperty(this, "yellowCellValue", {
-            get: function () {
-                return yellowCellValue;
-            }
-        });
+    Object.defineProperty(this, "yellowCellValue", {
+        get: function () {
+            return yellowCellValue;
+        }
+    });
 
     this.width = width;
     this.height = height;
@@ -261,11 +259,7 @@ function GameEngine(player1, player2) {
 
     // Verify the end condition of the game
     this.checkWin = function (row, column, color) {
-        if (this.checkHorizontal(row, column, color)
-            || this.checkVertical(row, column, color)
-            || this.checkDiagonalBottomLeftTopRight(row, column, color)
-            || this.checkDiagonalTopRightBottomLeft(row, column, color))
-        {
+        if (this.checkHorizontal(row, column, color) || this.checkVertical(row, column, color) || this.checkDiagonalBottomLeftTopRight(row, column, color) || this.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
             let winner = document.getElementById("winner");
             winner.innerText = color + " wins !";
@@ -351,7 +345,6 @@ ge.playTurn(p1, 2)
 ge.playTurn(p2, 2)
 ge.playTurn(p1, 3)
  */
-
 
 
 // A equality test
