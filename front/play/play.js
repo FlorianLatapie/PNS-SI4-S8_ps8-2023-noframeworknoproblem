@@ -10,66 +10,18 @@ function Grid(width, height) {
     const defaultCellValue = "_";
     const redCellValue = "R";
     const yellowCellValue = "Y";
-    let hollowSpacesInColumns = [];
 
     // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
-        hollowSpacesInColumns = [height - 1, height - 1, height - 1, height - 1, height - 1, height - 1, height - 1]; // bad
         let cells = new Array(height);
 
         for (let i = 0; i < height; i++) {
             cells[i] = new Array(width);
             for (let j = 0; j < width; j++) {
-                let cell = document.getElementById(j + "-" + i);
                 cells[i][j] = defaultCellValue;
-                cell.setAttribute("value", cells[i][j]);
-                cell.addEventListener("click", addDisc);
             }
         }
         return cells;
-    }
-
-    // here you should use "ge.playturn()"
-    function addDisc() {
-        // Check if we can place a disc in this column
-        if (ge.isGameOver) {
-            document.querySelectorAll(".grid-item").forEach(c => {
-                c.removeEventListener("click", addDisc);
-                c.style.cursor = "not-allowed";
-            });
-            return "Game is over";
-        }
-
-        let clickCoords = this.id.split("-");
-        let chosenColumn = parseInt(clickCoords[0]); // ok
-        let hollowSpacesInColumn = hollowSpacesInColumns[chosenColumn]; // bad
-
-        if (hollowSpacesInColumn < 0) {
-            return "Column is full";
-        }
-
-        // Place disc
-        let cellX = chosenColumn; // ok
-        let cellY = height - 1 - hollowSpacesInColumn; // bad
-        let cell = document.getElementById(cellX + "-" + cellY); // ok
-
-        cell.classList.add("fall");
-
-        if (ge.currentPlayingPlayer.color === "R") {
-            cell.classList.add("red-piece"); // ok
-            ge.grid.cells[hollowSpacesInColumn][chosenColumn] = redCellValue; // bad
-            ge.checkWin(hollowSpacesInColumn, chosenColumn, redCellValue); // bad
-        } else {
-            cell.classList.add("yellow-piece"); // ok
-            ge.grid.cells[hollowSpacesInColumn][chosenColumn] = yellowCellValue; // bad
-            ge.checkWin(hollowSpacesInColumn, chosenColumn, yellowCellValue); // bad
-        }
-
-        ge.currentPlayingPlayer = ge.getOtherPlayer(); // bad
-
-        hollowSpacesInColumns[chosenColumn] -= 1;
-
-        console.log(ge.grid.toString()); // ok
     }
 
     this.isColumnFull = function (column) {
@@ -94,6 +46,15 @@ function Grid(width, height) {
         throw new Error("Column " + column + " is full or cell not found, this should not happen");
     }
 
+    this.getRowOfLastDisk = function (column) {
+        for (let row = 0; row < this.height; row++) {
+            if (!this.isCellEmpty(column, row)) {
+                return height-row;
+            }
+        }
+        return 0;
+    }
+
     this.toString = function () {
         let str = "";
         for (let i = 0; i < this.height; i++) {
@@ -105,6 +66,7 @@ function Grid(width, height) {
         return str;
     }
 
+    // Setter only for these attributes --------------------------------------------------------------------------------
     Object.defineProperty(this, "defaultCellValue", {
         get: function () {
             return defaultCellValue;
@@ -279,14 +241,12 @@ function GameEngine(player1, player2) {
             || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
             || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
-            let winner = document.getElementById("winner");
-            winner.innerText = color + " wins !"; // bad do not use html GameEngine
+
             return true;
         }
         this.gridChecker.checkDraw();
         return false;
     }
-
 
 
     // Play a turn for a player
@@ -330,11 +290,61 @@ function GameEngine(player1, player2) {
 
     // The first player is randomly chosen
     this.currentPlayingPlayer = this.getRandomPlayer([player1, player2])
+    console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
+    console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")")
 }
+
+// this is the only class that should/can interact with the html
+function webPageInteraction(gameEngine) {
+    this.ge = gameEngine;
+    this.cells = this.ge.grid.cells;
+
+    this.webPagePlayTurn = function () {
+        let clickCoords = this.id.split("-");
+        let column = clickCoords[0];
+        let row = ge.grid.getRowOfLastDisk(column);
+        let cell = document.getElementById(column + "-" + row);
+
+        // play turn changes the current player, so we need to get the other player for the next lines of code
+        ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
+
+        cell.classList.add("fall");
+        if (ge.getOtherPlayer().color === ge.grid.redCellValue) {
+            cell.classList.add("red-piece");
+        } else {
+            cell.classList.add("yellow-piece");
+        }
+
+        if (ge.isGameOver) {
+            let winner = document.getElementById("winner");
+            winner.innerText = ge.getOtherPlayer().color + " wins !";
+
+            document.querySelectorAll(".grid-item").forEach(c => {
+                c.removeEventListener("click", this.webPagePlayTurn);
+                c.style.cursor = "not-allowed";
+            });
+            return "Game is over";
+        }
+    }
+
+    // Constructor -----------------------------------------------------------------------------------------------------
+    let height = this.ge.grid.height;
+    let width = this.ge.grid.width;
+
+    for (let column = 0; column < width; column++) {
+        for (let line = 0; line < height; line++) {
+            let cell = document.getElementById(column + "-" + line);
+            cell.setAttribute("value", this.cells[line][column]);
+            cell.addEventListener("click", this.webPagePlayTurn);
+        }
+    }
+}
+
 
 let p1 = new Player("alice", 0)
 let p2 = new Player("bob", 1)
 let ge = new GameEngine(p1, p2)
+let wpi = new webPageInteraction(ge)
 
 // A Win test
 /*
