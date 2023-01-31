@@ -6,14 +6,13 @@ function Position(x, y) {
 }
 
 function Grid(width, height) {
-    // Attributes
-
+    // Attributes ------------------------------------------------------------------------------------------------------
     const defaultCellValue = "_";
     const redCellValue = "R";
     const yellowCellValue = "Y";
     let hollowSpacesInColumns = [];
 
-    // Methods
+    // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
         hollowSpacesInColumns = [height - 1, height - 1, height - 1, height - 1, height - 1, height - 1, height - 1]; // bad
         let cells = new Array(height);
@@ -68,7 +67,7 @@ function Grid(width, height) {
 
         ge.currentPlayingPlayer = ge.getOtherPlayer(); // bad
 
-        ge.checkEquality(); // bad
+        ge.checkDraw(); // bad
         hollowSpacesInColumns[chosenColumn] -= 1;
 
         console.log(ge.grid.toString()); // ok
@@ -125,6 +124,7 @@ function Grid(width, height) {
         }
     });
 
+    // Constructor -----------------------------------------------------------------------------------------------------
     this.width = width;
     this.height = height;
     this.cells = createGrid();
@@ -140,14 +140,14 @@ function Player(name, id) {
 
 // class GameEngine
 function GameEngine(player1, player2) {
-    // Attributes
+    // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
     this.currentPlayingPlayer = player1
     this.grid = new Grid(7, 6);
     this.isGameOver = false;
 
-    // Methods
+    // Methods ---------------------------------------------------------------------------------------------------------
     this.getRandomPlayer = function (playersArray) {
         let index = Math.floor(Math.random() * playersArray.length)
         return playersArray[index]
@@ -165,6 +165,7 @@ function GameEngine(player1, player2) {
 
     // responsabilité de la grille et non du moteur de jeu : moteur de jeu : gérer grille et joueur
     // grille : poser des trucs et check son propre contenu
+    // ou alors mettre un gridchecker avec une grid et les méthodes ci dessous
     this.checkHorizontal = function (row, column, color) {
         let count = 0;
         for (let i = -3; i < 4; i++) {
@@ -210,7 +211,6 @@ function GameEngine(player1, player2) {
             }
         }
     }
-
     this.checkDiagonalTopRightBottomLeft = function (row, column, color) {
         let count = 0;
         for (let i = -3; i < 4; i++) {
@@ -238,7 +238,7 @@ function GameEngine(player1, player2) {
                 }
             }
         }
-
+        // code duplication
         if (count === 4) {
             return true;
         }
@@ -259,16 +259,19 @@ function GameEngine(player1, player2) {
 
     // Verify the end condition of the game
     this.checkWin = function (row, column, color) {
-        if (this.checkHorizontal(row, column, color) || this.checkVertical(row, column, color) || this.checkDiagonalBottomLeftTopRight(row, column, color) || this.checkDiagonalTopRightBottomLeft(row, column, color)) {
+        if (this.checkHorizontal(row, column, color)
+            || this.checkVertical(row, column, color)
+            || this.checkDiagonalBottomLeftTopRight(row, column, color)
+            || this.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
             let winner = document.getElementById("winner");
-            winner.innerText = color + " wins !";
+            winner.innerText = color + " wins !"; // bad do not use html GameEngine
             return true;
         }
         return false;
     }
 
-    this.checkEquality = function () {
+    this.checkDraw = function () {
         for (let column = 0; column < this.grid.width; column++) {
             if (!this.grid.isColumnFull(column)) {
                 return false;
@@ -276,7 +279,7 @@ function GameEngine(player1, player2) {
         }
         this.isGameOver = true;
         let winner = document.getElementById("winner");
-        winner.innerText = "Equality !";
+        winner.innerText = "Draw !"; // bad do not use html GameEngine
         return true;
     }
 
@@ -306,29 +309,21 @@ function GameEngine(player1, player2) {
         }
 
         // Check equality condition
-        if (this.checkEquality()) {
-            console.log("Game Finished : equality");
+        if (this.checkDraw()) {
+            console.log("Game Finished : draw");
         }
 
         // Change the current player
         this.currentPlayingPlayer = this.getOtherPlayer()
     }
 
-    // Code executed in constructor
+    // Constructor -----------------------------------------------------------------------------------------------------
+
+    player1.color = this.grid.yellowCellValue;
+    player2.color = this.grid.redCellValue;
 
     // The first player is randomly chosen
     this.currentPlayingPlayer = this.getRandomPlayer([player1, player2])
-
-    // Color of the player beginning : yellow
-    if (this.currentPlayingPlayer === player1) {
-        this.player1.color = this.grid.yellowCellValue
-        this.player2.color = this.grid.redCellValue
-    } else {
-        this.player1.color = this.grid.redCellValue
-        this.player2.color = this.grid.yellowCellValue
-    }
-
-
 }
 
 let p1 = new Player("alice", 0)
@@ -337,6 +332,7 @@ let ge = new GameEngine(p1, p2)
 
 // A Win test
 /*
+ge.currentPlayingPlayer = p1
 ge.playTurn(p1, 0)
 ge.playTurn(p2, 0)
 ge.playTurn(p1, 1)
@@ -344,11 +340,12 @@ ge.playTurn(p2, 1)
 ge.playTurn(p1, 2)
 ge.playTurn(p2, 2)
 ge.playTurn(p1, 3)
- */
+*/
 
 
-// A equality test
+// An equality test
 /*
+ge.currentPlayingPlayer = p1
 ge.playTurn(p1, 0)
 ge.playTurn(p2, 1)
 ge.playTurn(p1, 2)
@@ -356,13 +353,39 @@ ge.playTurn(p2, 3)
 ge.playTurn(p1, 4)
 ge.playTurn(p2, 5)
 ge.playTurn(p1, 6)
-
 ge.playTurn(p2, 1)
-ge.playTurn(p1, 0)
-ge.playTurn(p2, 3)
 ge.playTurn(p1, 2)
-ge.playTurn(p2, 5)
+ge.playTurn(p2, 3)
 ge.playTurn(p1, 4)
+ge.playTurn(p2, 5)
+ge.playTurn(p1, 6)
+ge.playTurn(p2, 2)
+ge.playTurn(p1, 0)
+ge.playTurn(p2, 0)
+ge.playTurn(p1, 1)
+ge.playTurn(p2, 4)
+ge.playTurn(p1, 3)
 ge.playTurn(p2, 6)
- */
-
+ge.playTurn(p1, 5)
+ge.playTurn(p2, 0)
+ge.playTurn(p1, 1)
+ge.playTurn(p2, 2)
+ge.playTurn(p1, 3)
+ge.playTurn(p2, 4)
+ge.playTurn(p1, 5)
+ge.playTurn(p2, 6)
+ge.playTurn(p1, 0)
+ge.playTurn(p2, 1)
+ge.playTurn(p1, 2)
+ge.playTurn(p2, 3)
+ge.playTurn(p1, 4)
+ge.playTurn(p2, 5)
+ge.playTurn(p1, 6)
+ge.playTurn(p2, 0)
+ge.playTurn(p1, 1)
+ge.playTurn(p2, 2)
+ge.playTurn(p1, 3)
+ge.playTurn(p2, 4)
+ge.playTurn(p1, 5)
+ge.playTurn(p2, 6)
+*/
