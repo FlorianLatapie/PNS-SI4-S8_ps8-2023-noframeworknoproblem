@@ -209,7 +209,7 @@ function Player(name, id) {
 }
 
 // class GameEngine
-function GameEngine(player1, player2) {
+export function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
@@ -252,7 +252,7 @@ function GameEngine(player1, player2) {
     }
 
 
-    export function checkValidity(player, column) {
+    function checkValidity(player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
             throw new Error("It's not your turn");
