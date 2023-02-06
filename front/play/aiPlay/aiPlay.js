@@ -1,12 +1,15 @@
 "use strict";
 
-import {Position} from "./position.js";
+function Position(x, y) {
+    this.x = x;
+    this.y = y;
+}
 
 function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------
-    const defaultCellValue = "_";
-    const redCellValue = "R";
-    const yellowCellValue = "Y";
+    const defaultCellValue = 0;
+    const redCellValue = 1;
+    const yellowCellValue = 2;
 
     // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
@@ -206,7 +209,7 @@ function Player(name, id) {
 }
 
 // class GameEngine
-export function GameEngine(player1, player2) {
+function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
@@ -249,7 +252,7 @@ export function GameEngine(player1, player2) {
     }
 
 
-    function checkValidity(player, column) {
+    export function checkValidity(player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
             throw new Error("It's not your turn");
@@ -306,12 +309,14 @@ function webPageInteraction(gameEngine) {
 
     this.webPagePlayTurn = function () {
         let clickCoords = this.id.split("-");
+
+        // here I have the coordinates
         let column = clickCoords[0];
         let row = ge.grid.getRowOfLastDisk(column);
         let cell = document.getElementById(column + "-" + row);
 
         // play turn changes the current player, so we need to get the other player for the next lines of code
-        ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
+        // ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
 
         cell.classList.add("fall");
         if (ge.getOtherPlayer().color === ge.grid.redCellValue) {
@@ -345,11 +350,39 @@ function webPageInteraction(gameEngine) {
     }
 }
 
-
 let p1 = new Player("alice", 0)
 let p2 = new Player("bob", 1)
 let ge = new GameEngine(p1, p2)
 let wpi = new webPageInteraction(ge)
+
+
+let socket = io("http://localhost:8000")
+let toPlay = true;
+
+socket.on("connect", () => {
+    console.log("Connected");
+});
+
+
+socket.on("updatedBoard", globalCoordsGrid => {
+    // the client has to play
+    if (toPlay) {
+        let globalCoordsMove = [0, 0]
+        // faire le checkValidity(row, column);
+        socket.broadcast.emit("newMove", globalCoordsMove)
+        toPlay = !toPlay
+    } else {
+        // the client just receive the confirmation of its move
+        toPlay = !toPlay
+    }
+
+})
+
+socket.on("playError", (Error) => {
+    console.log(Error)
+})
+
+
 
 // A Win test
 /*

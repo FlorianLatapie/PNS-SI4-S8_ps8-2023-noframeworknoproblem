@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link href="../../common.css" rel="stylesheet">
+    <link href="../../menu/menu.css" rel="stylesheet">
+    <link href="aiPlay.css" rel="stylesheet">
+    <script src="ai.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Puissance 4</title>
+</head>
+<body>
+
+<div class="wrapper">
+<header>
+    <nav class="nav-bar top-corner-content">
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <div id="nav-background"></div>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link"><img src="../../menu/images/house-solid.svg" width="36" alt="Accueil"></a></li>
+            <li><a href="#" class="nav-link"><img src="../../menu/images/bell-solid.svg" width="36" alt="Notifications"></a></li>
+            <li><a href="#" class="nav-link"><img src="../../menu/images/user-group-solid.svg" width="36" alt="Amis"></a></li>
+            <li><a href="#" class="nav-link"><img src="../../menu/images/gamepad-solid.svg" width="36" alt="Jouer"></a></li>
+            <li><a href="#" class="nav-link"><img src="../../menu/images/right-from-bracket-solid.svg" width="36" alt="Se déconnecter"></a></li>
+        </ul>
+    </nav>
+    <h1 id="page-title">titre à modifier en JS</h1>
+    <div class="top-corner-content" id="username">
+        <p>
+            0123456789ABCDEF
+        </p>
+    </div>
+</header>
+
+<main>
+    <h2 id="winner"></h2>
+    <div id="grid-div">
+        <div id="grid">
+            <div class="grid-item" id="6-5"></div>
+            <div class="grid-item" id="6-4"></div>
+            <div class="grid-item" id="6-3"></div>
+            <div class="grid-item" id="6-2"></div>
+            <div class="grid-item" id="6-1"></div>
+            <div class="grid-item" id="6-0"></div>
+
+            <div class="grid-item" id="5-5"></div>
+            <div class="grid-item" id="5-4"></div>
+            <div class="grid-item" id="5-3"></div>
+            <div class="grid-item" id="5-2"></div>
+            <div class="grid-item" id="5-1"></div>
+            <div class="grid-item" id="5-0"></div>
+
+            <div class="grid-item" id="4-5"></div>
+            <div class="grid-item" id="4-4"></div>
+            <div class="grid-item" id="4-3"></div>
+            <div class="grid-item" id="4-2"></div>
+            <div class="grid-item" id="4-1"></div>
+            <div class="grid-item" id="4-0"></div>
+
+            <div class="grid-item" id="3-5"></div>
+            <div class="grid-item" id="3-4"></div>
+            <div class="grid-item" id="3-3"></div>
+            <div class="grid-item" id="3-2"></div>
+            <div class="grid-item" id="3-1"></div>
+            <div class="grid-item" id="3-0"></div>
+
+            <div class="grid-item" id="2-5"></div>
+            <div class="grid-item" id="2-4"></div>
+            <div class="grid-item" id="2-3"></div>
+            <div class="grid-item" id="2-2"></div>
+            <div class="grid-item" id="2-1"></div>
+            <div class="grid-item" id="2-0"></div>
+
+            <div class="grid-item" id="1-5"></div>
+            <div class="grid-item" id="1-4"></div>
+            <div class="grid-item" id="1-3"></div>
+            <div class="grid-item" id="1-2"></div>
+            <div class="grid-item" id="1-1"></div>
+            <div class="grid-item" id="1-0"></div>
+
+            <div class="grid-item" id="0-5"></div>
+            <div class="grid-item" id="0-4"></div>
+            <div class="grid-item" id="0-3"></div>
+            <div class="grid-item" id="0-2"></div>
+            <div class="grid-item" id="0-1"></div>
+            <div class="grid-item" id="0-0"></div>
+        </div>
+    </div>
+
+    <aside id="chat"></aside>
+    <button id="button-abandon">Abandonner</button>
+</main>
+</div>
+</body>
+<script src="../../menu/burgermenu.js"></script>
+<script src="aiPlay.js"></script>
+</html>
