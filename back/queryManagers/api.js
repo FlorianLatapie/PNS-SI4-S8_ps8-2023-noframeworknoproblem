@@ -24,5 +24,5 @@ function addCors(response) {
 //exports.manage = manageRequest;
 // error ReferenceError: exports is not defined in ES module scope
 // convert it to avoid this error
-export { manageRequest as Hello };
+export { manageRequest as manage };
 

@@ -1,10 +1,17 @@
 "use strict";
 
-function Position(x, y) {
-    this.x = x;
-    this.y = y;
-}
+import {Position} from "../position.js";
 
+//import * as io from "../../../node_modules/socket.io-client/dist/socket.io.js";
+//import io from "socket.io-client";
+//import * as socketIOClient from "../../../node_modules/socket.io-client/dist/socket.io.js";
+import {io} from "../../../node_modules/socket.io-client/dist/socket.io.esm.min.js";
+
+
+//const io = socketIOClient.default;
+
+//import io from "/node_modules/socket.io-client/dist/socket.io.js";
+//import io from "../../../node_modules/socket.io-client";
 function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------
     const defaultCellValue = 0;
@@ -209,7 +216,7 @@ function Player(name, id) {
 }
 
 // class GameEngine
-function GameEngine(player1, player2) {
+export function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
@@ -252,7 +259,7 @@ function GameEngine(player1, player2) {
     }
 
 
-    export function checkValidity(player, column) {
+    function checkValidity(player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
             throw new Error("It's not your turn");
