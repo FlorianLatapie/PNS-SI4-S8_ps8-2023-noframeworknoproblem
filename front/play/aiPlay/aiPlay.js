@@ -5,7 +5,7 @@ import {Position} from "../position.js";
 //import * as io from "../../../node_modules/socket.io-client/dist/socket.io.js";
 //import io from "socket.io-client";
 //import * as socketIOClient from "../../../node_modules/socket.io-client/dist/socket.io.js";
-import {io} from "../../../node_modules/socket.io-client/dist/socket.io.esm.min.js";
+import {io} from "../../socket.io-client/dist/socket.io.esm.min.js";
 
 
 //const io = socketIOClient.default;
