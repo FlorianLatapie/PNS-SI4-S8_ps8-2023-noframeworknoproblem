@@ -236,6 +236,9 @@ function GameEngine(player1, player2) {
 
     // Verify the end condition of the game
     this.checkWin = function (row, column, color) {
+        // convert row and column to int
+        row = parseInt(row);
+        column = parseInt(column);
         if (this.gridChecker.checkHorizontal(row, column, color)
             || this.gridChecker.checkVertical(row, column, color)
             || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
