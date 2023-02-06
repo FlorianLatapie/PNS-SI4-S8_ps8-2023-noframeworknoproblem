@@ -5,7 +5,8 @@
   "main": "back/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./back/index.js"
+    "start": "node ./back/index.js",
+    "dev": "nodemon ./back/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/benjaminvella/ps8#readme",
   "dependencies": {
+    "nodemon": "^2.0.20",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4"
   }
