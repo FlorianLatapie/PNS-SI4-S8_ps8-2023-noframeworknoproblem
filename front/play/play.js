@@ -1,9 +1,6 @@
 "use strict";
 
-function Position(x, y) {
-    this.x = x;
-    this.y = y;
-}
+import {Position} from "./position.js";
 
 function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------

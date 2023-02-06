@@ -1,5 +1,8 @@
 // The origin of the grid in the front and the back is in the top left corner.
 // But in the API the origin is in the bottom left corner
+
+import {Position} from "../../front/play/position.js";
+
 export function convertLocalPositionToAPI(position) {
     return new Position(position.x, this.height - 1 - position.y);
 }
