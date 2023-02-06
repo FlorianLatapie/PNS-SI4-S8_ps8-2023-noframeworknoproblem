@@ -238,7 +238,7 @@ function GameEngine(player1, player2) {
         if (this.grid.getCellFromGlobalCoordinates(column, row) === this.grid.defaultCellValue) {
             if (row - 1 < 0) {
                 return true
-            } else if (this.grid.getCellFromGlobalCoordinates(column, row - 1) !== this.grid.defaultCellValue)) {
+            } else if (this.grid.getCellFromGlobalCoordinates(column, row - 1) !== this.grid.defaultCellValue) {
                 return true;
             }
         }
