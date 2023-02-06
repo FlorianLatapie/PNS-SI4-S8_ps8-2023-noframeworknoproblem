@@ -1,15 +1,12 @@
 "use strict";
 
-function Position(x, y) {
-    this.x = x;
-    this.y = y;
-}
+import {Position} from "./position.js";
 
 function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------
-    const defaultCellValue = 0;
-    const redCellValue = 2;
-    const yellowCellValue = 1;
+    const defaultCellValue = "_";
+    const redCellValue = "R";
+    const yellowCellValue = "Y";
 
     // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
@@ -49,18 +46,10 @@ function Grid(width, height) {
     this.getRowOfLastDisk = function (column) {
         for (let row = 0; row < this.height; row++) {
             if (!this.isCellEmpty(column, row)) {
-                return height - row;
+                return height-row;
             }
         }
         return 0;
-    }
-
-    this.getCellFromGlobalCoordinates = function (column, row) {
-        return this.cells[column][this.height - 1 - row];
-    }
-
-    this.getCellFromLocalCoordinates = function (column, row) {
-        return this.cells[column][row]
     }
 
     this.toString = function () {
@@ -105,12 +94,10 @@ function GridChecker(grid) {
 
     // Methods ---------------------------------------------------------------------------------------------------------
     this.checkHorizontal = function (row, column, color) {
-        console.log("horizontal")
         let count = 0;
         for (let i = -3; i < 4; i++) {
             if (0 <= column + i && column + i < this.grid.width) {
                 if (this.grid.cells[row][column + i] === color) {
-                    console.log("here" + row, column + i)
                     count++;
                     if (count === 4) {
                         return true;
@@ -122,7 +109,6 @@ function GridChecker(grid) {
         }
     }
     this.checkVertical = function (row, column, color) {
-        console.log("vertical")
         let count = 0;
         for (let i = -3; i < 4; i++) {
             if (0 <= row + i && row + i < this.grid.height) {
@@ -138,7 +124,6 @@ function GridChecker(grid) {
         }
     }
     this.checkDiagonalBottomLeftTopRight = function (row, column, color) {
-        console.log("diagonalBottomLeft")
         let count = 0;
         for (let i = -3; i < 4; i++) {
             if (0 <= row - i && row - i < this.grid.height && 0 <= column + i && column + i < this.grid.width) {
@@ -154,7 +139,6 @@ function GridChecker(grid) {
         }
     }
     this.checkDiagonalTopRightBottomLeft = function (row, column, color) {
-        console.log("diagonalTopRight")
         let count = 0;
         for (let i = -3; i < 4; i++) {
             if (0 <= row + i && row + i < this.grid.height && 0 <= column + i && column + i < this.grid.width) {
@@ -167,6 +151,36 @@ function GridChecker(grid) {
                     count = 0;
                 }
             }
+        }
+
+        if (count === 4) {
+            return true;
+        }
+
+        count = 1;
+        for (let i = 1; i < 4; i++) {
+            if (0 <= row + i && row + i < this.grid.height && 0 <= column - i && column - i < this.grid.width) {
+                if (this.grid.cells[row + i][column - i] === color) {
+                    count++;
+                }
+            }
+        }
+        // code duplication
+        if (count === 4) {
+            return true;
+        }
+
+        count = 1;
+        for (let i = 1; i < 4; i++) {
+            if (0 <= row - i && row - i < this.grid.height && 0 <= column + i && column + i < this.grid.width) {
+                if (this.grid.cells[row - i][column + i] === color) {
+                    count++;
+                }
+            }
+        }
+
+        if (count === 4) {
+            return true;
         }
     }
 
@@ -192,7 +206,7 @@ function Player(name, id) {
 }
 
 // class GameEngine
-function GameEngine(player1, player2) {
+export function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
@@ -219,7 +233,13 @@ function GameEngine(player1, player2) {
 
     // Verify the end condition of the game
     this.checkWin = function (row, column, color) {
-        if (this.gridChecker.checkHorizontal(row, column, color) || this.gridChecker.checkVertical(row, column, color) || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color) || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
+        // convert row and column to int
+        row = parseInt(row);
+        column = parseInt(column);
+        if (this.gridChecker.checkHorizontal(row, column, color)
+            || this.gridChecker.checkVertical(row, column, color)
+            || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
+            || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
 
             return true;
@@ -228,25 +248,8 @@ function GameEngine(player1, player2) {
         return false;
     }
 
-    this.playTurn = function (player, column, row) {
-        if (this.grid.checkValidityMove(column, row)) {
-            this.playTurn(player, column);
-        }
-    }
 
-    this.checkValidityMove = function (column, row) {
-        if (this.grid.getCellFromGlobalCoordinates(column, row) === this.grid.defaultCellValue) {
-            if (row - 1 < 0) {
-                return true
-            } else if (this.grid.getCellFromGlobalCoordinates(column, row - 1) !== this.grid.defaultCellValue)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Play a turn for a player
-    this.playTurn = function (player, column) {
+    function checkValidity(player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
             throw new Error("It's not your turn");
@@ -260,6 +263,12 @@ function GameEngine(player1, player2) {
         if (this.isGameOver) {
             throw new Error("Game is over");
         }
+    }
+
+
+// Play a turn for a player
+    this.playTurn = function (player, column) {
+        checkValidity.call(this, player, column);
 
         // Play
         let positionCell = this.grid.addDisk(player, column)
@@ -285,8 +294,7 @@ function GameEngine(player1, player2) {
     player2.color = this.grid.redCellValue;
 
     // The first player is randomly chosen
-    // this.currentPlayingPlayer = this.getRandomPlayer([player1, player2])
-    this.currentPlayingPlayer = player1
+    this.currentPlayingPlayer = this.getRandomPlayer([player1, player2])
     console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
     console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")")
 }
