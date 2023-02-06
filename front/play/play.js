@@ -252,8 +252,7 @@ function GameEngine(player1, player2) {
     }
 
 
-    // Play a turn for a player
-    this.playTurn = function (player, column) {
+    export function checkValidity(player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
             throw new Error("It's not your turn");
@@ -267,6 +266,12 @@ function GameEngine(player1, player2) {
         if (this.isGameOver) {
             throw new Error("Game is over");
         }
+    }
+
+
+// Play a turn for a player
+    this.playTurn = function (player, column) {
+        checkValidity.call(this, player, column);
 
         // Play
         let positionCell = this.grid.addDisk(player, column)

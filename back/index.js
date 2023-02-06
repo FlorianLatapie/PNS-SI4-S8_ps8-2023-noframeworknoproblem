@@ -1,8 +1,10 @@
 // The http module contains methods to handle http queries.
-const http = require('http')
+import * as http from 'http';
 // Let's import our logic.
-const fileQuery = require('./queryManagers/front.js')
-const apiQuery = require('./queryManagers/api.js')
+//const fileQuery = require('./queryManagers/front.js')
+import * as fileQuery from './queryManagers/front.js'
+import * as apiQuery from './queryManagers/api.js'
+//const apiQuery = import('./queryManagers/api.js')
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
@@ -21,6 +23,8 @@ let httpServer = http.createServer(function (request, response) {
             // If it doesn't start by /api, then it's a request for a file.
         } else {
             fileQuery.manage(request, response);
+            // error while processing /: TypeError: fileQuery.manage is not a function
+
         }
     } catch(error) {
         console.log(`error while processing ${request.url}: ${error}`)
@@ -32,7 +36,9 @@ let httpServer = http.createServer(function (request, response) {
 
 // SetUp of the webSocket server.
 
-const { Server } = require("socket.io");
+//const { Server } = require("socket.io");
+// convert this require to an import
+import { Server } from "socket.io";
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
