@@ -39,6 +39,7 @@ let httpServer = http.createServer(function (request, response) {
 //const { Server } = require("socket.io");
 // convert this require to an import
 import { Server } from "socket.io";
+import {convertLocalGridToAPI} from "./utils/Utils.js";
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
@@ -48,8 +49,26 @@ const io = new Server(httpServer, {
     }
 });
 
-io.on('connection', (socket) => {
+
+io.of("/api/game").on('connection', (socket) => {
     console.log('a user connected');
+    let IAPlayer = new Player("IA", 0)
+    let HumanPlayer = new Player("HumanPlayer", socket.id)
+    let gameEngine = new GameEngine(IAPlayer, HumanPlayer)
+    let globalCoordinatesIA = computeMove(gameEngine.grid)
+    gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA [1])
+    socket.broadcast.emit("updatedBoard", convertLocalGridToAPI(gameEngine.grid))
+
+    socket.on("newMove", (globalCoordinates) => {
+        try {
+            gameEngine.playTurn(HumanPlayer, globalCoordinates[0], globalCoordinates[1])
+        } catch (e) {
+            socket.broadcast.emit("playError", e)
+        }
+
+        socket.broadcast.emit("updatedBoard", convertLocalGridToAPI(gameEngine.grid))
+    })
+
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
