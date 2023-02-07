@@ -19,12 +19,12 @@ let httpServer = http.createServer(function (request, response) {
     });
 
     console.log("Salutations");
-    (async () => {
+    /*(async () => {
         const user = {username:'vinh', password:'1234'};
         await userdb.addUser(user);
         const user2 = await userdb.getUser(user);
         console.log(user2);
-    })();
+    })();*/
 
     try {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
