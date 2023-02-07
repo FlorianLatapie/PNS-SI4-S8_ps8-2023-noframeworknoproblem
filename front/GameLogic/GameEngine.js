@@ -32,10 +32,7 @@ export default function GameEngine(player1, player2) {
         // convert row and column to int
         row = parseInt(row);
         column = parseInt(column);
-        if (this.gridChecker.checkHorizontal(row, column, color)
-            || this.gridChecker.checkVertical(row, column, color)
-            || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
-            || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
+        if (this.gridChecker.checkHorizontal(row, column, color) || this.gridChecker.checkVertical(row, column, color) || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color) || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
 
             return true;
@@ -61,26 +58,26 @@ export default function GameEngine(player1, player2) {
         }
     }
 
-    this.checkValidityMove = function(column, row) {
-        if (row < 0 || row >= this.grid.width || column < 0 || this.grid >= this.grid.height) {
+    this.checkValidityMove = function (globalColumn, globalRow) {
+        console.log("checkValidityMove(globalCol : " + globalColumn + ", globalRow : " + globalRow + ")")
+        if (globalRow < 0 || globalRow >= this.grid.width - 1 || globalColumn < 0 || this.grid >= this.grid.height) {
             return false
         }
-
-        if (row === 0) {
-            if (this.grid.getCellInGlobalCoordinated(column, row) === this.grid.defaultCellValue) {
+        let cell = this.grid.getCellInGlobalCoordinated(globalRow, globalColumn)
+        let defaultCell = this.grid.defaultCellValue
+        if (globalRow === 0) {
+            if (cell === defaultCell) {
                 return true
             }
         } else {
-            if (this.grid.getCellInGlobalCoordinated(column, row) === this.grid.defaultCellValue
-                && this.grid.getCellInGlobalCoordinated(column, row-1) !== this.grid.defaultCellValue) {
-                return true;
-            }
+            let cellUnder = this.grid.getCellInGlobalCoordinated(globalRow - 1, globalColumn)
+            return cell === defaultCell && cellUnder !== defaultCell;
         }
-        return false;
+        return false
     }
 
-    this.playTurn = function(player, column, row) {
-        if (! this.checkValidityMove(column, row)) {
+    this.playTurn = function (player, column, row) {
+        if (!this.checkValidityMove(column, row)) {
             throw new Error("Move Invalid");
         }
         return this.playTurn(player, column);

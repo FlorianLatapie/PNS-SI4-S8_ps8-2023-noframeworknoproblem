@@ -72,8 +72,9 @@ export default function Grid(width, height) {
         }
     }
 
-    this.getCellInGlobalCoordinated = function(x, y) {
-        return this.cells[x][this.height - 1 - y]
+    this.getCellInGlobalCoordinated = function(row, column) {
+        console.log("getCellInGlobalCoordinated(row : " + row + ", column : " + column + ")")
+        return this.cells[row][this.height - 1 - column]
     }
 
     this.getGlobalPosition = function(column, row) {

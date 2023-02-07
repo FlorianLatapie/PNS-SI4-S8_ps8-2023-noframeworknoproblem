@@ -80,25 +80,18 @@ gameSocket.on("connect", () => {
 
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
-
+        let move = grid.findMove(globalCoordsGrid)
+        grid.cells = globalCoordsGrid.cells
         // the client has to play
         if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
             // deuxième updateGrid reçu après l'exécution de l'évènement newMove, il faut update lka grille
-            //TODO need to verify that findMove provide the coordinates in the right format for the function updateWebPageGrid
-            let move = grid.findMove(globalCoordsGrid)
-            console.log("Move player ")
-            console.log(move)
             wpi.updateWebPageGrid(move.column, move.row, colorPlayer)
-            grid.cells = globalCoordsGrid.cells
-            toPlay = !toPlay
         } else {
             // the client just receive the confirmation of its move
-            let move = grid.findMove(globalCoordsGrid)
-            grid.cells = globalCoordsGrid.cells
             wpi.updateWebPageGrid(move.column, move.row, colorOtherPlayer)
-            toPlay = !toPlay
         }
+        toPlay = !toPlay
     })
 
     gameSocket.on("gameIsOver", winner => {

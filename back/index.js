@@ -63,7 +63,10 @@ const io = new Server(httpServer, {
 
 let AIPlay = function(IAPlayer, gameEngine) {
     let globalCoordinatesIA = computeMove(gameEngine);
-    let gameState = gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA[1])
+    let column = globalCoordinatesIA[0];
+    let row = globalCoordinatesIA[1];
+    console.log("IA plays : column " + column + " row " + row);
+    let gameState = gameEngine.playTurn(IAPlayer, column, row);
     gameSocket.emit("updatedBoard", gameEngine.grid)
 
     if (gameState.isFinished === true) {
@@ -97,14 +100,18 @@ gameSocket.on('connection', (socket) => {
     socket.on("newMove", (globalCoordinates) => {
         console.log("newMove", globalCoordinates);
         try {
-            let gameState = gameEngine.playTurn(HumanPlayer, globalCoordinates[0], globalCoordinates[1])
+            let column = globalCoordinates[0];
+            let row = globalCoordinates[1];
+            let gameState = gameEngine.playTurn(HumanPlayer, column, row)
             gameSocket.emit("updatedBoard", gameEngine.grid)
             if (gameState.isFinished === true) {
                 gameSocket.emit("gameIsOver", gameState.winner)
             }
             AIPlay(IAPlayer, gameEngine);
         } catch (e) {
-            gameSocket.emit("playError", e)
+            console.log(e);
+            console.log("playError : " + e.message);
+            gameSocket.emit("playError", e.message)
         }
     })
 
