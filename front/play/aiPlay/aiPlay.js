@@ -1,6 +1,6 @@
 "use strict";
 
-import {Position} from "../position.js";
+import {Position} from "../../GameLogic/Position.js";
 
 //import * as io from "../../../node_modules/socket.io-client/dist/socket.io.js";
 //import io from "socket.io-client";
