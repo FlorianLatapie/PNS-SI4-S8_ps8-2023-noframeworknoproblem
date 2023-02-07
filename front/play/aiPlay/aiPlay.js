@@ -19,9 +19,9 @@ import Grid from "../../GameLogic/Grid.js";
 // this is the only class that should/can interact with the html
 
 const socket = io("http://localhost:8000")
-
+console.log(socket)
 // TODO : problème ici : of is not a function côté front
-let gameSocket = socket.of("/api/game")
+let gameSocket = socket.connect("/api/game")
 let grid = new Grid(7, 6)
 
 let toPlay;
