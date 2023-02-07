@@ -41,6 +41,8 @@ let httpServer = http.createServer(function (request, response) {
 import { Server } from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
+import computeMove from "./logic/ai.js";
+
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
@@ -51,7 +53,9 @@ const io = new Server(httpServer, {
 });
 
 let AIPlay = function(IAPlayer, gameEngine) {
-    let globalCoordinatesIA = computeMove(gameEngine.grid);
+    console.log("IA before playing");
+    let globalCoordinatesIA = computeMove(gameEngine);
+    console.log("IA after playing");
     let gameState = gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA[1])
     gameSocket.emit("updatedBoard", gameEngine.grid)
 
@@ -82,7 +86,7 @@ gameSocket.on('connection', (socket) => {
         } else {
             gameEngine = new GameEngine(HumanPlayer, IAPlayer);
         }
-    })
+    });
 
     socket.on("newMove", (globalCoordinates) => {
         console.log("newMove", globalCoordinates);

@@ -73,7 +73,7 @@ export default function Grid(width, height) {
     }
 
     this.getGlobalCoordinated = function(x, y) {
-        return new Position(x, this.height - 1 - y)
+        return this.cells[x][this.height - 1 - y]
     }
 
     // Setter only for these attributes --------------------------------------------------------------------------------

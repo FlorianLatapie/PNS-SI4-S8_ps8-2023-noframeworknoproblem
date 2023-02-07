@@ -61,6 +61,31 @@ export default function GameEngine(player1, player2) {
         }
     }
 
+    this.checkValidityMove = function(column, row) {
+        if (row < 0 || row >= this.grid.width || column < 0 || this.grid >= this.grid.height) {
+            return false
+        }
+
+        if (row === 0) {
+            if (this.grid.getGlobalCoordinated(column, row) === this.grid.defaultCellValue) {
+                return true
+            }
+        } else {
+            if (this.grid.getGlobalCoordinated(column, row) === this.grid.defaultCellValue
+                && this.grid.getGlobalCoordinated(column, row-1) !== this.grid.defaultCellValue) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    this.playTurn = function(player, column, row) {
+        if (! this.checkValidityMove(column, row)) {
+            throw new Error("Move Invalid");
+        }
+        return this.playTurn(player, column);
+    }
+
     // Play a turn for a player
     this.playTurn = function (player, column) {
         this.checkValidity(player, column);
