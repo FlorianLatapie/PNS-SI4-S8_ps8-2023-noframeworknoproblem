@@ -6,6 +6,8 @@ import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
 //const apiQuery = import('./queryManagers/api.js')
 
+import userdb from "./database/userdb.js";
+
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
  */
@@ -15,6 +17,14 @@ let httpServer = http.createServer(function (request, response) {
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";
     });
+
+    console.log("Salutations");
+    (async () => {
+        const user = {username:'vinh', password:'1234'};
+        await userdb.addUser(user);
+        const user2 = await userdb.getUser(user);
+        console.log(user2);
+    })();
 
     try {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
@@ -106,3 +116,7 @@ gameSocket.on('connection', (socket) => {
         console.log('user disconnected');
     });
 });
+
+let addUser = async function (user) {
+    await userdb.addUser(user);
+}

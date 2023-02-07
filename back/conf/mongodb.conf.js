@@ -8,7 +8,7 @@ const {
   GAME_COLLECTION,
 } = process.env;
 
-module.exports = {
+ export default{
   mongodbUri: `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`,
   dbName: DB_NAME,
   userCollection: USER_COLLECTION,
