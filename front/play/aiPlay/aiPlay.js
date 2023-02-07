@@ -1,20 +1,7 @@
 "use strict";
 
 import {Position} from "../../GameLogic/Position.js";
-
-//import * as io from "../../../node_modules/socket.io-client/dist/socket.io.js";
-//import io from "socket.io-client";
-//import * as socketIOClient from "../../../node_modules/socket.io-client/dist/socket.io.js";
-import { io } from "../../socket.io-client/dist/socket.io.esm.min.js";
-import Player from "../../GameLogic/Player.js";
-import GameEngine from "../../GameLogic/GameEngine.js";
 import Grid from "../../GameLogic/Grid.js";
-
-
-//const io = socketIOClient.default;
-
-//import io from "/node_modules/socket.io-client/dist/socket.io.js";
-//import io from "../../../node_modules/socket.io-client";
 
 // this is the only class that should/can interact with the html
 
@@ -53,7 +40,6 @@ function WebPageInteraction() {
         }
     }
 }
-
 
 let wpi = new WebPageInteraction()
 
@@ -149,7 +135,6 @@ ge.playTurn(p1, 2)
 ge.playTurn(p2, 2)
 ge.playTurn(p1, 3)
 */
-
 
 // An equality test
 /*
