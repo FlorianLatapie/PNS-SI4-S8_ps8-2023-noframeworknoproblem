@@ -68,6 +68,7 @@ export default function GameEngine(player1, player2) {
         // Play
         let positionCell = this.grid.addDisk(player, column)
         console.log(this.grid.toString())
+        this.currentPlayingPlayer = this.getOtherPlayer()
 
         // Check win condition
         if (this.checkWin(positionCell.y, positionCell.x, player.color)) {
@@ -82,7 +83,6 @@ export default function GameEngine(player1, player2) {
         }
 
         // Change the current player
-        this.currentPlayingPlayer = this.getOtherPlayer()
         return new GameState(false, null);
     }
 
