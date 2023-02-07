@@ -61,6 +61,21 @@ export default function Grid(width, height) {
         return str;
     }
 
+    // Permits to retrieve the move of the other player
+    this.findMove = function(otherGrid) {
+        for (let column = 0; column < this.width; column++) {
+            for (let row = this.height - 1; row >= 0; row--) {
+                if (this.cells[column][this.height-1] !== otherGrid[column][otherGrid.height - 1]) {
+                    return this.getGlobalCoordinated(column, row)
+                }
+            }
+        }
+    }
+
+    this.getGlobalCoordinated = function(x, y) {
+        return new Position(x, this.height - 1 - y)
+    }
+
     // Setter only for these attributes --------------------------------------------------------------------------------
     Object.defineProperty(this, "defaultCellValue", {
         get: function () {

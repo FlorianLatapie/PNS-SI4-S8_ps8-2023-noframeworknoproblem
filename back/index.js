@@ -39,7 +39,8 @@ let httpServer = http.createServer(function (request, response) {
 //const { Server } = require("socket.io");
 // convert this require to an import
 import { Server } from "socket.io";
-import {convertLocalGridToAPI} from "./utils/Utils.js";
+import Player from "../front/GameLogic/Player.js";
+import GameEngine from "../front/GameLogic/GameEngine.js";
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
@@ -49,27 +50,52 @@ const io = new Server(httpServer, {
     }
 });
 
+let IAPlay = function(IAPlayer, gameEngine) {
+    let globalCoordinatesIA = computeMove(gameEngine.grid);
+    let gameState = gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA[1])
+    gameSocket.emit("updatedBoard", gameEngine.grid)
 
-io.of("/api/game").on('connection', (socket) => {
+    if (gameState.isFinished === true) {
+        gameSocket.emit("gameIsOver", gameState.winner)
+    }
+}
+
+const gameSocket = io.of("/api/game")
+gameSocket.on('connection', (socket) => {
     console.log('a user connected');
+    let setUpIA = {AIplays: 2}
     let IAPlayer = new Player("IA", 0)
     let HumanPlayer = new Player("HumanPlayer", socket.id)
-    let gameEngine = new GameEngine(IAPlayer, HumanPlayer)
-    let globalCoordinatesIA = computeMove(gameEngine.grid)
-    gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA [1])
-    socket.broadcast.emit("updatedBoard", convertLocalGridToAPI(gameEngine.grid))
+    let gameEngine;
 
-    socket.on("newMove", (globalCoordinates) => {
-        try {
-            gameEngine.playTurn(HumanPlayer, globalCoordinates[0], globalCoordinates[1])
-        } catch (e) {
-            socket.broadcast.emit("playError", e)
+    gameSocket.on("setup", obj => {
+        if (obj.AIplays !== 1 || obj.AIplays !== 2) {
+            gameSocket.emit("errorSetUp", new Error("Invalid setup"))
         }
 
-        socket.broadcast.emit("updatedBoard", convertLocalGridToAPI(gameEngine.grid))
+        if (obj.AIplays === 1) {
+            gameEngine = new GameEngine(IAPlayer, HumanPlayer);
+            IAPlay(IAPlayer, gameEngine);
+
+        } else {
+            gameEngine = new GameEngine(HumanPlayer, IAPlayer);
+        }
     })
 
-    socket.on('disconnect', () => {
+    gameSocket.on("newMove", (globalCoordinates) => {
+        try {
+            let gameState = gameEngine.playTurn(HumanPlayer, globalCoordinates[0], globalCoordinates[1])
+            gameSocket.emit("updatedBoard", gameEngine.grid)
+            if (gameState.isFinished === true) {
+                gameSocket.emit("gameIsOver", gameState.winner)
+            }
+            IAPlay(IAPlayer, gameEngine);
+        } catch (e) {
+            gameSocket.emit("playError", e)
+        }
+    })
+
+    gameSocket.on('disconnect', () => {
         console.log('user disconnected');
     });
 });

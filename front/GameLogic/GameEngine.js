@@ -1,5 +1,6 @@
 import Grid from "./Grid.js";
 import GridChecker from "./GridChecker.js";
+import GameState from "./GameState.js";
 
 export default function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
@@ -71,15 +72,18 @@ export default function GameEngine(player1, player2) {
         // Check win condition
         if (this.checkWin(positionCell.y, positionCell.x, player.color)) {
             console.log("Game Finished : " + player.name + " won");
+            return new GameState(true, player.name);
         }
 
         // Check equality condition
         if (this.gridChecker.checkDraw()) {
             console.log("Game Finished : draw");
+            return new GameState(true, "draw");
         }
 
         // Change the current player
         this.currentPlayingPlayer = this.getOtherPlayer()
+        return new GameState(false, null);
     }
 
     // Constructor -----------------------------------------------------------------------------------------------------

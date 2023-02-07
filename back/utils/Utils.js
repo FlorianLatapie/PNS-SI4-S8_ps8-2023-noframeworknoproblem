@@ -1,5 +1,4 @@
-// The origin of the grid in the front and the back is in the top left corner.
-// But in the API the origin is in the bottom left corner
+// We normally don't need to use this function
 
 import {Position} from "../../front/GameLogic/Position.js";
 
