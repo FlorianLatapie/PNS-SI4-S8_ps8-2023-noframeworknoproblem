@@ -1,6 +1,6 @@
 import Grid from "./Grid.js";
 import GridChecker from "./GridChecker.js";
-import GameState from "./GameState.js";
+import GameState from "../DataExanges/GameState.js";
 
 export default function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
@@ -67,12 +67,12 @@ export default function GameEngine(player1, player2) {
         }
 
         if (row === 0) {
-            if (this.grid.getGlobalCoordinated(column, row) === this.grid.defaultCellValue) {
+            if (this.grid.getCellInGlobalCoordinated(column, row) === this.grid.defaultCellValue) {
                 return true
             }
         } else {
-            if (this.grid.getGlobalCoordinated(column, row) === this.grid.defaultCellValue
-                && this.grid.getGlobalCoordinated(column, row-1) !== this.grid.defaultCellValue) {
+            if (this.grid.getCellInGlobalCoordinated(column, row) === this.grid.defaultCellValue
+                && this.grid.getCellInGlobalCoordinated(column, row-1) !== this.grid.defaultCellValue) {
                 return true;
             }
         }

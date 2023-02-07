@@ -1,4 +1,4 @@
-export function Position(x, y) {
-    this.x = x;
-    this.y = y;
+export function Position(column, row) {
+    this.column = column;
+    this.row = row;
 }

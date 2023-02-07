@@ -63,17 +63,28 @@ export default function Grid(width, height) {
 
     // Permits to retrieve the move of the other player
     this.findMove = function(otherGrid) {
+        console.log("this grid cells")
+        console.log(this.cells)
+        console.log(this.cells)
+        console.log(this.cells[0])
+        console.log(this.cells[0][0])
+
         for (let column = 0; column < this.width; column++) {
-            for (let row = this.height - 1; row >= 0; row--) {
-                if (this.cells[column][this.height-1] !== otherGrid[column][otherGrid.height - 1]) {
-                    return this.getGlobalCoordinated(column, row)
+            for (let row = 0; row < this.height; row++) {
+                if (this.cells[+row][+column] !== otherGrid.cells[+row][+column]) {
+                    //console.log(`column ${column} row ${row}`);
+                    return this.getGlobalPosition(column, row)//this.getGlobalPosition(column, row)
                 }
             }
         }
     }
 
-    this.getGlobalCoordinated = function(x, y) {
+    this.getCellInGlobalCoordinated = function(x, y) {
         return this.cells[x][this.height - 1 - y]
+    }
+
+    this.getGlobalPosition = function(column, row) {
+        return new Position(column, this.height - 1 - row)
     }
 
     // Setter only for these attributes --------------------------------------------------------------------------------
