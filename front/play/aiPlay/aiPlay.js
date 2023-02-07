@@ -12,7 +12,7 @@ let colorOtherPlayer;
 
 function WebPageInteraction() {
 
-    this.updateWebPageGrid = function(column, row, color) {
+    this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
 
         cell.classList.add("fall");
@@ -44,7 +44,7 @@ function WebPageInteraction() {
 
 let wpi = new WebPageInteraction()
 
-let setupAI = function(IAplayTurn) {
+let setupAI = function (IAplayTurn) {
     if (IAplayTurn !== 1 && IAplayTurn !== 2) {
         throw new Error("the value " + IAplayTurn + " of IAplay for the setup is invalid")
     }
@@ -75,35 +75,32 @@ let play = function (clickRow, clickColumn) {
 }
 
 gameSocket.on("connect", () => {
-    console.log("Connected as human for a game vs AI with ID: "+ gameSocket.id)
+    console.log("Connected as human for a game vs AI with ID: " + gameSocket.id)
     setupAI(2);
 
-    let i = 0
+
     gameSocket.on("updatedBoard", globalCoordsGrid => {
-        console.log("updatedBoard", globalCoordsGrid);
+
         // the client has to play
-        /*if (toPlay) {
+        if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
-            if (i === 0) {
-                play()
-                i++
-            }
             // deuxième updateGrid reçu après l'exécution de l'évènement newMove, il faut update lka grille
-            if (i === 1) {
-                //TODO need to verify that findMove provide the coordinates in the right format for the function updateWebPageGrid
-                let move = grid.findMove(globalCoordsGrid)
-                wpi.updateWebPageGrid(move.x, move.y, colorPlayer)
-                grid = globalCoordsGrid
-                toPlay = !toPlay
-                i = 0
-            }
+            //TODO need to verify that findMove provide the coordinates in the right format for the function updateWebPageGrid
+            let move = grid.findMove(globalCoordsGrid)
+            console.log("Move player ")
+            console.log(move)
+            wpi.updateWebPageGrid(move.column, move.row, colorPlayer)
+            grid.cells = globalCoordsGrid.cells
+            toPlay = !toPlay
         } else {
             // the client just receive the confirmation of its move
+            console.log(grid)
+            console.log(globalCoordsGrid)
             let move = grid.findMove(globalCoordsGrid)
-            grid = globalCoordsGrid
-            wpi.updateWebPageGrid(move.x, move.y, colorOtherPlayer)
+            grid.cells = globalCoordsGrid.cells
+            wpi.updateWebPageGrid(move.column, move.row, colorOtherPlayer)
             toPlay = !toPlay
-        }*/
+        }
     })
 
     gameSocket.on("gameIsOver", winner => {
