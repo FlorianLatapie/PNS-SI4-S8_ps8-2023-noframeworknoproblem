@@ -18,14 +18,13 @@ let httpServer = http.createServer(function (request, response) {
         return elem !== "..";
     });
 
-    console.log("Salutations");
-    /*(async () => {
+    /*console.log("Salutations");
+    (async () => {
         const user = {username:'vinh', password:'1234'};
         await userdb.addUser(user);
         const user2 = await userdb.getUser(user);
         console.log(user2);
     })();*/
-
     try {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         if (filePath[1] === "api") {
@@ -63,9 +62,7 @@ const io = new Server(httpServer, {
 });
 
 let AIPlay = function(IAPlayer, gameEngine) {
-    console.log("IA before playing");
     let globalCoordinatesIA = computeMove(gameEngine);
-    console.log("IA after playing");
     let gameState = gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA[1])
     gameSocket.emit("updatedBoard", gameEngine.grid)
 
@@ -79,7 +76,6 @@ let gameEngine;
 
 gameSocket.on('connection', (socket) => {
     console.log('user ' + socket.id + ' connected');
-    let setUpAI = {AIplays: 2}
     let IAPlayer = new Player("IA", 0)
     let HumanPlayer = new Player("HumanPlayer", socket.id)
 

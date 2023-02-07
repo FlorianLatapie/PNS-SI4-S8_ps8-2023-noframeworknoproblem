@@ -14,5 +14,4 @@ socket.on("newMove", (column, row) => {
 
 socket.on("updatedBoard", globalCoordsGrid => {
     console.log("updatedBoard", globalCoordsGrid);
-    //updateGrid(globalCoordsGrid);
 }

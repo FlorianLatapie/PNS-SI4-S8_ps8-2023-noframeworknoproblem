@@ -94,8 +94,6 @@ gameSocket.on("connect", () => {
             toPlay = !toPlay
         } else {
             // the client just receive the confirmation of its move
-            console.log(grid)
-            console.log(globalCoordsGrid)
             let move = grid.findMove(globalCoordsGrid)
             grid.cells = globalCoordsGrid.cells
             wpi.updateWebPageGrid(move.column, move.row, colorOtherPlayer)
