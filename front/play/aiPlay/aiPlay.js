@@ -3,8 +3,6 @@
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
 
-// this is the only class that should/can interact with the html
-
 const gameSocket = io("http://localhost:8000/api/game");
 let grid = new Grid(7, 6);
 
@@ -62,17 +60,17 @@ let setupAI = function(IAplayTurn) {
     }
 
     gameSocket.emit("setup", {AIplays: IAplayTurn})
+    console.log("setup", {AIplays: IAplayTurn})
 }
 
 let play = function (clickRow, clickColumn) {
     let column = clickColumn;
     let row = grid.getRowOfLastDisk(column);
 
-    console.log("clickColumn: " + clickColumn + " clickRow: " + clickRow)
-    console.log("column: " + column + " row: " + row)
 
     // emit the event of the play not working yet
-    gameSocket.emit("newMove", [column, row])
+    gameSocket.emit("newMove", [column, row]);
+    console.log("newMove", [column, row]);
     return new Position(column, row)
 }
 
@@ -82,8 +80,9 @@ gameSocket.on("connect", () => {
 
     let i = 0
     gameSocket.on("updatedBoard", globalCoordsGrid => {
+        console.log("updatedBoard", globalCoordsGrid);
         // the client has to play
-        if (toPlay) {
+        /*if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
             if (i === 0) {
                 play()
@@ -104,7 +103,7 @@ gameSocket.on("connect", () => {
             grid = globalCoordsGrid
             wpi.updateWebPageGrid(move.x, move.y, colorOtherPlayer)
             toPlay = !toPlay
-        }
+        }*/
     })
 
     gameSocket.on("gameIsOver", winner => {

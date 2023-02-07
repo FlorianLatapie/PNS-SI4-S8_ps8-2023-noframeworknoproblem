@@ -92,7 +92,7 @@ export default function GameEngine(player1, player2) {
     player2.color = this.grid.redCellValue;
 
     // The first player is randomly chosen
-    this.currentPlayingPlayer = this.getRandomPlayer([player1, player2])
+    this.currentPlayingPlayer = player1;
     console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
     console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")")
 }
