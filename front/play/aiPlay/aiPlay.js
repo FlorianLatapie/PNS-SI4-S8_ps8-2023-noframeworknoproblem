@@ -44,12 +44,12 @@ function WebPageInteraction() {
 
 let wpi = new WebPageInteraction()
 
-let setupAI = function (IAplayTurn) {
-    if (IAplayTurn !== 1 && IAplayTurn !== 2) {
-        throw new Error("the value " + IAplayTurn + " of IAplay for the setup is invalid")
+let setupAI = function (AIplayTurn) {
+    if (AIplayTurn !== 1 && AIplayTurn !== 2) {
+        throw new Error("the value " + AIplayTurn + " of AIplay for the setup is invalid")
     }
 
-    if (IAplayTurn === 1) {
+    if (AIplayTurn === 1) {
         toPlay = false;
         colorPlayer = grid.redCellValue
         colorOtherPlayer = grid.yellowCellValue
@@ -59,8 +59,8 @@ let setupAI = function (IAplayTurn) {
         colorOtherPlayer = grid.redCellValue
     }
 
-    gameSocket.emit("setup", {AIplays: IAplayTurn})
-    console.log("setup", {AIplays: IAplayTurn})
+    gameSocket.emit("setup", {AIplays: AIplayTurn})
+    console.log("setup", {AIplays: AIplayTurn})
 }
 
 let play = function (clickRow, clickColumn) {

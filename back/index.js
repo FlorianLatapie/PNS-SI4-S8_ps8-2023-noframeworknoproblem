@@ -61,12 +61,11 @@ const io = new Server(httpServer, {
     }
 });
 
-let AIPlay = function(IAPlayer, gameEngine) {
-    let globalCoordinatesIA = computeMove(gameEngine);
-    let column = globalCoordinatesIA[0];
-    let row = globalCoordinatesIA[1];
-    console.log("IA plays : column " + column + " row " + row);
-    let gameState = gameEngine.playTurn(IAPlayer, column, row);
+let AIPlay = function(AIPlayer, gameEngine) {
+    let globalCoordinatesAI = computeMove(gameEngine);
+    let column = globalCoordinatesAI[0];
+    let row = globalCoordinatesAI[1];
+    let gameState = gameEngine.playTurn(AIPlayer, column, row);
     gameSocket.emit("updatedBoard", gameEngine.grid)
 
     if (gameState.isFinished === true) {
@@ -79,7 +78,7 @@ let gameEngine;
 
 gameSocket.on('connection', (socket) => {
     console.log('user ' + socket.id + ' connected');
-    let IAPlayer = new Player("IA", 0)
+    let AIPlayer = new Player("AI", 0)
     let HumanPlayer = new Player("HumanPlayer", socket.id)
 
     socket.on("setup", obj => {
@@ -89,11 +88,11 @@ gameSocket.on('connection', (socket) => {
         }
 
         if (obj.AIplays === 1) {
-            gameEngine = new GameEngine(IAPlayer, HumanPlayer);
-            AIPlay(IAPlayer, gameEngine);
+            gameEngine = new GameEngine(AIPlayer, HumanPlayer);
+            AIPlay(AIPlayer, gameEngine);
 
         } else {
-            gameEngine = new GameEngine(HumanPlayer, IAPlayer);
+            gameEngine = new GameEngine(HumanPlayer, AIPlayer);
         }
     });
 
@@ -109,7 +108,7 @@ gameSocket.on('connection', (socket) => {
             if (gameState.isFinished === true) {
                 gameSocket.emit("gameIsOver", gameState.winner)
             }
-            AIPlay(IAPlayer, gameEngine);
+            AIPlay(AIPlayer, gameEngine);
         } catch (e) {
             console.log(e);
             console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
