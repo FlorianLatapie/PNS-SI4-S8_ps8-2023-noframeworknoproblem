@@ -62,14 +62,14 @@ let IAPlay = function(IAPlayer, gameEngine) {
 
 const gameSocket = io.of("/api/game")
 gameSocket.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log('user ' + socket.id + ' connected');
     let setUpIA = {AIplays: 2}
     let IAPlayer = new Player("IA", 0)
     let HumanPlayer = new Player("HumanPlayer", socket.id)
     let gameEngine;
 
     gameSocket.on("setup", obj => {
-        if (obj.AIplays !== 1 || obj.AIplays !== 2) {
+        if (obj.AIplays !== 1 && obj.AIplays !== 2) {
             gameSocket.emit("errorSetUp", new Error("Invalid setup"))
         }
 

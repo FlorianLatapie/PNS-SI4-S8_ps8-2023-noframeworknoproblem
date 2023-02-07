@@ -6,8 +6,7 @@ import Grid from "../../GameLogic/Grid.js";
 // this is the only class that should/can interact with the html
 
 const socket = io("http://localhost:8000")
-console.log(socket)
-// TODO : problème ici : of is not a function côté front
+
 let gameSocket = socket.connect("/api/game")
 let grid = new Grid(7, 6)
 
@@ -28,6 +27,12 @@ function WebPageInteraction() {
         }
     }
 
+    this.webPagePlayTurn = function (event) {
+        let clickCoords = event.target.id.split("-");
+        let column = clickCoords[0];
+        let row = clickCoords[1];
+        play(column, row)
+    }
     // Constructor -----------------------------------------------------------------------------------------------------
     let height = grid.height;
     let width = grid.width;
@@ -35,7 +40,7 @@ function WebPageInteraction() {
     for (let column = 0; column < width; column++) {
         for (let line = 0; line < height; line++) {
             let cell = document.getElementById(column + "-" + line);
-            cell.setAttribute("value", this.cells[line][column]);
+            cell.setAttribute("value", grid.defaultCellValue);
             cell.addEventListener("click", this.webPagePlayTurn);
         }
     }
@@ -43,8 +48,8 @@ function WebPageInteraction() {
 
 let wpi = new WebPageInteraction()
 
-let setupIA = function(IAplayTurn) {
-    if (IAplayTurn !== 1 || IAplayTurn !== 2) {
+let setupAI = function(IAplayTurn) {
+    if (IAplayTurn !== 1 && IAplayTurn !== 2) {
         throw new Error("the value " + IAplayTurn + " of IAplay for the setup is invalid")
     }
 
@@ -61,19 +66,21 @@ let setupIA = function(IAplayTurn) {
     gameSocket.emit("setup", {AIplays: IAplayTurn})
 }
 
-let play = function () {
-    let clickCoords = this.id.split("-");
-    let column = clickCoords[0];
-    let row = ge.grid.getRowOfLastDisk(column);
+let play = function (clickRow, clickColumn) {
+    let column = clickColumn;
+    let row = grid.getRowOfLastDisk(column);
 
-    // emit the event of the play
+    console.log("clickColumn: " + clickColumn + " clickRow: " + clickRow)
+    console.log("column: " + column + " row: " + row)
+
+    // emit the event of the play not working yet 
     gameSocket.broadcast.emit("newMove", [column, row])
     return new Position(column, row)
 }
 
 gameSocket.on("connect", () => {
-    console.log("Connected");
-    setupIA(2);
+    console.log("Connected as human for a game vs AI with ID: "+ gameSocket.id)
+    setupAI(2);
 
     let i = 0
     gameSocket.on("updatedBoard", globalCoordsGrid => {
