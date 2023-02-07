@@ -11,4 +11,4 @@ COPY ./front /.
 
 EXPOSE 8000
 
-CMD ["npm", "run", "dev"]
+ENTRYPOINT npm run dev
