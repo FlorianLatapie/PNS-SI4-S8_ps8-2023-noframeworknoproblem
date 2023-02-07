@@ -1,4 +1,4 @@
-let socket = io("http://localhost:8000")
+let socket = io("http://localhost:8000/api/game")
 
 socket.on("connect", () => {
     console.log("Connected as AI for a game vs human with ID: " + socket.id);

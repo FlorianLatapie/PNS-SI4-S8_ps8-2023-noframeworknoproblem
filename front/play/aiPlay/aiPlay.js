@@ -5,10 +5,8 @@ import Grid from "../../GameLogic/Grid.js";
 
 // this is the only class that should/can interact with the html
 
-const socket = io("http://localhost:8000")
-
-let gameSocket = socket.connect("/api/game")
-let grid = new Grid(7, 6)
+const gameSocket = io("http://localhost:8000/api/game");
+let grid = new Grid(7, 6);
 
 let toPlay;
 let colorPlayer;
@@ -74,7 +72,7 @@ let play = function (clickRow, clickColumn) {
     console.log("column: " + column + " row: " + row)
 
     // emit the event of the play not working yet 
-    gameSocket.broadcast.emit("newMove", [column, row])
+    gameSocket.emit("newMove", [column, row])
     return new Position(column, row)
 }
 
