@@ -32,12 +32,13 @@ export default function GameEngine(player1, player2) {
         // convert row and column to int
         row = parseInt(row);
         column = parseInt(column);
-        if (this.gridChecker.checkHorizontal(row, column, color) || this.gridChecker.checkVertical(row, column, color) || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color) || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
+        if (this.gridChecker.checkHorizontal(row, column, color)
+            || this.gridChecker.checkVertical(row, column, color)
+            || this.gridChecker.checkDiagonalBottomLeftTopRight(row, column, color)
+            || this.gridChecker.checkDiagonalTopRightBottomLeft(row, column, color)) {
             this.isGameOver = true;
-
             return true;
         }
-        this.gridChecker.checkDraw();
         return false;
     }
 
@@ -95,7 +96,7 @@ export default function GameEngine(player1, player2) {
         this.currentPlayingPlayer = this.getOtherPlayer()
 
         // Check win condition
-        if (this.checkWin(positionCell.y, positionCell.x, player.color)) {
+        if (this.checkWin(positionCell.row, positionCell.column, player.color)) {
             console.log("Game Finished : " + player.name + " won");
             return new GameState(true, player.name);
         }

@@ -16,7 +16,6 @@ function WebPageInteraction() {
         let row = ge.grid.getRowOfLastDisk(column);
         let cell = document.getElementById(column + "-" + row);
 
-
         // play turn changes the current player, so we need to get the other player for the next lines of code
         ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
 
