@@ -3,7 +3,6 @@
 import Player from "../../GameLogic/Player.js";
 import GameEngine from "../../GameLogic/GameEngine.js";
 
-
 let p1 = new Player("alice", 0)
 let p2 = new Player("bob", 1)
 let ge = new GameEngine(p1, p2)
@@ -30,7 +29,7 @@ function WebPageInteraction() {
 
         if (ge.isGameOver) {
             let winner = document.getElementById("winner");
-            winner.innerText = this.ge.getOtherPlayer().color + " wins !";
+            winner.innerText = ge.getOtherPlayer().color + " wins !";
 
             document.querySelectorAll(".grid-item").forEach(c => {
                 c.removeEventListener("click", this.webPagePlayTurn);
