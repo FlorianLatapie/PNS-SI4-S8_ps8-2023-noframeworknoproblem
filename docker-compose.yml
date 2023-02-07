@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: dockerfiles/server-dev.dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - /app/node_modules
+      - ./front:/app/front:ro
+      - ./back:/app/back:ro
+    env_file:
+      - ./env/server.env
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    env_file:
+      - ./env/mongodb.env
+    ports:
+      - 27017
+    volumes:
+      - database:/data/db
+volumes:
+  database: {}
