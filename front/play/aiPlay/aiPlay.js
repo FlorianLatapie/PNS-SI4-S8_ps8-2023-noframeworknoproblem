@@ -27,9 +27,9 @@ function WebPageInteraction() {
 
     this.webPagePlayTurn = function (event) {
         let clickCoords = event.target.id.split("-");
-        let column = clickCoords[0];
-        let row = clickCoords[1];
-        play(column, row)
+        let column = clickCoords[1];
+        let row = clickCoords[0];
+        play(column, row);
     }
     // Constructor -----------------------------------------------------------------------------------------------------
     let height = grid.height;
@@ -71,7 +71,7 @@ let play = function (clickRow, clickColumn) {
     console.log("clickColumn: " + clickColumn + " clickRow: " + clickRow)
     console.log("column: " + column + " row: " + row)
 
-    // emit the event of the play not working yet 
+    // emit the event of the play not working yet
     gameSocket.emit("newMove", [column, row])
     return new Position(column, row)
 }
