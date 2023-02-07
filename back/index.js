@@ -41,6 +41,8 @@ let httpServer = http.createServer(function (request, response) {
 import { Server } from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
+import computeMove from "./logic/ai.js";
+
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
@@ -50,8 +52,10 @@ const io = new Server(httpServer, {
     }
 });
 
-let IAPlay = function(IAPlayer, gameEngine) {
-    let globalCoordinatesIA = computeMove(gameEngine.grid);
+let AIPlay = function(IAPlayer, gameEngine) {
+    console.log("IA before playing");
+    let globalCoordinatesIA = computeMove(gameEngine);
+    console.log("IA after playing");
     let gameState = gameEngine.playTurn(IAPlayer, globalCoordinatesIA[0], globalCoordinatesIA[1])
     gameSocket.emit("updatedBoard", gameEngine.grid)
 
@@ -61,41 +65,44 @@ let IAPlay = function(IAPlayer, gameEngine) {
 }
 
 const gameSocket = io.of("/api/game")
+let gameEngine;
+
 gameSocket.on('connection', (socket) => {
     console.log('user ' + socket.id + ' connected');
-    let setUpIA = {AIplays: 2}
+    let setUpAI = {AIplays: 2}
     let IAPlayer = new Player("IA", 0)
     let HumanPlayer = new Player("HumanPlayer", socket.id)
-    let gameEngine;
 
-    gameSocket.on("setup", obj => {
+    socket.on("setup", obj => {
+        console.log("setup", obj);
         if (obj.AIplays !== 1 && obj.AIplays !== 2) {
             gameSocket.emit("errorSetUp", new Error("Invalid setup"))
         }
 
         if (obj.AIplays === 1) {
             gameEngine = new GameEngine(IAPlayer, HumanPlayer);
-            IAPlay(IAPlayer, gameEngine);
+            AIPlay(IAPlayer, gameEngine);
 
         } else {
             gameEngine = new GameEngine(HumanPlayer, IAPlayer);
         }
-    })
+    });
 
-    gameSocket.on("newMove", (globalCoordinates) => {
+    socket.on("newMove", (globalCoordinates) => {
+        console.log("newMove", globalCoordinates);
         try {
             let gameState = gameEngine.playTurn(HumanPlayer, globalCoordinates[0], globalCoordinates[1])
             gameSocket.emit("updatedBoard", gameEngine.grid)
             if (gameState.isFinished === true) {
                 gameSocket.emit("gameIsOver", gameState.winner)
             }
-            IAPlay(IAPlayer, gameEngine);
+            AIPlay(IAPlayer, gameEngine);
         } catch (e) {
             gameSocket.emit("playError", e)
         }
     })
 
-    gameSocket.on('disconnect', () => {
+    socket.on('disconnect', () => {
         console.log('user disconnected');
     });
 });
