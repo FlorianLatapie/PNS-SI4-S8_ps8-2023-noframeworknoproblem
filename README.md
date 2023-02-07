@@ -1,8 +1,9 @@
 # PS8
 
 The code of this repo is split in 2 folders:
+
 * api/ manages the server. It contains a server which differentiate REST requests from HTTP file requests, and so
-return either files or REST responses accordingly.
+  return either files or REST responses accordingly.
 * front/ contains static files that should be returned by the HTTP server mentioned earlier.
 
 Both folders contain a README with more details.

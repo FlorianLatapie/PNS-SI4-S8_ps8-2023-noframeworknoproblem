@@ -60,14 +60,14 @@ function manageRequest(request, response) {
         }
 
         // Let's read the file from the file system and send it to the user.
-        fs.readFile(pathName, function(error, data){
+        fs.readFile(pathName, function (error, data) {
             // The reading may fail if a folder was targeted but doesn't contain the default file.
             if (error) {
                 console.log(`Error getting the file: ${pathName}: ${error}`);
                 send404(pathName, response);
             } else {
                 // If the file is OK, let's set the MIME type and send it.
-                response.setHeader('Content-type', mimeTypes[extension] || mimeTypes['default'] );
+                response.setHeader('Content-type', mimeTypes[extension] || mimeTypes['default']);
                 response.end(data);
             }
         });
@@ -81,4 +81,4 @@ function send404(path, response) {
 }
 
 //exports.manage = manageRequest;
-export { manageRequest as manage };
+export {manageRequest as manage};

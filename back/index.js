@@ -5,8 +5,13 @@ import * as http from 'http';
 import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
 //const apiQuery = import('./queryManagers/api.js')
-
 import userdb from "./database/userdb.js";
+//const { Server } = require("socket.io");
+// convert this require to an import
+import {Server} from "socket.io";
+import Player from "../front/GameLogic/Player.js";
+import GameEngine from "../front/GameLogic/GameEngine.js";
+import computeMove from "./logic/ai.js";
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
@@ -14,7 +19,7 @@ import userdb from "./database/userdb.js";
 let httpServer = http.createServer(function (request, response) {
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
-    let filePath = request.url.split("/").filter(function(elem) {
+    let filePath = request.url.split("/").filter(function (elem) {
         return elem !== "..";
     });
 
@@ -35,7 +40,7 @@ let httpServer = http.createServer(function (request, response) {
             // error while processing /: TypeError: fileQuery.manage is not a function
 
         }
-    } catch(error) {
+    } catch (error) {
         console.log(`error while processing ${request.url}: ${error}`)
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
@@ -44,13 +49,6 @@ let httpServer = http.createServer(function (request, response) {
 }).listen(8000);
 
 // SetUp of the webSocket server.
-
-//const { Server } = require("socket.io");
-// convert this require to an import
-import { Server } from "socket.io";
-import Player from "../front/GameLogic/Player.js";
-import GameEngine from "../front/GameLogic/GameEngine.js";
-import computeMove from "./logic/ai.js";
 
 const io = new Server(httpServer, {
     cors: {
@@ -61,7 +59,7 @@ const io = new Server(httpServer, {
     }
 });
 
-let AIPlay = function(AIPlayer, gameEngine) {
+let AIPlay = function (AIPlayer, gameEngine) {
     let globalCoordinatesAI = computeMove(gameEngine);
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
@@ -112,7 +110,7 @@ gameSocket.on('connection', (socket) => {
         } catch (e) {
             console.log(e);
             console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
-            gameSocket.emit("playError", e.message+ " error for player : " + gameEngine.currentPlayingPlayer.name)
+            gameSocket.emit("playError", e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
         }
     })
 

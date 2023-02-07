@@ -44,7 +44,7 @@ export default function Grid(width, height) {
     this.getRowOfLastDisk = function (column) {
         for (let row = 0; row < this.height; row++) {
             if (!this.isCellEmpty(column, row)) {
-                return height-row;
+                return height - row;
             }
         }
         return 0;
@@ -62,7 +62,7 @@ export default function Grid(width, height) {
     }
 
     // Permits to retrieve the move of the other player
-    this.findMove = function(otherGrid) {
+    this.findMove = function (otherGrid) {
         for (let column = 0; column < this.width; column++) {
             for (let row = 0; row < this.height; row++) {
                 if (this.cells[+row][+column] !== otherGrid.cells[+row][+column]) {
@@ -72,11 +72,11 @@ export default function Grid(width, height) {
         }
     }
 
-    this.getCellInGlobalCoordinated = function(row, column) {
+    this.getCellInGlobalCoordinated = function (row, column) {
         return this.cells[row][this.height - 1 - column]
     }
 
-    this.getGlobalPosition = function(column, row) {
+    this.getGlobalPosition = function (column, row) {
         return new Position(column, this.height - 1 - row)
     }
 

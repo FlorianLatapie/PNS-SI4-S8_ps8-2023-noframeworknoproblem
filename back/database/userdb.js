@@ -2,10 +2,11 @@ import {MongoClient} from "mongodb";
 
 import DB_CONF from "../conf/mongodb.conf.js";
 
-class UserDb{
+class UserDb {
     constructor() {
         this.client = new MongoClient(DB_CONF.mongodbUri);
     }
+
     async connect() {
         try {
             await this.client.connect();
@@ -15,10 +16,12 @@ class UserDb{
             console.error(error);
         }
     }
+
     async verifyConnection() {
-        if(typeof this.client !== 'undefined') return;
+        if (typeof this.client !== 'undefined') return;
         await this.connect();
     }
+
     async addUser(data) {
         // TODO vérifier que l'utilisateur n'existe pas déjà
         await this.verifyConnection();
