@@ -67,7 +67,6 @@ let play = function (clickRow, clickColumn) {
     let column = clickColumn;
     let row = grid.getRowOfLastDisk(column);
 
-
     // emit the event of the play not working yet
     gameSocket.emit("newMove", [column, row]);
     console.log("newMove", [column, row]);
@@ -105,12 +104,12 @@ gameSocket.on("connect", () => {
         }
 
         document.querySelectorAll(".grid-item").forEach(c => {
-            c.removeEventListener("click", this.webPagePlayTurn);
+            c.removeEventListener("click", wpi.webPagePlayTurn);
             c.style.cursor = "not-allowed";
         });
     });
 
     gameSocket.on("playError", (Error) => {
-        console.log(Error)
+        console.log("playError received:", Error)
     });
 });

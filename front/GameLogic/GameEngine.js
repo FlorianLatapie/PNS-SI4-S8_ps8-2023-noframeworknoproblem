@@ -59,7 +59,9 @@ export default function GameEngine(player1, player2) {
     }
 
     this.checkValidityMove = function (globalColumn, globalRow) {
-        console.log("checkValidityMove(globalCol : " + globalColumn + ", globalRow : " + globalRow + ")")
+        if (this.grid.isColumnFull(globalColumn)) {
+            return false
+        }
         if (globalRow < 0 || globalRow >= this.grid.width - 1 || globalColumn < 0 || this.grid >= this.grid.height) {
             return false
         }

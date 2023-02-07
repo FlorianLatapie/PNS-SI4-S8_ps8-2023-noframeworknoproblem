@@ -101,8 +101,6 @@ export default function GridChecker(grid) {
             }
         }
         this.isGameOver = true;
-        let winner = document.getElementById("winner");
-        winner.innerText = "Draw !"; // bad do not use html GameEngine
         return true;
     }
 }

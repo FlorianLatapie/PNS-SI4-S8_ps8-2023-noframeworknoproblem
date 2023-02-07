@@ -73,7 +73,6 @@ export default function Grid(width, height) {
     }
 
     this.getCellInGlobalCoordinated = function(row, column) {
-        console.log("getCellInGlobalCoordinated(row : " + row + ", column : " + column + ")")
         return this.cells[row][this.height - 1 - column]
     }
 

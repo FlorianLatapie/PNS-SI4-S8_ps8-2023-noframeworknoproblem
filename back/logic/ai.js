@@ -1,11 +1,11 @@
 export default function computeMove(gameEngine) {
-    while(true) {
-        // Get a random column (integer between 0 and 6)
-        let column = Math.floor(Math.random() * gameEngine.grid.width);
-        for (let row=0 ; row < gameEngine.grid.height ; row++) {
-            if (gameEngine.checkValidityMove(column, row) === true) {
-                return [column, row];
-            }
-        }
-    }
+    let validMoves = [0, 1, 2, 3, 4, 5, 6];
+    validMoves = validMoves.filter(column => !gameEngine.grid.isColumnFull(column));
+
+    let randomIndex = Math.floor(Math.random() * validMoves.length);
+    let column = validMoves[randomIndex];
+
+    let row = gameEngine.grid.getRowOfLastDisk(column);
+    console.log("IA plays : column " + column + " row " + row)
+    return [column, row]
 }

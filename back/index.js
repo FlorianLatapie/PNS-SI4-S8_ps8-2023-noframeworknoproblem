@@ -102,7 +102,9 @@ gameSocket.on('connection', (socket) => {
         try {
             let column = globalCoordinates[0];
             let row = globalCoordinates[1];
+
             let gameState = gameEngine.playTurn(HumanPlayer, column, row)
+
             gameSocket.emit("updatedBoard", gameEngine.grid)
             if (gameState.isFinished === true) {
                 gameSocket.emit("gameIsOver", gameState.winner)
@@ -110,8 +112,8 @@ gameSocket.on('connection', (socket) => {
             AIPlay(IAPlayer, gameEngine);
         } catch (e) {
             console.log(e);
-            console.log("playError : " + e.message);
-            gameSocket.emit("playError", e.message)
+            console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
+            gameSocket.emit("playError", e.message+ " error for player : " + gameEngine.currentPlayingPlayer.name)
         }
     })
 
