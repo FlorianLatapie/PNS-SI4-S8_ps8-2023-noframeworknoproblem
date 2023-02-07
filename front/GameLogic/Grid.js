@@ -61,7 +61,7 @@ export default function Grid(width, height) {
         return str;
     }
 
-    // Permits to retrieve the move of the other player
+    // compare this.grid with otherGrid and return the position of the first different cell to find the last move of the opponent
     this.findMove = function (otherGrid) {
         for (let column = 0; column < this.width; column++) {
             for (let row = 0; row < this.height; row++) {

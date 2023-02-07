@@ -50,8 +50,6 @@ class UserDb {
             console.error(error);
         }
     }
-
 }
-
 
 export default new UserDb();

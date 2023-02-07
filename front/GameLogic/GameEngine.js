@@ -68,6 +68,7 @@ export default function GameEngine(player1, player2) {
         }
         let cell = this.grid.getCellInGlobalCoordinated(globalRow, globalColumn)
         let defaultCell = this.grid.defaultCellValue
+
         if (globalRow === 0) {
             if (cell === defaultCell) {
                 return true
@@ -81,7 +82,7 @@ export default function GameEngine(player1, player2) {
 
     this.playTurn = function (player, column, row) {
         if (!this.checkValidityMove(column, row)) {
-            throw new Error("Move Invalid");
+            throw new Error("Move Invalid: " + column + " " + row);
         }
         return this.playTurn(player, column);
     }
