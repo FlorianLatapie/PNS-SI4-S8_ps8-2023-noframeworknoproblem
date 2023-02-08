@@ -71,6 +71,10 @@ let AIPlay = function (AIPlayer, gameEngine) {
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
 
+    if (column === undefined || row === undefined) {
+        throw new Error("AI plays undefined: column " + column + " row " + row)
+    }
+
     playerPlay(AIPlayer, gameEngine, column, row)
 }
 
