@@ -31,3 +31,11 @@ export function convertAPIGridToLocal(grid) {
     }
     return localGrid;
 }
+
+export function sleep(ms) {
+    let startTime = performance.now();
+    while (performance.now() - startTime < ms) {
+        // Do nothing for 700 ms to emulate extremely slow code
+    }
+    return true;
+}
