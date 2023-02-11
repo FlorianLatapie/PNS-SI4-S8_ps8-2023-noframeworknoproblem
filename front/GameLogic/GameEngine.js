@@ -2,7 +2,10 @@ import Grid from "./Grid.js";
 import GridChecker from "./GridChecker.js";
 import GameState from "../DataExanges/GameState.js";
 
+
+export default function GameEngine(player1, player2, gameID = "I am a local game engine") {
     // Attributes ------------------------------------------------------------------------------------------------------
+    this.id = gameID;
     this.player1 = player1
     this.player2 = player2
     this.currentPlayingPlayer = player1
@@ -121,4 +124,5 @@ import GameState from "../DataExanges/GameState.js";
     this.currentPlayingPlayer = player1;
     console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
     console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")")
+    console.log("Game ID : " + this.id)
 }

@@ -1,6 +1,8 @@
 // The http module contains methods to handle http queries.
 import * as http from 'http';
 import * as fs from 'fs';
+import * as crypto from "crypto";
+
 // Let's import our logic.
 import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
@@ -53,15 +55,23 @@ const io = new Server(httpServer, {
 });
 
 // Methods -------------------------------------------------------------------------------------------------------------
-let saveToFS = function (object, path = "./test.json") {
+let saveToFS = function (object, path) {
     // save the raw object to a file
     fs.writeFile(path, JSON.stringify(object), function (err) {
         if (err) {
             console.log(err);
         }
-        console.log("The file was saved to:" + path);
     });
     console.log("The file was saved to:" + path);
+}
+
+let removeFromFS = function (path) {
+    fs.unlink(path, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log("The file was removed from:" + path);
 }
 
 let playerPlay = function (player, gameEngine, column, row) {
@@ -71,11 +81,13 @@ let playerPlay = function (player, gameEngine, column, row) {
     }
     gameSocket.emit("updatedBoard", sentBoard)
 
+    saveToFS(gameEngine, "./back/savedGames/"+gameEngine.id+".json")
+
     if (gameState.isFinished === true) {
+        removeFromFS("./back/savedGames/"+gameEngine.id+".json")
         gameSocket.emit("gameIsOver", gameState.winner)
     }
-    //console.log(gameEngine)
-    saveToFS(gameEngine)
+
 }
 let AIPlay = function (AIPlayer, gameEngine) {
     let globalCoordinatesAI = computeMove(gameEngine); // computeMove from ai.js : [column, row]
@@ -108,7 +120,7 @@ let gameEngine;
 // Connection ----------------------------------------------------------------------------------------------------------
 gameSocket.on('connection', (socket) => {
     console.log('user ' + socket.id + ' connected');
-    let AIPlayer = new Player("AI", 0)
+    let AIPlayer = new Player("AI", socket.id+"-AI")
     let HumanPlayer = new Player("HumanPlayer", socket.id)
 
     // Setup ----------------------------------------------------------------------------------------------------------
@@ -118,11 +130,12 @@ gameSocket.on('connection', (socket) => {
             gameSocket.emit("errorSetUp", new Error("Invalid setup"))
         }
 
+        let uuid = crypto.randomBytes(16).toString("hex");
         if (setupObject.AIplays === 1) {
-            gameEngine = new GameEngine(AIPlayer, HumanPlayer);
+            gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
             AIPlay(AIPlayer, gameEngine);
         } else {
-            gameEngine = new GameEngine(HumanPlayer, AIPlayer);
+            gameEngine = new GameEngine(HumanPlayer, AIPlayer, uuid);
         }
     });
 
