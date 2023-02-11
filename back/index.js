@@ -17,6 +17,7 @@ import computeMove from "./logic/ai.js";
 let httpServer = http.createServer(function (request, response) {
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
+
     let filePath = request.url.split("/").filter(function (elem) {
         return elem !== "..";
     });
@@ -51,8 +52,8 @@ let httpServer = http.createServer(function (request, response) {
 const io = new Server(httpServer, {
     cors: {
         origin: "*",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
+        methods: ["GET", "POST", "PUT", "PATCH"],
+        allowedHeaders: "*",
         credentials: true
     }
 });

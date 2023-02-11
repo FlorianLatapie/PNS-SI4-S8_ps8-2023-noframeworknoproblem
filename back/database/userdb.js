@@ -26,7 +26,9 @@ class UserDb {
         // TODO vérifier que l'utilisateur n'existe pas déjà
         await this.verifyConnection();
         try {
-            await this.users.insertOne(data);
+            if (! await this.existsUser(data)) {
+                await this.users.insertOne(data);
+            }
         } catch (error) {
             console.error(error);
         }
