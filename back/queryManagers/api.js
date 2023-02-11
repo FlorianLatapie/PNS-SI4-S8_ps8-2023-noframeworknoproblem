@@ -1,7 +1,5 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
-// TODO : import sha256 from 'js-sha256';
-// Error : Cannot find package 'js-sha256'
 import { sha256 } from 'js-sha256';
 import userdb from "../database/userdb.js";
 import jwt from 'jsonwebtoken';
@@ -55,7 +53,7 @@ function manageRequest(request, response) {
             } else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
                 try {
-                    console.log(`login request received: ${bodyJson}`);
+                    console.log("login request received",bodyJson)
                     let user = User.convertLogin(bodyJson);
                     user.password = sha256(user.password)
                     console.log("User to find: ", user);
@@ -63,7 +61,9 @@ function manageRequest(request, response) {
                         console.log("User found: ", userFound);
                         response.statusCode = 200;
                         // Returns a Json Web Token containing the name. We know this token is an acceptable proof of identity since only the server know the secretCode.
-                        response.end(jwt.sign({username: user.username}, secretCode, {expiresIn: "1d"}));
+                        let payload = {username: userFound.username};
+                        let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
+                        response.end(token);
                     });
                 } catch (err) {
                     console.log("User not found ", err);
@@ -75,9 +75,7 @@ function manageRequest(request, response) {
     }
     console.log(`Received a request for ${request.url} with method ${request.method}`);
 
-    response.statusCode = 200;
     addCors(response)
-    response.end(`Thanks for calling ${request.url}`);
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
