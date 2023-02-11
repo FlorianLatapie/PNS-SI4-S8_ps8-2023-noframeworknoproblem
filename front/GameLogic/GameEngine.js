@@ -2,7 +2,6 @@ import Grid from "./Grid.js";
 import GridChecker from "./GridChecker.js";
 import GameState from "../DataExanges/GameState.js";
 
-export default function GameEngine(player1, player2) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.player1 = player1
     this.player2 = player2
@@ -104,6 +103,7 @@ export default function GameEngine(player1, player2) {
 
         // Check equality condition
         if (this.gridChecker.checkDraw()) {
+            this.isGameOver = true;
             console.log("Game Finished : draw");
             return new GameState(true, "draw");
         }
