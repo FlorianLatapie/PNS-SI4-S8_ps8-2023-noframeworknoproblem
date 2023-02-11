@@ -11,6 +11,7 @@ import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import computeMove from "./logic/ai.js";
+import {sleep} from "./utils/Utils.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -59,6 +60,7 @@ let saveToFS = function (object, path) {
     // save the raw object to a file
     fs.writeFile(path, JSON.stringify(object), function (err) {
         if (err) {
+            console.log("error while saving the game to the file system")
             console.log(err);
         }
     });
@@ -68,6 +70,7 @@ let saveToFS = function (object, path) {
 let removeFromFS = function (path) {
     fs.unlink(path, function (err) {
         if (err) {
+            console.log("error while removing the game from the file system")
             console.log(err);
         }
     });
@@ -80,12 +83,12 @@ let playerPlay = function (player, gameEngine, column, row) {
         board: gameEngine.grid.cells
     }
     gameSocket.emit("updatedBoard", sentBoard)
-
-    saveToFS(gameEngine, "./back/savedGames/"+gameEngine.id+".json")
-
+    
     if (gameState.isFinished === true) {
         removeFromFS("./back/savedGames/"+gameEngine.id+".json")
         gameSocket.emit("gameIsOver", gameState.winner)
+    } else {
+        saveToFS(gameEngine, "./back/savedGames/"+gameEngine.id+".json")
     }
 
 }
@@ -144,7 +147,9 @@ gameSocket.on('connection', (socket) => {
         console.log("newMove", globalCoordinates);
         try {
             humanPlay(HumanPlayer, gameEngine, globalCoordinates);
-            AIPlay(AIPlayer, gameEngine);
+            if (!gameEngine.isGameOver){
+                AIPlay(AIPlayer, gameEngine);
+            }
         } catch (e) {
             console.log(e);
             console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
