@@ -11,6 +11,7 @@ import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import computeMove from "./logic/ai.js";
+import jwt from "jsonwebtoken";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -110,14 +111,28 @@ let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates){
     playerPlay(HumanPlayer, gameEngine, column, row)
 }
 
-// DB methods ----------------------------------------------------------------------------------------------------------
-let addUser = async function (user) {
-    await userdb.addUser(user);
-}
-
 // main ----------------------------------------------------------------------------------------------------------------
 const gameSocket = io.of("/api/game")
 let gameEngine;
+
+// middle ware ---------------------------------------------------------------------------------------------------------
+gameSocket.use((socket, next) => {
+    let token = socket.handshake.auth.token;
+    if (token) {
+        // verify the token
+        jwt.verify(token, "secretCode", (err, decoded) => {
+            if (err) {
+                console.log("error while verifying the token")
+                console.log(err);
+                return next(new Error("Authentication error"));
+            }
+            socket.username = decoded.username;
+        });
+        next();
+    } else {
+        next(new Error("Authentication error"));
+    }
+});
 
 // Connection ----------------------------------------------------------------------------------------------------------
 gameSocket.on('connection', (socket) => {

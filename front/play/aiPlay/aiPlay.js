@@ -3,7 +3,7 @@
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
 
-const gameSocket = io("http://localhost:8000/api/game");
+const gameSocket = io("http://localhost:8000/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
 
 let toPlay;
@@ -73,10 +73,12 @@ let play = function (clickRow, clickColumn) {
     return new Position(column, row)
 }
 
+/*gameSocket.on("connect_error", (err) => {
+    console.log("Connection error: " + err.message)
+})*/
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with ID: " + gameSocket.id)
     setupAI(2);
-
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
         let move = grid.findMove(globalCoordsGrid.board)
