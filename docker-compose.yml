@@ -6,11 +6,11 @@ services:
       context: .
       dockerfile: dockerfiles/server-dev.dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - /app/node_modules
-      - ./front:/app/front:ro
-      - ./back:/app/back:ro
+      - ./front:/app/front
+      - ./back:/app/back
     env_file:
       - ./env/server.env
     depends_on:
@@ -21,7 +21,7 @@ services:
     env_file:
       - ./env/mongodb.env
     ports:
-      - 27017
+      - "27017"
     volumes:
       - database:/data/db
 volumes:

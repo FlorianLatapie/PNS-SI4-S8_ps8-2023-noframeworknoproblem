@@ -2,9 +2,9 @@ import {Position} from "./Position.js";
 
 export default function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------
-    const defaultCellValue = "_";
-    const redCellValue = "R";
-    const yellowCellValue = "Y";
+    const defaultCellValue = "0";
+    const redCellValue = "2";
+    const yellowCellValue = "1";
 
     // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
@@ -54,7 +54,15 @@ export default function Grid(width, height) {
         let str = "";
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                str += this.cells[i][j];
+                if (this.cells[i][j] === defaultCellValue) {
+                    str += "_";
+                } else if (this.cells[i][j] === redCellValue) {
+                    str += "R";
+                } else if (this.cells[i][j] === yellowCellValue) {
+                    str += "Y";
+                } else {
+                    str += "?";
+                }
             }
             str += "\n";
         }
@@ -62,10 +70,10 @@ export default function Grid(width, height) {
     }
 
     // compare this.grid with otherGrid and return the position of the first different cell to find the last move of the opponent
-    this.findMove = function (otherGrid) {
+    this.findMove = function (otherCells) {
         for (let column = 0; column < this.width; column++) {
             for (let row = 0; row < this.height; row++) {
-                if (this.cells[+row][+column] !== otherGrid.cells[+row][+column]) {
+                if (this.cells[+row][+column] !== otherCells[+row][+column]) {
                     return this.getGlobalPosition(column, row)
                 }
             }

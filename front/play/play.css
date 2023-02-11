@@ -69,4 +69,19 @@
     background-color: red;
 }
 
+.wrapper {
+    display: grid;
+    grid-template: 10vh 1fr / 8vw 1fr;
+}
+
+.wrapper > header {
+    grid-area: 1 / 1 / 1 / span 2
+}
+
+.wrapper > main {
+    grid-area: 2 / 2;
+}
+
+
+
 

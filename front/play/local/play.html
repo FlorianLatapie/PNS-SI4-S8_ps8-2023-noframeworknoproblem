@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
     <link href="../../common.css" rel="stylesheet">
-    <link href="../../menu/menu.css" rel="stylesheet">
     <link href="../play.css" rel="stylesheet">
+    <script type="module" src="../../menu/burgermenu.js"></script>
 
     <meta charset="UTF-8">
     <title>Puissance 4</title>
@@ -12,34 +12,14 @@
 
 <div class="wrapper">
     <header>
-        <nav class="nav-bar top-corner-content">
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <div id="nav-background"></div>
-            <ul class="nav-menu">
-                <li><a class="nav-link" href="#"><img alt="Accueil" src="../../menu/images/house-solid.svg" width="36"></a>
-                </li>
-                <li><a class="nav-link" href="#"><img alt="Notifications" src="../../menu/images/bell-solid.svg"
-                                                      width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Amis" src="../../menu/images/user-group-solid.svg"
-                                                      width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Jouer" src="../../menu/images/gamepad-solid.svg" width="36"></a>
-                </li>
-                <li><a class="nav-link" href="#"><img alt="Se déconnecter" src="../../menu/images/right-from-bracket-solid.svg"
-                                                      width="36"></a></li>
-            </ul>
-        </nav>
-        <h1 id="page-title">titre à modifier en JS</h1>
-        <div class="top-corner-content" id="username">
-            <p>
-                0123456789ABCDEF
-            </p>
+        <burger-menu></burger-menu>
+    <h1 id="page-title">titre à modifier en JS</h1>
+    <div class="top-corner-content" id="username">
+        <p>
+            0123456789ABCDEF
+        </p>
         </div>
     </header>
-
     <main>
         <h2 id="winner"></h2>
         <div id="grid-div">
@@ -100,6 +80,5 @@
     </main>
 </div>
 </body>
-<script src="../../menu/burgermenu.js"></script>
 <script src="play.js" type="module"></script>
 </html>

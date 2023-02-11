@@ -5,7 +5,7 @@ document.getElementById("login-button").addEventListener("click", function() {
         password: document.getElementById("login-password").value,
     }
 
-    fetch("http://localhost:8000/api/login", {
+    fetch("http://localhost:8000/api/login", { // use a variable instead of the hardcoded url
         method: "post",
         headers: {
             'Accept': 'application/json',

@@ -17,7 +17,7 @@ function WebPageInteraction() {
         let cell = document.getElementById(column + "-" + row);
 
         // play turn changes the current player, so we need to get the other player for the next lines of code
-        ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
+        let gameState = ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
 
         cell.classList.add("fall");
         if (ge.getOtherPlayer().color === ge.grid.redCellValue) {
@@ -28,7 +28,11 @@ function WebPageInteraction() {
 
         if (ge.isGameOver) {
             let winner = document.getElementById("winner");
-            winner.innerText = ge.getOtherPlayer().color + " wins !";
+            if (gameState.winner === "draw") {
+                winner.innerText = "It's a draw !!";
+            }else {
+                winner.innerText = ge.getOtherPlayer().color + " wins !!";
+            }
 
             document.querySelectorAll(".grid-item").forEach(c => {
                 c.removeEventListener("click", this.webPagePlayTurn);

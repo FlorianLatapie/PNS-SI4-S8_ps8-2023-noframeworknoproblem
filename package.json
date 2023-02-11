@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/PolytechNS/ps8-2023-noframeworknoproblem#readme",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "js-sha256": "^0.9.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.0.0",
