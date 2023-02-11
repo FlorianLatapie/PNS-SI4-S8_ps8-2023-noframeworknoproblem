@@ -1,7 +1,7 @@
 let jwtToken;
 document.getElementById("login-button").addEventListener("click", function() {
     const values = {
-        username: document.getElementById("login-username").value,
+        usernameOrEmail: document.getElementById("login-username").value,
         password: document.getElementById("login-password").value,
     }
 

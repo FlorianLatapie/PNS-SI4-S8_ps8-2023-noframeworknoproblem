@@ -27,27 +27,42 @@ class UserDb {
         await this.verifyConnection();
         try {
             if (! await this.existsUser(data)) {
-                await this.users.insertOne(data);
+                console.log("User doesn't exist, adding user");
+                return await this.users.insertOne(data);
             }
         } catch (error) {
             console.error(error);
         }
+
+        return new Error("User already exists")
     }
 
     async getUser(data) {
         await this.verifyConnection();
+        let user;
         try {
-            return await this.users.findOne(data);
+            user = await this.users.findOne({username: data.usernameOrEmail, password: data.password});
+            if (user === null) {
+                user = await this.users.findOne({email: data.usernameOrEmail, password: data.password});
+            }
         } catch (error) {
             console.error(error);
         }
+
+        if (user === null) {
+            throw new Error("User not found");
+        }
+        return user;
     }
 
     async existsUser(data) {
         await this.verifyConnection();
         try {
-            const user = await this.users.findOne(data);
-            return typeof user !== 'undefined' && user !== null;
+            //console.log("Checking if user exists: ", data.username, data.email)
+            const sameUserName = await this.users.findOne({username: data.username});
+            const sameEmail = await this.users.findOne({email: data.email});
+            //console.log("User db: ", sameUserName, sameEmail);
+            return !(sameUserName === null && sameEmail === null);
         } catch (error) {
             console.error(error);
         }

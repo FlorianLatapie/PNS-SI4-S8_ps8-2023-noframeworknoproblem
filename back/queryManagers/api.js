@@ -2,9 +2,10 @@
 
 // TODO : import sha256 from 'js-sha256';
 // Error : Cannot find package 'js-sha256'
-import { sha256, sha224 } from 'js-sha256';
+import { sha256 } from 'js-sha256';
 import userdb from "../database/userdb.js";
 import jwt from 'jsonwebtoken';
+import User from "../object/User.js";
 
 // TODO need to be changed
 let secretCode = "secretCode";
@@ -35,15 +36,19 @@ function manageRequest(request, response) {
 
             if (urlPath[2] === "signup") {
                 console.log(`signup request received: `, bodyJson);
-                // need to hash the password
-                bodyJson.password = sha256(bodyJson.password);
                 try {
                     // TODO not working yet
-                    userdb.addUser(bodyJson);
-                    // Everything went well, we can send a response.
-                    response.statusCode = 201;
-                    response.end("OK");
+                    let user = User.convertSignUp(bodyJson);
+                    user.password = sha256(user.password)
+                    console.log("User to add: ", user);
+                    userdb.addUser(user).then((userCreated) => {
+                        // Everything went well, we can send a response.
+                        console.log("User added: ", userCreated);
+                        response.statusCode = 201;
+                        response.end("OK");
+                    });
                 } catch (err) {
+                    console.log("User not created ", err);
                     response.statusCode = 404;
                     response.end(JSON.stringify(err));
                 }
@@ -51,13 +56,18 @@ function manageRequest(request, response) {
                 // need to search the user in the database and check error
                 try {
                     console.log(`login request received: ${bodyJson}`);
-                    userdb.getUser(bodyJson);
-                    response.statusCode = 200;
-                    // Returns a Json Web Token containing the name. We know this token is an acceptable proof of identity since only the server know the secretCode.
-                    response.end(jwt.sign({username: body.name}, secretCode, {expiresIn: "1d"}));
+                    let user = User.convertLogin(bodyJson);
+                    user.password = sha256(user.password)
+                    console.log("User to find: ", user);
+                    userdb.getUser(user).then((userFound) => {
+                        console.log("User found: ", userFound);
+                        response.statusCode = 200;
+                        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of identity since only the server know the secretCode.
+                        response.end(jwt.sign({username: user.username}, secretCode, {expiresIn: "1d"}));
+                    });
                 } catch (err) {
+                    console.log("User not found ", err);
                     response.statusCode = 404;
-                    console.log(err);
                     response.end(JSON.stringify(err));
                 }
             }
