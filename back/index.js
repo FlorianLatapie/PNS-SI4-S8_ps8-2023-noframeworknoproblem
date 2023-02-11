@@ -1,5 +1,6 @@
 // The http module contains methods to handle http queries.
 import * as http from 'http';
+import * as fs from 'fs';
 // Let's import our logic.
 import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
@@ -22,13 +23,6 @@ let httpServer = http.createServer(function (request, response) {
         return elem !== "..";
     });
 
-    /*console.log("Salutations");
-    (async () => {
-        const user = {username:'vinh', password:'1234'};
-        await userdb.addUser(user);
-        const user2 = await userdb.getUser(user);
-        console.log(user2);
-    })();*/
     try {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         if (filePath[1] === "api") {
@@ -59,16 +53,29 @@ const io = new Server(httpServer, {
 });
 
 // Methods -------------------------------------------------------------------------------------------------------------
+let saveToFS = function (object, path = "./test.json") {
+    // save the raw object to a file
+    fs.writeFile(path, JSON.stringify(object), function (err) {
+        if (err) {
+            console.log(err);
+        }
+        console.log("The file was saved to:" + path);
+    });
+    console.log("The file was saved to:" + path);
+}
+
 let playerPlay = function (player, gameEngine, column, row) {
     let gameState = gameEngine.playTurn(player, column, row);
-    let sentboard = {
+    let sentBoard = {
         board: gameEngine.grid.cells
     }
-    gameSocket.emit("updatedBoard", sentboard)
+    gameSocket.emit("updatedBoard", sentBoard)
 
     if (gameState.isFinished === true) {
         gameSocket.emit("gameIsOver", gameState.winner)
     }
+    //console.log(gameEngine)
+    saveToFS(gameEngine)
 }
 let AIPlay = function (AIPlayer, gameEngine) {
     let globalCoordinatesAI = computeMove(gameEngine); // computeMove from ai.js : [column, row]
@@ -94,9 +101,7 @@ let addUser = async function (user) {
     await userdb.addUser(user);
 }
 
-
 // main ----------------------------------------------------------------------------------------------------------------
-
 const gameSocket = io.of("/api/game")
 let gameEngine;
 
