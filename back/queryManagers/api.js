@@ -2,9 +2,9 @@
 
 // TODO : import sha256 from 'js-sha256';
 // Error : Cannot find package 'js-sha256'
-// import { sha256, sha224 } from 'js-sha256';
+import { sha256, sha224 } from 'js-sha256';
 import userdb from "../database/userdb.js";
-// import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 // TODO need to be changed
 let secretCode = "secretCode";
@@ -15,7 +15,10 @@ function manageRequest(request, response) {
     addCors(response)
     let url = request.url.split("?")
     let urlPath = url[0].split("/")
-    let urlParams = url[1].split("&")
+    let urlParams;
+    if (urlPath.length === 2) {
+        urlParams = url[1].split("&")
+    }
 
     // C'est dans la correction de Vella à voir si c'est utile
     if (request.method === 'OPTIONS') {
@@ -31,10 +34,11 @@ function manageRequest(request, response) {
             let bodyJson = JSON.parse(body);
 
             if (urlPath[2] === "signup") {
+                console.log(`signup request received: `, bodyJson);
                 // need to hash the password
-                // bodyJson.password = sha256(bodyJson.password);
-                // need to insert the user in the database and check error
+                bodyJson.password = sha256(bodyJson.password);
                 try {
+                    // TODO not working yet
                     userdb.addUser(bodyJson);
                     // Everything went well, we can send a response.
                     response.statusCode = 201;
@@ -46,11 +50,11 @@ function manageRequest(request, response) {
             } else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
                 try {
+                    console.log(`login request received: ${bodyJson}`);
                     userdb.getUser(bodyJson);
                     response.statusCode = 200;
                     // Returns a Json Web Token containing the name. We know this token is an acceptable proof of identity since only the server know the secretCode.
-                    // response.end(jwt.sign({username: body.name}, secretCode, {expiresIn: "1d"}));
-                    response.end("OK");
+                    response.end(jwt.sign({username: body.name}, secretCode, {expiresIn: "1d"}));
                 } catch (err) {
                     response.statusCode = 404;
                     console.log(err);
