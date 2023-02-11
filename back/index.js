@@ -61,7 +61,10 @@ const io = new Server(httpServer, {
 // Methods -------------------------------------------------------------------------------------------------------------
 let playerPlay = function (player, gameEngine, column, row) {
     let gameState = gameEngine.playTurn(player, column, row);
-    gameSocket.emit("updatedBoard", gameEngine.grid)
+    let sentboard = {
+        board: gameEngine.grid.cells
+    }
+    gameSocket.emit("updatedBoard", sentboard)
 
     if (gameState.isFinished === true) {
         gameSocket.emit("gameIsOver", gameState.winner)

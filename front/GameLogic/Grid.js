@@ -62,10 +62,10 @@ export default function Grid(width, height) {
     }
 
     // compare this.grid with otherGrid and return the position of the first different cell to find the last move of the opponent
-    this.findMove = function (otherGrid) {
+    this.findMove = function (otherCells) {
         for (let column = 0; column < this.width; column++) {
             for (let row = 0; row < this.height; row++) {
-                if (this.cells[+row][+column] !== otherGrid.cells[+row][+column]) {
+                if (this.cells[+row][+column] !== otherCells[+row][+column]) {
                     return this.getGlobalPosition(column, row)
                 }
             }

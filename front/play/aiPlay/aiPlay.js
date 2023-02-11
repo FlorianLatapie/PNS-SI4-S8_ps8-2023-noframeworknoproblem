@@ -79,8 +79,9 @@ gameSocket.on("connect", () => {
 
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
-        let move = grid.findMove(globalCoordsGrid)
-        grid.cells = globalCoordsGrid.cells
+        let move = grid.findMove(globalCoordsGrid.board)
+        grid.cells = globalCoordsGrid.board
+        
         // the client has to play
         if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
