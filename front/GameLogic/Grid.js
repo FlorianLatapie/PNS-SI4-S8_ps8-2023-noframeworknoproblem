@@ -2,9 +2,9 @@ import {Position} from "./Position.js";
 
 export default function Grid(width, height) {
     // Attributes ------------------------------------------------------------------------------------------------------
-    const defaultCellValue = "_";
-    const redCellValue = "R";
-    const yellowCellValue = "Y";
+    const defaultCellValue = "0";
+    const redCellValue = "2";
+    const yellowCellValue = "1";
 
     // Methods ---------------------------------------------------------------------------------------------------------
     let createGrid = function () {
@@ -54,7 +54,15 @@ export default function Grid(width, height) {
         let str = "";
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                str += this.cells[i][j];
+                if (this.cells[i][j] === defaultCellValue) {
+                    str += "_";
+                } else if (this.cells[i][j] === redCellValue) {
+                    str += "R";
+                } else if (this.cells[i][j] === yellowCellValue) {
+                    str += "Y";
+                } else {
+                    str += "?";
+                }
             }
             str += "\n";
         }

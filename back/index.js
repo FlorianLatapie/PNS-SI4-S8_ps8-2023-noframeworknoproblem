@@ -11,7 +11,6 @@ import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import computeMove from "./logic/ai.js";
-import {sleep} from "./utils/Utils.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -83,7 +82,7 @@ let playerPlay = function (player, gameEngine, column, row) {
         board: gameEngine.grid.cells
     }
     gameSocket.emit("updatedBoard", sentBoard)
-    
+
     if (gameState.isFinished === true) {
         removeFromFS("./back/savedGames/"+gameEngine.id+".json")
         gameSocket.emit("gameIsOver", gameState.winner)
