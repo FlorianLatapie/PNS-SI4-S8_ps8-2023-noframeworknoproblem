@@ -18,7 +18,7 @@ class UserDb {
     }
 
     async verifyConnection() {
-        if (typeof this.client !== 'undefined') return;
+        if (typeof this.users !== 'undefined') return;
         await this.connect();
     }
 
