@@ -91,7 +91,6 @@ template.innerHTML = `
         background-color: #f5f5f5;
     }
     </style>
-    <div>
         <nav class="nav-bar top-corner-content">
             <div class="hamburger">
                 <span class="bar"></span>
@@ -102,14 +101,12 @@ template.innerHTML = `
             <ul class="nav-menu">
                 <li><a class="nav-link" href=`+home+`><img alt="Accueil" src=`+house+` width="36"></a></li>
                 <li><a class="nav-link" href="#"><img alt="Notifications" src=`+bell+` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Amis" src=`+user+`
-                                                      width="36"></a></li>
+                <li><a class="nav-link" href="#"><img alt="Amis" src=`+user+` width="36"></a></li>
                 <li><a class="nav-link" href="#"><img alt="Jouer" src=`+gamepad+` width="36"></a>
                 </li>
                 <li><a class="nav-link" href=`+logoutPage+`><img alt="Se déconnecter" src=`+logout+` width="36"></a></li>
             </ul>
         </nav>
-    </div>
 
 `;
 
