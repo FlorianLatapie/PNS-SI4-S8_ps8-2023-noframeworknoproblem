@@ -161,7 +161,7 @@ gameSocket.on('connection', (socket) => {
         console.log("newMove", globalCoordinates);
         try {
             humanPlay(HumanPlayer, gameEngine, globalCoordinates);
-            if (!gameEngine.isGameOver){
+            if (!gameEngine.isGameOver) {
                 AIPlay(AIPlayer, gameEngine);
             }
         } catch (e) {

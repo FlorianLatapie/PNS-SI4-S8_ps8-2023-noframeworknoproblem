@@ -23,7 +23,8 @@ function manageRequest(request, response) {
     if (request.method === 'OPTIONS') {
         response.statusCode = 200;
         response.end();
-    } else if (request.method === "POST") {
+    }
+    else if (request.method === "POST") {
         let body = "";
         request.on('data', function (data) {
             body += data;
@@ -33,9 +34,7 @@ function manageRequest(request, response) {
             let bodyJson = JSON.parse(body);
 
             if (urlPath[2] === "signup") {
-                console.log(`signup request received: `, bodyJson);
                 try {
-                    // TODO not working yet
                     let user = User.convertSignUp(bodyJson);
                     user.password = sha256(user.password)
                     console.log("User to add: ", user);
@@ -44,24 +43,27 @@ function manageRequest(request, response) {
                         console.log("User added: ", userCreated);
                         response.statusCode = 201;
                         response.end("OK");
-                    });
+                    }).catch((err) => {
+                        console.log("User not added: ", err);
+                        response.statusCode = 404;
+                        response.end(JSON.stringify(err));
+                    } );
                 } catch (err) {
-                    console.log("User not created ", err);
+                    console.log("User not created:", err);
                     response.statusCode = 404;
                     response.end(JSON.stringify(err));
                 }
             } else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
                 try {
-                    console.log("login request received",bodyJson)
                     let user = User.convertLogin(bodyJson);
                     user.password = sha256(user.password)
-                    console.log("User to find: ", user);
                     userdb.getUser(user).then((userFound) => {
                         console.log("User found: ", userFound);
                         response.statusCode = 200;
-                        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of identity since only the server know the secretCode.
-                        let payload = {username: userFound.username};
+                        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
+                        // identity since only the server know the secretCode.
+                        let payload = {userId: userFound._id.toString(), username: userFound.username};
                         let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
                         response.end(token);
                     });
@@ -73,7 +75,9 @@ function manageRequest(request, response) {
             }
         });
     }
-    console.log(`Received a request for ${request.url} with method ${request.method}`);
+    else {
+        console.log("Method", request.method, "not supported");
+    }
 
     addCors(response)
 }
