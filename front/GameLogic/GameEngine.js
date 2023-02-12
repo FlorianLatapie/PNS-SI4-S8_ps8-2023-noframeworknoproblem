@@ -25,7 +25,14 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
         } else if (this.currentPlayingPlayer === this.player2) {
             return this.player1
         } else {
-            throw new Error("Invalid player");
+            // honteux 
+            if (JSON.stringify(this.currentPlayingPlayer) === JSON.stringify(this.player1)) {
+                return this.player2
+            }
+            if (JSON.stringify(this.currentPlayingPlayer) === JSON.stringify(this.player2)) {
+                return this.player1
+            }
+            throw new Error("this.currentPlayingPlayer is not equal to this.player1 or this.player2 : " + JSON.stringify(this.currentPlayingPlayer))
         }
     }
 
@@ -47,7 +54,11 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
 
     this.checkValidity = function (player, column) {
         // Check errors before playing
-        if (player !== this.currentPlayingPlayer) {
+        //if (player !== this.currentPlayingPlayer) {
+        if (JSON.stringify(player) !== JSON.stringify(this.currentPlayingPlayer)) {
+            console.log("si on est ici c'est que : player != this.currentPlayingPlayer")
+            console.log("player               : " + JSON.stringify(player))
+            console.log("currentPlayingPlayer : " + JSON.stringify(this.currentPlayingPlayer))
             throw new Error("It's not your turn " + JSON.stringify(player));
         }
         if (column < 0 || column >= this.grid.width) {

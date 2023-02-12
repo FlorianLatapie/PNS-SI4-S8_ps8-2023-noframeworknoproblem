@@ -6,12 +6,14 @@ import * as crypto from "crypto";
 // Let's import our logic.
 import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
-import userdb from "./database/userdb.js";
+import gamedb from "./database/gamedb.js";
 import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import computeMove from "./logic/ai.js";
 import jwt from "jsonwebtoken";
+import Grid from "../front/GameLogic/Grid.js";
+import GridChecker from "../front/GameLogic/GridChecker.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -56,18 +58,35 @@ const io = new Server(httpServer, {
 });
 
 // Methods -------------------------------------------------------------------------------------------------------------
-let saveToFS = function (object, path) {
+let saveGameEngineToFSAndDB = function (gameEngineToSave, path) {
     // save the raw object to a file
-    fs.writeFile(path, JSON.stringify(object), function (err) {
+    let fileToSave = JSON.stringify(gameEngineToSave);
+    fs.writeFile(path, fileToSave, function (err) {
         if (err) {
             console.log("error while saving the game to the file system")
             console.log(err);
         }
     });
     console.log("The file was saved to:" + path);
+
+    // save the object to the database
+    let data = {
+        gameId: gameEngineToSave.id,
+        player1: gameEngineToSave.player1.id,
+        player2: gameEngineToSave.player2.id,
+        gamePath: "./back/savedGames/" + gameEngineToSave.id + ".json"
+    }
+
+    gamedb.addGamePath(data).then(function (result) {
+        console.log("The game was saved to the database ! ");
+    }).catch(function (error) {
+        console.log("error while saving the game to the database");
+        console.log(error);
+    });
+
 }
 
-let removeFromFS = function (path) {
+let removeFromFSAndDB = function (path) {
     fs.unlink(path, function (err) {
         if (err) {
             console.log("error while removing the game from the file system")
@@ -75,6 +94,12 @@ let removeFromFS = function (path) {
         }
     });
     console.log("The file was removed from:" + path);
+    gamedb.removeGame(path).then(function (result) {
+        console.log("The game was removed from the database");
+    }).catch(function (error) {
+        console.log("error while removing the game from the database");
+        console.log(error);
+    });
 }
 
 let playerPlay = function (player, gameEngine, column, row) {
@@ -85,10 +110,10 @@ let playerPlay = function (player, gameEngine, column, row) {
     gameSocket.emit("updatedBoard", sentBoard)
 
     if (gameState.isFinished === true) {
-        removeFromFS("./back/savedGames/"+gameEngine.id+".json")
+        removeFromFSAndDB("./back/savedGames/" + gameEngine.id + ".json")
         gameSocket.emit("gameIsOver", gameState.winner)
     } else {
-        saveToFS(gameEngine, "./back/savedGames/"+gameEngine.id+".json")
+        saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
     }
 
 }
@@ -104,7 +129,7 @@ let AIPlay = function (AIPlayer, gameEngine) {
     playerPlay(AIPlayer, gameEngine, column, row)
 }
 
-let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates){
+let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates) {
     let column = globalCoordinates[0];
     let row = globalCoordinates[1];
 
@@ -127,6 +152,7 @@ gameSocket.use((socket, next) => {
                 return next(new Error("Authentication error"));
             }
             socket.username = decoded.username;
+            socket.userId = decoded.userId;
         });
         next();
     } else {
@@ -136,24 +162,78 @@ gameSocket.use((socket, next) => {
 
 // Connection ----------------------------------------------------------------------------------------------------------
 gameSocket.on('connection', (socket) => {
-    console.log('user ' + socket.id + ' connected');
-    let AIPlayer = new Player("AI", socket.id+"-AI")
-    let HumanPlayer = new Player("HumanPlayer", socket.id)
+    console.log("-------------------------------------")
+    console.log('Socket connected: id = ' + socket.id + ' username = ' + socket.username + ' userId = ' + socket.userId);
+
+    let userId = socket.userId;
+
+    let AIPlayer = new Player("AI", userId + "-AI")
+    let HumanPlayer = new Player("HumanPlayer", userId)
 
     // Setup ----------------------------------------------------------------------------------------------------------
     socket.on("setup", setupObject => {
         console.log("setup", setupObject);
-        if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {
-            gameSocket.emit("errorSetUp", new Error("Invalid setup"))
-        }
+        // search for a game engine in the db
+        gamedb.getGamePlayerId(userId).then(function (result) {
+            if (result !== null) {
+                // à partir de la c'est honteux
 
-        let uuid = crypto.randomBytes(16).toString("hex");
-        if (setupObject.AIplays === 1) {
-            gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
-            AIPlay(AIPlayer, gameEngine);
-        } else {
-            gameEngine = new GameEngine(HumanPlayer, AIPlayer, uuid);
-        }
+                // load the game engine from the file system
+                let gameEngineFromFS = JSON.parse(fs.readFileSync(result.gamePath, 'utf8'));
+
+                let tmpPlayer1 = new Player();
+                tmpPlayer1.id = gameEngineFromFS.player1.id;
+                tmpPlayer1.name = gameEngineFromFS.player1.name;
+                tmpPlayer1.color = gameEngineFromFS.player1.color;
+
+                let tmpPlayer2 = new Player();
+                tmpPlayer2.id = gameEngineFromFS.player2.id;
+                tmpPlayer2.name = gameEngineFromFS.player2.name;
+                tmpPlayer2.color = gameEngineFromFS.player2.color;
+
+                if (tmpPlayer1.id === userId) {
+                    HumanPlayer = tmpPlayer1;
+                    AIPlayer = tmpPlayer2;
+                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, gameEngineFromFS.id);
+                } else {
+                    HumanPlayer = tmpPlayer2;
+                    AIPlayer = tmpPlayer1;
+                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, gameEngineFromFS.id);
+                }
+
+                gameEngine.grid.cells = gameEngineFromFS.grid.cells;
+
+                gameEngine.gridChecker.grid = gameEngine.grid;
+
+                gameEngine.player1 = tmpPlayer1;
+                gameEngine.player2 = tmpPlayer2;
+                gameEngine.currentPlayingPlayer = gameEngineFromFS.currentPlayingPlayer;
+
+                gameEngine.winner = gameEngineFromFS.winner;
+                gameEngine.isFinished = gameEngineFromFS.isFinished;
+
+                AIPlay(AIPlayer, gameEngine);
+            }
+            else {
+                console.log("game engine not found in the database")
+
+                // game engine not found : create a new one
+                if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {
+                    gameSocket.emit("errorSetUp", new Error("Invalid setup"))
+                }
+
+                let uuid = crypto.randomBytes(16).toString("hex");
+                if (setupObject.AIplays === 1) {
+                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
+                    AIPlay(AIPlayer, gameEngine);
+                } else {
+                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, uuid);
+                }
+            }
+        }).catch(function (error) {
+            console.log("error while searching for a game engine in the database");
+            console.log(error);
+        });
     });
 
     // newMove ---------------------------------------------------------------------------------------------------------
