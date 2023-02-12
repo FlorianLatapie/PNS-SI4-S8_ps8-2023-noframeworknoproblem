@@ -19,11 +19,15 @@ document.getElementById("login-button").addEventListener("click", function () {
         // if the login worked, we should save the token.
         jwtToken = await response.text();
         localStorage.setItem("token", jwtToken); // TODO: do not save the token in local storage
-        console.log("token", localStorage.getItem("token"));
 
-        let username = parseJwt(jwtToken).username;
+        let parsedJwt = parseJwt(jwtToken);
+        console.log(parsedJwt);
 
+        let username = parsedJwt.username;
         localStorage.setItem("username", username);
-        console.log(localStorage.getItem("username"))
+
+        let userId = parsedJwt.userId;
+        localStorage.setItem("userId", userId);
+        console.log("userId: " + userId);
     });
 });

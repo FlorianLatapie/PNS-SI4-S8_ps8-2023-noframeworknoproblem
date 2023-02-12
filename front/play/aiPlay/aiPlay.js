@@ -77,7 +77,9 @@ let play = function (clickRow, clickColumn) {
     console.log("Connection error: " + err.message)
 })*/
 gameSocket.on("connect", () => {
-    console.log("Connected as human for a game vs AI with ID: " + gameSocket.id)
+    console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
+    console.log("token: " + localStorage.getItem("token"));
+
     setupAI(2);
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
