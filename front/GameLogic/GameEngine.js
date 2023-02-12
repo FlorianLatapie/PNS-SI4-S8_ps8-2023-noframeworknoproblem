@@ -48,7 +48,7 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
     this.checkValidity = function (player, column) {
         // Check errors before playing
         if (player !== this.currentPlayingPlayer) {
-            throw new Error("It's not your turn");
+            throw new Error("It's not your turn " + JSON.stringify(player));
         }
         if (column < 0 || column >= this.grid.width) {
             throw new Error("Invalid column : " + column);

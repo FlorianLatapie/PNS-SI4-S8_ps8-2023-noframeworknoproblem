@@ -21,7 +21,6 @@ export default class User {
    static convertData(data, schema) {
         let user = {};
        for (const key in data) {
-           console.log("Convert Data: key ", key);
            if (!data.hasOwnProperty(key)) {
                console.log("Convert Data: data doesn't have key ", key, data);
                throw Error("Invalid data");

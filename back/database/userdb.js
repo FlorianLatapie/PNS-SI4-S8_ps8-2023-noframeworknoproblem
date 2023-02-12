@@ -23,7 +23,6 @@ class UserDb {
     }
 
     async addUser(data) {
-        // TODO vérifier que l'utilisateur n'existe pas déjà
         await this.verifyConnection();
         try {
             if (! await this.existsUser(data)) {
@@ -50,7 +49,7 @@ class UserDb {
         }
 
         if (user === null) {
-            throw new Error("User not found");
+            throw new Error("User" + user + "not found while searching for :" + data);
         }
         return user;
     }
