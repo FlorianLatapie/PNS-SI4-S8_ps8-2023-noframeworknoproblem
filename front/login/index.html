@@ -10,11 +10,6 @@
 
 <header>
     <h1 id="page-title">Se connecter</h1>
-    <div class="top-corner-content" id="username">
-        <p>
-            USERNAMEEEEEEEEE
-        </p>
-    </div>
 </header>
 
 <main>
@@ -22,6 +17,10 @@
         <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur" id="login-username">
         <input class="text-input" type="text" name="password" placeholder="Mot de passe" id="login-password">
         <button class="home-button" id="login-button">Se connecter</button>
+        <form class="home-button" method="post">
+            <div class="text half-home-button">Pas encore de compte ?</div>
+            <button class="signup half-home-button"><a href="../signup/index.html">Créez-en un !</a></button>
+        </form>
     </div>
 </main>
 <script src="./login.js"></script>
