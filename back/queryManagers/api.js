@@ -8,20 +8,15 @@ import User from "../object/User.js";
 let secretCode = "secretCode";
 
 function manageRequest(request, response) {
-
-    response.statusCode = 200;
     addCors(response)
+
     let url = request.url.split("?")
     let urlPath = url[0].split("/")
-    let urlParams;
-    if (urlPath.length === 2) {
-        urlParams = url[1].split("&")
-    }
+    let urlParams = (urlPath.length === 2) ? url[1].split("&"):undefined;
 
     // C'est dans la correction de Vella à voir si c'est utile
     if (request.method === 'OPTIONS') {
-        response.statusCode = 200;
-        response.end();
+        sendResponse(response, 200, "OK");
     }
     else if (request.method === "POST") {
         let body = "";
@@ -30,22 +25,21 @@ function manageRequest(request, response) {
         });
 
         request.on('end', function () {
+            // sanitize the body
             if (body === "") {
-                response.statusCode = 400;
-                response.end("Bad request : no body");
+                sendResponse(response, 404, "Bad request : no body");
                 return;
             }
 
             let bodyJson
-
             try {
                 bodyJson= JSON.parse(body);
             } catch (err) {
-                response.statusCode = 400;
-                response.end("Bad request : body is not a valid JSON");
+                sendResponse(response, 404, "Bad request : body is not a valid JSON")
                 return;
             }
 
+            // parse the url and use the right function
             if (urlPath[2] === "signup" || urlPath[2] === "signin") {
                 userSignUp(request, response, bodyJson);
             }
@@ -55,38 +49,36 @@ function manageRequest(request, response) {
             }
             else {
                 console.log("URL", url, "not supported");
-                response.statusCode = 404;
-                response.end("URL " + url + " not supported");
+                sendResponse(response, 404, "URL " + url + " not supported");
             }
         });
     }
     else {
         console.log("Method", request.method, "not supported");
-        response.statusCode = 404;
-        response.end("Method " + request.method + " not supported");
+        sendResponse(response, 404, "Method " + request.method + " not supported");
     }
+}
 
-    addCors(response)
+function sendResponse(response, statusCode, message) {
+    response.statusCode = statusCode;
+    response.end(message);
 }
 
 function userSignUp(request, response, data) {
     try {
         let user = User.convertSignUp(data);
-        console.log("User to add: ", user);
+        console.log("Adding the user:", user);
         userdb.addUser(user).then((userCreated) => {
             // Everything went well, we can send a response.
             console.log("User added: ", userCreated);
-            response.statusCode = 201;
-            response.end("OK");
+            sendResponse(response, 201, "OK");
         }).catch((err) => {
             console.log("User not added: ", err);
-            response.statusCode = 404;
-            response.end(JSON.stringify(err));
+            sendResponse(response, 404, "User not added: " + JSON.stringify(err));
         } );
     } catch (err) {
         console.log("User not created:", err);
-        response.statusCode = 404;
-        response.end(JSON.stringify(err));
+        sendResponse(response, 404, "User not created: " + JSON.stringify(err));
     }
 }
 
@@ -96,17 +88,19 @@ function userLogIn(request, response, data) {
         let user = User.convertLogin(data);
         userdb.getUser(user).then((userFound) => {
             console.log("User found: ", userFound);
-            response.statusCode = 200;
             // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
             // identity since only the server know the secretCode.
-            let payload = {userId: userFound._id.toString(), username: userFound.username};
+            let payload = {
+                userId: userFound._id.toString(),
+                username: userFound.username
+            };
+            
             let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
-            response.end(token);
+            sendResponse(response, 200, token);
         });
     } catch (err) {
         console.log("User not found ", err);
-        response.statusCode = 404;
-        response.end(JSON.stringify(err));
+        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
     }
 }
 
