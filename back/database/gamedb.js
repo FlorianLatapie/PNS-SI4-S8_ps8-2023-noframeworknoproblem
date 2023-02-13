@@ -62,7 +62,7 @@ class GameDb {
     async removeGame(id) {
         await this.verifyConnection();
         try {
-            return await this.games.deleteOne({gameId: id});
+            return await this.games.deleteMany({gameId: id});
         } catch (error) {
             console.error(error);
         }
