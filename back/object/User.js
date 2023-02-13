@@ -1,3 +1,5 @@
+import {sha256} from "js-sha256";
+
 export default class User {
     static schema = {
         username: 'string', mail: 'string', password: 'string'

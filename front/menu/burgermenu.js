@@ -104,7 +104,7 @@ template.innerHTML = `
                 <li><a class="nav-link" href="#"><img alt="Amis" src=`+user+` width="36"></a></li>
                 <li><a class="nav-link" href="#"><img alt="Jouer" src=`+gamepad+` width="36"></a>
                 </li>
-                <li><a class="nav-link" href=`+logoutPage+`><img alt="Se déconnecter" src=`+logout+` width="36"></a></li>
+                <li><a class="nav-link" id="logout" href=`+logoutPage+`><img alt="Se déconnecter" src=`+logout+` width="36"></a></li>
             </ul>
         </nav>
 
@@ -132,6 +132,11 @@ class BurgerMenu extends HTMLElement {
             navMenu.classList.remove("active");
             navBar.classList.remove("active");
         }));
+
+        this.shadowRoot.getElementById("logout").addEventListener("click", () => {
+            localStorage.clear();
+        });
+
     }
 }
 

@@ -1,10 +1,20 @@
 let jwtToken;
 
-let parseJwt = function(token) {
+function parseJwt(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
 }
+
+function redirectHomePage() {
+    window.location.replace("http://" + window.location.host + "/home/home.html");
+}
+
+
+if (localStorage.getItem("token") !== null) {
+    window.location.replace("http://" + window.location.host + "/home/home.html");
+}
+
 document.getElementById("login-button").addEventListener("click", function () {
     const values = {
         username: document.getElementById("login-username").value,
@@ -29,5 +39,6 @@ document.getElementById("login-button").addEventListener("click", function () {
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
         console.log("userId: " + userId);
+        redirectHomePage();
     });
 });
