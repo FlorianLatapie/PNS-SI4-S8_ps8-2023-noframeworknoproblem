@@ -40,9 +40,9 @@ class UserDb {
         await this.verifyConnection();
         let user;
         try {
-            user = await this.users.findOne({username: data.usernameOrEmail, password: data.password});
+            user = await this.users.findOne({username: data.username, password: data.password});
             if (user === null) {
-                user = await this.users.findOne({email: data.usernameOrEmail, password: data.password});
+                user = await this.users.findOne({mail: data.mail, password: data.password});
             }
         } catch (error) {
             console.error(error);
@@ -57,7 +57,6 @@ class UserDb {
     async existsUser(data) {
         await this.verifyConnection();
         try {
-            //console.log("Checking if user exists: ", data.username, data.email)
             const sameUserName = await this.users.findOne({username: data.username});
             const sameEmail = await this.users.findOne({email: data.email});
             //console.log("User db: ", sameUserName, sameEmail);

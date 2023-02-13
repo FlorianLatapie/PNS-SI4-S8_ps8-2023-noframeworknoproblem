@@ -36,9 +36,18 @@ function manageRequest(request, response) {
                 response.end("Bad request : no body");
                 return;
             }
-            let bodyJson = JSON.parse(body);
 
-            if (urlPath[2] === "signup") {
+            let bodyJson
+
+            try {
+                bodyJson= JSON.parse(body);
+            } catch (err) {
+                response.statusCode = 400;
+                response.end("Bad request : body is not a valid JSON");
+                return;
+            }
+
+            if (urlPath[2] === "signup" || urlPath[2] === "signin") {
                 try {
                     let user = User.convertSignUp(bodyJson);
                     user.password = sha256(user.password)
@@ -58,7 +67,8 @@ function manageRequest(request, response) {
                     response.statusCode = 404;
                     response.end(JSON.stringify(err));
                 }
-            } else if (urlPath[2] === "login") {
+            }
+            else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
                 try {
                     let user = User.convertLogin(bodyJson);
@@ -77,6 +87,11 @@ function manageRequest(request, response) {
                     response.statusCode = 404;
                     response.end(JSON.stringify(err));
                 }
+            }
+            else {
+                console.log("URL", url, "not supported");
+                response.statusCode = 404;
+                response.end("URL " + url + " not supported");
             }
         });
     }
