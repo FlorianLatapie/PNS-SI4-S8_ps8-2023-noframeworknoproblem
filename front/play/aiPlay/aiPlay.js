@@ -96,7 +96,7 @@ const url = new URL(window.location.href);
 let IATurn = url.searchParams.get(PARAMETER_NAME_IA_TURN);
 
 if (IATurn === null) {
-    IATurn = 1//Math.floor(Math.random() * 2 + 1)
+    IATurn = 2//Math.floor(Math.random() * 2 + 1)
 }
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
