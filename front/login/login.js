@@ -11,7 +11,7 @@ document.getElementById("login-button").addEventListener("click", function () {
         password: document.getElementById("login-password").value,
     }
 
-    fetch("http://" + window.location.host + "/api/login", {
+    fetch(window.location.protocol + "//" + window.location.host + "/api/login", {
         method: "post", headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)

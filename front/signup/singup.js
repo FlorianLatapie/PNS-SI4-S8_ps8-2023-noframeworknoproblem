@@ -9,7 +9,7 @@ window.addEventListener('load', function () {
             password: document.getElementById("signup-password").value,
         }
 
-        fetch("http://" + window.location.host + "/api/signup", {
+        fetch(window.location.protocol + "//" + window.location.host + "/api/signup", {
             method: "post", headers: {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
