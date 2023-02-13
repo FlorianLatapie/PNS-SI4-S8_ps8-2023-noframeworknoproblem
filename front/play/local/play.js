@@ -3,8 +3,8 @@
 import Player from "../../GameLogic/Player.js";
 import GameEngine from "../../GameLogic/GameEngine.js";
 
-let p1 = new Player("alice", 0)
-let p2 = new Player("bob", 1)
+let p1 = new Player("Jaune", 0)
+let p2 = new Player("Rouge", 1)
 let ge = new GameEngine(p1, p2)
 
 function WebPageInteraction() {
@@ -31,7 +31,7 @@ function WebPageInteraction() {
             if (gameState.winner === "draw") {
                 winner.innerText = "It's a draw !!";
             }else {
-                winner.innerText = ge.getOtherPlayer().color + " wins !!";
+                winner.innerText = ge.getOtherPlayer().name + " wins !!";
             }
 
             document.querySelectorAll(".grid-item").forEach(c => {
@@ -40,6 +40,8 @@ function WebPageInteraction() {
             });
             return "Game is over";
         }
+
+        document.getElementById("page-title").innerText = "Au tour du joueur " + convertIntToColor(ge.currentPlayingPlayer.color);
     }
 
     // Constructor -----------------------------------------------------------------------------------------------------
@@ -53,66 +55,17 @@ function WebPageInteraction() {
             cell.addEventListener("click", this.webPagePlayTurn);
         }
     }
+
+    function convertIntToColor(color) {
+        if (color === "1") {
+            return "Jaune";
+        } else if (color === "2") {
+            return "Rouge";
+        } else {
+            throw new Error("Invalid color");
+        }
+    }
 }
 
+document.getElementById("page-title").innerText = "Au tour du joueur Jaune";
 let wpi = new WebPageInteraction(ge)
-
-// A Win test
-/*
-ge.currentPlayingPlayer = p1
-ge.playTurn(p1, 0)
-ge.playTurn(p2, 0)
-ge.playTurn(p1, 1)
-ge.playTurn(p2, 1)
-ge.playTurn(p1, 2)
-ge.playTurn(p2, 2)
-ge.playTurn(p1, 3)
-*/
-
-
-// An equality test
-/*
-ge.currentPlayingPlayer = p1
-ge.playTurn(p1, 0)
-ge.playTurn(p2, 1)
-ge.playTurn(p1, 2)
-ge.playTurn(p2, 3)
-ge.playTurn(p1, 4)
-ge.playTurn(p2, 5)
-ge.playTurn(p1, 6)
-ge.playTurn(p2, 1)
-ge.playTurn(p1, 2)
-ge.playTurn(p2, 3)
-ge.playTurn(p1, 4)
-ge.playTurn(p2, 5)
-ge.playTurn(p1, 6)
-ge.playTurn(p2, 2)
-ge.playTurn(p1, 0)
-ge.playTurn(p2, 0)
-ge.playTurn(p1, 1)
-ge.playTurn(p2, 4)
-ge.playTurn(p1, 3)
-ge.playTurn(p2, 6)
-ge.playTurn(p1, 5)
-ge.playTurn(p2, 0)
-ge.playTurn(p1, 1)
-ge.playTurn(p2, 2)
-ge.playTurn(p1, 3)
-ge.playTurn(p2, 4)
-ge.playTurn(p1, 5)
-ge.playTurn(p2, 6)
-ge.playTurn(p1, 0)
-ge.playTurn(p2, 1)
-ge.playTurn(p1, 2)
-ge.playTurn(p2, 3)
-ge.playTurn(p1, 4)
-ge.playTurn(p2, 5)
-ge.playTurn(p1, 6)
-ge.playTurn(p2, 0)
-ge.playTurn(p1, 1)
-ge.playTurn(p2, 2)
-ge.playTurn(p1, 3)
-ge.playTurn(p2, 4)
-ge.playTurn(p1, 5)
-ge.playTurn(p2, 6)
-*/

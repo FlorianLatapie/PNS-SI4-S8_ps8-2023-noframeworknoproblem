@@ -40,6 +40,7 @@ function WebPageInteraction() {
             cell.addEventListener("click", this.webPagePlayTurn);
         }
     }
+
 }
 
 let wpi = new WebPageInteraction()
@@ -53,10 +54,12 @@ let setupAI = function (AIplayTurn) {
         toPlay = false;
         colorPlayer = grid.redCellValue
         colorOtherPlayer = grid.yellowCellValue
+        document.getElementById("page-title").innerText = "Au tour de l'adversaire";
     } else {
         toPlay = true;
         colorPlayer = grid.yellowCellValue
         colorOtherPlayer = grid.redCellValue
+        document.getElementById("page-title").innerText = "A ton tour";
     }
 
     gameSocket.emit("setup", {AIplays: AIplayTurn})
@@ -85,15 +88,17 @@ gameSocket.on("connect", () => {
     gameSocket.on("updatedBoard", globalCoordsGrid => {
         let move = grid.findMove(globalCoordsGrid.board)
         grid.cells = globalCoordsGrid.board
-        
+
         // the client has to play
         if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
             // deuxième updateGrid reçu après l'exécution de l'évènement newMove, il faut update lka grille
             wpi.updateWebPageGrid(move.column, move.row, colorPlayer)
+            document.getElementById("page-title").innerText = "Au tour de l'adversaire";
         } else {
             // the client just receive the confirmation of its move
             wpi.updateWebPageGrid(move.column, move.row, colorOtherPlayer)
+            document.getElementById("page-title").innerText = "A ton tour";
         }
         toPlay = !toPlay
     })
