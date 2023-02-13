@@ -11,8 +11,7 @@ import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import computeMove from "./logic/ai.js";
 import jwt from "jsonwebtoken";
-import Grid from "../front/GameLogic/Grid.js";
-import GridChecker from "../front/GameLogic/GridChecker.js";
+import GameEngineUtil from "./object/GameEngineUtil.js";
 import {displayACatchedError} from "./util/util.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
@@ -55,31 +54,30 @@ const io = new Server(httpServer, {
     }
 });
 
-// Methods -------------------------------------------------------------------------------------------------------------
-let saveGameEngineToFSAndDB = function (gameEngineToSave) {
-    // save the object to the database
-    let data = {
-        gameId: gameEngineToSave.id,
-        player1: gameEngineToSave.player1.id,
-        player2: gameEngineToSave.player2.id,
-        gameEngine: gameEngineToSave
+// main ----------------------------------------------------------------------------------------------------------------
+const gameSocket = io.of("/api/game")
+let gameEngine;
+
+
+// middle ware ---------------------------------------------------------------------------------------------------------
+gameSocket.use((socket, next) => {
+    let token = socket.handshake.auth.token;
+    if (token) {
+        // verify the token
+        jwt.verify(token, "secretCode", (err, decoded) => {
+            if (err) {
+                console.log("error while verifying the token")
+                console.log(err);
+                return next(new Error("Authentication error"));
+            }
+            socket.username = decoded.username;
+            socket.userId = decoded.userId;
+        });
+        next();
+    } else {
+        next(new Error("Authentication error"));
     }
-
-    gamedb.addGame(data).then(function (result) {
-        console.log("The game was saved to the database ! ");
-    }).catch(function (error) {
-        displayACatchedError(error,"error while saving the game to the database");
-    });
-
-}
-
-let removeGameEngineFromDB = function (id) {
-    gamedb.removeGame(id).then(function (result) {
-        console.log("The game was removed from the database");
-    }).catch(function (error) {
-        displayACatchedError(error,"error while removing the game from the database");
-    });
-}
+});
 
 let playerPlay = function (player, gameEngine, column, row) {
     let gameState = gameEngine.playTurn(player, column, row);
@@ -89,10 +87,10 @@ let playerPlay = function (player, gameEngine, column, row) {
     gameSocket.emit("updatedBoard", sentBoard)
 
     if (gameState.isFinished === true) {
-        removeGameEngineFromDB(gameEngine.id)
+        GameEngineUtil.removeGameEngineFromDB(gameEngine.id)
         gameSocket.emit("gameIsOver", gameState.winner)
     } else {
-        saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
+        GameEngineUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
     }
 
 }
@@ -114,30 +112,6 @@ let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates) {
 
     playerPlay(HumanPlayer, gameEngine, column, row)
 }
-
-// main ----------------------------------------------------------------------------------------------------------------
-const gameSocket = io.of("/api/game")
-let gameEngine;
-
-// middle ware ---------------------------------------------------------------------------------------------------------
-gameSocket.use((socket, next) => {
-    let token = socket.handshake.auth.token;
-    if (token) {
-        // verify the token
-        jwt.verify(token, "secretCode", (err, decoded) => {
-            if (err) {
-                console.log("error while verifying the token")
-                console.log(err);
-                return next(new Error("Authentication error"));
-            }
-            socket.username = decoded.username;
-            socket.userId = decoded.userId;
-        });
-        next();
-    } else {
-        next(new Error("Authentication error"));
-    }
-});
 
 // Connection ----------------------------------------------------------------------------------------------------------
 gameSocket.on('connection', (socket) => {
