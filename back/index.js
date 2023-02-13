@@ -1,6 +1,5 @@
 // The http module contains methods to handle http queries.
 import * as http from 'http';
-import * as fs from 'fs';
 import * as crypto from "crypto";
 
 // Let's import our logic.
@@ -58,26 +57,16 @@ const io = new Server(httpServer, {
 });
 
 // Methods -------------------------------------------------------------------------------------------------------------
-let saveGameEngineToFSAndDB = function (gameEngineToSave, path) {
-    // save the raw object to a file
-    let fileToSave = JSON.stringify(gameEngineToSave);
-    fs.writeFile(path, fileToSave, function (err) {
-        if (err) {
-            console.log("error while saving the game to the file system")
-            console.log(err);
-        }
-    });
-    console.log("The file was saved to:" + path);
-
+let saveGameEngineToFSAndDB = function (gameEngineToSave) {
     // save the object to the database
     let data = {
         gameId: gameEngineToSave.id,
         player1: gameEngineToSave.player1.id,
         player2: gameEngineToSave.player2.id,
-        gamePath: "./back/savedGames/" + gameEngineToSave.id + ".json"
+        gameEngine: gameEngineToSave
     }
 
-    gamedb.addGamePath(data).then(function (result) {
+    gamedb.addGame(data).then(function (result) {
         console.log("The game was saved to the database ! ");
     }).catch(function (error) {
         console.log("error while saving the game to the database");
@@ -86,15 +75,8 @@ let saveGameEngineToFSAndDB = function (gameEngineToSave, path) {
 
 }
 
-let removeFromFSAndDB = function (path) {
-    fs.unlink(path, function (err) {
-        if (err) {
-            console.log("error while removing the game from the file system")
-            console.log(err);
-        }
-    });
-    console.log("The file was removed from:" + path);
-    gamedb.removeGame(path).then(function (result) {
+let removeGameEngineFromDB = function (id) {
+    gamedb.removeGame(id).then(function (result) {
         console.log("The game was removed from the database");
     }).catch(function (error) {
         console.log("error while removing the game from the database");
@@ -110,7 +92,7 @@ let playerPlay = function (player, gameEngine, column, row) {
     gameSocket.emit("updatedBoard", sentBoard)
 
     if (gameState.isFinished === true) {
-        removeFromFSAndDB("./back/savedGames/" + gameEngine.id + ".json")
+        removeGameEngineFromDB(gameEngine.id)
         gameSocket.emit("gameIsOver", gameState.winner)
     } else {
         saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
@@ -176,46 +158,35 @@ gameSocket.on('connection', (socket) => {
         // search for a game engine in the db
         gamedb.getGamePlayerId(userId).then(function (result) {
             if (result !== null) {
-                // à partir de la c'est honteux
-
+                console.log("game found in the database")
                 // load the game engine from the file system
-                let gameEngineFromFS = JSON.parse(fs.readFileSync(result.gamePath, 'utf8'));
+                let gameEngineFromDB = result.gameEngine;
 
-                let tmpPlayer1 = new Player();
-                tmpPlayer1.id = gameEngineFromFS.player1.id;
-                tmpPlayer1.name = gameEngineFromFS.player1.name;
-                tmpPlayer1.color = gameEngineFromFS.player1.color;
-
-                let tmpPlayer2 = new Player();
-                tmpPlayer2.id = gameEngineFromFS.player2.id;
-                tmpPlayer2.name = gameEngineFromFS.player2.name;
-                tmpPlayer2.color = gameEngineFromFS.player2.color;
-
-                if (tmpPlayer1.id === userId) {
-                    HumanPlayer = tmpPlayer1;
-                    AIPlayer = tmpPlayer2;
-                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, gameEngineFromFS.id);
+                if (gameEngineFromDB.player1.id === userId) {
+                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, gameEngineFromDB.id);
+                    for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
+                        if (i % 2 === 0) {
+                            gameEngine.playTurn(HumanPlayer, gameEngineFromDB.turns[i])
+                            let sentBoard = {
+                                board: gameEngine.grid.cells
+                            }
+                            gameSocket.emit("updatedBoard", sentBoard)
+                        } else {
+                            gameEngine.playTurn(AIPlayer, gameEngineFromDB.turns[i])
+                            let sentBoard = {
+                                board: gameEngine.grid.cells
+                            }
+                            gameSocket.emit("updatedBoard", sentBoard)
+                        }
+                    }
+                    console.log(gameEngine.grid.toString())
                 } else {
-                    HumanPlayer = tmpPlayer2;
-                    AIPlayer = tmpPlayer1;
-                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, gameEngineFromFS.id);
+                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, gameEngineFromDB.id);
+                    console.log(gameEngine.grid.toString())
                 }
-
-                gameEngine.grid.cells = gameEngineFromFS.grid.cells;
-
-                gameEngine.gridChecker.grid = gameEngine.grid;
-
-                gameEngine.player1 = tmpPlayer1;
-                gameEngine.player2 = tmpPlayer2;
-                gameEngine.currentPlayingPlayer = gameEngineFromFS.currentPlayingPlayer;
-
-                gameEngine.winner = gameEngineFromFS.winner;
-                gameEngine.isFinished = gameEngineFromFS.isFinished;
-
-                AIPlay(AIPlayer, gameEngine);
             }
             else {
-                console.log("game engine not found in the database")
+                console.log("game engine not found in the database, creating a new game ...")
 
                 // game engine not found : create a new one
                 if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {

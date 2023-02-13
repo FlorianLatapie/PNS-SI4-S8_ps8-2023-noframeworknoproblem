@@ -9,6 +9,7 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
     this.player1 = player1
     this.player2 = player2
     this.currentPlayingPlayer = player1
+    this.turns = []
     this.grid = new Grid(7, 6);
     this.gridChecker = new GridChecker(this.grid);
     this.isGameOver = false;
@@ -25,14 +26,7 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
         } else if (this.currentPlayingPlayer === this.player2) {
             return this.player1
         } else {
-            // honteux 
-            if (JSON.stringify(this.currentPlayingPlayer) === JSON.stringify(this.player1)) {
-                return this.player2
-            }
-            if (JSON.stringify(this.currentPlayingPlayer) === JSON.stringify(this.player2)) {
-                return this.player1
-            }
-            throw new Error("this.currentPlayingPlayer is not equal to this.player1 or this.player2 : " + JSON.stringify(this.currentPlayingPlayer))
+            throw new Error("Invalid player");
         }
     }
 
@@ -54,12 +48,8 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
 
     this.checkValidity = function (player, column) {
         // Check errors before playing
-        //if (player !== this.currentPlayingPlayer) {
-        if (JSON.stringify(player) !== JSON.stringify(this.currentPlayingPlayer)) {
-            console.log("si on est ici c'est que : player != this.currentPlayingPlayer")
-            console.log("player               : " + JSON.stringify(player))
-            console.log("currentPlayingPlayer : " + JSON.stringify(this.currentPlayingPlayer))
-            throw new Error("It's not your turn " + JSON.stringify(player));
+        if (player !== this.currentPlayingPlayer) {
+            throw new Error("It's not your turn ");
         }
         if (column < 0 || column >= this.grid.width) {
             throw new Error("Invalid column : " + column);
@@ -108,6 +98,8 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
         let positionCell = this.grid.addDisk(player, column)
         console.log(this.grid.toString())
         this.currentPlayingPlayer = this.getOtherPlayer()
+
+        this.turns.push(column)
 
         // Check win condition
         if (this.checkWin(positionCell.row, positionCell.column, player.color)) {

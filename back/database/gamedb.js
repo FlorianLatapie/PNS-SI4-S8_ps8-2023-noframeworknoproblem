@@ -22,15 +22,14 @@ class GameDb {
         await this.connect();
     }
 
-    async addGamePath(data) {
+    async addGame(data) {
         await this.verifyConnection();
         try {
             if (!await this.existsGameGameEngineId(data)) {
-                console.log("Game doesn't exist, adding game");
                 return await this.games.insertOne(data);
-            } else {
-                console.log("Game already exists, doing nothing");
-                return
+            }
+            else {
+                return await this.games.updateOne({gameId: data.gameId}, {$set: data});
             }
         } catch (error) {
             console.error(error);
@@ -60,10 +59,19 @@ class GameDb {
         }
     }
 
-    async removeGame(data) {
+    async removeGame(id) {
         await this.verifyConnection();
         try {
-            return await this.games.deleteOne({id: data.id});
+            return await this.games.deleteOne({gameId: id});
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async getAllGames() {
+        await this.verifyConnection();
+        try {
+            return await this.games.find({}).toArray();
         } catch (error) {
             console.error(error);
         }
