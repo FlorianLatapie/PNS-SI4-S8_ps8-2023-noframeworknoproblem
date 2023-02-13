@@ -1,6 +1,5 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
-import { sha256 } from 'js-sha256';
 import userdb from "../database/userdb.js";
 import jwt from 'jsonwebtoken';
 import User from "../object/User.js";
@@ -48,45 +47,11 @@ function manageRequest(request, response) {
             }
 
             if (urlPath[2] === "signup" || urlPath[2] === "signin") {
-                try {
-                    let user = User.convertSignUp(bodyJson);
-                    user.password = sha256(user.password)
-                    console.log("User to add: ", user);
-                    userdb.addUser(user).then((userCreated) => {
-                        // Everything went well, we can send a response.
-                        console.log("User added: ", userCreated);
-                        response.statusCode = 201;
-                        response.end("OK");
-                    }).catch((err) => {
-                        console.log("User not added: ", err);
-                        response.statusCode = 404;
-                        response.end(JSON.stringify(err));
-                    } );
-                } catch (err) {
-                    console.log("User not created:", err);
-                    response.statusCode = 404;
-                    response.end(JSON.stringify(err));
-                }
+                userSignUp(request, response, bodyJson);
             }
             else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
-                try {
-                    let user = User.convertLogin(bodyJson);
-                    user.password = sha256(user.password)
-                    userdb.getUser(user).then((userFound) => {
-                        console.log("User found: ", userFound);
-                        response.statusCode = 200;
-                        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
-                        // identity since only the server know the secretCode.
-                        let payload = {userId: userFound._id.toString(), username: userFound.username};
-                        let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
-                        response.end(token);
-                    });
-                } catch (err) {
-                    console.log("User not found ", err);
-                    response.statusCode = 404;
-                    response.end(JSON.stringify(err));
-                }
+                userLogIn(request, response, bodyJson);
             }
             else {
                 console.log("URL", url, "not supported");
@@ -102,6 +67,47 @@ function manageRequest(request, response) {
     }
 
     addCors(response)
+}
+
+function userSignUp(request, response, data) {
+    try {
+        let user = User.convertSignUp(data);
+        console.log("User to add: ", user);
+        userdb.addUser(user).then((userCreated) => {
+            // Everything went well, we can send a response.
+            console.log("User added: ", userCreated);
+            response.statusCode = 201;
+            response.end("OK");
+        }).catch((err) => {
+            console.log("User not added: ", err);
+            response.statusCode = 404;
+            response.end(JSON.stringify(err));
+        } );
+    } catch (err) {
+        console.log("User not created:", err);
+        response.statusCode = 404;
+        response.end(JSON.stringify(err));
+    }
+}
+
+function userLogIn(request, response, data) {
+    // need to search the user in the database and check error
+    try {
+        let user = User.convertLogin(data);
+        userdb.getUser(user).then((userFound) => {
+            console.log("User found: ", userFound);
+            response.statusCode = 200;
+            // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
+            // identity since only the server know the secretCode.
+            let payload = {userId: userFound._id.toString(), username: userFound.username};
+            let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
+            response.end(token);
+        });
+    } catch (err) {
+        console.log("User not found ", err);
+        response.statusCode = 404;
+        response.end(JSON.stringify(err));
+    }
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:

@@ -4,11 +4,16 @@ export default class User {
     }
 
     static convertSignUp(data) {
-        return User.convertData(data, User.schema);
+        return User.hashPassword(User.convertData(data, User.schema));
     }
 
     static convertLogin(data) {
-        return User.convertData(data, User.schema);
+        return User.hashPassword(User.convertData(data, User.schema));
+    }
+
+    static hashPassword(data) {
+        data.password = sha256(data.password)
+        return data;
     }
 
     static convertData(data, schema) {
