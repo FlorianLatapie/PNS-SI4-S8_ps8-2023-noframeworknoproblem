@@ -31,6 +31,11 @@ function manageRequest(request, response) {
         });
 
         request.on('end', function () {
+            if (body === "") {
+                response.statusCode = 400;
+                response.end("Bad request : no body");
+                return;
+            }
             let bodyJson = JSON.parse(body);
 
             if (urlPath[2] === "signup") {

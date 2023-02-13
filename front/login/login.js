@@ -7,11 +7,11 @@ let parseJwt = function(token) {
 }
 document.getElementById("login-button").addEventListener("click", function () {
     const values = {
-        usernameOrEmail: document.getElementById("login-username").value,
+        username: document.getElementById("login-username").value,
         password: document.getElementById("login-password").value,
     }
 
-    fetch("http://" + window.location.host + "/api/login", {
+    fetch(window.location.protocol + "//" + window.location.host + "/api/login", {
         method: "post", headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
