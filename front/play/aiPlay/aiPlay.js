@@ -6,6 +6,8 @@ import Grid from "../../GameLogic/Grid.js";
 const gameSocket = io("http://localhost:8000/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
 
+const PARAMETER_NAME_IA_TURN = "IATurn";
+
 let toPlay;
 let colorPlayer;
 let colorOtherPlayer;
@@ -76,16 +78,23 @@ let play = function (clickRow, clickColumn) {
 /*gameSocket.on("connect_error", (err) => {
     console.log("Connection error: " + err.message)
 })*/
+
+const url = new URL(window.location.href);
+let IATurn = url.searchParams.get(PARAMETER_NAME_IA_TURN);
+
+if (IATurn === null) {
+    IATurn = Math.floor(Math.random() * 2 + 1)
+}
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
     console.log("token: " + localStorage.getItem("token"));
 
-    setupAI(2);
+    setupAI(+IATurn);
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
         let move = grid.findMove(globalCoordsGrid.board)
         grid.cells = globalCoordsGrid.board
-        
+
         // the client has to play
         if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
@@ -118,3 +127,7 @@ gameSocket.on("connect", () => {
         console.log("playError received:", Error)
     });
 });
+
+
+
+
