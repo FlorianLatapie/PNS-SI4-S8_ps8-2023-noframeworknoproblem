@@ -77,6 +77,8 @@ function manageRequest(request, response) {
     }
     else {
         console.log("Method", request.method, "not supported");
+        response.statusCode = 404;
+        response.end("Method " + request.method + " not supported");
     }
 
     addCors(response)
