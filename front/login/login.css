@@ -42,3 +42,7 @@ form {
     cursor: pointer;
     font-size: 1vw;
 }
+
+#page-title {
+    margin: 1vw 1vw 1vw 38vw;
+}
