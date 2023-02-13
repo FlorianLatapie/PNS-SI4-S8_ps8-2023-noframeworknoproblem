@@ -81,10 +81,7 @@ gameSocket.use((socket, next) => {
 
 let playerPlay = function (player, gameEngine, column, row) {
     let gameState = gameEngine.playTurn(player, column, row);
-    let sentBoard = {
-        board: gameEngine.grid.cells
-    }
-    gameSocket.emit("updatedBoard", sentBoard)
+    gameSocket.emit("updatedBoard", {board: gameEngine.grid.cells})
 
     if (gameState.isFinished === true) {
         GameEngineUtil.removeGameEngineFromDB(gameEngine.id)
