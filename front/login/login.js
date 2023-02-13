@@ -7,7 +7,7 @@ let parseJwt = function(token) {
 }
 document.getElementById("login-button").addEventListener("click", function () {
     const values = {
-        usernameOrEmail: document.getElementById("login-username").value,
+        username: document.getElementById("login-username").value,
         password: document.getElementById("login-password").value,
     }
 

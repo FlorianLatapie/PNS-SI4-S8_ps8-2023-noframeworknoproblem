@@ -13,6 +13,7 @@ import computeMove from "./logic/ai.js";
 import jwt from "jsonwebtoken";
 import Grid from "../front/GameLogic/Grid.js";
 import GridChecker from "../front/GameLogic/GridChecker.js";
+import {displayACatchedError} from "./util/util.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -38,9 +39,7 @@ let httpServer = http.createServer(function (request, response) {
 
         }
     } catch (error) {
-        console.log(`error while processing ${request.url}: ${error}`)
-        response.statusCode = 400;
-        response.end(`Something in your request (${request.url}) is strange...`);
+        displayACatchedError(error,`error while processing ${request.url}:`)
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
@@ -69,8 +68,7 @@ let saveGameEngineToFSAndDB = function (gameEngineToSave) {
     gamedb.addGame(data).then(function (result) {
         console.log("The game was saved to the database ! ");
     }).catch(function (error) {
-        console.log("error while saving the game to the database");
-        console.log(error);
+        displayACatchedError(error,"error while saving the game to the database");
     });
 
 }
@@ -79,8 +77,7 @@ let removeGameEngineFromDB = function (id) {
     gamedb.removeGame(id).then(function (result) {
         console.log("The game was removed from the database");
     }).catch(function (error) {
-        console.log("error while removing the game from the database");
-        console.log(error);
+        displayACatchedError(error,"error while removing the game from the database");
     });
 }
 
@@ -202,8 +199,7 @@ gameSocket.on('connection', (socket) => {
                 }
             }
         }).catch(function (error) {
-            console.log("error while searching for a game engine in the database");
-            console.log(error);
+            displayACatchedError(error,"error while searching for a game engine in the database");
         });
     });
 

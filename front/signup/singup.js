@@ -5,7 +5,7 @@ window.addEventListener('load', function () {
     document.getElementById("signup-button").addEventListener("click", function () {
         const values = {
             username: document.getElementById("signup-username").value,
-            email: document.getElementById("signup-email").value,
+            mail: document.getElementById("signup-email").value,
             password: document.getElementById("signup-password").value,
         }
 
