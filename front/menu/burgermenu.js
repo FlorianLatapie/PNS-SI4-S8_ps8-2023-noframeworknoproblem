@@ -8,7 +8,7 @@ const gamepad = url + "/menu/images/gamepad-solid.svg";
 const logout = url + "/menu/images/right-from-bracket-solid.svg";
 
 const home = url + "/home/home.html";
-const logoutPage = url + "/signin/signin.html";
+const logoutPage = url + "/login/index.html";
 
 const template = document.createElement("template");
 template.innerHTML = `
