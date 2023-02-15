@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" href="../images/icon.png" type="image/png" sizes="32x32">
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
     <title>Se connecter</title>
     <link href="../common.css" rel="stylesheet">
@@ -15,10 +15,12 @@
 
 <main>
     <div id="button-container">
+        <!-- Todo utiliser un form -->
         <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur" id="login-username">
         <input class="text-input" type="password" name="password" placeholder="Mot de passe" id="login-password">
         <button class="home-button" id="login-button">Se connecter</button>
         <form class="home-button" method="post">
+        <!-- todo supprimer le form -->
             <div class="text half-home-button">Pas encore de compte ?</div>
             <button class="signup half-home-button"><a href="../signup/index.html">Créez-en un !</a></button>
         </form>
