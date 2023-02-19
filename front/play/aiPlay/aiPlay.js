@@ -83,7 +83,7 @@ let play = function (clickRow, clickColumn) {
     let row = grid.getRowOfLastDisk(column);
 
     // emit the event of the play not working yet
-    gameSocket.emit("newMove", [column, row]);
+    gameSocket.emit("newMove", [+column, +row]);
     console.log("newMove", [column, row]);
     return new Position(column, row)
 }

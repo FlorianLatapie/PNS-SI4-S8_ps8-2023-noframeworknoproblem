@@ -39,11 +39,15 @@ class UserDb {
     async getUser(data) {
         await this.verifyConnection();
         let user;
+        console.log("Searching for user: ", data)
+        this.users.find({}).toArray().then(o => console.log(o));
         try {
             user = await this.users.findOne({username: data.username, password: data.password});
+            console.log("User with username: ", user);
             if (user === null) {
-                user = await this.users.findOne({mail: data.mail, password: data.password});
+                user = await this.users.findOne({mail: data.username, password: data.password});
             }
+            console.log("User with mail: ", user)
         } catch (error) {
             console.error(error);
         }
@@ -58,7 +62,7 @@ class UserDb {
         await this.verifyConnection();
         try {
             const sameUserName = await this.users.findOne({username: data.username});
-            const sameEmail = await this.users.findOne({email: data.email});
+            const sameEmail = await this.users.findOne({mail: data.mail});
             //console.log("User db: ", sameUserName, sameEmail);
             return !(sameUserName === null && sameEmail === null);
         } catch (error) {
