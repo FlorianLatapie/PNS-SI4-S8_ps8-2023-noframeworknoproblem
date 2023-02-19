@@ -9,7 +9,7 @@ import gamedb from "./database/gamedb.js";
 import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
-import computeMove from "./logic/ai.js";
+import {AI} from "./logic/aiPerso.js";
 import jwt from "jsonwebtoken";
 import GameEngineUtil from "./object/GameEngineUtil.js";
 import {displayACatchedError} from "./util/util.js";
@@ -91,8 +91,8 @@ let playerPlay = function (player, gameEngine, column, row) {
     }
 
 }
-let AIPlay = function (AIPlayer, gameEngine) {
-    let globalCoordinatesAI = computeMove(gameEngine); // computeMove from ai.js : [column, row]
+let AIPlay = function (ai, AIPlayer, gameEngine, lastMove) {
+    let globalCoordinatesAI = ai.nextMove(lastMove); // computeMove from ai.js : [column, row]
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
 
@@ -107,7 +107,8 @@ let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates) {
     let column = globalCoordinates[0];
     let row = globalCoordinates[1];
 
-    playerPlay(HumanPlayer, gameEngine, column, row)
+    playerPlay(HumanPlayer, gameEngine, column, row);
+    return [column, row];
 }
 
 // Connection ----------------------------------------------------------------------------------------------------------
@@ -119,6 +120,7 @@ gameSocket.on('connection', (socket) => {
 
     let AIPlayer = new Player("AI", userId + "-AI")
     let HumanPlayer = new Player("HumanPlayer", userId)
+    let aiInstance = new AI();
 
     // Setup ----------------------------------------------------------------------------------------------------------
     socket.on("setup", setupObject => {
@@ -162,6 +164,7 @@ gameSocket.on('connection', (socket) => {
                 }
 
                 let uuid = crypto.randomBytes(16).toString("hex");
+                aiInstance.setup(AIPlayer);
                 if (setupObject.AIplays === 1) {
                     gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
                     AIPlay(AIPlayer, gameEngine);
@@ -176,11 +179,14 @@ gameSocket.on('connection', (socket) => {
 
     // newMove ---------------------------------------------------------------------------------------------------------
     socket.on("newMove", (globalCoordinates) => {
+        globalCoordinates[0] = parseInt(globalCoordinates[0]);
+        globalCoordinates[1] = parseInt(globalCoordinates[1]);
+        
         console.log("newMove", globalCoordinates);
         try {
-            humanPlay(HumanPlayer, gameEngine, globalCoordinates);
+            let moveHuman = humanPlay(HumanPlayer, gameEngine, globalCoordinates);
             if (!gameEngine.isGameOver) {
-                AIPlay(AIPlayer, gameEngine);
+                AIPlay(aiInstance, AIPlayer, gameEngine, moveHuman);
             }
         } catch (e) {
             console.log(e);
