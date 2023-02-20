@@ -74,11 +74,11 @@ function userSignUp(request, response, data) {
             sendResponse(response, 201, "OK");
         }).catch((err) => {
             console.log("User not added: ", err);
-            sendResponse(response, 404, "User not added: " + JSON.stringify(err));
+            sendResponse(response, 409, "User not created: " + JSON.stringify(err));
         } );
     } catch (err) {
         console.log("User not created:", err);
-        sendResponse(response, 404, "User not created: " + JSON.stringify(err));
+        sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));
     }
 }
 
@@ -94,7 +94,7 @@ function userLogIn(request, response, data) {
                 userId: userFound._id.toString(),
                 username: userFound.username
             };
-            
+
             let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
             sendResponse(response, 200, token);
         });

@@ -33,29 +33,46 @@ class UserDb {
             console.error(error);
         }
 
-        return new Error("User already exists")
+        throw new Error("User already exists")
     }
 
+    // if the user has a username and an email, it will only use the username
     async getUser(data) {
         await this.verifyConnection();
         let user;
         console.log("Searching for user: ", data)
-        this.users.find({}).toArray().then(o => console.log(o));
-        try {
-            user = await this.users.findOne({username: data.username, password: data.password});
-            console.log("User with username: ", user);
-            if (user === null) {
-                user = await this.users.findOne({mail: data.username, password: data.password});
+
+        // our front only send the property username, but it can be the username or the email
+        if (data.hasOwnProperty("username")) {
+            try {
+                user = await this.users.findOne({username: data.username, password: data.password});
+                if (user === null) {
+                    user = await this.users.findOne({mail: data.username, password: data.password});
+                }
+            } catch (error) {
+                console.error(error);
             }
-            console.log("User with mail: ", user)
-        } catch (error) {
-            console.error(error);
+
+            if (user === null) {
+                throw new Error("User" + user + "not found while searching for :" + data);
+            }
+            return user;
         }
 
-        if (user === null) {
-            throw new Error("User" + user + "not found while searching for :" + data);
+        // for to be conformed with the api
+        if (data.hasOwnProperty("mail")) {
+            try {
+                user = await this.users.findOne({mail: data.mail, password: data.password});
+            } catch (error) {
+                console.error(error);
+
+            }
+
+            if (user === null) {
+                throw new Error("User" + user + "not found while searching for :" + data);
+            }
+            return user;
         }
-        return user;
     }
 
     async existsUser(data) {

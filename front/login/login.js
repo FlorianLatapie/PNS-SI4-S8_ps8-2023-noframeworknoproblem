@@ -12,7 +12,7 @@ function redirectHomePage() {
 
 
 if (localStorage.getItem("token") !== null) {
-    window.location.replace("http://" + window.location.host + "/home/home.html");
+    redirectHomePage();
 }
 
 document.getElementById("login-button").addEventListener("click", function () {

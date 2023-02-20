@@ -1,4 +1,8 @@
 let token = "";
+
+function redirectLoginPage() {
+    window.location.replace("http://" + window.location.host + "/login/");
+}
 window.addEventListener('load', function () {
 
     /* Exercise 3 */
@@ -15,6 +19,9 @@ window.addEventListener('load', function () {
             }, body: JSON.stringify(values)
         }).then((response) => {
             console.log(response);
+            if (response.status === 201) {
+                redirectLoginPage();
+            }
         });
     });
 });
