@@ -96,6 +96,8 @@ let AIPlay = function (ai, AIPlayer, gameEngine, lastMove) {
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
 
+    console.log("AI plays: column " + column + " row " + row)
+
     if (column === undefined || row === undefined) {
         throw new Error("AI plays undefined: column " + column + " row " + row)
     }
@@ -164,7 +166,7 @@ gameSocket.on('connection', (socket) => {
                 }
 
                 let uuid = crypto.randomBytes(16).toString("hex");
-                aiInstance.setup(AIPlayer);
+                aiInstance.setup(setupObject.AIplays);
                 if (setupObject.AIplays === 1) {
                     gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
                     AIPlay(AIPlayer, gameEngine);
@@ -181,7 +183,7 @@ gameSocket.on('connection', (socket) => {
     socket.on("newMove", (globalCoordinates) => {
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
-        
+
         console.log("newMove", globalCoordinates);
         try {
             let moveHuman = humanPlay(HumanPlayer, gameEngine, globalCoordinates);
