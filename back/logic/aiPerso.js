@@ -37,27 +37,44 @@ class AI {
         }
 
         // make play the AI
-        let bestMove = this.minmax(this.grid, 2, true, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY);
-        console.log(`Best move : `, bestMove)
-        bestMove = bestMove["Move"];
+        let bestMove = this.minMaxInit(this.grid, 2);
+
         // update the grid with the AI move
         this.grid[bestMove[1]][bestMove[0]] = this.player;
 
-        // return the best move find
-        console.log(`Moved play by AI : `, bestMove);
-
         // need to convert the coordinates to the api coordinates
         bestMove = [bestMove[0], height - 1 - bestMove[1]];
-        console.log("move play by the AI : ", bestMove);
+        console.log("move play by AI : ", bestMove);
         return bestMove;
     }
 
-    minmax(grid, depth, isMaximizingPlayer, alpha, beta) {
-        let res = {};
+    minMaxInit(grid, depth) {
+        let alpha = Number.NEGATIVE_INFINITY;
+        let beta = Number.POSITIVE_INFINITY;
+
+        let maxEval = Number.NEGATIVE_INFINITY;
+        let bestMove = null;
+        // for each possible move
+        for (let move of GridMoves.possibleMoves(grid)) {
+            let newGrid = copyArray(grid);
+            newGrid[move[1]][move[0]] = this.player;
+            let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
+            if (evalMove > maxEval) {
+                maxEval = evalMove;
+                bestMove = move;
+            }
+
+            alpha = Math.max(alpha, maxEval);
+            if (beta <= alpha) {
+                break;
+            }
+        }
+        return bestMove;
+    }
+
+    minMax(grid, depth, isMaximizingPlayer, alpha, beta) {
         if (depth === 0) {
-            res["Score"] = this.evaluate(grid);
-            res["Move"] = null;
-            return res;
+            return this.evaluate(grid);
         }
 
         let endGame = GridChecker.isGameOver(grid);
@@ -65,67 +82,45 @@ class AI {
             // TODO : change the value of the evaluation function
             if (isMaximizingPlayer) {
                 // the player won
-                res["Score"] = -100;
-                res["Move"] = null;
-                return res;
+                return -100;
             } else {
                 // the AI won
-                res["Score"] = 100;
-                res["Move"] = null;
-                return res;
+                return 100;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
-            res["Score"] = 0;
-            res["Move"] = null;
-            return res;
+            return 0;
         }
 
         if (isMaximizingPlayer) {
             let maxEval = Number.NEGATIVE_INFINITY;
-            let bestMove = null;
             // for each possible move
-            let moves = GridMoves.possibleMoves(grid);
-            console.log("moves for AI : ", moves)
-            for (let move of moves) {
+            for (let move of GridMoves.possibleMoves(grid)) {
                 console.log(move);
                 let newGrid = copyArray(grid);
                 newGrid[move[1]][move[0]] = this.player;
-                let evalMove = this.minmax(newGrid, depth - 1, false, alpha, beta);
-                if (evalMove["Score"] > maxEval) {
-                    maxEval = evalMove["Score"];
-                    bestMove = move;
-                }
+                let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
+                maxEval = Math.max(maxEval, evalMove);
                 alpha = Math.max(alpha, maxEval);
                 if (beta <= alpha) {
                     break;
                 }
             }
-            res["Move"] = bestMove;
-            res["Score"] = maxEval;
-            return res;
+            return maxEval;
         } else {
             let minEval = Number.POSITIVE_INFINITY;
-            let bestMove = null;
             // for each possible move
-            let moves = GridMoves.possibleMoves(grid);
-            console.log("moves for Human Player : ", moves)
             for (let move of GridMoves.possibleMoves(grid)) {
                 let newGrid = copyArray(grid);
                 newGrid[move[1]][move[0]] = this.otherPlayer;
-                let evalMove = this.minmax(newGrid, depth - 1, true, alpha, beta);
-                if (evalMove["Score"] < minEval) {
-                    minEval = evalMove["Score"];
-                    bestMove = move;
-                }
+                let evalMove = this.minMax(newGrid, depth - 1, true, alpha, beta);
+                minEval = Math.min(minEval, evalMove);
                 beta = Math.min(beta, minEval);
                 if (beta <= alpha) {
                     break;
                 }
             }
-            res["Move"] = bestMove;
-            res["Score"] = minEval;
-            return res;
+            return minEval;
         }
     }
 
@@ -197,6 +192,7 @@ class GridMoves {
     }
 }
 
+// TODO : optimize the code of the GridChecker class
 class GridChecker {
 
     static win = "win";
