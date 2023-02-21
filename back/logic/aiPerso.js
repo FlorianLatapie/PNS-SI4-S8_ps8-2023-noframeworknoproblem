@@ -56,7 +56,7 @@ class AI {
         console.log("possible moves : ", moves);
         for (let move of moves) {
             // make a shadow copy of the grid
-            let newGrid = grid.map(row => row.slice());
+            let newGrid = this.grid.map(row => row.slice());
             newGrid[move[1]][move[0]] = this.player;
             let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
             if (evalMove > maxEval) {
