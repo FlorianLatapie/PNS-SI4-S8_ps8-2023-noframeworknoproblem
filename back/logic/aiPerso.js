@@ -31,7 +31,7 @@ class AI {
         console.log("After Human update : ", this.grid);
 
         // make play the AI
-        let bestMove = this.minMaxInit(this.grid, 2);
+        let bestMove = this.minMaxInit(this.grid, 5);
         console.log("res of minMaxInit : ", bestMove);
 
         // update the grid with the AI move
@@ -83,14 +83,14 @@ class AI {
             // TODO : change the value of the evaluation function
             if (isMaximizingPlayer) {
                 // the player won
-                return -100;
+                return Number.NEGATIVE_INFINITY;
             } else {
                 // the AI won
-                return 100;
+                return Number.POSITIVE_INFINITY;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
-            return 0;
+            return 100000;
         }
 
         if (isMaximizingPlayer) {
@@ -173,7 +173,7 @@ class AI {
             for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                 let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
                 if (index !== -1) {
-                    score -= 100 * (i + 1);
+                    score -= 100 ** (i + 1);
                 }
             }
         }
@@ -181,7 +181,7 @@ class AI {
             for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                 let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
                 if (index !== -1) {
-                    score += 100 * (i + 1);
+                    score += 100 ** (i + 1);
                 }
             }
         }
@@ -246,7 +246,6 @@ class GridMoves {
                     break;
                 }
             }
-
         }
         console.log("Res possibles moves ", moves);
         return moves;
