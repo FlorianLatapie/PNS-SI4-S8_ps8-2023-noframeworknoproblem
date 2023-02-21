@@ -83,14 +83,14 @@ class AI {
             // TODO : change the value of the evaluation function
             if (isMaximizingPlayer) {
                 // the player won
-                return Number.NEGATIVE_INFINITY;
+                return -1;
             } else {
                 // the AI won
-                return Number.POSITIVE_INFINITY;
+                return 1;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
-            return 100000;
+            return 0;
         }
 
         if (isMaximizingPlayer) {
