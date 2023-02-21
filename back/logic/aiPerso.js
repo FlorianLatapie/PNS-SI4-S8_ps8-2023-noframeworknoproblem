@@ -124,14 +124,98 @@ class AI {
         }
     }
 
+    countAligned(aligned) {
+        switch (aligned) {
+            case 0:
+                return 0;
+            case 1:
+                return 0;
+            case 2:
+                return 10;
+            case 3:
+                return 100;
+            case 4:
+                return 1000;
+            default:
+                throw new Error("Invalid argument:", aligned);
+        }
+    }
+
     // This function returned the possible moves for the AI to play
     // the result is an array of elements being [column, row]
 
-    // TODO : write the evaluation function
     // return an integer
     evaluate(grid) {
         // return a random number between -10 and 10
-        return Math.floor(Math.random() * 21) - 10
+        let score = 0;
+        // check vertical
+        for (let i = 0; i < grid.length - 3; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                let count1 = 0;
+                let count2 = 0;
+                for (let k = 0; k < 4; k++) {
+                    if (grid[i + k][j] === 1) {
+                        count1++;
+                    } else if (grid[i + k][j] === 2) {
+                        count2++;
+                    }
+                }
+                score += this.countAligned(count1);
+                score -= this.countAligned(count2);
+            }
+        }
+
+        // check horizontal
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length - 3; j++) {
+                let count1 = 0;
+                let count2 = 0;
+                for (let k = 0; k < 4; k++) {
+                    if (grid[i][j + k] === 1) {
+                        count1++;
+                    } else if (grid[i][j + k] === 2) {
+                        count2++;
+                    }
+                }
+                score += this.countAligned(count1);
+                score -= this.countAligned(count2);
+            }
+        }
+
+        // check diagonal
+        for (let i = 0; i < grid.length - 3; i++) {
+            for (let j = 0; j < grid[i].length - 3; j++) {
+                let count1 = 0;
+                let count2 = 0;
+                for (let k = 0; k < 4; k++) {
+                    if (grid[i + k][j + k] === 1) {
+                        count1++;
+                    } else if (grid[i + k][j + k] === 2) {
+                        count2++;
+                    }
+                }
+                score += this.countAligned(count1);
+                score -= this.countAligned(count2);
+            }
+        }
+
+        // check anti-diagonal
+        for (let i = 0; i < grid.length - 3; i++) {
+            for (let j = 3; j < grid[i].length; j++) {
+                let count1 = 0;
+                let count2 = 0;
+                for (let k = 0; k < 4; k++) {
+                    if (grid[i + k][j - k] === 1) {
+                        count1++;
+                    } else if (grid[i + k][j - k] === 2) {
+                        count2++;
+                    }
+                }
+                score += this.countAligned(count1);
+                score -= this.countAligned(count2);
+            }
+        }
+        return score;
     }
 }
 
