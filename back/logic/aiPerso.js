@@ -22,6 +22,9 @@ class AI {
         if (lastMove !== null) {
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
+            if (this.grid === undefined){
+                console.log("grid is undefined")
+            }
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
         }
 
@@ -124,21 +127,65 @@ class AI {
         }
     }
 
-    countAligned(aligned) {
-        switch (aligned) {
-            case 0:
-                return 0;
-            case 1:
-                return 0;
-            case 2:
-                return 10;
-            case 3:
-                return 100;
-            case 4:
-                return 1000;
-            default:
-                throw new Error("Invalid argument:", aligned);
+    rotate45(grid) {
+        let out = [];
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                if (out[i + j] === undefined) {
+                    out[i + j] = [];
+                }
+                out[i + j].push(grid[i][j]);
+            }
         }
+        return out;
+    }
+
+    // also known as transpose
+    rotate90(grid){
+        let out = [];
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                if (out[j] === undefined) {
+                    out[j] = [];
+                }
+                out[j].push(grid[i][j]);
+            }
+        }
+        return out;
+    }
+
+    findWinningMovesOnALine(lineOfConnect4) {
+        let knownWinningMoves1 = [
+            ["1000", "0100", "0010", "0001"],
+            ["1100", "0110", "0011", "1010", "0101", "1001"],
+            ["0111", "1011", "1101", "1110"],
+            ["1111"]
+        ];
+        let knownWinningMoves2 = [
+            ["2000", "0200", "0020", "0002"],
+            ["2200", "0220", "0022", "2020", "0202", "2002"],
+            ["0222", "2022", "2202", "2220"],
+            ["2222"]
+        ];
+        let score = 0;
+
+        for (let i = 0; i < knownWinningMoves1.length; i++) {
+            for (let j = 0; j < knownWinningMoves1[i].length; j++) {
+                let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                if (index !== -1) {
+                    score -= 100 * (i + 1);
+                }
+            }
+        }
+        for (let i = 0; i < knownWinningMoves2.length; i++) {
+            for (let j = 0; j < knownWinningMoves2[i].length; j++) {
+                let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                if (index !== -1) {
+                    score += 100 * (i + 1);
+                }
+            }
+        }
+        return score;
     }
 
     // This function returned the possible moves for the AI to play
@@ -146,73 +193,18 @@ class AI {
 
     // return an integer
     evaluate(grid) {
-        // return a random number between -10 and 10
+        let grid90 = this.rotate90(grid);
+        let grid45 = this.rotate45(grid);
+        let grid135 = this.rotate90(grid45);
+
+        let grids = [grid, grid90, grid45, grid135];
         let score = 0;
-        // check vertical
-        for (let i = 0; i < grid.length - 3; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                let count1 = 0;
-                let count2 = 0;
-                for (let k = 0; k < 4; k++) {
-                    if (grid[i + k][j] === 1) {
-                        count1++;
-                    } else if (grid[i + k][j] === 2) {
-                        count2++;
-                    }
-                }
-                score += this.countAligned(count1);
-                score -= this.countAligned(count2);
-            }
-        }
 
-        // check horizontal
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length - 3; j++) {
-                let count1 = 0;
-                let count2 = 0;
-                for (let k = 0; k < 4; k++) {
-                    if (grid[i][j + k] === 1) {
-                        count1++;
-                    } else if (grid[i][j + k] === 2) {
-                        count2++;
-                    }
-                }
-                score += this.countAligned(count1);
-                score -= this.countAligned(count2);
-            }
-        }
-
-        // check diagonal
-        for (let i = 0; i < grid.length - 3; i++) {
-            for (let j = 0; j < grid[i].length - 3; j++) {
-                let count1 = 0;
-                let count2 = 0;
-                for (let k = 0; k < 4; k++) {
-                    if (grid[i + k][j + k] === 1) {
-                        count1++;
-                    } else if (grid[i + k][j + k] === 2) {
-                        count2++;
-                    }
-                }
-                score += this.countAligned(count1);
-                score -= this.countAligned(count2);
-            }
-        }
-
-        // check anti-diagonal
-        for (let i = 0; i < grid.length - 3; i++) {
-            for (let j = 3; j < grid[i].length; j++) {
-                let count1 = 0;
-                let count2 = 0;
-                for (let k = 0; k < 4; k++) {
-                    if (grid[i + k][j - k] === 1) {
-                        count1++;
-                    } else if (grid[i + k][j - k] === 2) {
-                        count2++;
-                    }
-                }
-                score += this.countAligned(count1);
-                score -= this.countAligned(count2);
+        for (let i = 0; i < grids.length; i++) {
+            let grid = grids[i];
+            for (let j = 0; j < grid.length; j++) {
+                let line = grid[j].join("");
+                score += this.findWinningMovesOnALine(line);
             }
         }
         return score;
