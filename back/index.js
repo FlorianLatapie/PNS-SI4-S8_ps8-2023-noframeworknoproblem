@@ -58,6 +58,10 @@ const io = new Server(httpServer, {
 const gameSocket = io.of("/api/game")
 let gameEngine;
 
+// removes all the games from the database when the server starts/restarts
+gamedb.removeAllGames().then(() => {
+    console.log("Server started, all the games have been removed from the database")
+})
 
 // middle ware ---------------------------------------------------------------------------------------------------------
 gameSocket.use((socket, next) => {
