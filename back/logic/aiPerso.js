@@ -181,7 +181,7 @@ class AI {
             for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                 let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
                 if (index !== -1) {
-                    score += 100 ** (i + 1);
+                    score += 100 * (i + 1);
                 }
             }
         }
