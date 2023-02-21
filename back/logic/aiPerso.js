@@ -6,42 +6,42 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
-        console.log(`AI setup : ${AIplays}`);
+        //console.log(`AI setup : ${AIplays}`);
         this.player = AIplays;
         this.otherPlayer = AIplays === 1 ? 2 : 1;
 
         // initialize a grid with only 0 with a width of 7 and a height of 6
         this.grid = Array.from({length: height}, () => new Array(width).fill(0));
-        console.log("Setup grid ", this.grid);
+        //console.log("Setup grid ", this.grid);
         return true;
     }
 
     nextMove(lastMove) {
-        console.log("lastMove : ", lastMove);
-        console.log("Before Human update : ", this.grid);
+        //console.log("lastMove : ", lastMove);
+        //console.log("Before Human update : ", this.grid);
         if (lastMove !== null) {
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             if (this.grid === undefined){
-                console.log("grid is undefined")
+                //console.log("grid is undefined")
             }
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
         }
 
-        console.log("After Human update : ", this.grid);
+        //console.log("After Human update : ", this.grid);
 
         // make play the AI
         let bestMove = this.minMaxInit(this.grid, 5);
-        console.log("res of minMaxInit : ", bestMove);
+        //console.log("res of minMaxInit : ", bestMove);
 
         // update the grid with the AI move
         this.grid[bestMove[1]][bestMove[0]] = this.player;
 
         // need to convert the coordinates to the api coordinates
         bestMove = [bestMove[0], height - 1 - bestMove[1]];
-        console.log("move play by AI : ", bestMove);
+        //console.log("move play by AI : ", bestMove);
 
-        console.log("After AI update : ", this.grid);
+        //console.log("After AI update : ", this.grid);
         return bestMove;
     }
 
@@ -52,9 +52,8 @@ class AI {
         let maxEval = Number.NEGATIVE_INFINITY;
         let bestMove = null;
         // for each possible move
-        let moves = GridMoves.possibleMoves(grid);
-        console.log("possible moves : ", moves);
-        for (let move of moves) {
+        //console.log("possible moves : ", moves);
+        for (let move of GridMoves.possibleMoves(grid)) {
             // make a shadow copy of the grid
             let newGrid = this.grid.map(row => row.slice());
             newGrid[move[1]][move[0]] = this.player;
@@ -77,10 +76,9 @@ class AI {
             return this.evaluate(grid);
         }
 
-        // TODO : need to modify this part
         let endGame = GridChecker.isGameOver(grid);
+        // TODO : change the value of the evaluation function here
         if (endGame === GridChecker.win) {
-            // TODO : change the value of the evaluation function
             if (isMaximizingPlayer) {
                 // the player won
                 return -1;
@@ -97,7 +95,7 @@ class AI {
             let maxEval = Number.NEGATIVE_INFINITY;
             // for each possible move
             for (let move of GridMoves.possibleMoves(grid)) {
-                console.log(move);
+                //console.log(move);
                 // make a shadow copy of the grid
                 let newGrid = grid.map(row => row.slice());
                 newGrid[move[1]][move[0]] = this.player;
@@ -129,8 +127,8 @@ class AI {
 
     rotate45(grid) {
         let out = [];
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
                 if (out[i + j] === undefined) {
                     out[i + j] = [];
                 }
@@ -143,8 +141,8 @@ class AI {
     // also known as transpose
     rotate90(grid){
         let out = [];
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
                 if (out[j] === undefined) {
                     out[j] = [];
                 }
@@ -169,7 +167,7 @@ class AI {
         ];
         let score = 0;
 
-        for (let i = 0; i < knownWinningMoves1.length; i++) {
+        for (let i = 0; i < 4; i++) {
             for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                 let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
                 if (index !== -1) {
@@ -177,7 +175,7 @@ class AI {
                 }
             }
         }
-        for (let i = 0; i < knownWinningMoves2.length; i++) {
+        for (let i = 0; i < 4; i++) {
             for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                 let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
                 if (index !== -1) {
@@ -201,9 +199,9 @@ class AI {
         let score = 0;
 
         for (let i = 0; i < grids.length; i++) {
-            let grid = grids[i];
-            for (let j = 0; j < grid.length; j++) {
-                let line = grid[j].join("");
+            let row = grids[i];
+            for (let j = 0; j < row.length; j++) {
+                let line = row[j].join("");
                 score += this.findWinningMovesOnALine(line);
             }
         }
@@ -220,7 +218,6 @@ class GridMoves {
 
         for (let row = height - 1; row >= 0; row--) {
             if (grid[row][middle] === 0) {
-                console.log("row middle ", row);
                 moves.push([middle, row]);
                 break;
             }
@@ -247,7 +244,7 @@ class GridMoves {
                 }
             }
         }
-        console.log("Res possibles moves ", moves);
+        //console.log("Res possibles moves ", moves);
         return moves;
     }
 }
@@ -299,28 +296,9 @@ class GridChecker {
     static checkDiagonalBottomLeftTopRight(grid, row, column, color) {
         let count = 0;
         for (let i = -3; i < 4; i++) {
-            if (0 <= row - i && row - i < height && 0 <= column + i && column + i < width) {
-                if (grid[row - i][column + i] === color) {
-                    count++;
-                    if (count === 4) {
-                        return true;
-                    }
-                } else {
-                    count = 0;
-                }
-            }
-        }
-
-        //TODO : check if this function is correct
-        /*
-        let count = 0;
-        const diagonalLength = Math.min(3, width - row, column + 1, height - row, width - column);
-
-        for (let i = 0; i < diagonalLength + 4; i++) {
-            const rowIndex = row - i + diagonalLength;
-            const columnIndex = column + i - diagonalLength;
-
-            if (rowIndex >= 0 && rowIndex < height && columnIndex >= 0 && columnIndex < width) {
+            let rowIndex = row - i;
+            let columnIndex = column + i;
+            if (0 <= rowIndex && rowIndex < height && 0 <= columnIndex && columnIndex < width) {
                 if (grid[rowIndex][columnIndex] === color) {
                     count++;
                     if (count === 4) {
@@ -332,36 +310,15 @@ class GridChecker {
             }
         }
         return false;
-         */
     }
 
 
     static checkDiagonalTopRightBottomLeft(grid, row, column, color) {
         let count = 0;
         for (let i = -3; i < 4; i++) {
-            if (0 <= row + i && row + i < height && 0 <= column + i && column + i < width) {
-                if (grid[row + i][column + i] === color) {
-                    count++;
-                    if (count === 4) {
-                        return true;
-                    }
-                } else {
-                    count = 0;
-                }
-            }
-        }
-
-        //TODO : check if this function is correct
-        /*
-        let count = 0;
-        // width being the minimum dimension of the grid
-        const diagonalLength = Math.min(3, width - row, width - column, row + 1, column + 1);
-
-        for (let i = 0; i < diagonalLength + 4; i++) {
-            const rowIndex = row + i - diagonalLength;
-            const columnIndex = column + i - diagonalLength;
-
-            if (rowIndex >= 0 && rowIndex < height && columnIndex >= 0 && columnIndex < width) {
+            let rowIndex = row + i;
+            let columnIndex = column + i;
+            if (0 <= rowIndex && rowIndex < height && 0 <= columnIndex && columnIndex < width) {
                 if (grid[rowIndex][columnIndex] === color) {
                     count++;
                     if (count === 4) {
@@ -373,12 +330,12 @@ class GridChecker {
             }
         }
         return false;
-         */
     }
 
     static checkDraw(grid) {
+        let firstRow = grid[0];
         for (let column = 0; column < width; column++) {
-            if (grid[0][column] === 0) {
+            if (firstRow[column] === 0) {
                 return false;
             }
         }

@@ -95,8 +95,15 @@ let playerPlay = function (player, gameEngine, column, row) {
     }
 
 }
+
+let max = 0;
 let AIPlay = function (ai, AIPlayer, gameEngine, lastMove) {
+    let start = Date.now();
     let globalCoordinatesAI = ai.nextMove(lastMove); // computeMove from ai.js : [column, row]
+    let end = Date.now() - start;
+    console.log("Average computation time: " + end + " ms")
+    max = Math.max(max, end)
+    console.log("Max computation time: " + max + " ms")
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
 
