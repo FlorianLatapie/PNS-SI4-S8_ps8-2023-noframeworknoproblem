@@ -31,8 +31,9 @@ class AI {
     nextMove(lastMove) {
         if (lastMove !== null) {
             // update the grid with the last move
-            console.log("Last Move play by human", lastMove);
-            this.grid[lastMove[1]][lastMove[0]] = this.otherPlayer;
+            // need to convert the coordinates to the ai coordinates
+            this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
+
         }
 
         // make play the AI
@@ -44,6 +45,10 @@ class AI {
 
         // return the best move find
         console.log(`Moved play by AI : `, bestMove);
+
+        // need to convert the coordinates to the api coordinates
+        bestMove = [bestMove[0], height - 1 - bestMove[1]];
+        console.log("move play by the AI : ", bestMove);
         return bestMove;
     }
 
@@ -139,7 +144,7 @@ class GridMoves {
     static possibleMoves(grid) {
         let moves = [];
         let middle = 3;
-        if (GridChecker.isColumnEmpty(grid, middle)) {
+        if (grid[0][middle] === 0) {
             for (let row = height - 1; row >= 0; row--) {
                 if (grid[row][middle] === 0) {
                     moves.push([middle, row]);
@@ -148,19 +153,21 @@ class GridMoves {
             }
         }
         for (let i = 1; i < 4; i++) {
-            if (GridChecker.isColumnEmpty(grid, middle + i)) {
+            let column1 = middle + i;
+            if (grid[0][column1] === 0) {
                 for (let row = height - 1; row >= 0; row--) {
-                    if (grid[row][middle + i] === 0) {
-                        moves.push([middle + i, row]);
+                    if (grid[row][column1] === 0) {
+                        moves.push([column1, row]);
                         break;
                     }
                 }
             }
 
-            if (GridChecker.isColumnEmpty(grid, middle - i)) {
+            let column2 = middle - i;
+            if (grid[0][column2] === 0) {
                 for (let row = height - 1; row >= 0; row--) {
-                    if (grid[row][middle - i] === 0) {
-                        moves.push([middle - i, row]);
+                    if (grid[row][column2] === 0) {
+                        moves.push([column2, row]);
                         break;
                     }
                 }
@@ -262,7 +269,7 @@ class GridChecker {
 
     static checkDraw(grid) {
         for (let column = 0; width; column++) {
-            if (GridChecker.isColumnEmpty(grid, column)) {
+            if (grid[0][column] === 0) {
                 return false;
             }
         }
@@ -280,10 +287,6 @@ class GridChecker {
             return GridChecker.win;
         }
         return GridChecker.notOver;
-    }
-
-    static isColumnEmpty(grid, column) {
-        return grid[0][column] === 0;
     }
 }
 
