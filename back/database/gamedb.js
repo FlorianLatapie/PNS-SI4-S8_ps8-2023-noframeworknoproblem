@@ -76,6 +76,15 @@ class GameDb {
             console.error(error);
         }
     }
+
+    async removeAllGames() {
+        await this.verifyConnection();
+        try {
+            return await this.games.deleteMany({});
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 export default new GameDb();

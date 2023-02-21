@@ -14,7 +14,9 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
+        console.log(`AI setup : ${AIplays}`);
         this.player = AIplays;
+        this.otherPlayer = AIplays === 1 ? 2 : 1;
         this.grid = new Array(height);
 
         for (let i = 0; i < height; i++) {
@@ -27,25 +29,52 @@ class AI {
     }
 
     nextMove(lastMove) {
-        // update the grid with the last move
-        this.grid[lastMove[1]][lastMove[0]] = this.player === 1 ? 2 : 1;
+        if (lastMove !== null) {
+            // update the grid with the last move
+            // need to convert the coordinates to the ai coordinates
+            this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
+
+        }
 
         // make play the AI
-        let bestMove = this.minmax(this.grid, 6, true, -Infinity, Infinity)["Move"];
+        let bestMove = this.minMaxInit(this.grid, 2);
 
         // update the grid with the AI move
         this.grid[bestMove[1]][bestMove[0]] = this.player;
 
-        // return the best move find
+        // need to convert the coordinates to the api coordinates
+        bestMove = [bestMove[0], height - 1 - bestMove[1]];
+        console.log("move play by AI : ", bestMove);
         return bestMove;
     }
 
-    minmax(grid, depth, isMaximizingPlayer, alpha, beta) {
-        let res = {};
+    minMaxInit(grid, depth) {
+        let alpha = Number.NEGATIVE_INFINITY;
+        let beta = Number.POSITIVE_INFINITY;
+
+        let maxEval = Number.NEGATIVE_INFINITY;
+        let bestMove = null;
+        // for each possible move
+        for (let move of GridMoves.possibleMoves(grid)) {
+            let newGrid = copyArray(grid);
+            newGrid[move[1]][move[0]] = this.player;
+            let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
+            if (evalMove > maxEval) {
+                maxEval = evalMove;
+                bestMove = move;
+            }
+
+            alpha = Math.max(alpha, maxEval);
+            if (beta <= alpha) {
+                break;
+            }
+        }
+        return bestMove;
+    }
+
+    minMax(grid, depth, isMaximizingPlayer, alpha, beta) {
         if (depth === 0) {
-            res["Score"] = this.evaluate(grid);
-            res["Move"] = null;
-            return res;
+            return this.evaluate(grid);
         }
 
         let endGame = GridChecker.isGameOver(grid);
@@ -53,45 +82,40 @@ class AI {
             // TODO : change the value of the evaluation function
             if (isMaximizingPlayer) {
                 // the player won
-                res["Score"] = -1;
-                res["Move"] = null;
-                return res;
+                return -100;
             } else {
                 // the AI won
-                res["Score"] = 1;
-                res["Move"] = null;
-                return res;
+                return 100;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
-            res["Score"] = 0;
-            res["Move"] = null;
-            return res;
+            return 0;
         }
 
         if (isMaximizingPlayer) {
-            let maxEval = -Infinity;
+            let maxEval = Number.NEGATIVE_INFINITY;
             // for each possible move
             for (let move of GridMoves.possibleMoves(grid)) {
+                console.log(move);
                 let newGrid = copyArray(grid);
                 newGrid[move[1]][move[0]] = this.player;
-                let evalMove = this.minmax(newGrid, depth - 1, false, alpha, beta);
+                let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
                 maxEval = Math.max(maxEval, evalMove);
-                alpha = Math.max(alpha, evalMove);
+                alpha = Math.max(alpha, maxEval);
                 if (beta <= alpha) {
                     break;
                 }
             }
             return maxEval;
         } else {
-            let minEval = Infinity;
+            let minEval = Number.POSITIVE_INFINITY;
             // for each possible move
             for (let move of GridMoves.possibleMoves(grid)) {
                 let newGrid = copyArray(grid);
-                newGrid[move[1]][move[0]] = this.player;
-                let evalMove = this.minmax(newGrid, depth - 1, true, alpha, beta);
+                newGrid[move[1]][move[0]] = this.otherPlayer;
+                let evalMove = this.minMax(newGrid, depth - 1, true, alpha, beta);
                 minEval = Math.min(minEval, evalMove);
-                beta = Math.min(beta, evalMove);
+                beta = Math.min(beta, minEval);
                 if (beta <= alpha) {
                     break;
                 }
@@ -104,11 +128,10 @@ class AI {
     // the result is an array of elements being [column, row]
 
     // TODO : write the evaluation function
-    // return an object with the move and the evaluation
-    // obj.value = evaluation
-    // obj.move = move [column, row]
+    // return an integer
     evaluate(grid) {
-        return {value: 0, move: [0, 0]};
+        // return a random number between -10 and 10
+        return Math.floor(Math.random() * 21) - 10
     }
 }
 
@@ -116,37 +139,60 @@ class GridMoves {
     static possibleMoves(grid) {
         let moves = [];
         let middle = 3;
-        if (GridChecker.isColumnEmpty(grid, middle)) {
-            for (let row = height; row >= 0; row--) {
-                if (grid[row][middle] !== 0) {
+        if (grid[0][middle] === 0) {
+            for (let row = height - 1; row >= 0; row--) {
+                if (grid[row][middle] === 0) {
                     moves.push([middle, row]);
                     break;
                 }
             }
         }
         for (let i = 1; i < 4; i++) {
-            if (GridChecker.isColumnEmpty(grid, middle + i)) {
-                for (let row = height; row >= 0; row--) {
-                    if (grid[row][middle + i] !== 0) {
-                        moves.push([middle + i, row]);
+            let column1 = middle + i;
+            if (grid[0][column1] === 0) {
+                for (let row = height - 1; row >= 0; row--) {
+                    if (grid[row][column1] === 0) {
+                        moves.push([column1, row]);
                         break;
                     }
                 }
             }
 
-            if (GridChecker.isColumnEmpty(grid, middle - i)) {
-                for (let row = height; row >= 0; row--) {
-                    if (grid[row][middle - i] !== 0) {
-                        moves.push([middle - i, row]);
+            let column2 = middle - i;
+            if (grid[0][column2] === 0) {
+                for (let row = height - 1; row >= 0; row--) {
+                    if (grid[row][column2] === 0) {
+                        moves.push([column2, row]);
                         break;
                     }
                 }
             }
         }
         return moves;
+
+
+
+        /*
+       // more simple function
+       let moves = [];
+       for (let column = 0; column < width; column++) {
+           if (GridChecker.isColumnEmpty(grid, column)) {
+               for (let row = height - 1; row >= 0; row--) {
+                   if (grid[row][column] === 0) {
+                       moves.push([column, row]);
+                       break;
+                   }
+               }
+           }
+           console.log("column : ", column)
+       }
+       return moves;
+
+        */
     }
 }
 
+// TODO : optimize the code of the GridChecker class
 class GridChecker {
 
     static win = "win";
@@ -219,7 +265,7 @@ class GridChecker {
 
     static checkDraw(grid) {
         for (let column = 0; width; column++) {
-            if (GridChecker.isColumnEmpty(grid, column)) {
+            if (grid[0][column] === 0) {
                 return false;
             }
         }
@@ -238,10 +284,7 @@ class GridChecker {
         }
         return GridChecker.notOver;
     }
-
-    static isColumnEmpty(grid, column) {
-        return grid[0][column] === 0;
-    }
 }
 
-
+// TODO : need to put in spec later
+export {AI}
