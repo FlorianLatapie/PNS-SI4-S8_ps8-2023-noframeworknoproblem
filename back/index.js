@@ -199,6 +199,7 @@ gameSocket.on('connection', (socket) => {
             console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
             gameSocket.emit("playError", e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
         }
+        console.log("end of newMove ---------------------------------------------------------------------------------------------------------------")
     })
 
     // disconnect ------------------------------------------------------------------------------------------------------
