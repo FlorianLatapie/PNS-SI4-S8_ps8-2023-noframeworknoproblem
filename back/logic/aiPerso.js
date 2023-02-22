@@ -1,6 +1,8 @@
 let width = 7;
 let height = 6;
 
+let startTimer;
+
 class AI {
 
     setup(AIplays) {
@@ -17,6 +19,7 @@ class AI {
     }
 
     nextMove(lastMove) {
+        startTimer = Date.now();
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         if (lastMove !== null) {
@@ -54,18 +57,20 @@ class AI {
         // for each possible move
         //console.log("possible moves : ", moves);
         for (let move of GridMoves.possibleMoves(this.grid)) {
-            // make a shadow copy of the grid
-            let newGrid = this.grid.map(row => row.slice());
-            newGrid[move[1]][move[0]] = this.player;
-            let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
-            if (evalMove > maxEval) {
-                maxEval = evalMove;
-                bestMove = move;
-            }
+            if (Date.now() - startTimer < 85) {
+                // make a shadow copy of the grid
+                let newGrid = this.grid.map(row => row.slice());
+                newGrid[move[1]][move[0]] = this.player;
+                let evalMove = this.minMax(newGrid, depth - 1, false, alpha, beta);
+                if (evalMove > maxEval) {
+                    maxEval = evalMove;
+                    bestMove = move;
+                }
 
-            alpha = Math.max(alpha, maxEval);
-            if (beta <= alpha) {
-                break;
+                alpha = Math.max(alpha, maxEval);
+                if (beta <= alpha) {
+                    break;
+                }
             }
         }
         return bestMove;
