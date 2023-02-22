@@ -31,7 +31,7 @@ class AI {
         //console.log("After Human update : ", this.grid);
 
         // make play the AI
-        let bestMove = this.minMaxInit(this.grid, 5);
+        let bestMove = this.minMaxInit(5);
         //console.log("res of minMaxInit : ", bestMove);
 
         // update the grid with the AI move
@@ -45,7 +45,7 @@ class AI {
         return bestMove;
     }
 
-    minMaxInit(grid, depth) {
+    minMaxInit(depth) {
         let alpha = Number.NEGATIVE_INFINITY;
         let beta = Number.POSITIVE_INFINITY;
 
@@ -53,7 +53,7 @@ class AI {
         let bestMove = null;
         // for each possible move
         //console.log("possible moves : ", moves);
-        for (let move of GridMoves.possibleMoves(grid)) {
+        for (let move of GridMoves.possibleMoves(this.grid)) {
             // make a shadow copy of the grid
             let newGrid = this.grid.map(row => row.slice());
             newGrid[move[1]][move[0]] = this.player;
