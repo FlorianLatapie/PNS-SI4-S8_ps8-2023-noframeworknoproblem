@@ -1,7 +1,17 @@
 let width = 7;
 let height = 6;
 
-let startTimer;
+let ai;
+
+// function exported
+function setup(AIplays) {
+    ai = new AI();
+    ai.setup(AIplays);
+}
+
+function nextMove(lastMove) {
+    return ai.nextMove(lastMove);
+}
 
 class AI {
 
@@ -19,7 +29,7 @@ class AI {
     }
 
     nextMove(lastMove) {
-        startTimer = Date.now();
+        this.startTimer = Date.now();
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         if (lastMove !== null) {
@@ -57,7 +67,7 @@ class AI {
         // for each possible move
         //console.log("possible moves : ", moves);
         for (let move of GridMoves.possibleMoves(this.grid)) {
-            if (Date.now() - startTimer < 85) {
+            if (Date.now() - this.startTimer < 75) {
                 // make a shadow copy of the grid
                 let newGrid = this.grid.map(row => row.slice());
                 newGrid[move[1]][move[0]] = this.player;
@@ -365,4 +375,4 @@ class GridChecker {
 }
 
 // TODO : need to put in spec later
-export {AI}
+export {setup, nextMove}

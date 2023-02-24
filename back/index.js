@@ -9,7 +9,7 @@ import gamedb from "./database/gamedb.js";
 import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
-import {AI} from "./logic/aiPerso.js";
+import {nextMove, setup} from "./logic/aiPerso.js";
 import jwt from "jsonwebtoken";
 import GameEngineUtil from "./object/GameEngineUtil.js";
 import {displayACatchedError} from "./util/util.js";
@@ -97,9 +97,9 @@ let playerPlay = function (player, gameEngine, column, row) {
 }
 
 let max = 0;
-let AIPlay = function (ai, AIPlayer, gameEngine, lastMove) {
+let AIPlay = function (AIPlayer, gameEngine, lastMove) {
     let start = Date.now();
-    let globalCoordinatesAI = ai.nextMove(lastMove); // computeMove from ai.js : [column, row]
+    let globalCoordinatesAI = nextMove(lastMove); // computeMove from ai.js : [column, row]
     let end = Date.now() - start;
     console.log("Average computation time: " + end + " ms")
     max = Math.max(max, end)
@@ -133,7 +133,6 @@ gameSocket.on('connection', (socket) => {
 
     let AIPlayer = new Player("AI", userId + "-AI")
     let HumanPlayer = new Player("HumanPlayer", userId)
-    let aiInstance = new AI();
 
     // Setup ----------------------------------------------------------------------------------------------------------
     socket.on("setup", setupObject => {
@@ -177,7 +176,7 @@ gameSocket.on('connection', (socket) => {
                 }
 
                 let uuid = crypto.randomBytes(16).toString("hex");
-                aiInstance.setup(setupObject.AIplays);
+                    setup(setupObject.AIplays);
                 if (setupObject.AIplays === 1) {
                     gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
                     AIPlay(AIPlayer, gameEngine);
@@ -199,7 +198,7 @@ gameSocket.on('connection', (socket) => {
         try {
             let moveHuman = humanPlay(HumanPlayer, gameEngine, globalCoordinates);
             if (!gameEngine.isGameOver) {
-                AIPlay(aiInstance, AIPlayer, gameEngine, moveHuman);
+                AIPlay(AIPlayer, gameEngine, moveHuman);
             }
         } catch (e) {
             console.log(e);
