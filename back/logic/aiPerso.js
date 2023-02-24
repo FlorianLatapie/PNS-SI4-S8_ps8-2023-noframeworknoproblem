@@ -40,7 +40,7 @@ class AI {
         //console.log("After Human update : ", this.grid);
 
         // make play the AI
-        let bestMove = this.minMaxInit(5);
+        let bestMove = this.minMaxInit(4);
         //console.log("res of minMaxInit : ", bestMove);
 
         // update the grid with the AI move
