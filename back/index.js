@@ -95,15 +95,10 @@ let playerPlay = function (player, gameEngine, column, row) {
     }
 
 }
-
-let max = 0;
 let AIPlay = function (AIPlayer, gameEngine, lastMove) {
     let start = Date.now();
     let globalCoordinatesAI = nextMove(lastMove); // computeMove from ai.js : [column, row]
-    let end = Date.now() - start;
-    console.log("Average computation time: " + end + " ms")
-    max = Math.max(max, end)
-    console.log("Max computation time: " + max + " ms")
+    console.log("AI computation time: " + (Date.now() - start) + " ms")
     let column = globalCoordinatesAI[0];
     let row = globalCoordinatesAI[1];
 
@@ -176,7 +171,7 @@ gameSocket.on('connection', (socket) => {
                 }
 
                 let uuid = crypto.randomBytes(16).toString("hex");
-                    setup(setupObject.AIplays);
+                setup(setupObject.AIplays);
                 if (setupObject.AIplays === 1) {
                     gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
                     AIPlay(AIPlayer, gameEngine);
