@@ -17,7 +17,7 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
-        //console.log(`AI setup : ${AIplays}`);
+        console.log("AI setup : ", AIplays);
         this.player = AIplays;
         this.otherPlayer = AIplays === 1 ? 2 : 1;
 
@@ -31,7 +31,7 @@ class AI {
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         this.startTimer = Date.now();
-        if (lastMove !== null) {
+        if (lastMove !== null && lastMove !== undefined) {
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
@@ -98,7 +98,7 @@ class AI {
         }
 
         if (depth === 0) {
-            return this.evaluate(grid);
+            return this.evaluate(grid, this.player===1);
         }
 
         if (isMaximizingPlayer) {
@@ -148,7 +148,21 @@ class AI {
         return out;
     }
 
+    rotateminus45(grid) {
+        let out = [];
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                if (out[i - j + grid.length - 1] === undefined) {
+                    out[i - j + grid.length - 1] = [];
+                }
+                out[i - j + grid.length - 1].push(grid[i][j]);
+            }
+        }
+        return out;
+    }
+
     // also known as transpose
+    // rotate vers la droite puis miroir horizontal
     rotate90(grid){
         let out = [];
         for (let i = 0; i < grid.length; i++) {
@@ -162,7 +176,7 @@ class AI {
         return out;
     }
 
-    findWinningMovesOnALine(lineOfConnect4) {
+    findWinningMovesOnALine(lineOfConnect4, isAiPlayingFirst) {
         let knownWinningMoves1 = [
             ["1000", "0100", "0010", "0001"],
             ["1100", "0110", "0011", "1010", "0101", "1001"],
@@ -177,19 +191,39 @@ class AI {
         ];
         let score = 0;
 
-        for (let i = 0; i < knownWinningMoves1.length; i++) {
-            for (let j = 0; j < knownWinningMoves1[i].length; j++) {
-                let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
-                if (index !== -1) {
-                    score -= 100 ** (i + 1);
+        if (isAiPlayingFirst) {
+            for (let i = 0; i < knownWinningMoves2.length; i++) {
+                for (let j = 0; j < knownWinningMoves2[i].length; j++) {
+                    let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (index !== -1) {
+                        score -= 10 ** (i + 1);
+                    }
+                }
+            }
+            for (let i = 0; i < knownWinningMoves1.length; i++) {
+                for (let j = 0; j < knownWinningMoves1[i].length; j++) {
+                    let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (index !== -1) {
+                        score += 10 * (i + 1);
+                    }
                 }
             }
         }
-        for (let i = 0; i < knownWinningMoves2.length; i++) {
-            for (let j = 0; j < knownWinningMoves2[i].length; j++) {
-                let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
-                if (index !== -1) {
-                    score += 100 * (i + 1);
+        else {
+            for (let i = 0; i < knownWinningMoves1.length; i++) {
+                for (let j = 0; j < knownWinningMoves1[i].length; j++) {
+                    let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (index !== -1) {
+                        score -= 10 ** (i + 1);
+                    }
+                }
+            }
+            for (let i = 0; i < knownWinningMoves2.length; i++) {
+                for (let j = 0; j < knownWinningMoves2[i].length; j++) {
+                    let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (index !== -1) {
+                        score += 10 * (i + 1);
+                    }
                 }
             }
         }
@@ -200,19 +234,29 @@ class AI {
     // the result is an array of elements being [column, row]
 
     // return an integer
-    evaluate(grid) {
+    evaluate(grid, isAiPlayingFirst) {
         let grid90 = this.rotate90(grid);
         let grid45 = this.rotate45(grid);
-        let grid135 = this.rotate90(grid45);
+        let gridM45 = this.rotateminus45(grid);
 
-        let grids = [grid, grid90, grid45, grid135];
+        let grids = [
+            grid, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
+            //grid90, // blc de la hauteur c'est indépendant
+            grid45, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
+            gridM45 // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
+        ];
         let score = 0;
+
+        for (let j = 0; j < grid90.length; j++) {
+            let line = grid90[j].join("");
+            score += this.findWinningMovesOnALine(line, isAiPlayingFirst);
+        }
 
         for (let i = 0; i < grids.length; i++) {
             let grid = grids[i];
             for (let j = 0; j < grid.length; j++) {
                 let line = grid[j].join("");
-                score += this.findWinningMovesOnALine(line);
+                score += this.findWinningMovesOnALine(line, isAiPlayingFirst) ** (grid.length - j);
             }
         }
 
@@ -230,14 +274,14 @@ class AI {
 
         for (let i = 0; i < grid.length; i++) {
             for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] === 1) {
+                if (grid[i][j] === this.player) {
                     score += weightGrid[i][j];
-                } else if (grid[i][j] === 2) {
+                } else if (grid[i][j] === this.otherPlayer) {
                     score -= weightGrid[i][j] * 5;
                 }
             }
-        }
-         */
+        }*/
+
 
         return score;
     }
