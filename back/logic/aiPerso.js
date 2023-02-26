@@ -40,7 +40,7 @@ class AI {
         //console.log("After Human update : ", this.grid);
 
         // make play the AI
-        let bestMove = this.minMaxInit(4);
+        let bestMove = this.minMaxInit(5);
         //console.log("res of minMaxInit : ", bestMove);
 
         // update the grid with the AI move
@@ -83,22 +83,22 @@ class AI {
     }
 
     minMax(grid, depth, isMaximizingPlayer, alpha, beta) {
-        if (depth === 0) {
-            return this.evaluate(grid);
-        }
-
         let endGame = GridChecker.isGameOver(grid);
         if (endGame === GridChecker.win) {
             if (isMaximizingPlayer) {
                 // the player won
-                return -1;
+                return Number.NEGATIVE_INFINITY;
             } else {
                 // the AI won
-                return 1;
+                return Number.POSITIVE_INFINITY
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
             return 0;
+        }
+
+        if (depth === 0) {
+            return this.evaluate(grid);
         }
 
         if (isMaximizingPlayer) {
@@ -215,8 +215,33 @@ class AI {
                 score += this.findWinningMovesOnALine(line);
             }
         }
+
+        /*
+        // Not working well
+        let weightGrid = [
+            [2, 3, 4, 5, 4, 3, 2],
+            [3, 4, 5, 6, 5, 4, 3],
+            [4, 5, 6, 7, 6, 5, 4],
+            [5, 6, 7, 8, 7, 6, 5],
+            [4, 5, 6, 7, 6, 5, 4],
+            [3, 4, 5, 6, 5, 4, 3],
+            [2, 3, 4, 5, 4, 3, 2]
+        ];
+
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] === 1) {
+                    score += weightGrid[i][j];
+                } else if (grid[i][j] === 2) {
+                    score -= weightGrid[i][j] * 5;
+                }
+            }
+        }
+         */
+
         return score;
     }
+
 }
 
 class GridMoves {
