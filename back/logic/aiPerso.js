@@ -184,13 +184,13 @@ class AI {
             ["1000", "0100", "0010", "0001"],
             ["1100", "0110", "0011", "1010", "0101", "1001"],
             ["0111", "1011", "1101", "1110"],
-            ["1111"]
+            //["1111"]
         ];
         let knownWinningMoves2 = [
             ["2000", "0200", "0020", "0002"],
             ["2200", "0220", "0022", "2020", "0202", "2002"],
             ["0222", "2022", "2202", "2220"],
-            ["2222"]
+            //["2222"]
         ];
         let score = 0;
 
@@ -198,6 +198,9 @@ class AI {
             for (let i = 0; i < knownWinningMoves2.length; i++) {
                 for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (lineOfConnect4.indexOf("2222") !== -1) {
+                        score -= 100000;
+                    }
                     if (index !== -1) {
                         score -= 10 ** (i + 1);
                     }
@@ -206,15 +209,22 @@ class AI {
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (lineOfConnect4.indexOf("1111") !== -1) {
+                        score += 100000;
+                    }
                     if (index !== -1) {
                         score += 10 * (i + 1);
                     }
                 }
             }
-        } else {
+        }
+        else {
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (lineOfConnect4.indexOf("1111") !== -1) {
+                        score -= 100000;
+                    }
                     if (index !== -1) {
                         score -= 10 ** (i + 1);
                     }
@@ -223,6 +233,9 @@ class AI {
             for (let i = 0; i < knownWinningMoves2.length; i++) {
                 for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (lineOfConnect4.indexOf("2222") !== -1) {
+                        score += 100000;
+                    }
                     if (index !== -1) {
                         score += 10 * (i + 1);
                     }
