@@ -12,13 +12,12 @@ function manageRequest(request, response) {
 
     let url = request.url.split("?")
     let urlPath = url[0].split("/")
-    let urlParams = (urlPath.length === 2) ? url[1].split("&"):undefined;
+    let urlParams = (urlPath.length === 2) ? url[1].split("&") : undefined;
 
     // C'est dans la correction de Vella à voir si c'est utile
     if (request.method === 'OPTIONS') {
         sendResponse(response, 200, "OK");
-    }
-    else if (request.method === "POST") {
+    } else if (request.method === "POST") {
         let body = "";
         request.on('data', function (data) {
             body += data;
@@ -33,7 +32,7 @@ function manageRequest(request, response) {
 
             let bodyJson
             try {
-                bodyJson= JSON.parse(body);
+                bodyJson = JSON.parse(body);
             } catch (err) {
                 sendResponse(response, 404, "Bad request : body is not a valid JSON")
                 return;
@@ -42,18 +41,15 @@ function manageRequest(request, response) {
             // parse the url and use the right function
             if (urlPath[2] === "signup" || urlPath[2] === "signin") {
                 userSignUp(request, response, bodyJson);
-            }
-            else if (urlPath[2] === "login") {
+            } else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
                 userLogIn(request, response, bodyJson);
-            }
-            else {
+            } else {
                 console.log("URL", url, "not supported");
                 sendResponse(response, 404, "URL " + url + " not supported");
             }
         });
-    }
-    else {
+    } else {
         console.log("Method", request.method, "not supported");
         sendResponse(response, 404, "Method " + request.method + " not supported");
     }
@@ -65,43 +61,51 @@ function sendResponse(response, statusCode, message) {
 }
 
 function userSignUp(request, response, data) {
+    let user;
     try {
-        let user = User.convertSignUp(data);
-        console.log("Adding the user:", user);
-        userdb.addUser(user).then((userCreated) => {
-            // Everything went well, we can send a response.
-            console.log("User added: ", userCreated);
-            sendResponse(response, 201, "OK");
-        }).catch((err) => {
-            console.log("User not added: ", err);
-            sendResponse(response, 409, "User not created: " + JSON.stringify(err));
-        } );
+        user = User.convertSignUp(data);
     } catch (err) {
         console.log("User not created:", err);
         sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));
     }
+
+    console.log("Adding the user:", user);
+    userdb.addUser(user).then((userCreated) => {
+        // Everything went well, we can send a response.
+        console.log("User added: ", userCreated);
+        sendResponse(response, 201, "OK");
+    }).catch((err) => {
+        console.log("User not added: ", err);
+        sendResponse(response, 409, "User not created: " + JSON.stringify(err));
+    });
 }
 
 function userLogIn(request, response, data) {
     // need to search the user in the database and check error
+    let user;
     try {
-        let user = User.convertLogin(data);
-        userdb.getUser(user).then((userFound) => {
-            console.log("User found: ", userFound);
-            // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
-            // identity since only the server know the secretCode.
-            let payload = {
-                userId: userFound._id.toString(),
-                username: userFound.username
-            };
-
-            let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
-            sendResponse(response, 200, token);
-        });
+        user = User.convertLogin(data);
     } catch (err) {
         console.log("User not found ", err);
         sendResponse(response, 404, "User not found: " + JSON.stringify(err));
     }
+
+    userdb.getUser(user).then((userFound) => {
+        console.log("User found: ", userFound);
+        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
+        // identity since only the server know the secretCode.
+        let payload = {
+            userId: userFound._id.toString(),
+            username: userFound.username
+        };
+
+        let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
+        sendResponse(response, 200, token);
+    }).catch((err) => {
+        console.log("User not found: ", err);
+        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
+    });
+
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
