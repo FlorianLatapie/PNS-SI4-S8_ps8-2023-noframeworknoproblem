@@ -42,7 +42,7 @@ class AI {
             //console.log("After Human update : ", this.grid);
 
             // make play the AI
-            let bestMove = this.minMaxInit(5);
+            let bestMove = this.minMaxInit(4);
             //console.log("res of minMaxInit : ", bestMove);
 
             // update the grid with the AI move
@@ -82,6 +82,7 @@ class AI {
                 }
             }
         }
+        //console.log("maxEval : ", maxEval);
         return bestMove;
     }
 
@@ -202,7 +203,7 @@ class AI {
                         score -= 100000;
                     }
                     if (index !== -1) {
-                        score -= 10 ** (i + 1);
+                        score -= 1 ** (i + 1);
                     }
                 }
             }
@@ -210,10 +211,10 @@ class AI {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
                     if (lineOfConnect4.indexOf("1111") !== -1) {
-                        score += 100000;
+                        score += 100;
                     }
                     if (index !== -1) {
-                        score += 10 * (i + 1);
+                        score += 1 * (i + 1);
                     }
                 }
             }
@@ -226,7 +227,7 @@ class AI {
                         score -= 100000;
                     }
                     if (index !== -1) {
-                        score -= 10 ** (i + 1);
+                        score -= 1 ** (i + 1);
                     }
                 }
             }
@@ -234,10 +235,10 @@ class AI {
                 for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
                     if (lineOfConnect4.indexOf("2222") !== -1) {
-                        score += 100000;
+                        score += 100;
                     }
                     if (index !== -1) {
-                        score += 10 * (i + 1);
+                        score += 1 * (i + 1);
                     }
                 }
             }
@@ -254,12 +255,14 @@ class AI {
         let grid45 = this.rotate45(grid);
         let gridM45 = this.rotateminus45(grid);
 
+
         let grids = [
             grid, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
             //grid90, // blc de la hauteur c'est indépendant
             grid45, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
             gridM45 // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
         ];
+
         let score = 0;
 
         for (let j = 0; j < grid90.length; j++) {
@@ -296,8 +299,11 @@ class AI {
                 }
             }
         }*/
-
-
+        /*console.log("printGrids >>>>>>>>>>>>>>>>>>>>>>>>>>");
+        for (let i = 0; i < grids.length; i++) {
+            printGrid(grids[i])
+        }
+*/
         return score;
     }
 
@@ -445,6 +451,13 @@ class GridChecker {
                 return GridChecker.notOver;
         }
     }
+}
+
+function printGrid(grid) {
+    for (let i = 0; i < grid.length; i++) {
+        console.log(grid[i].join(""));
+    }
+    console.log();
 }
 
 // TODO : need to put in spec later
