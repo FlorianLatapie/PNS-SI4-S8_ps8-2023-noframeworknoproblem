@@ -31,27 +31,30 @@ class AI {
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         this.startTimer = Date.now();
-        if (lastMove !== null && lastMove !== undefined) {
+        if (lastMove === null || lastMove === undefined) {
+            this.grid[height-1][3] = this.player;
+            return [3, 0];
+        } else {
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
+
+            //console.log("After Human update : ", this.grid);
+
+            // make play the AI
+            let bestMove = this.minMaxInit(5);
+            //console.log("res of minMaxInit : ", bestMove);
+
+            // update the grid with the AI move
+            this.grid[bestMove[1]][bestMove[0]] = this.player;
+
+            // need to convert the coordinates to the api coordinates
+            bestMove = [bestMove[0], height - 1 - bestMove[1]];
+            //console.log("move play by AI : ", bestMove);
+
+            //console.log("After AI update : ", this.grid);
+            return bestMove;
         }
-
-        //console.log("After Human update : ", this.grid);
-
-        // make play the AI
-        let bestMove = this.minMaxInit(5);
-        //console.log("res of minMaxInit : ", bestMove);
-
-        // update the grid with the AI move
-        this.grid[bestMove[1]][bestMove[0]] = this.player;
-
-        // need to convert the coordinates to the api coordinates
-        bestMove = [bestMove[0], height - 1 - bestMove[1]];
-        //console.log("move play by AI : ", bestMove);
-
-        //console.log("After AI update : ", this.grid);
-        return bestMove;
     }
 
     minMaxInit(depth) {
@@ -90,7 +93,7 @@ class AI {
                 return Number.NEGATIVE_INFINITY;
             } else {
                 // the AI won
-                return Number.POSITIVE_INFINITY
+                return Number.POSITIVE_INFINITY;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
@@ -98,7 +101,7 @@ class AI {
         }
 
         if (depth === 0) {
-            return this.evaluate(grid, this.player===1);
+            return this.evaluate(grid, this.player === 1);
         }
 
         if (isMaximizingPlayer) {
@@ -163,7 +166,7 @@ class AI {
 
     // also known as transpose
     // rotate vers la droite puis miroir horizontal
-    rotate90(grid){
+    rotate90(grid) {
         let out = [];
         for (let i = 0; i < grid.length; i++) {
             for (let j = 0; j < grid[i].length; j++) {
@@ -208,8 +211,7 @@ class AI {
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
@@ -256,7 +258,7 @@ class AI {
             let grid = grids[i];
             for (let j = 0; j < grid.length; j++) {
                 let line = grid[j].join("");
-                score += this.findWinningMovesOnALine(line, isAiPlayingFirst) ** (grid.length - j);
+                score += this.findWinningMovesOnALine(line, isAiPlayingFirst) * (grid.length - j);
             }
         }
 
