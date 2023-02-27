@@ -9,18 +9,18 @@ function userSignUp(request, response, data) {
     try {
         user = UserValidator.convertSignUp(data);
     } catch (err) {
-        console.log("UserValidator not created:", err);
+        console.log("User not valid: ", err);
         sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));
     }
 
     console.log("Adding the user:", user);
     userdb.addUser(user).then((userCreated) => {
         // Everything went well, we can send a response.
-        console.log("UserValidator added: ", userCreated);
+        console.log("User added: ", userCreated);
         sendResponse(response, 201, "OK");
     }).catch((err) => {
-        console.log("UserValidator not added: ", err);
-        sendResponse(response, 409, "UserValidator not created: " + JSON.stringify(err));
+        console.log("User not added: ", err);
+        sendResponse(response, 409, "User not created: " + JSON.stringify(err));
     });
 }
 
@@ -30,12 +30,12 @@ function userLogIn(request, response, data) {
     try {
         user = UserValidator.convertLogin(data);
     } catch (err) {
-        console.log("UserValidator not found ", err);
-        sendResponse(response, 404, "UserValidator not found: " + JSON.stringify(err));
+        console.log("User not found ", err);
+        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
     }
 
     userdb.getUser(user).then((userFound) => {
-        console.log("UserValidator found: ", userFound);
+        console.log("User found: ", userFound);
         // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
         // identity since only the server know the secretCode.
         let payload = {
@@ -46,8 +46,8 @@ function userLogIn(request, response, data) {
         let token = jwt.sign(payload, JWTSecretCode, {expiresIn: "1d"})
         sendResponse(response, 200, token);
     }).catch((err) => {
-        console.log("UserValidator not found: ", err);
-        sendResponse(response, 404, "UserValidator not found: " + JSON.stringify(err));
+        console.log("User not found: ", err);
+        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
     });
 }
 

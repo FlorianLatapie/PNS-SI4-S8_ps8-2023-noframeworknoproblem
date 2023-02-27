@@ -1,12 +1,10 @@
-let token = "";
-
 function redirectLoginPage() {
     window.location.replace("http://" + window.location.host + "/login/");
 }
 window.addEventListener('load', function () {
 
     /* Exercise 3 */
-    document.getElementById("signup-button").addEventListener("click", function () {
+    document.getElementById("signup-form").addEventListener("submit", function () {
         const values = {
             username: document.getElementById("signup-username").value,
             mail: document.getElementById("signup-email").value,

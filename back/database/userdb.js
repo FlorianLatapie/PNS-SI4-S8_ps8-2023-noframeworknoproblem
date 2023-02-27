@@ -26,14 +26,14 @@ class UserDb {
         await this.verifyConnection();
         try {
             if (! await this.existsUser(data)) {
-                console.log("UserValidator doesn't exist, adding user");
+                console.log("User doesn't exist, adding user");
                 return await this.users.insertOne(data);
             }
         } catch (error) {
             console.error(error);
         }
 
-        throw new Error("UserValidator already exists")
+        throw new Error("User already exists")
     }
 
     // if the user has a username and an email, it will only use the username

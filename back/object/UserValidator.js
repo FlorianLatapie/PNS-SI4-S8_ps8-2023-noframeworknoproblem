@@ -6,7 +6,15 @@ export default class UserValidator {
     }
 
     static convertSignUp(data) {
-        return UserValidator.hashPassword(UserValidator.convertData(data, UserValidator.schema));
+        let user = UserValidator.hashPassword(UserValidator.convertData(data, UserValidator.schema));
+        if (user.username.length > 16 ||user.username.length === 0) {
+            throw new Error(`The length of username field ${user.username.length} is invalid, should be between 1 and 16`)
+        }
+
+        if (!UserValidator.validateEmail(user.mail)) {
+            throw new Error(`The email field ${user.mail} is invalid`)
+        }
+        return user;
     }
 
     static convertLogin(data) {
@@ -34,5 +42,10 @@ export default class UserValidator {
             user[key] = data[key];
         }
         return user;
+    }
+
+    static validateEmail(email) {
+        const re = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
+        return re.test(String(email).toLowerCase());
     }
 }
