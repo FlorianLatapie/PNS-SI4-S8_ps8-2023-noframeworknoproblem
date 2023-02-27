@@ -26,14 +26,14 @@ class UserDb {
         await this.verifyConnection();
         try {
             if (! await this.existsUser(data)) {
-                console.log("User doesn't exist, adding user");
+                console.log("UserValidator doesn't exist, adding user");
                 return await this.users.insertOne(data);
             }
         } catch (error) {
             console.error(error);
         }
 
-        throw new Error("User already exists")
+        throw new Error("UserValidator already exists")
     }
 
     // if the user has a username and an email, it will only use the username
@@ -80,7 +80,7 @@ class UserDb {
         try {
             const sameUserName = await this.users.findOne({username: data.username});
             const sameEmail = await this.users.findOne({mail: data.mail});
-            //console.log("User db: ", sameUserName, sameEmail);
+            //console.log("UserValidator db: ", sameUserName, sameEmail);
             return !(sameUserName === null && sameEmail === null);
         } catch (error) {
             console.error(error);

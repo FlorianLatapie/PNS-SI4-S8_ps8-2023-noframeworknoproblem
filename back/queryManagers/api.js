@@ -1,11 +1,7 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
-import userdb from "../database/userdb.js";
-import jwt from 'jsonwebtoken';
-import User from "../object/User.js";
-
-// TODO need to be changed
-let secretCode = "secretCode";
+import {sendResponse} from "./util.js";
+import {userSignUp, userLogIn} from "./user/apiUser.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -39,7 +35,7 @@ function manageRequest(request, response) {
             }
 
             // parse the url and use the right function
-            if (urlPath[2] === "signup" || urlPath[2] === "signin") {
+            if (urlPath[2] === "signup") {
                 userSignUp(request, response, bodyJson);
             } else if (urlPath[2] === "login") {
                 // need to search the user in the database and check error
@@ -53,59 +49,6 @@ function manageRequest(request, response) {
         console.log("Method", request.method, "not supported");
         sendResponse(response, 404, "Method " + request.method + " not supported");
     }
-}
-
-function sendResponse(response, statusCode, message) {
-    response.statusCode = statusCode;
-    response.end(message);
-}
-
-function userSignUp(request, response, data) {
-    let user;
-    try {
-        user = User.convertSignUp(data);
-    } catch (err) {
-        console.log("User not created:", err);
-        sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));
-    }
-
-    console.log("Adding the user:", user);
-    userdb.addUser(user).then((userCreated) => {
-        // Everything went well, we can send a response.
-        console.log("User added: ", userCreated);
-        sendResponse(response, 201, "OK");
-    }).catch((err) => {
-        console.log("User not added: ", err);
-        sendResponse(response, 409, "User not created: " + JSON.stringify(err));
-    });
-}
-
-function userLogIn(request, response, data) {
-    // need to search the user in the database and check error
-    let user;
-    try {
-        user = User.convertLogin(data);
-    } catch (err) {
-        console.log("User not found ", err);
-        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
-    }
-
-    userdb.getUser(user).then((userFound) => {
-        console.log("User found: ", userFound);
-        // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
-        // identity since only the server know the secretCode.
-        let payload = {
-            userId: userFound._id.toString(),
-            username: userFound.username
-        };
-
-        let token = jwt.sign(payload, secretCode, {expiresIn: "1d"})
-        sendResponse(response, 200, token);
-    }).catch((err) => {
-        console.log("User not found: ", err);
-        sendResponse(response, 404, "User not found: " + JSON.stringify(err));
-    });
-
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:

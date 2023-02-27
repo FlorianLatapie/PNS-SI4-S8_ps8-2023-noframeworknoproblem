@@ -17,7 +17,7 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
-        console.log("AI setup : ", AIplays);
+        //console.log("AI setup : ", AIplays);
         this.player = AIplays;
         this.otherPlayer = AIplays === 1 ? 2 : 1;
 
@@ -350,7 +350,6 @@ class GridMoves {
     }
 }
 
-// TODO : optimize the code of the GridChecker class
 class GridChecker {
 
     static win = 0b10; //2
@@ -460,5 +459,4 @@ function printGrid(grid) {
     console.log();
 }
 
-// TODO : need to put in spec later
 export {nextMove, setup}

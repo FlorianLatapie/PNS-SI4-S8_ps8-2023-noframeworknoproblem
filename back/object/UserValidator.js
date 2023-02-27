@@ -1,16 +1,16 @@
 import {sha256} from "js-sha256";
 
-export default class User {
+export default class UserValidator {
     static schema = {
         username: 'string', mail: 'string', password: 'string'
     }
 
     static convertSignUp(data) {
-        return User.hashPassword(User.convertData(data, User.schema));
+        return UserValidator.hashPassword(UserValidator.convertData(data, UserValidator.schema));
     }
 
     static convertLogin(data) {
-        return User.hashPassword(User.convertData(data, User.schema));
+        return UserValidator.hashPassword(UserValidator.convertData(data, UserValidator.schema));
     }
 
     static hashPassword(data) {
