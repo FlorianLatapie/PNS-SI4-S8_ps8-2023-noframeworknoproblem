@@ -8,6 +8,7 @@ function userSignUp(request, response, data) {
     let user;
     try {
         user = UserValidator.convertSignUp(data);
+        UserValidator.checkUserConstraints(user);
     } catch (err) {
         console.log("User not valid: ", err);
         sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));

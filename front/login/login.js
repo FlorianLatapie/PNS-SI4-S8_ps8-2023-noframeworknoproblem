@@ -15,7 +15,7 @@ if (localStorage.getItem("token") !== null) {
     redirectHomePage();
 }
 
-document.getElementById("login-button").addEventListener("click", function () {
+document.getElementById("login-form").addEventListener("submit", function () {
     const values = {
         username: document.getElementById("login-username").value,
         password: document.getElementById("login-password").value,
@@ -28,7 +28,7 @@ document.getElementById("login-button").addEventListener("click", function () {
     }).then(async (response) => {
         // if the login worked, we should save the token.
         jwtToken = await response.text();
-        localStorage.setItem("token", jwtToken); // TODO: do not save the token in local storage
+        localStorage.setItem("token", jwtToken);
 
         let parsedJwt = parseJwt(jwtToken);
         console.log(parsedJwt);
