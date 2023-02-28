@@ -3,7 +3,7 @@
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
 
-const gameSocket = io("http://localhost:8000/api/game", {auth: {token: localStorage.getItem("token")}});
+const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
 
 const PARAMETER_NAME_IA_TURN = "IATurn";
