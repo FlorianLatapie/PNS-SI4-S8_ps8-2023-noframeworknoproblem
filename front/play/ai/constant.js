@@ -1,0 +1,3 @@
+const PARAMETER_NAME_IA_PLAYS = "AIplays";
+
+export {PARAMETER_NAME_IA_PLAYS};

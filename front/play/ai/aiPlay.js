@@ -2,11 +2,10 @@
 
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
+import {PARAMETER_NAME_IA_PLAYS} from "./constant.js";
 
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
-
-const PARAMETER_NAME_IA_TURN = "AITurn";
 
 let toPlay;
 let colorPlayer;
@@ -93,16 +92,16 @@ let play = function (clickRow, clickColumn) {
 })*/
 
 const url = new URL(window.location.href);
-let IATurn = url.searchParams.get(PARAMETER_NAME_IA_TURN);
+let AITurn = url.searchParams.get(PARAMETER_NAME_IA_PLAYS);
 
-if (IATurn === null) {
-    IATurn = 2//1//Math.floor(Math.random() * 2 + 1)
+if (AITurn === null) {
+    AITurn = 2//1//Math.floor(Math.random() * 2 + 1)
 }
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
     console.log("token: " + localStorage.getItem("token"));
 
-    setupAI(+IATurn);
+    setupAI(+AITurn);
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
         let move = grid.findMove(globalCoordsGrid.board)
@@ -141,6 +140,8 @@ gameSocket.on("connect", () => {
         console.log("playError received:", Error)
     });
 });
+
+export {PARAMETER_NAME_IA_PLAYS}
 
 
 

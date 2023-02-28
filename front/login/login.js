@@ -5,7 +5,7 @@ function parseJwt(token) {
 }
 
 function redirectHomePage() {
-    window.location.replace(window.location.protocol + "//" + window.location.host + "/home/home.html");
+    window.location.replace(window.location.protocol + "//" + window.location.host + "/home/");
 }
 
 
