@@ -1,5 +1,3 @@
-let jwtToken;
-
 function parseJwt(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -7,7 +5,7 @@ function parseJwt(token) {
 }
 
 function redirectHomePage() {
-    window.location.replace("http://" + window.location.host + "/home/home.html");
+    window.location.replace(window.location.protocol + "//" + window.location.host + "/home/home.html");
 }
 
 
@@ -28,7 +26,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         }, body: JSON.stringify(values)
     }).then(async (response) => {
         // if the login worked, we should save the token.
-        jwtToken = await response.text();
+        let jwtToken = await response.text();
         localStorage.setItem("token", jwtToken);
 
         let parsedJwt = parseJwt(jwtToken);
