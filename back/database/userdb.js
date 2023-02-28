@@ -80,7 +80,7 @@ class UserDb {
         try {
             const sameUserName = await this.users.findOne({username: data.username});
             const sameEmail = await this.users.findOne({mail: data.mail});
-            //console.log("User db: ", sameUserName, sameEmail);
+            //console.log("UserValidator db: ", sameUserName, sameEmail);
             return !(sameUserName === null && sameEmail === null);
         } catch (error) {
             console.error(error);

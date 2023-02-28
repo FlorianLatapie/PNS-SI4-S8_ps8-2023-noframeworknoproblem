@@ -17,7 +17,7 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
-        console.log("AI setup : ", AIplays);
+        //console.log("AI setup : ", AIplays);
         this.player = AIplays;
         this.otherPlayer = AIplays === 1 ? 2 : 1;
 
@@ -31,27 +31,30 @@ class AI {
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         this.startTimer = Date.now();
-        if (lastMove !== null && lastMove !== undefined) {
+        if (lastMove === null || lastMove === undefined) {
+            this.grid[height-1][3] = this.player;
+            return [3, 0];
+        } else {
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
+
+            //console.log("After Human update : ", this.grid);
+
+            // make play the AI
+            let bestMove = this.minMaxInit(4);
+            //console.log("res of minMaxInit : ", bestMove);
+
+            // update the grid with the AI move
+            this.grid[bestMove[1]][bestMove[0]] = this.player;
+
+            // need to convert the coordinates to the api coordinates
+            bestMove = [bestMove[0], height - 1 - bestMove[1]];
+            //console.log("move play by AI : ", bestMove);
+
+            //console.log("After AI update : ", this.grid);
+            return bestMove;
         }
-
-        //console.log("After Human update : ", this.grid);
-
-        // make play the AI
-        let bestMove = this.minMaxInit(5);
-        //console.log("res of minMaxInit : ", bestMove);
-
-        // update the grid with the AI move
-        this.grid[bestMove[1]][bestMove[0]] = this.player;
-
-        // need to convert the coordinates to the api coordinates
-        bestMove = [bestMove[0], height - 1 - bestMove[1]];
-        //console.log("move play by AI : ", bestMove);
-
-        //console.log("After AI update : ", this.grid);
-        return bestMove;
     }
 
     minMaxInit(depth) {
@@ -79,6 +82,7 @@ class AI {
                 }
             }
         }
+        //console.log("maxEval : ", maxEval);
         return bestMove;
     }
 
@@ -90,7 +94,7 @@ class AI {
                 return Number.NEGATIVE_INFINITY;
             } else {
                 // the AI won
-                return Number.POSITIVE_INFINITY
+                return Number.POSITIVE_INFINITY;
             }
         } else if (endGame === GridChecker.draw) {
             // nobody won
@@ -98,7 +102,7 @@ class AI {
         }
 
         if (depth === 0) {
-            return this.evaluate(grid, this.player===1);
+            return this.evaluate(grid, this.player === 1);
         }
 
         if (isMaximizingPlayer) {
@@ -163,7 +167,7 @@ class AI {
 
     // also known as transpose
     // rotate vers la droite puis miroir horizontal
-    rotate90(grid){
+    rotate90(grid) {
         let out = [];
         for (let i = 0; i < grid.length; i++) {
             for (let j = 0; j < grid[i].length; j++) {
@@ -181,13 +185,13 @@ class AI {
             ["1000", "0100", "0010", "0001"],
             ["1100", "0110", "0011", "1010", "0101", "1001"],
             ["0111", "1011", "1101", "1110"],
-            ["1111"]
+            //["1111"]
         ];
         let knownWinningMoves2 = [
             ["2000", "0200", "0020", "0002"],
             ["2200", "0220", "0022", "2020", "0202", "2002"],
             ["0222", "2022", "2202", "2220"],
-            ["2222"]
+            //["2222"]
         ];
         let score = 0;
 
@@ -195,16 +199,22 @@ class AI {
             for (let i = 0; i < knownWinningMoves2.length; i++) {
                 for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (lineOfConnect4.indexOf("2222") !== -1) {
+                        score -= 100000;
+                    }
                     if (index !== -1) {
-                        score -= 10 ** (i + 1);
+                        score -= 1 ** (i + 1);
                     }
                 }
             }
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (lineOfConnect4.indexOf("1111") !== -1) {
+                        score += 100;
+                    }
                     if (index !== -1) {
-                        score += 10 * (i + 1);
+                        score += 1 * (i + 1);
                     }
                 }
             }
@@ -213,16 +223,22 @@ class AI {
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);
+                    if (lineOfConnect4.indexOf("1111") !== -1) {
+                        score -= 100000;
+                    }
                     if (index !== -1) {
-                        score -= 10 ** (i + 1);
+                        score -= 1 ** (i + 1);
                     }
                 }
             }
             for (let i = 0; i < knownWinningMoves2.length; i++) {
                 for (let j = 0; j < knownWinningMoves2[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves2[i][j]);
+                    if (lineOfConnect4.indexOf("2222") !== -1) {
+                        score += 100;
+                    }
                     if (index !== -1) {
-                        score += 10 * (i + 1);
+                        score += 1 * (i + 1);
                     }
                 }
             }
@@ -239,12 +255,14 @@ class AI {
         let grid45 = this.rotate45(grid);
         let gridM45 = this.rotateminus45(grid);
 
+
         let grids = [
             grid, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
             //grid90, // blc de la hauteur c'est indépendant
             grid45, // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
             gridM45 // plus c'est bas plus ca vaut de points [0] difficile, [6] facile
         ];
+
         let score = 0;
 
         for (let j = 0; j < grid90.length; j++) {
@@ -256,7 +274,7 @@ class AI {
             let grid = grids[i];
             for (let j = 0; j < grid.length; j++) {
                 let line = grid[j].join("");
-                score += this.findWinningMovesOnALine(line, isAiPlayingFirst) ** (grid.length - j);
+                score += this.findWinningMovesOnALine(line, isAiPlayingFirst) * (grid.length - j);
             }
         }
 
@@ -281,8 +299,11 @@ class AI {
                 }
             }
         }*/
-
-
+        /*console.log("printGrids >>>>>>>>>>>>>>>>>>>>>>>>>>");
+        for (let i = 0; i < grids.length; i++) {
+            printGrid(grids[i])
+        }
+*/
         return score;
     }
 
@@ -329,7 +350,6 @@ class GridMoves {
     }
 }
 
-// TODO : optimize the code of the GridChecker class
 class GridChecker {
 
     static win = 0b10; //2
@@ -432,5 +452,11 @@ class GridChecker {
     }
 }
 
-// TODO : need to put in spec later
+function printGrid(grid) {
+    for (let i = 0; i < grid.length; i++) {
+        console.log(grid[i].join(""));
+    }
+    console.log();
+}
+
 export {nextMove, setup}

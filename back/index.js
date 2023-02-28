@@ -11,8 +11,9 @@ import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import {nextMove, setup} from "./logic/aiPerso.js";
 import jwt from "jsonwebtoken";
-import GameEngineUtil from "./object/GameEngineUtil.js";
+import GameEngineDBUtil from "./object/GameEngineDBUtil.js";
 import {displayACatchedError} from "./util/util.js";
+import {JWTSecretCode} from "./credentials/credentials.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -68,7 +69,7 @@ gameSocket.use((socket, next) => {
     let token = socket.handshake.auth.token;
     if (token) {
         // verify the token
-        jwt.verify(token, "secretCode", (err, decoded) => {
+        jwt.verify(token, JWTSecretCode, (err, decoded) => {
             if (err) {
                 console.log("error while verifying the token")
                 console.log(err);
@@ -88,10 +89,10 @@ let playerPlay = function (player, gameEngine, column, row) {
     gameSocket.emit("updatedBoard", {board: gameEngine.grid.cells})
 
     if (gameState.isFinished === true) {
-        GameEngineUtil.removeGameEngineFromDB(gameEngine.id)
+        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
         gameSocket.emit("gameIsOver", gameState.winner)
     } else {
-        GameEngineUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
+        GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
     }
 
 }

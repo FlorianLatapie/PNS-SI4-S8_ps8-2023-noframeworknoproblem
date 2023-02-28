@@ -15,17 +15,21 @@
 
 <main>
     <div id="button-container">
-        <!-- Todo utiliser un form -->
-        <input class="text-input" type="text" name="email" placeholder="Email" id="signup-email">
-        <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur" id="signup-username">
-        <input class="text-input" type="password" name="password" placeholder="Mot de passe" id="signup-password">
+       <form id="signup-form">
+        <input class="text-input" type="email" name="email" placeholder="Email" id="signup-email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+               required>
+        <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur" id="signup-username" maxlength="16"
+               required>
+        <input class="text-input" type="password" name="password" placeholder="Mot de passe" id="signup-password" required>
         <button class="home-button" id="signup-button">S'inscrire</button>
-        <!-- todo supprimer le form -->
-        <form class="home-button" method="post">
-            <div class="text half-home-button">Vous possédez un compte ?</div>
-            <button class="signup half-home-button"><a href="../login/index.html">Connectez-vous !</a></button>
-        </form>
+       </form>
+
+    <div class="text half-home-button bottom">
+        <div class="text half-home-button">Vous possédez un compte ?</div>
+        <button class="signup half-home-button"><a href="../login/index.html">Connectez-vous !</a></button>
     </div>
+    </div>
+
 </main>
 <script src="./signup.js"></script>
 </body>
