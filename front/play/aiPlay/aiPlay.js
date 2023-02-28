@@ -6,7 +6,7 @@ import Grid from "../../GameLogic/Grid.js";
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
 
-const PARAMETER_NAME_IA_TURN = "IATurn";
+const PARAMETER_NAME_IA_TURN = "AITurn";
 
 let toPlay;
 let colorPlayer;

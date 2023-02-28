@@ -9,5 +9,5 @@ document.getElementById("form-position").addEventListener("submit", function (ev
     } else if (humanOrder === "second") {
         AITurn = 1;
     }
-    window.location.replace(window.location.protocol + "//" + window.location.host + "/play/aiPlay/aiPlay.html" + "?" + "AIplays=" + AITurn);
+    window.location.replace(window.location.protocol + "//" + window.location.host + "/play/aiPlay/aiPlay.html" + "?" + "AITurn=" + AITurn);
 });
