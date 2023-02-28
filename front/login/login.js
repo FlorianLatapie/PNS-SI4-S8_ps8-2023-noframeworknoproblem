@@ -15,7 +15,8 @@ if (localStorage.getItem("token") !== null) {
     redirectHomePage();
 }
 
-document.getElementById("login-form").addEventListener("submit", function () {
+document.getElementById("login-form").addEventListener("submit", function (event) {
+    event.preventDefault();
     const values = {
         username: document.getElementById("login-username").value,
         password: document.getElementById("login-password").value,

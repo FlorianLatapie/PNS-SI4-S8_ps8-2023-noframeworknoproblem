@@ -4,7 +4,8 @@ function redirectLoginPage() {
 window.addEventListener('load', function () {
 
     /* Exercise 3 */
-    document.getElementById("signup-form").addEventListener("submit", function () {
+    document.getElementById("signup-form").addEventListener("submit", function (event) {
+        event.preventDefault();
         const values = {
             username: document.getElementById("signup-username").value,
             mail: document.getElementById("signup-email").value,
