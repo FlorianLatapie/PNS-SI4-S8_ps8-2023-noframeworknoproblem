@@ -42,7 +42,7 @@ let httpServer = http.createServer(function (request, response) {
         displayACatchedError(error,`error while processing ${request.url}:`)
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
-}).listen(80);
+}).listen(8000);
 
 // SetUp of the webSocket server.
 

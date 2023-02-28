@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: dockerfiles/server-dev.dockerfile
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - /app/node_modules
       - ./front:/app/front
