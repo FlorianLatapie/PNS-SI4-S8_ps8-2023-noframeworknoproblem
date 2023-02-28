@@ -1,4 +1,9 @@
 import {parseJwt} from "../util/jwtParser.js";
+import {BASE_URL, HOME_URL, SIGNUP_URL} from "../path.js";
+
+document.getElementById("signup")
+    .setAttribute("href",
+        BASE_URL + "/" + SIGNUP_URL);
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -7,7 +12,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: document.getElementById("login-password").value,
     }
 
-    fetch(window.location.protocol + "//" + window.location.host + "/api/login", {
+    fetch(BASE_URL + "api/login", {
         method: "post", headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
@@ -25,6 +30,6 @@ document.getElementById("login-form").addEventListener("submit", function (event
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
         console.log("userId: " + userId);
-        window.location.replace(window.location.protocol + "//" + window.location.host + "/home/");
+        window.location.replace(BASE_URL + HOME_URL);
     });
 });

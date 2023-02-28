@@ -1,6 +1,10 @@
-window.addEventListener('load', function () {
+import {BASE_URL, LOGIN_URL} from "../path.js";
 
-    /* Exercise 3 */
+document.getElementById("login")
+    .setAttribute("href",
+        BASE_URL + LOGIN_URL);
+
+window.addEventListener('load', function () {
     document.getElementById("signup-form").addEventListener("submit", function (event) {
         event.preventDefault();
         const values = {
@@ -9,15 +13,17 @@ window.addEventListener('load', function () {
             password: document.getElementById("signup-password").value,
         }
 
-        fetch(window.location.protocol + "//" + window.location.host + "/api/signup", {
+        fetch(BASE_URL + "api/signup", {
             method: "post", headers: {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
         }).then((response) => {
             console.log(response);
             if (response.status === 201) {
-                window.location.replace("http://" + window.location.host + "/login/");
+                window.location.replace(BASE_URL + LOGIN_URL);
             }
         });
     });
 });
+
+
