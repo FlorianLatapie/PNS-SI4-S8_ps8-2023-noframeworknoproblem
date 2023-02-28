@@ -1,17 +1,4 @@
-function parseJwt(token) {
-    let base64Url = token.split('.')[1];
-    let base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
-}
-
-function redirectHomePage() {
-    window.location.replace(window.location.protocol + "//" + window.location.host + "/home/");
-}
-
-
-if (localStorage.getItem("token") !== null) {
-    redirectHomePage();
-}
+import {parseJwt} from "../util/jwtParser.js";
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -38,6 +25,6 @@ document.getElementById("login-form").addEventListener("submit", function (event
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
         console.log("userId: " + userId);
-        redirectHomePage();
+        window.location.replace(window.location.protocol + "//" + window.location.host + "/home/");
     });
 });

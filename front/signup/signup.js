@@ -1,6 +1,3 @@
-function redirectLoginPage() {
-    window.location.replace("http://" + window.location.host + "/login/");
-}
 window.addEventListener('load', function () {
 
     /* Exercise 3 */
@@ -19,7 +16,7 @@ window.addEventListener('load', function () {
         }).then((response) => {
             console.log(response);
             if (response.status === 201) {
-                redirectLoginPage();
+                window.location.replace("http://" + window.location.host + "/login/");
             }
         });
     });
