@@ -31,10 +31,12 @@ class AI {
         //console.log("lastMove : ", lastMove);
         //console.log("Before Human update : ", this.grid);
         this.startTimer = Date.now();
-        if (lastMove === null || lastMove === undefined) {
+        if (JSON.stringify(lastMove) === JSON.stringify([])) {
+            console.log("first if")
             this.grid[height-1][3] = this.player;
             return [3, 0];
         } else {
+            console.log("first else")
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
@@ -459,4 +461,4 @@ function printGrid(grid) {
     console.log();
 }
 
-export {nextMove, setup}
+export {nextMove, setup, AI}
