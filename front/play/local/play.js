@@ -10,6 +10,23 @@ let ge = new GameEngine(p1, p2)
 function WebPageInteraction() {
     this.cells = ge.grid.cells;
 
+    function showWinner(gameState) {
+        let showWinner = document.getElementById("show-winner");
+        let close = document.getElementById("cross");
+        let winnerText = document.getElementById("winner-text");
+        close.addEventListener("click", function () {
+            showWinner.style.display = "none";
+        });
+        if (gameState.winner === "draw") {
+            winnerText.innerText = "Egalité !!";
+            let image = document.getElementById("pic");
+            image.src = "../../images/crying.png"
+        } else {
+            winnerText.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
+        }
+        showWinner.style.display = "block";
+    }
+
     this.webPagePlayTurn = function () {
         let clickCoords = this.id.split("-");
         let column = clickCoords[0];
@@ -27,20 +44,7 @@ function WebPageInteraction() {
         }
 
         if (ge.isGameOver) {
-            let showWinner = document.getElementById("show-winner");
-            let close = document.getElementById("cross");
-            let winnerText = document.getElementById("winner-text");
-            close.addEventListener("click", function () {
-                showWinner.style.display = "none";
-            });
-            if (gameState.winner === "draw") {
-                winnerText.innerText = "Egalité !!";
-                let image = document.getElementById("pic");
-                image.src = "../../images/crying.png"
-            }else {
-                winnerText.innerText = ge.getOtherPlayer().name + " gagnant !!";
-            }
-            showWinner.style.display = "block";
+            showWinner(gameState);
 
             document.querySelectorAll(".grid-item").forEach(c => {
                 c.removeEventListener("click", this.webPagePlayTurn);
@@ -63,6 +67,13 @@ function WebPageInteraction() {
             cell.addEventListener("click", this.webPagePlayTurn);
         }
     }
+
+    let giveUpButton = document.getElementById("button-abandon");
+    giveUpButton.addEventListener("click", function () {
+        ge.getOtherPlayer();
+        ge.isGameOver = true;
+        showWinner(ge);
+    });
 
     function convertIntToColor(color) {
         if (color === "1") {
