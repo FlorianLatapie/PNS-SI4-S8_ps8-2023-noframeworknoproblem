@@ -44,6 +44,12 @@ function WebPageInteraction() {
         }
     }
 
+    let giveUpButton = document.getElementById("button-abandon");
+    giveUpButton.addEventListener("click", function () {
+        gameSocket.emit("giveUp");
+        console.log("giveUp");
+    });
+
     this.addListeners();
 
 }
@@ -120,6 +126,7 @@ gameSocket.on("connect", () => {
     })
 
     gameSocket.on("gameIsOver", winner => {
+        console.log("gameIsOver received:", winner)
         let divWinner = document.getElementById("show-winner");
         let close = document.getElementById("cross");
         let winnerText = document.getElementById("winner-text");

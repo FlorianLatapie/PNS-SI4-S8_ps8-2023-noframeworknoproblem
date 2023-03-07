@@ -242,4 +242,9 @@ gameSocket.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user ' + socket.id + ' disconnected');
     });
+    socket.on("giveUp", () => {
+        socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
+        console.log("AI wins")
+    })
 });
+
