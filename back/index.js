@@ -238,14 +238,16 @@ gameSocket.on('connection', (socket) => {
         readNewMove(globalCoordinates, HumanPlayer, AIPlayer);
     })
 
+    // giveUp ----------------------------------------------------------------------------------------------------------
+    socket.on("giveUp", () => {
+        socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
+        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
+    })
+
     // disconnect ------------------------------------------------------------------------------------------------------
     socket.on('disconnect', () => {
         console.log('user ' + socket.id + ' disconnected');
     });
-    socket.on("giveUp", () => {
-        socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
-        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
-        console.log("AI wins")
-    })
+    
 });
 
