@@ -2,16 +2,7 @@
 #grid-div {
     display: flex;
     justify-content: center;
-}
-
-#winner {
-    position: absolute;
-    right: 0%;
-    top: 40%;
-    width: 20vw;
-    height: 80vh;
-    font-size: 50px;
-    color: black;
+    z-index: 1;
 
 }
 
@@ -22,11 +13,15 @@
     height: 100px;
     margin: 3px;
     cursor: pointer;
+    z-index: 1;
+
 }
 
 .fall {
     animation-name: fall-animation;
     animation-duration: 500ms;
+    z-index: 1;
+
 }
 
 @keyframes fall-animation {
@@ -44,7 +39,8 @@
     grid-template-rows: repeat(7, 1fr);
     width: max-content;
     background-color: blue;
-    transform: rotate(90deg)
+    transform: rotate(90deg);
+    z-index: 1;
 }
 
 #chat {
@@ -64,25 +60,58 @@
 
 .yellow-piece {
     background-color: yellow;
+    z-index: 1;
 }
 
 .red-piece {
     background-color: red;
+    z-index: 1;
 }
 
 .wrapper {
     display: grid;
     grid-template: 10vh 1fr / 8vw 1fr;
+    z-index: 1;
 }
 
 .wrapper > header {
-    grid-area: 1 / 1 / 1 / span 2
+    grid-area: 1 / 1 / 1 / span 2;
+    z-index: 1;
 }
 
 .wrapper > main {
     grid-area: 2 / 2;
+    z-index: 1;
+
 }
 
+#show-winner{
+    position:absolute;
+    display: none;
+    border: black solid 5px;
+    height: 220px;
+    width: 600px;
+    z-index: 2;
+    text-align: center;
+    background-color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+}
 
+#cross{
+    position: inherit;
+    right: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    display: inherit;
+    z-index: inherit;
+}
+
+#pic{
+    height: 130px;
+    width: 130px;
+}
 
 

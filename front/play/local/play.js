@@ -27,12 +27,20 @@ function WebPageInteraction() {
         }
 
         if (ge.isGameOver) {
-            let winner = document.getElementById("winner");
+            let showWinner = document.getElementById("show-winner");
+            let close = document.getElementById("cross");
+            let winnerText = document.getElementById("winner-text");
+            close.addEventListener("click", function () {
+                showWinner.style.display = "none";
+            });
             if (gameState.winner === "draw") {
-                winner.innerText = "It's a draw !!";
+                winnerText.innerText = "Egalité !!";
+                let image = document.getElementById("pic");
+                image.src = "../../images/crying.png"
             }else {
-                winner.innerText = ge.getOtherPlayer().name + " wins !!";
+                winnerText.innerText = ge.getOtherPlayer().name + " gagnant !!";
             }
+            showWinner.style.display = "block";
 
             document.querySelectorAll(".grid-item").forEach(c => {
                 c.removeEventListener("click", this.webPagePlayTurn);

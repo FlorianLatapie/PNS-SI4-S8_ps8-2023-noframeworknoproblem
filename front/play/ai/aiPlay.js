@@ -120,15 +120,26 @@ gameSocket.on("connect", () => {
     })
 
     gameSocket.on("gameIsOver", winner => {
-        let divWinner = document.getElementById("winner");
-
+        let divWinner = document.getElementById("show-winner");
+        let close = document.getElementById("cross");
+        let winnerText = document.getElementById("winner-text");
+        close.addEventListener("click", function () {
+            divWinner.style.display = "none";
+        });
         if (winner === "draw") {
-            //TODO il faut changer le message
-            divWinner.innerText = "Nobody wins";
+            winnerText.innerText = "Egalité !!";
         } else {
-            divWinner.innerText = winner + " wins !"
-        }
 
+            if (winner !== "AI"){
+                winnerText.innerText = "Tu as gagné !!";
+                let image = document.getElementById("pic");
+                image.src = "../../images/smile.png";
+            }
+            else {
+                winnerText.innerText = "Tu as perdu !!";
+            }
+        }
+        divWinner.style.display = "block";
         removeListeners();
     });
 
