@@ -87,15 +87,11 @@ let play = function (clickRow, clickColumn) {
     return new Position(column, row)
 }
 
-/*gameSocket.on("connect_error", (err) => {
-    console.log("Connection error: " + err.message)
-})*/
-
 const url = new URL(window.location.href);
 let AITurn = url.searchParams.get(PARAMETER_NAME_IA_PLAYS);
 
 if (AITurn === null) {
-    AITurn = 2//1//Math.floor(Math.random() * 2 + 1)
+    AITurn = 2;
 }
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);

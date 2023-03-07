@@ -64,11 +64,9 @@ gamedb.removeAllGames().then(() => {
     console.log("Server started, all the games have been removed from the database")
 })
 
-// middle ware ---------------------------------------------------------------------------------------------------------
-gameSocket.use((socket, next) => {
+function authenthicate(socket, next) {
     let token = socket.handshake.auth.token;
     if (token) {
-        // verify the token
         jwt.verify(token, JWTSecretCode, (err, decoded) => {
             if (err) {
                 console.log("error while verifying the token")
@@ -82,19 +80,27 @@ gameSocket.use((socket, next) => {
     } else {
         next(new Error("Authentication error"));
     }
+}
+
+// middle ware ---------------------------------------------------------------------------------------------------------
+gameSocket.use((socket, next) => {
+    authenthicate(socket, next);
 });
 
-let playerPlay = function (player, gameEngine, column, row) {
-    let gameState = gameEngine.playTurn(player, column, row);
-    gameSocket.emit("updatedBoard", {board: gameEngine.grid.cells})
-
+function saveOrDeleteGame(gameState, gameEngine) {
     if (gameState.isFinished === true) {
         GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
         gameSocket.emit("gameIsOver", gameState.winner)
     } else {
         GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
     }
+}
 
+let playerPlay = function (player, gameEngine, column, row) {
+    let gameState = gameEngine.playTurn(player, column, row);
+    gameSocket.emit("updatedBoard", {board: gameEngine.grid.cells})
+
+    saveOrDeleteGame(gameState, gameEngine);
 }
 let AIPlay = function (AIPlayer, gameEngine, lastMove) {
     let start = Date.now();
@@ -120,8 +126,7 @@ let humanPlay = function (HumanPlayer, gameEngine, globalCoordinates) {
     return [column, row];
 }
 
-// Connection ----------------------------------------------------------------------------------------------------------
-gameSocket.on('connection', (socket) => {
+function gameSocketOnConnectionInitVariables(socket) {
     console.log("-------------------------------------")
     console.log('Socket connected: id = ' + socket.id + ' username = ' + socket.username + ' userId = ' + socket.userId);
 
@@ -129,79 +134,108 @@ gameSocket.on('connection', (socket) => {
 
     let AIPlayer = new Player("AI", userId + "-AI")
     let HumanPlayer = new Player("HumanPlayer", userId)
+    return {userId, AIPlayer, HumanPlayer};
+}
+
+function autoPlay(gameEngineFromDB, HumanPlayer, AIPlayer) {
+    for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
+        if (i % 2 === 0) {
+            gameEngine.playTurn(HumanPlayer, gameEngineFromDB.turns[i])
+            let sentBoard = {
+                board: gameEngine.grid.cells
+            }
+            gameSocket.emit("updatedBoard", sentBoard)
+        } else {
+            gameEngine.playTurn(AIPlayer, gameEngineFromDB.turns[i])
+            let sentBoard = {
+                board: gameEngine.grid.cells
+            }
+            gameSocket.emit("updatedBoard", sentBoard)
+        }
+    }
+    console.log(gameEngine.grid.toString())
+}
+
+function reloadGameFromDB(dbResult, userId, HumanPlayer, AIPlayer) {
+    console.log("game found in the database")
+    // load the game engine from the file system
+    let gameEngineFromDB = dbResult.gameEngine;
+
+    if (gameEngineFromDB.player1.id === userId) {
+        gameEngine = new GameEngine(HumanPlayer, AIPlayer, gameEngineFromDB.id);
+        autoPlay(gameEngineFromDB, HumanPlayer, AIPlayer);
+    } else {
+        gameEngine = new GameEngine(AIPlayer, HumanPlayer, gameEngineFromDB.id);
+        autoPlay(gameEngineFromDB, AIPlayer, HumanPlayer);
+        console.log(gameEngine.grid.toString())
+    }
+}
+
+function newGame(setupObject, AIPlayer, HumanPlayer) {
+    console.log("game engine not found in the database, creating a new game ...")
+
+    // game engine not found : create a new one
+    if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {
+        gameSocket.emit("errorSetUp", new Error("Invalid setup"));
+        return;
+    }
+
+    let uuid = crypto.randomBytes(16).toString("hex");
+
+    setup(setupObject.AIplays);
+
+    if (setupObject.AIplays === 1) {
+        gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
+        AIPlay(AIPlayer, gameEngine);
+    } else {
+        gameEngine = new GameEngine(HumanPlayer, AIPlayer, uuid);
+    }
+}
+
+function readSetup(setupObject, userId, HumanPlayer, AIPlayer) {
+    console.log("setup", setupObject);
+    // search for a game engine in the db
+    gamedb.getGamePlayerId(userId).then(function (dbResult) {
+        if (dbResult !== null) {
+            reloadGameFromDB(dbResult, userId, HumanPlayer, AIPlayer);
+        } else {
+            newGame(setupObject, AIPlayer, HumanPlayer);
+        }
+    }).catch(function (error) {
+        displayACatchedError(error, "error while searching for a game engine in the database");
+    });
+}
+
+function readNewMove(globalCoordinates, HumanPlayer, AIPlayer) {
+    globalCoordinates[0] = parseInt(globalCoordinates[0]);
+    globalCoordinates[1] = parseInt(globalCoordinates[1]);
+
+    console.log("newMove", globalCoordinates);
+    try {
+        let moveHuman = humanPlay(HumanPlayer, gameEngine, globalCoordinates);
+        if (!gameEngine.isGameOver) {
+            AIPlay(AIPlayer, gameEngine, moveHuman);
+        }
+    } catch (e) {
+        console.log(e);
+        console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
+        gameSocket.emit("playError", e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
+    }
+    console.log("end of newMove ----------------------------------------------------------------------------------")
+}
+
+// Connection ----------------------------------------------------------------------------------------------------------
+gameSocket.on('connection', (socket) => {
+    let {userId, AIPlayer, HumanPlayer} = gameSocketOnConnectionInitVariables(socket);
 
     // Setup ----------------------------------------------------------------------------------------------------------
     socket.on("setup", setupObject => {
-        console.log("setup", setupObject);
-        // search for a game engine in the db
-        gamedb.getGamePlayerId(userId).then(function (result) {
-            if (result !== null) {
-                console.log("game found in the database")
-                // load the game engine from the file system
-                let gameEngineFromDB = result.gameEngine;
-
-                if (gameEngineFromDB.player1.id === userId) {
-                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, gameEngineFromDB.id);
-                    for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
-                        if (i % 2 === 0) {
-                            gameEngine.playTurn(HumanPlayer, gameEngineFromDB.turns[i])
-                            let sentBoard = {
-                                board: gameEngine.grid.cells
-                            }
-                            gameSocket.emit("updatedBoard", sentBoard)
-                        } else {
-                            gameEngine.playTurn(AIPlayer, gameEngineFromDB.turns[i])
-                            let sentBoard = {
-                                board: gameEngine.grid.cells
-                            }
-                            gameSocket.emit("updatedBoard", sentBoard)
-                        }
-                    }
-                    console.log(gameEngine.grid.toString())
-                } else {
-                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, gameEngineFromDB.id);
-                    console.log(gameEngine.grid.toString())
-                }
-            }
-            else {
-                console.log("game engine not found in the database, creating a new game ...")
-
-                // game engine not found : create a new one
-                if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {
-                    gameSocket.emit("errorSetUp", new Error("Invalid setup"))
-                }
-
-                let uuid = crypto.randomBytes(16).toString("hex");
-                setup(setupObject.AIplays);
-                if (setupObject.AIplays === 1) {
-                    gameEngine = new GameEngine(AIPlayer, HumanPlayer, uuid);
-                    AIPlay(AIPlayer, gameEngine);
-                } else {
-                    gameEngine = new GameEngine(HumanPlayer, AIPlayer, uuid);
-                }
-            }
-        }).catch(function (error) {
-            displayACatchedError(error,"error while searching for a game engine in the database");
-        });
+        readSetup(setupObject, userId, HumanPlayer, AIPlayer);
     });
 
     // newMove ---------------------------------------------------------------------------------------------------------
     socket.on("newMove", (globalCoordinates) => {
-        globalCoordinates[0] = parseInt(globalCoordinates[0]);
-        globalCoordinates[1] = parseInt(globalCoordinates[1]);
-
-        console.log("newMove", globalCoordinates);
-        try {
-            let moveHuman = humanPlay(HumanPlayer, gameEngine, globalCoordinates);
-            if (!gameEngine.isGameOver) {
-                AIPlay(AIPlayer, gameEngine, moveHuman);
-            }
-        } catch (e) {
-            console.log(e);
-            console.log("playError : " + e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
-            gameSocket.emit("playError", e.message + " error for player : " + gameEngine.currentPlayingPlayer.name)
-        }
-        console.log("end of newMove ---------------------------------------------------------------------------------------------------------------")
+        readNewMove(globalCoordinates, HumanPlayer, AIPlayer);
     })
 
     // disconnect ------------------------------------------------------------------------------------------------------
