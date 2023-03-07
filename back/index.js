@@ -99,4 +99,16 @@ gameSocket.on('connection', (socket) => {
     socket.on('matchmaking', () => {
 
     });
+    // giveUp ----------------------------------------------------------------------------------------------------------
+    socket.on("giveUp", () => {
+        socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
+        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
+    });
+
+    // disconnect ------------------------------------------------------------------------------------------------------
+    socket.on('disconnect', () => {
+        console.log('user ' + socket.id + ' disconnected');
+    });
+
 });
+
