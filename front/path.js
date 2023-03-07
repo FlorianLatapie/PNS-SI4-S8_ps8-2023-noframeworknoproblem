@@ -9,4 +9,6 @@ const PLAY_LOCAL_URL = 'play/local/';
 const PLAY_AI_URL = 'play/ai/';
 const PLAY_AI_ORDER_URL = 'play/ai/order/';
 
-export {BASE_URL, SIGNUP_URL, LOGIN_URL, HOME_URL, PLAY_LOCAL_URL, PLAY_AI_URL, PLAY_AI_ORDER_URL};
+const API_URL = 'api/';
+
+export {BASE_URL, SIGNUP_URL, LOGIN_URL, HOME_URL, PLAY_LOCAL_URL, PLAY_AI_URL, PLAY_AI_ORDER_URL, API_URL};

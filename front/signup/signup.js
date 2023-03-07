@@ -1,4 +1,4 @@
-import {BASE_URL, LOGIN_URL} from "../path.js";
+import {API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
 
 document.getElementById("login")
     .setAttribute("href",
@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
             password: document.getElementById("signup-password").value,
         }
 
-        fetch(BASE_URL + "api/signup", {
+        fetch(BASE_URL + API_URL + SIGNUP_URL, {
             method: "post", headers: {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
