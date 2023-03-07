@@ -244,6 +244,7 @@ gameSocket.on('connection', (socket) => {
     });
     socket.on("giveUp", () => {
         socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
+        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
         console.log("AI wins")
     })
 });
