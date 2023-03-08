@@ -6,6 +6,7 @@ const {
     DB_NAME,
     USER_COLLECTION,
     GAME_COLLECTION,
+    ACHIEVEMENTS_COLLECTION,
 } = process.env;
 
 export default {
@@ -13,4 +14,5 @@ export default {
     dbName: DB_NAME,
     userCollection: USER_COLLECTION,
     gameCollection: GAME_COLLECTION,
+    achievementsCollection: ACHIEVEMENTS_COLLECTION,
 };
