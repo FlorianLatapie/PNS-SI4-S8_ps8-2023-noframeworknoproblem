@@ -1,5 +1,5 @@
 import {parseJwt} from "../util/jwtParser.js";
-import {BASE_URL, HOME_URL, SIGNUP_URL} from "../path.js";
+import {API_URL, BASE_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
 
 document.getElementById("signup")
     .setAttribute("href",
@@ -12,7 +12,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: document.getElementById("login-password").value,
     }
 
-    fetch(BASE_URL + "api/login", {
+    fetch(BASE_URL + API_URL + LOGIN_URL, {
         method: "post", headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
@@ -22,14 +22,14 @@ document.getElementById("login-form").addEventListener("submit", function (event
         localStorage.setItem("token", jwtToken);
 
         let parsedJwt = parseJwt(jwtToken);
-        console.log(parsedJwt);
+        //console.log(parsedJwt);
 
         let username = parsedJwt.username;
         localStorage.setItem("username", username);
 
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
-        console.log("userId: " + userId);
+        //console.log("userId: " + userId);
         window.location.replace(BASE_URL + HOME_URL);
     });
 });

@@ -2,6 +2,7 @@
 
 import {sendResponse} from "./util.js";
 import {userSignUp, userLogIn} from "./user/apiUser.js";
+import {addAchievements} from "./user/userAchievements.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -26,6 +27,7 @@ function manageRequest(request, response) {
                 return;
             }
 
+            // try to parse the body as a JSON
             let bodyJson
             try {
                 bodyJson = JSON.parse(body);
@@ -35,14 +37,21 @@ function manageRequest(request, response) {
             }
 
             // parse the url and use the right function
-            if (urlPath[2] === "signup") {
-                userSignUp(request, response, bodyJson);
-            } else if (urlPath[2] === "login") {
-                // need to search the user in the database and check error
-                userLogIn(request, response, bodyJson);
-            } else {
-                console.log("URL", url, "not supported");
-                sendResponse(response, 404, "URL " + url + " not supported");
+            switch (urlPath[2]) {
+                case "signup":
+                    userSignUp(request, response, bodyJson);
+                    break;
+                case "login":
+                    // need to search the user in the database and check error
+                    userLogIn(request, response, bodyJson);
+                    break;
+                case "achievements":
+                    addAchievements(request, response, bodyJson);
+                    break;
+                default:
+                    console.log("URL", url, "not supported");
+                    sendResponse(response, 404, "URL " + url + " not supported");
+                    break;
             }
         });
     } else {

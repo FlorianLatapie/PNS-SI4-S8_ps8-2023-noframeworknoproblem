@@ -9,7 +9,7 @@ const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <link rel="stylesheet" href="`+BASE_URL+`/menu/burgermenu.css">
+    <link rel="stylesheet" href="` + BASE_URL + `/menu/burgermenu.css">
         <nav class="nav-bar top-corner-content">
             <div class="hamburger">
                 <span class="bar"></span>
@@ -18,12 +18,12 @@ template.innerHTML = `
             </div>
             <div id="nav-background"></div>
             <ul class="nav-menu">
-                <li><a class="nav-link" href=`+BASE_URL + HOME_URL+`><img alt="Accueil" src=`+house+` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Notifications" src=`+bell+` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Amis" src=`+user+` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Jouer" src=`+gamepad+` width="36"></a>
+                <li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Accueil" src=` + house + ` width="36"></a></li>
+                <li><a class="nav-link" href="#"><img alt="Notifications" src=` + bell + ` width="36"></a></li>
+                <li><a class="nav-link" href="#"><img alt="Amis" src=` + user + ` width="36"></a></li>
+                <li><a class="nav-link" href="#"><img alt="Jouer" src=` + gamepad + ` width="36"></a>
                 </li>
-                <li><a class="nav-link" id="logout" href="#"><img alt="Se déconnecter" src=`+logout+` width="36"></a></li>
+                <li><a class="nav-link" id="logout" href="#"><img alt="Se déconnecter" src=` + logout + ` width="36"></a></li>
             </ul>
         </nav>
 `;
@@ -55,7 +55,6 @@ class BurgerMenu extends HTMLElement {
             localStorage.clear();
             window.location.replace(BASE_URL + LOGIN_URL);
         });
-
     }
 }
 

@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" href="../images/icon.png" type="image/png" sizes="32x32">
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
     <title>Puissance 4</title>
     <link href="../common.css" rel="stylesheet">
     <link href="home.css" rel="stylesheet">
-    <script type="module" src="../util/guards/guard.js"></script>
-    <script type="module" src="../util/updateUsernameDiv.js"></script>
-    <script type="module" src="home.js"></script>
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="home.js" type="module"></script>
 </head>
 <body>
 
 <div class="wrapper">
-<header>
-    <burger-menu></burger-menu>
-    <h1 id="page-title">Accueil</h1>
-    <div class="top-corner-content" id="username">
+    <header>
+        <burger-menu></burger-menu>
+        <h1 id="page-title">Accueil</h1>
+        <div class="top-corner-content" id="username">
 
-    </div>
-</header>
+        </div>
+    </header>
 
-<main>
-    <div id="button-container">
-        <button class="home-button"><a id="play-local" href="../play/local/">Lancer une partie locale</a></button>
-        <button class="home-button"><a id="play-ai" href="../play/ai/order/">Lancer une partie contre un bot</a></button>
-        <form class="home-button" method="post">
-            <input class="text-input half-home-button" name="friend-name" placeholder="Nom d'un ami" type="text">
-            <button class="half-home-button" name="launch-game" type="submit">Partie contre un ami</button>
-        </form>
-    </div>
-</main>
+    <main>
+        <div id="button-container">
+            <button class="home-button"><a href="../play/local/" id="play-local">Lancer une partie locale</a></button>
+            <button class="home-button"><a href="../play/ai/order/" id="play-ai">Lancer une partie contre un bot</a>
+            </button>
+            <form class="home-button" method="post">
+                <input class="text-input half-home-button" name="friend-name" placeholder="Nom d'un ami" type="text">
+                <button class="half-home-button" name="launch-game" type="submit">Partie contre un ami</button>
+            </form>
+        </div>
+    </main>
 </div>
 </body>
-<script type="module" src="../menu/burgermenu.js"></script>
+<script src="../menu/burgermenu.js" type="module"></script>
 
 </html>

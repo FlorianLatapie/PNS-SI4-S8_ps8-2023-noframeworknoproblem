@@ -1,4 +1,11 @@
 import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL} from "../path.js";
+import {KonamiCode} from "../EasterEggs/konami.js";
+
+const konami = new KonamiCode(true);
+document.addEventListener("keydown", (e) => {
+        konami.checkKey(e);
+    }
+);
 
 document.getElementById("play-ai")
     .setAttribute("href",
