@@ -23,10 +23,7 @@ class KonamiCode {
                         'Accept': 'application/json', 'Content-Type': 'application/json'
                     }, body: JSON.stringify({token: localStorage.getItem("token"), achievement: "konami"})
                 }).then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        window.location.replace(BASE_URL + LOGIN_URL);
-                    }
+                    console.log("konami sent");
                 });
             }
         } else {
