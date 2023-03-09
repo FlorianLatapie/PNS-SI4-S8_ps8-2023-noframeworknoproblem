@@ -1,4 +1,4 @@
-import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL} from "../path.js";
+import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL, PLAY_MATCHMAKING_URL} from "../path.js";
 import {KonamiCode} from "../EasterEggs/konami.js";
 
 const konami = new KonamiCode(true);
@@ -14,3 +14,6 @@ document.getElementById("play-ai")
 document.getElementById("play-local")
     .setAttribute("href",
         BASE_URL + PLAY_LOCAL_URL);
+
+document.getElementById("play-matchmaking")
+    .setAttribute("href", BASE_URL + PLAY_MATCHMAKING_URL);

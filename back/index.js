@@ -10,11 +10,13 @@ import {Server} from "socket.io";
 import Player from "../front/GameLogic/Player.js";
 import GameEngine from "../front/GameLogic/GameEngine.js";
 import {nextMove, setup} from "./logic/minMaxAi.js";
-import jwt from "jsonwebtoken";
+import jwt, {verify} from "jsonwebtoken";
 import GameEngineDBUtil from "./object/GameEngineDBUtil.js";
 import {displayACatchedError} from "./util/util.js";
 import {JWTSecretCode} from "./credentials/credentials.js";
 import {AiRoom} from "./room/AiRoom.js";
+import {MatchmakingRoom} from "./room/MatchmakingRoom.js";
+import {jsonValidator} from "./util/jsonValidator.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -89,16 +91,43 @@ gameSocket.use((socket, next) => {
 });
 
 // Connection ----------------------------------------------------------------------------------------------------------
+
+let verifyObjectSetup = (setupObject) => {
+    let schema = {AIplays : 'number'}
+    let newObject = jsonValidator(setupObject, schema);
+
+    if (newObject.AIplays !== 1 && newObject.AIplays !== 2) {
+        throw new Error("AIPlays must be 1 or 2 not " + newObject.AIplays);
+    }
+
+    return newObject;
+}
+
+let waitingPlayers = [];
 gameSocket.on('connection', (socket) => {
     console.log("Socket id player : " + socket.id);
 
     socket.on('setup', (setupObject) => {
-        (new AiRoom(socket, gameSocket)).readSetup(setupObject);
+        try {
+            let setupObjectChecked = verifyObjectSetup(setupObject);
+            new AiRoom(socket, gameSocket, setupObjectChecked.AIplays);
+        } catch (error) {
+            gameSocket.to(socket.id).emit("error", error.message);
+        }
     });
 
     socket.on('matchmaking', () => {
-
+        if (waitingPlayers.length === 0) {
+            console.log(socket.id + "waiting for an opponent");
+            waitingPlayers.push(socket);
+            socket.to(socket.id).emit("waitingForOpponent");
+        } else {
+            let otherPlayer = waitingPlayers.pop();
+            console.log("matchmaking between " + socket.id + " and " + otherPlayer.id + " is starting");
+            new MatchmakingRoom(otherPlayer, socket, gameSocket);
+        }
     });
+
     // giveUp ----------------------------------------------------------------------------------------------------------
     socket.on("giveUp", () => {
         socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);

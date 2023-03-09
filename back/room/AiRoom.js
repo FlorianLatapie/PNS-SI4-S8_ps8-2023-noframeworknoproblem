@@ -21,7 +21,7 @@ class AiRoom {
   #AIPlayer;
   #HumanPlayer;
 
-  constructor(player, gameSocket) {
+  constructor(player, gameSocket, setupObject) {
     this.#player = player;
     this.#gameSocket = gameSocket;
     this.#ai = new AI();
@@ -37,6 +37,8 @@ class AiRoom {
 
     console.log("-------------------------------------")
     console.log('Socket connected: id = ' + this.#player.id + ' username = ' + this.#player.username + ' userId = ' + this.#player.userId);
+
+    this.readSetup(setupObject);
   }
 
   readSetup = (setupObject) => {
@@ -62,16 +64,14 @@ class AiRoom {
   }
 
   // TODO : Le problème est que gameEngine.id est undefined je sais pas trop pourquoi à voir plus tard
-  saveOrDeleteGame = (gameState, gameEngine) => {
+  saveOrDeleteGame = (gameState) => {
     console.log("Player id ", this.#player.id)
-    /*
     if (gameState.isFinished === true) {
-      GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
+      //GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
       this.#gameSocket.to(this.#player.id).emit("gameIsOver", gameState.winner)
     } else {
-      GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
+      //GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
     }
-     */
   }
 
   playerPlay = (player, column, row)  => {
@@ -144,10 +144,6 @@ class AiRoom {
     console.log("game engine not found in the database, creating a new game ...")
 
     // game engine not found : create a new one
-    if (setupObject.AIplays !== 1 && setupObject.AIplays !== 2) {
-      this.#gameSocket.to(this.#player.id).emit("errorSetUp", new Error("Invalid setup"));
-      return;
-    }
 
     let uuid = crypto.randomBytes(16).toString("hex");
 

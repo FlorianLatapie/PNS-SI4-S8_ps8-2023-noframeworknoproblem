@@ -2,7 +2,7 @@
 
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
-import {PARAMETER_NAME_IA_PLAYS} from "./constant.js";
+import {parseJwt} from "../../util/jwtParser.js";
 
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
@@ -10,8 +10,7 @@ let grid = new Grid(7, 6);
 let toPlay;
 let colorPlayer;
 let colorOtherPlayer;
-
-
+let playerUsername = parseJwt(localStorage.getItem("token")).username;
 
 function WebPageInteraction() {
 
@@ -62,12 +61,8 @@ function removeListeners (){
 }
 let wpi = new WebPageInteraction()
 
-let setupAI = function (AIplayTurn) {
-    if (AIplayTurn !== 1 && AIplayTurn !== 2) {
-        throw new Error("the value " + AIplayTurn + " of AIplay for the setup is invalid")
-    }
-
-    if (AIplayTurn === 1) {
+let setupMatchmaking = function (OpponentTurn) {
+    if (OpponentTurn === 1) {
         toPlay = false;
         colorPlayer = grid.redCellValue
         colorOtherPlayer = grid.yellowCellValue
@@ -78,9 +73,6 @@ let setupAI = function (AIplayTurn) {
         colorOtherPlayer = grid.redCellValue
         document.getElementById("page-title").innerText = "A ton tour";
     }
-
-    gameSocket.emit("setup", {AIplays: AIplayTurn})
-    console.log("setup", {AIplays: AIplayTurn})
 }
 
 let play = function (clickRow, clickColumn) {
@@ -92,18 +84,9 @@ let play = function (clickRow, clickColumn) {
     console.log("newMove", [column, row]);
     return new Position(column, row)
 }
-
-const url = new URL(window.location.href);
-let AITurn = url.searchParams.get(PARAMETER_NAME_IA_PLAYS);
-
-if (AITurn === null) {
-    AITurn = 2;
-}
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
     console.log("token: " + localStorage.getItem("token"));
-
-    setupAI(+AITurn);
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
         let move = grid.findMove(globalCoordsGrid.board)
@@ -135,7 +118,7 @@ gameSocket.on("connect", () => {
         if (winner === "draw") {
             winnerText.innerText = "Egalité !!";
         } else {
-            if (winner !== "AI"){
+            if (winner === playerUsername){
                 winnerText.innerText = "Tu as gagné !!";
                 let image = document.getElementById("pic");
                 image.src = "../../images/smile.png";
@@ -148,12 +131,20 @@ gameSocket.on("connect", () => {
         removeListeners();
     });
 
+    gameSocket.on("setup", setupMatchmaking);
+
+    gameSocket.on("waitingForOpponent", () => {
+        // TODO : put an explicit message on the web page
+        console.log("waitingForOpponent");
+    });
+
     gameSocket.on("playError", (Error) => {
         console.log("playError received:", Error)
     });
-});
 
-export {PARAMETER_NAME_IA_PLAYS}
+    // Send the event to inform the server that the client is ready to play a game against another human player
+    gameSocket.emit("matchmaking");
+});
 
 
 
