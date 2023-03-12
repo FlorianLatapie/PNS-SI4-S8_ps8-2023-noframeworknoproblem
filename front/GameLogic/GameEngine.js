@@ -3,6 +3,7 @@ import GridChecker from "./GridChecker.js";
 import GameState from "../DataExanges/GameState.js";
 
 
+// TODO : to convert in class
 export default function GameEngine(player1, player2, gameID = "I am a local game engine") {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.id = gameID;
@@ -70,7 +71,7 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
             return false
         }
         let cell = this.grid.getCellInGlobalCoordinated(globalRow, globalColumn)
-        let defaultCell = this.grid.defaultCellValue
+        let defaultCell = Grid.defaultCellValue
 
         if (globalRow === 0) {
             if (cell === defaultCell) {
@@ -120,8 +121,8 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
 
     // Constructor -----------------------------------------------------------------------------------------------------
 
-    player1.color = this.grid.yellowCellValue;
-    player2.color = this.grid.redCellValue;
+    player1.color = Grid.yellowCellValue;
+    player2.color = Grid.redCellValue;
 
     // The first player is randomly chosen
     this.currentPlayingPlayer = player1;

@@ -1,37 +1,43 @@
 import {Position} from "./Position.js";
 
-export default function Grid(width, height) {
+export default class Grid {
     // Attributes ------------------------------------------------------------------------------------------------------
-    const defaultCellValue = "0";
-    const redCellValue = "2";
-    const yellowCellValue = "1";
+    static defaultCellValue = "0";
+    static redCellValue = "2";
+    static yellowCellValue = "1";
+
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.cells = this.createGrid();
+    }
 
     // Methods ---------------------------------------------------------------------------------------------------------
-    let createGrid = function () {
-        let cells = new Array(height);
+    createGrid = () =>  {
+        let cells = new Array(this.height);
 
-        for (let i = 0; i < height; i++) {
-            cells[i] = new Array(width);
-            for (let j = 0; j < width; j++) {
-                cells[i][j] = defaultCellValue;
+        for (let i = 0; i < this.height; i++) {
+            cells[i] = new Array(this.width);
+            for (let j = 0; j < this.width; j++) {
+                cells[i][j] = Grid.defaultCellValue;
             }
         }
         return cells;
     }
 
-    this.isColumnFull = function (column) {
-        return this.cells[0][column] !== defaultCellValue;
+    isColumnFull = (column) => {
+        return this.cells[0][column] !== Grid.defaultCellValue;
     }
 
-    this.isCellEmpty = function (x, y) {
-        return this.cells[y][x] === defaultCellValue;
+    isCellEmpty = (x, y) => {
+        return this.cells[y][x] === Grid.defaultCellValue;
     }
 
-    this.setCell = function (x, y, value) {
+    setCell = (x, y, value) => {
         this.cells[y][x] = value;
     }
 
-    this.addDisk = function (player, column) {
+    addDisk = (player, column) => {
         for (let row = this.height - 1; row >= 0; row--) {
             if (this.isCellEmpty(column, row)) {
                 this.setCell(column, row, player.color);
@@ -41,24 +47,24 @@ export default function Grid(width, height) {
         throw new Error("Column " + column + " is full or cell not found, this should not happen");
     }
 
-    this.getRowOfLastDisk = function (column) {
+    getRowOfLastDisk = (column) => {
         for (let row = 0; row < this.height; row++) {
             if (!this.isCellEmpty(column, row)) {
-                return height - row;
+                return this.height - row;
             }
         }
         return 0;
     }
 
-    this.toString = function () {
+    toString = () => {
         let str = "";
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                if (this.cells[i][j] === defaultCellValue) {
+                if (this.cells[i][j] === Grid.defaultCellValue) {
                     str += "_";
-                } else if (this.cells[i][j] === redCellValue) {
+                } else if (this.cells[i][j] === Grid.redCellValue) {
                     str += "R";
-                } else if (this.cells[i][j] === yellowCellValue) {
+                } else if (this.cells[i][j] === Grid.yellowCellValue) {
                     str += "Y";
                 } else {
                     str += "?";
@@ -70,7 +76,7 @@ export default function Grid(width, height) {
     }
 
     // compare this.grid with otherGrid and return the position of the first different cell to find the last move of the opponent
-    this.findMove = function (otherCells) {
+    findMove = (otherCells) => {
         for (let column = 0; column < this.width; column++) {
             for (let row = 0; row < this.height; row++) {
                 if (this.cells[+row][+column] !== otherCells[+row][+column]) {
@@ -80,35 +86,11 @@ export default function Grid(width, height) {
         }
     }
 
-    this.getCellInGlobalCoordinated = function (row, column) {
+    getCellInGlobalCoordinated = (row, column) => {
         return this.cells[row][this.height - 1 - column]
     }
 
-    this.getGlobalPosition = function (column, row) {
+    getGlobalPosition = (column, row) => {
         return new Position(column, this.height - 1 - row)
     }
-
-    // Setter only for these attributes --------------------------------------------------------------------------------
-    Object.defineProperty(this, "defaultCellValue", {
-        get: function () {
-            return defaultCellValue;
-        }
-    });
-
-    Object.defineProperty(this, "redCellValue", {
-        get: function () {
-            return redCellValue;
-        }
-    });
-
-    Object.defineProperty(this, "yellowCellValue", {
-        get: function () {
-            return yellowCellValue;
-        }
-    });
-
-    // Constructor -----------------------------------------------------------------------------------------------------
-    this.width = width;
-    this.height = height;
-    this.cells = createGrid();
 }
