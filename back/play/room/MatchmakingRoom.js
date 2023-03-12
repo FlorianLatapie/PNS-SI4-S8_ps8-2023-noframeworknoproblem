@@ -1,14 +1,6 @@
 import Player from "../../../front/GameLogic/Player.js";
-
-import jwt from 'jsonwebtoken';
 import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
-import GameEngineDBUtil from "../../object/GameEngineDBUtil.js";
-import {AI} from "../../logic/minMaxAi.js";
-import gamedb from "../../database/gamedb.js";
-import {displayACatchedError} from "../../util/util.js";
-import MatchmakingRoomInstances from "../MatchmakingRoomInstances.js";
-
 
 class MatchmakingRoom {
     #player1;
@@ -39,12 +31,27 @@ class MatchmakingRoom {
     }
 
     setListeners = (socket) => {
-        // TODO : Need to bind the socket to the function readNewMove
-        socket.on('newMove', this.readNewMove.bind(this, socket));
-        socket.on('disconnect', () => {
-            console.log('user ' + socket.id + ' disconnected');
-        });
+        socket.removeAllListeners();
+        socket.on("newMove", this.readNewMove.bind(this, socket));
+        socket.on("giveUp", this.#giveUpFunction.bind(this, socket));
         socket.join(this.#room);
+    }
+
+    #giveUpFunction = (socket) => {
+        let winner = this.#gameEngine.getOpponentPlayer(socket.userId).name;
+        this.#gameIsOver(winner);
+    }
+
+    #gameIsOverEmit = (winner) => {
+        this.#gameSocket.to(this.#room).emit("gameIsOver", winner)
+    }
+
+    #updatedBoardEmit = () => {
+        this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
+    }
+    #removeListeners = () => {
+        this.#player1.removeAllListeners();
+        this.#player2.removeAllListeners();
     }
 
     initPlayer = (socket, playPositionOfOpponent) => {
@@ -73,31 +80,26 @@ class MatchmakingRoom {
     }
      */
 
-    returnBoard = () => {
-        this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
-    }
-
     // TODO : Le problème est que gameEngine.id est undefined je sais pas trop pourquoi à voir plus tard
     saveOrDeleteGame = (gameState) => {
         if (gameState.isFinished === true) {
-          //GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
-            this.#gameIsOver(gameState)
-          this.#gameSocket.to(this.#room).emit("gameIsOver", gameState.winner)
+            //GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
+            this.#gameIsOver(gameState.winner)
         } else {
-          //GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
+            //GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
         }
     }
 
-    playerPlay = (player, column, row)  => {
+    playerPlay = (player, column, row) => {
         let gameState = this.#gameEngine.playTurn(player, column, row);
-        this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
-
+        this.#updatedBoardEmit(player);
         this.saveOrDeleteGame(gameState);
     }
 
-    #gameIsOver = (gameState) => {
-        this.#gameSocket.to(this.#room).emit("gameIsOver", gameState.winner)
+    #gameIsOver = (winner) => {
+        this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
+        this.#removeListeners()
     }
 
     humanPlay = (globalCoordinates, socket) => {
@@ -105,7 +107,7 @@ class MatchmakingRoom {
         let row = globalCoordinates[1];
 
         this.playerPlay(this.#HumanPlayers[socket.userId], column, row);
-        console.log("HumanPlay new board ",  this.#gameEngine.grid.toString())
+        console.log("HumanPlay new board ", this.#gameEngine.grid.toString())
         return [column, row];
     }
 
@@ -157,7 +159,7 @@ class MatchmakingRoom {
     }
 
 
-    readNewMove=(socket, globalCoordinates)=> {
+    readNewMove = (socket, globalCoordinates) => {
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
 
@@ -191,7 +193,7 @@ class MatchmakingRoom {
 
         // évènement reconnectedPlayer : first parameter is the board, second parameter true if the player has to play false otherwise
         this.#gameSocket.to(socket.id).emit("reconnect",
-            {board : this.#gameEngine.grid.cells},
+            {board: this.#gameEngine.grid.cells},
             this.#gameEngine.currentPlayingPlayer.id === socket.userId,
             this.#HumanPlayers[socket.userId].color,
             nameOtherPlayer);

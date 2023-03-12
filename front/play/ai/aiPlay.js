@@ -12,14 +12,13 @@ let colorPlayer;
 let colorOtherPlayer;
 
 
-
 function WebPageInteraction() {
 
     this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
 
         cell.classList.add("fall");
-        if (color === grid.redCellValue) {
+        if (color === Grid.redCellValue) {
             cell.classList.add("red-piece");
         } else {
             cell.classList.add("yellow-piece");
@@ -37,7 +36,7 @@ function WebPageInteraction() {
         for (let column = 0; column < grid.width; column++) {
             for (let line = 0; line < grid.height; line++) {
                 let cell = document.getElementById(column + "-" + line);
-                cell.setAttribute("value", grid.defaultCellValue);
+                cell.setAttribute("value", Grid.defaultCellValue);
                 cell.style.cursor = "pointer";
                 cell.addEventListener("click", this.webPagePlayTurn);
             }
@@ -51,6 +50,7 @@ function WebPageInteraction() {
     });
 
     this.addListeners();
+
 
 }
 
@@ -69,13 +69,13 @@ let setupAI = function (AIplayTurn) {
 
     if (AIplayTurn === 1) {
         toPlay = false;
-        colorPlayer = grid.redCellValue
-        colorOtherPlayer = grid.yellowCellValue
+        colorPlayer = Grid.redCellValue
+        colorOtherPlayer = Grid.yellowCellValue
         document.getElementById("page-title").innerText = "Au tour de l'adversaire";
     } else {
         toPlay = true;
-        colorPlayer = grid.yellowCellValue
-        colorOtherPlayer = grid.redCellValue
+        colorPlayer = Grid.yellowCellValue
+        colorOtherPlayer = Grid.redCellValue
         document.getElementById("page-title").innerText = "A ton tour";
     }
 
@@ -125,7 +125,8 @@ gameSocket.on("connect", () => {
         toPlay = !toPlay
     })
 
-    gameSocket.on("gameIsOver", winner => {
+    gameSocket.on("gameIsOver", (winner) => {
+        console.log("gameIsOver received:", winner)
         let divWinner = document.getElementById("show-winner");
         let close = document.getElementById("cross");
         let winnerText = document.getElementById("winner-text");

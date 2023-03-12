@@ -2,6 +2,7 @@
 
 import Player from "../../GameLogic/Player.js";
 import GameEngine from "../../GameLogic/GameEngine.js";
+import Grid from "../../GameLogic/Grid.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
@@ -37,7 +38,7 @@ function WebPageInteraction() {
         let gameState = ge.playTurn(ge.currentPlayingPlayer, clickCoords[0]);
 
         cell.classList.add("fall");
-        if (ge.getOtherPlayer().color === ge.grid.redCellValue) {
+        if (ge.getOtherPlayer().color === Grid.redCellValue) {
             cell.classList.add("red-piece");
         } else {
             cell.classList.add("yellow-piece");

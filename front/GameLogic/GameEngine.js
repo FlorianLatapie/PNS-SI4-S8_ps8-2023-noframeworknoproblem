@@ -31,6 +31,17 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
         }
     }
 
+
+    this.getOpponentPlayer = (playerId) => {
+        if (this.player1.id === playerId) {
+            return this.player2
+        } else if (this.player2.id === playerId) {
+            return this.player1
+        } else {
+            throw new Error("Invalid player");
+        }
+    }
+
     // Verify the end condition of the game
     this.checkWin = function (row, column, color) {
         // convert row and column to int
