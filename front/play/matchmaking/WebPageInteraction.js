@@ -9,7 +9,7 @@ class WebPageInteraction {
     constructor(grid) {
         this.#grid = grid;
         console.log("WebPageInteraction constructor grid ", grid)
-        this.addListeners();
+        this.addAllListeners();
     }
 
     setSocketMatchmaking = (socketMatchmaking) => {
@@ -51,7 +51,17 @@ class WebPageInteraction {
         this.play(column, row); // need to send something via the socket
     }
 
-    addListeners = () => {
+    addAllListeners = () => {
+        this.#gridListener();
+        this.#giveUpListener();
+    }
+
+    removeAllListeners = () => {
+        this.removeGridListeners();
+        this.removeGiveUpListener();
+    }
+
+    #gridListener = () => {
         for (let column = 0; column < this.#grid.width; column++) {
             for (let line = 0; line < this.#grid.height; line++) {
                 let cell = document.getElementById(column + "-" + line);
@@ -62,11 +72,25 @@ class WebPageInteraction {
         }
     }
 
-    removeListeners = () => {
+    #giveUpListener = () => {
+        let giveUpButton = document.getElementById("button-abandon");
+        giveUpButton.addEventListener("click", this.#clickGiveUpButton);
+    }
+
+    #clickGiveUpButton = () => {
+        this.#socketMatchmaking.giveUpEmit();
+    }
+
+    removeGridListeners = () => {
         document.querySelectorAll(".grid-item").forEach(c => {
             c.removeEventListener("click", this.webPagePlayTurn);
             c.style.cursor = "not-allowed";
         });
+    }
+
+    removeGiveUpListener = () => {
+        let giveUpButton = document.getElementById("button-abandon");
+        giveUpButton.removeEventListener("click", this.#clickGiveUpButton);
     }
 
     play = (clickRow, clickColumn) => {
@@ -77,24 +101,24 @@ class WebPageInteraction {
 
     playerPlay = (column, row, color) => {
         this.updateWebPageGrid(column, row, color);
-        this.removeListeners();
+        this.removeGridListeners();
         this.otherPlayerTurnMessage();
     }
 
     otherPlayerPlay = (column, row, color) => {
         this.updateWebPageGrid(column, row, color);
-        this.addListeners();
+        this.addAllListeners();
         this.playerTurnMessage();
     }
 
     reconnectPlayerTurn = () => {
         this.playerTurnMessage();
-        this.addListeners();
+        this.addAllListeners();
     }
 
     reconnectOtherPlayerTurn = () => {
         this.otherPlayerTurnMessage();
-        this.removeListeners();
+        this.removeGridListeners();
     }
 
     playerTurnMessage = () => {
@@ -131,7 +155,7 @@ class WebPageInteraction {
             }
         }
         divWinner.style.display = "block";
-        this.removeListeners();
+        this.removeAllListeners();
     }
 
     alreadyConnectedMessage = () => {

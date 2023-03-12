@@ -116,6 +116,11 @@ class SocketMatchmaking {
         this.#gameSocket.emit("newMove", [+column, +row]);
         console.log("newMove", [column, row]);
     }
+
+    giveUpEmit = () => {
+        this.#gameSocket.emit("giveUp");
+        console.log("giveUp");
+    }
 }
 
 export default SocketMatchmaking;

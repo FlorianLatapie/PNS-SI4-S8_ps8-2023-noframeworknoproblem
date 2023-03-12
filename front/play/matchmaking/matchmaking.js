@@ -71,7 +71,7 @@ function WebPageInteraction() {
         console.log("giveUp");
     });
 
-    this.addListeners();
+    this.addAllListeners();
 
 }
 

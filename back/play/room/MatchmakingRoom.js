@@ -40,6 +40,7 @@ class MatchmakingRoom {
     #giveUpFunction = (socket) => {
         let winner = this.#gameEngine.getOpponentPlayer(socket.userId).name;
         this.#gameIsOver(winner);
+        console.log("giveUpFunction", winner)
     }
 
     #gameIsOverEmit = (winner) => {
