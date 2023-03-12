@@ -14,9 +14,11 @@ import jwt, {verify} from "jsonwebtoken";
 import GameEngineDBUtil from "./object/GameEngineDBUtil.js";
 import {displayACatchedError} from "./util/util.js";
 import {JWTSecretCode} from "./credentials/credentials.js";
-import {AiRoom} from "./room/AiRoom.js";
-import {MatchmakingRoom} from "./room/MatchmakingRoom.js";
+import {AiRoom} from "./play/room/AiRoom.js";
+import {MatchmakingRoom} from "./play/room/MatchmakingRoom.js";
 import {jsonValidator} from "./util/jsonValidator.js";
+import PlayersQueue from "./play/PlayersQueue.js";
+import MatchmakingController from "./play/MatchmakingController.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -60,7 +62,6 @@ const io = new Server(httpServer, {
 
 // main ----------------------------------------------------------------------------------------------------------------
 const gameSocket = io.of("/api/game")
-let gameEngine;
 
 // removes all the games from the database when the server starts/restarts
 gamedb.removeAllGames().then(() => {
@@ -103,11 +104,12 @@ let verifyObjectSetup = (setupObject) => {
     return newObject;
 }
 
-let waitingPlayers = [];
+let matchmakingController = new MatchmakingController(gameSocket);
 gameSocket.on('connection', (socket) => {
     console.log("Socket id player : " + socket.id);
 
-    socket.on('setup', (setupObject) => {
+    socket.once('setup', (setupObject) => {
+        socket.removeAllListeners();
         try {
             let setupObjectChecked = verifyObjectSetup(setupObject);
             new AiRoom(socket, gameSocket, setupObjectChecked.AIplays);
@@ -116,28 +118,15 @@ gameSocket.on('connection', (socket) => {
         }
     });
 
-    socket.on('matchmaking', () => {
-        if (waitingPlayers.length === 0) {
-            console.log(socket.id + "waiting for an opponent");
-            waitingPlayers.push(socket);
-            socket.to(socket.id).emit("waitingForOpponent");
-        } else {
-            let otherPlayer = waitingPlayers.pop();
-            console.log("matchmaking between " + socket.id + " and " + otherPlayer.id + " is starting");
-            new MatchmakingRoom(otherPlayer, socket, gameSocket);
-        }
+    socket.once('matchmaking', () => {
+        matchmakingController.newConnection(socket);
     });
 
+    // TODO : need to move this in AIRoom and MatchmakingRoom
     // giveUp ----------------------------------------------------------------------------------------------------------
     socket.on("giveUp", () => {
         socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
         GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
     });
-
-    // disconnect ------------------------------------------------------------------------------------------------------
-    socket.on('disconnect', () => {
-        console.log('user ' + socket.id + ' disconnected');
-    });
-
 });
 

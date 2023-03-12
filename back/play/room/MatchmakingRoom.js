@@ -1,12 +1,13 @@
-import Player from "../../front/GameLogic/Player.js";
+import Player from "../../../front/GameLogic/Player.js";
 
 import jwt from 'jsonwebtoken';
-import GameEngine from '../../front/GameLogic/GameEngine.js';
+import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
-import GameEngineDBUtil from "../object/GameEngineDBUtil.js";
-import {AI} from "../logic/minMaxAi.js";
-import gamedb from "../database/gamedb.js";
-import {displayACatchedError} from "../util/util.js";
+import GameEngineDBUtil from "../../object/GameEngineDBUtil.js";
+import {AI} from "../../logic/minMaxAi.js";
+import gamedb from "../../database/gamedb.js";
+import {displayACatchedError} from "../../util/util.js";
+import MatchmakingRoomInstances from "../MatchmakingRoomInstances.js";
 
 
 class MatchmakingRoom {
@@ -22,26 +23,32 @@ class MatchmakingRoom {
 
     #room;
 
-    constructor(player1, player2, gameSocket) {
+    #matchmakingRoomInstances;
+
+    constructor(player1, player2, gameSocket, matchmakingRoomInstances) {
         this.#player1 = player1;
         this.#player2 = player2;
         this.#gameSocket = gameSocket;
         this.#room = crypto.randomBytes(16).toString('hex');
+        this.#matchmakingRoomInstances = matchmakingRoomInstances;
 
         this.newGame();
 
-        this.setListeners(this.#player1, 2);
-        this.setListeners(this.#player2, 1);
+        this.initPlayer(this.#player1, 2);
+        this.initPlayer(this.#player2, 1);
     }
 
-    setListeners = (socket, playPositionOfOpponent) => {
+    setListeners = (socket) => {
         // TODO : Need to bind the socket to the function readNewMove
         socket.on('newMove', this.readNewMove.bind(this, socket));
         socket.on('disconnect', () => {
             console.log('user ' + socket.id + ' disconnected');
         });
         socket.join(this.#room);
+    }
 
+    initPlayer = (socket, playPositionOfOpponent) => {
+        this.setListeners(socket);
         socket.emit("setup", playPositionOfOpponent);
     }
 
@@ -74,6 +81,7 @@ class MatchmakingRoom {
     saveOrDeleteGame = (gameState) => {
         if (gameState.isFinished === true) {
           //GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
+            this.#gameIsOver(gameState)
           this.#gameSocket.to(this.#room).emit("gameIsOver", gameState.winner)
         } else {
           //GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
@@ -85,6 +93,11 @@ class MatchmakingRoom {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
 
         this.saveOrDeleteGame(gameState);
+    }
+
+    #gameIsOver = (gameState) => {
+        this.#gameSocket.to(this.#room).emit("gameIsOver", gameState.winner)
+        this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
     }
 
     humanPlay = (globalCoordinates, socket) => {
@@ -145,9 +158,6 @@ class MatchmakingRoom {
 
 
     readNewMove=(socket, globalCoordinates)=> {
-        console.log("MatchmakingRoom.readNewMove parameter socket", socket);
-        console.log("MatchmakingRoom.readNewMove parameter globalCoordinates", globalCoordinates);
-
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
 
@@ -159,6 +169,25 @@ class MatchmakingRoom {
             this.#gameSocket.to(this.#room).emit("playError", e.message + " error for player : " + this.#gameEngine.currentPlayingPlayer.name)
         }
         console.log("end of newMove ----------------------------------------------------------------------------------")
+    }
+
+    reconnectPlayer = (socket) => {
+        console.log("reconnectPlayer", socket.userId)
+        console.log("player1", this.#player1.userId)
+        console.log("player2", this.#player2.userId)
+        if (this.#player1.userId === socket.userId) {
+            this.#player1 = socket;
+            this.setListeners(this.#player1);
+            console.log("the player1 is reconnected");
+        } else if (this.#player2.userId === socket.userId) {
+            this.#player2 = socket;
+            this.setListeners(this.#player2);
+            console.log("the player2 is reconnected");
+        }
+
+        // évènement reconnectedPlayer : first parameter is the board, second parameter true if the player has to play false otherwise
+        // TODO : change it later to send also the name of the opponent player
+        this.#gameSocket.to(socket.id).emit("reconnect", {board : this.#gameEngine.grid.cells}, this.#gameEngine.currentPlayingPlayer.id === socket.userId);
     }
 }
 

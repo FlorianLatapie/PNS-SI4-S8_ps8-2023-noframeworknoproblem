@@ -1,12 +1,12 @@
-import Player from "../../front/GameLogic/Player.js";
+import Player from "../../../front/GameLogic/Player.js";
 
 import jwt from 'jsonwebtoken';
-import GameEngine from '../../front/GameLogic/GameEngine.js';
+import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
-import GameEngineDBUtil from "../object/GameEngineDBUtil.js";
-import {AI} from "../logic/minMaxAi.js";
-import gamedb from "../database/gamedb.js";
-import {displayACatchedError} from "../util/util.js";
+import GameEngineDBUtil from "../../object/GameEngineDBUtil.js";
+import {AI} from "../../logic/minMaxAi.js";
+import gamedb from "../../database/gamedb.js";
+import {displayACatchedError} from "../../util/util.js";
 
 
 class AiRoom {
