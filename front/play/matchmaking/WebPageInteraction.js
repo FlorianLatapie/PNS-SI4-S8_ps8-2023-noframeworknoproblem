@@ -1,4 +1,5 @@
 import Grid from "../../GameLogic/Grid.js";
+import {parseJwt} from "../../util/jwtParser.js";
 
 class WebPageInteraction {
 
@@ -72,6 +73,69 @@ class WebPageInteraction {
         let column = clickColumn;
         let row = this.#grid.getRowOfLastDisk(column);
         this.#socketMatchmaking.newMoveEmit(column, row);
+    }
+
+    playerPlay = (column, row, color) => {
+        this.updateWebPageGrid(column, row, color);
+        this.removeListeners();
+        this.otherPlayerTurnMessage();
+    }
+
+    otherPlayerPlay = (column, row, color) => {
+        this.updateWebPageGrid(column, row, color);
+        this.addListeners();
+        this.playerTurnMessage();
+    }
+
+    reconnectPlayerTurn = () => {
+        this.playerTurnMessage();
+        this.addListeners();
+    }
+
+    reconnectOtherPlayerTurn = () => {
+        this.otherPlayerTurnMessage();
+        this.removeListeners();
+    }
+
+    playerTurnMessage = () => {
+        this.#changeTitlePage("A ton tour");
+    }
+
+    otherPlayerTurnMessage = () => {
+        this.#changeTitlePage("Au tour de l'adversaire");
+    }
+
+    waitingForOtherPlayerMessage = () => {
+        this.#changeTitlePage("En attente de l'adversaire");
+    }
+    #changeTitlePage = (title) => {
+        document.getElementById("page-title").innerText = title;
+    }
+
+    gameIsOver = (winner) => {
+        let divWinner = document.getElementById("show-winner");
+        let close = document.getElementById("cross");
+        let winnerText = document.getElementById("winner-text");
+        close.addEventListener("click", function () {
+            divWinner.style.display = "none";
+        });
+        if (winner === "draw") {
+            winnerText.innerText = "Egalité !!";
+        } else {
+            if (winner === parseJwt(localStorage.getItem("token")).username) {
+                winnerText.innerText = "Tu as gagné !!";
+                let image = document.getElementById("pic");
+                image.src = "../../images/smile.png";
+            } else {
+                winnerText.innerText = "Tu as perdu !!";
+            }
+        }
+        divWinner.style.display = "block";
+        this.removeListeners();
+    }
+
+    alreadyConnected = () => {
+        this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
     }
 }
 

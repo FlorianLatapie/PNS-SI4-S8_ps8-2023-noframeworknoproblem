@@ -27,6 +27,7 @@ class SocketMatchmaking {
             this.#gameSocket.on("setup", this.#setupFunction);
             this.#gameSocket.on("waitingForOpponent", this.#waitingForOpponentFunction);
             this.#gameSocket.on("reconnect", this.#reconnectFunction);
+            this.#gameSocket.on("alreadyConnected", this.#alreadyConnectedFunction);
         });
     }
 
@@ -40,39 +41,17 @@ class SocketMatchmaking {
         if (this.#gameState.getToPlay()) {
             // premier updateGrid, le joueur doit don jouer
             // deuxième updateGrid reçu après l'exécution de l'évènement newMove, il faut update lka grille
-            this.#webPageInteraction.updateWebPageGrid(move.column, move.row, this.#gameState.getColorPlayer())
-            this.#webPageInteraction.removeListeners();
-            document.getElementById("page-title").innerText = "Au tour de l'adversaire";
+            this.#webPageInteraction.playerPlay(move.column, move.row, this.#gameState.getColorPlayer())
         } else {
             // the client just receive the confirmation of its move
-            this.#webPageInteraction.updateWebPageGrid(move.column, move.row, this.#gameState.getColorOtherPlayer())
-            this.#webPageInteraction.addListeners();
-            document.getElementById("page-title").innerText = "A ton tour";
+            this.#webPageInteraction.otherPlayerPlay(move.column, move.row, this.#gameState.getColorOtherPlayer())
         }
 
         this.#gameState.changeToPlay();
     }
 
     #gameIsOverFunction = (winner) => {
-        let divWinner = document.getElementById("show-winner");
-        let close = document.getElementById("cross");
-        let winnerText = document.getElementById("winner-text");
-        close.addEventListener("click", function () {
-            divWinner.style.display = "none";
-        });
-        if (winner === "draw") {
-            winnerText.innerText = "Egalité !!";
-        } else {
-            if (winner === parseJwt(localStorage.getItem("token")).username) {
-                winnerText.innerText = "Tu as gagné !!";
-                let image = document.getElementById("pic");
-                image.src = "../../images/smile.png";
-            } else {
-                winnerText.innerText = "Tu as perdu !!";
-            }
-        }
-        divWinner.style.display = "block";
-        this.#webPageInteraction.removeListeners();
+        this.#webPageInteraction.gameIsOver(winner);
     }
 
     #setupFunction = (OpponentTurn) => {
@@ -85,42 +64,52 @@ class SocketMatchmaking {
             toPlay = false;
             colorPlayer = Grid.redCellValue
             colorOtherPlayer = Grid.yellowCellValue
-            document.getElementById("page-title").innerText = "Au tour de l'adversaire";
+            this.#webPageInteraction.otherPlayerTurnMessage();
         } else {
             toPlay = true;
             colorPlayer = Grid.yellowCellValue
             colorOtherPlayer = Grid.redCellValue
-            document.getElementById("page-title").innerText = "A ton tour";
+            this.#webPageInteraction.playerTurnMessage();
         }
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
     }
 
     #waitingForOpponentFunction = () => {
-        // TODO : put an explicit message on the web page
-        document.getElementById("page-title").innerText = "En attente d'un adversaire";
-        console.log("waitingForOpponent");
+        console.log("waitingForOpponent event received");
+        this.#webPageInteraction.waitingForOtherPlayerMessage();
     }
 
     //TODO : change the event for transmitting the color of the player to play
-    #reconnectFunction = (gridReceived, playerPlayed) => {
-        console.log("reconnect received", gridReceived, playerPlayed)
+    #reconnectFunction = (gridReceived, toPlay, color, nameOtherPlayer) => {
+        console.log("reconnect received", gridReceived, toPlay)
         this.#grid.cells = gridReceived.board;
         // need to change the color later
-        let colorPlayer = Grid.redCellValue;
-        let colorOtherPlayer = Grid.yellowCellValue;
 
-        this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, playerPlayed);
+        let colorPlayer;
+        let colorOtherPlayer;
+        if (color === Grid.redCellValue) {
+            colorPlayer = Grid.redCellValue;
+            colorOtherPlayer = Grid.yellowCellValue;
+        } else {
+            colorPlayer = Grid.yellowCellValue;
+            colorOtherPlayer = Grid.redCellValue;
+        }
+
+        this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
         this.#webPageInteraction.updateWebPageEntireGrid(this.#grid);
-        if (playerPlayed) {
+        if (toPlay) {
             // premier updateGrid, le joueur doit don jouer
             // deuxième updateGrid reçu après l'exécution de l'évènement newMove, il faut update la grille
-            document.getElementById("page-title").innerText = "A ton tour";
-            this.#webPageInteraction.addListeners();
+            this.#webPageInteraction.reconnectPlayerTurn();
         } else {
             // the client just receive the confirmation of its move
-            document.getElementById("page-title").innerText = "Au tour de l'adversaire !";
-            this.#webPageInteraction.removeListeners();
+            this.#webPageInteraction.reconnectOtherPlayerTurn();
         }
+    }
+
+    #alreadyConnectedFunction = () => {
+        console.log("alreadyConnected event received");
+        this.#webPageInteraction.alreadyConnectedMessage();
     }
 
     newMoveEmit = (column, row) => {

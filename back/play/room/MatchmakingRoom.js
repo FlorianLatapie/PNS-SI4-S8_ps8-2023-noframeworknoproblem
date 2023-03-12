@@ -175,19 +175,26 @@ class MatchmakingRoom {
         console.log("reconnectPlayer", socket.userId)
         console.log("player1", this.#player1.userId)
         console.log("player2", this.#player2.userId)
+
+        let nameOtherPlayer;
         if (this.#player1.userId === socket.userId) {
             this.#player1 = socket;
+            nameOtherPlayer = this.#HumanPlayers[this.#player2.userId].name;
             this.setListeners(this.#player1);
             console.log("the player1 is reconnected");
         } else if (this.#player2.userId === socket.userId) {
             this.#player2 = socket;
+            nameOtherPlayer = this.#HumanPlayers[this.#player1.userId].name;
             this.setListeners(this.#player2);
             console.log("the player2 is reconnected");
         }
 
         // évènement reconnectedPlayer : first parameter is the board, second parameter true if the player has to play false otherwise
-        // TODO : change it later to send also the name of the opponent player
-        this.#gameSocket.to(socket.id).emit("reconnect", {board : this.#gameEngine.grid.cells}, this.#gameEngine.currentPlayingPlayer.id === socket.userId);
+        this.#gameSocket.to(socket.id).emit("reconnect",
+            {board : this.#gameEngine.grid.cells},
+            this.#gameEngine.currentPlayingPlayer.id === socket.userId,
+            this.#HumanPlayers[socket.userId].color,
+            nameOtherPlayer);
     }
 }
 

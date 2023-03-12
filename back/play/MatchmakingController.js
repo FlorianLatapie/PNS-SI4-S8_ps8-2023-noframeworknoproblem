@@ -15,10 +15,13 @@ class MatchmakingController {
         player.removeAllListeners();
         if (this.isPlayerConnected(player)) {
             console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
+            this.gameSocket.to(player.id).emit("alreadyConnected");
             player.disconnect();
             return;
         }
+
         this.playersConnected.push(player);
+        this.handlePlayerDisconnection(player);
 
         // Else we need to check if he wasn't in a game to reconnect him
         console.log(`new connection ${this.matchmakingRoomInstances.isPlayerPlaying(player)}`);
@@ -31,7 +34,6 @@ class MatchmakingController {
 
         console.log(`The player : ${player.username} (id : ${player.userId}) is connected`);
         this.playersQueue.addPlayer(player);
-        this.handlePlayerDisconnection(player);
     }
 
     isPlayerConnected(player) {
