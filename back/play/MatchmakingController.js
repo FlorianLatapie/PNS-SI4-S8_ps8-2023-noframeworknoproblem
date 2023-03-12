@@ -1,4 +1,3 @@
-import {MatchmakingRoom} from "./room/MatchmakingRoom.js";
 import matchmakingRoomInstances from "./MatchmakingRoomInstances.js";
 import PlayersQueue from "./PlayersQueue.js";
 
@@ -13,6 +12,7 @@ class MatchmakingController {
     newConnection(player) {
         // If a player is already connected, we don't add him to the queue
         player.removeAllListeners();
+        console.log("new connection player ", player);
         if (this.isPlayerConnected(player)) {
             console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
             this.gameSocket.to(player.id).emit("alreadyConnected");
@@ -34,6 +34,8 @@ class MatchmakingController {
 
         console.log(`The player : ${player.username} (id : ${player.userId}) is connected`);
         this.playersQueue.addPlayer(player);
+
+        console.log("players connected : ", this.playersConnected.length, this.playersConnected.map((p) => p.userId));
     }
 
     isPlayerConnected(player) {

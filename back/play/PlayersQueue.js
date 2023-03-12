@@ -1,7 +1,6 @@
 // Class to manage the players waiting to enter a game
 // the queue contains the socket object of the players
 import {MatchmakingRoom} from "./room/MatchmakingRoom.js";
-import MatchmakingRoomInstances from "./MatchmakingRoomInstances.js";
 
 class PlayersQueue {
 
@@ -29,12 +28,13 @@ class PlayersQueue {
 
   removePlayer = (playerId) => {
       // need to check the structure of a socket
-      const player = this.#queue.indexOf(playerId);
+      const player = this.#queue.map(p => p.userId).indexOf(playerId);
     if (player > -1) {
       this.#queue.splice(player, 1);
     } else {
         console.log("ERROR : Player not found in the queue");
     }
+    //console.log("players removed in queue : ", this.#queue.length, this.#queue.map((p) => p.userId));
   }
 
   isPlayerInQueue = (playerId) => {

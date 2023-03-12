@@ -134,7 +134,7 @@ class WebPageInteraction {
         this.removeListeners();
     }
 
-    alreadyConnected = () => {
+    alreadyConnectedMessage = () => {
         this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
     }
 }
