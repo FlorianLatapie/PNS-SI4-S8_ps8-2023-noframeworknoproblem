@@ -1,8 +1,10 @@
-import {API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
+"use strict";
+
+import {ACHIEVEMENTS_URL, API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
 
 class KonamiCode {
-    constructor(debug = false) {
-        this.debug = debug;
+    constructor(showHints = false) {
+        this.debug = showHints;
         this.code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a", "Enter"];
         this.positionInKonamiCode = 0;
     }
@@ -11,14 +13,13 @@ class KonamiCode {
         if (e.key === this.code[this.positionInKonamiCode]) {
             this.positionInKonamiCode++;
 
-            if (this.debug)
-                console.log(this.positionInKonamiCode, this.code[this.positionInKonamiCode]);
+            if (this.debug) console.log(this.positionInKonamiCode, this.code[this.positionInKonamiCode]);
 
             if (this.positionInKonamiCode === this.code.length) {
                 this.positionInKonamiCode = 0;
                 alert("You found the easter egg !")
 
-                fetch(BASE_URL + API_URL + "achievements", {
+                fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "add/", {
                     method: "post", headers: {
                         'Accept': 'application/json', 'Content-Type': 'application/json'
                     }, body: JSON.stringify({token: localStorage.getItem("token"), achievement: "konami"})

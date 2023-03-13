@@ -1,8 +1,10 @@
+"use strict";
+
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
 import {sendResponse} from "./util.js";
 import {userSignUp, userLogIn} from "./user/apiUser.js";
-import {addAchievements} from "./user/userAchievements.js";
+import {achievementsManager, addAchievements} from "./user/userAchievements.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -46,7 +48,7 @@ function manageRequest(request, response) {
                     userLogIn(request, response, bodyJson);
                     break;
                 case "achievements":
-                    addAchievements(request, response, bodyJson);
+                    achievementsManager(url, urlPath, request, response, bodyJson);
                     break;
                 default:
                     console.log("URL", url, "not supported");

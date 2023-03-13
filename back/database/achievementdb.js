@@ -1,3 +1,5 @@
+"use strict";
+
 import {MongoClient} from "mongodb";
 
 import DB_CONF from "../conf/mongodb.conf.js";
@@ -24,6 +26,7 @@ class AchievementDb {
     }
 
     async addAchievement(userId, achievementId){
+        console.log("Adding achievement: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
         try{
             if (!await this.existsAchievementForThisUser(userId, achievementId)){
@@ -42,6 +45,15 @@ class AchievementDb {
         await this.verifyConnection();
         try {
             return await this.achievements.findOne({userId, achievementId}) !== null;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async getAchievementsForUser(userId) {
+        await this.verifyConnection();
+        try {
+            return await this.achievements.find({userId}).toArray();
         } catch (error) {
             console.error(error);
         }

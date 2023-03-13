@@ -14,11 +14,3 @@
     top: 35%;
     left: 35%;
 }
-/* table columns line color */
-td, th {
-    border: 1px solid #000000;
-}
-/* table stroke */
-table {
-    border-collapse: collapse;
-}

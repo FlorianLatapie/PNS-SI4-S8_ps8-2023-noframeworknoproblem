@@ -1,7 +1,43 @@
+"use strict";
+
 import {sendResponse} from "../util.js";
 import jwt from "jsonwebtoken";
 import {JWTSecretCode} from "../../credentials/credentials.js";
 import achievementdb from "../../database/achievementdb.js";
+
+export function achievementsManager(originalUrl, urlPathArray, request, response, data) {
+    switch (urlPathArray[3]) {
+        case "add":
+            addAchievements(request, response, data);
+            break;
+        case "getAll":
+            getAllAchievements(request, response, data);
+            break;
+        default:
+            console.log("URL", originalUrl, "not supported");
+            sendResponse(response, 404, "URL " + originalUrl + " not supported");
+            break;
+    }
+}
+
+function getAllAchievements(request, response, data) {
+    let token = data.token;
+    try {
+        jwt.verify(token, JWTSecretCode)
+    } catch (err) {
+        sendResponse(response, 401, "No token provided");
+        return;
+    }
+
+    let userId = jwt.decode(token).userId;
+    achievementdb.getAchievementsForUser(userId).then((achievements) => {
+        console.log("Achievements: ", achievements);
+        sendResponse(response, 200, JSON.stringify(achievements));
+    }).catch((err) => {
+        console.log("Error: ", err);
+        sendResponse(response, 409, "Achievements not found: " + JSON.stringify(err));
+    });
+}
 
 export function addAchievements(request, response, data) {
     let token = data.token;
@@ -11,10 +47,9 @@ export function addAchievements(request, response, data) {
         sendResponse(response, 401, "No token provided");
         return;
     }
-
-    let achievementId = data.achievementId;
+    let achievement = data.achievement;
     let userId = jwt.decode(token).userId;
-    achievementdb.addAchievement(achievementId, userId).then((achievementAdded) => {
+    achievementdb.addAchievement(userId, achievement).then((achievementAdded) => {
         console.log("Achievement added: ", achievementAdded);
         sendResponse(response, 201, "OK");
     }).catch((err) => {

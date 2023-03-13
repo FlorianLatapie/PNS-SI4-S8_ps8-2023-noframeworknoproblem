@@ -138,3 +138,12 @@ button a {
     display: inline-block;
     vertical-align: top;
 }
+
+/* table columns line color */
+td, th {
+    border: 1px solid #000000;
+}
+/* table stroke */
+table {
+    border-collapse: collapse;
+}
