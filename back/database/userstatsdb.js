@@ -54,7 +54,7 @@ class UserStatsDb {
             if (await this.existsStatsForThisUser(userId)){
                 return await this.usersStats.findOne({userId});
             } else {
-                return {};
+                return null;
             }
         } catch (error) {
             console.error(error);
