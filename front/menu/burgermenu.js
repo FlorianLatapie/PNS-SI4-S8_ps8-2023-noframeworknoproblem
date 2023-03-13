@@ -1,11 +1,15 @@
 "use strict";
-import {LOGIN_URL, HOME_URL, BASE_URL} from "../path.js";
+
+import {LOGIN_URL, HOME_URL, BASE_URL, PROFILE_URL} from "../path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
-const bell = BASE_URL + "/menu/images/bell-solid.svg";
-const user = BASE_URL + "/menu/images/user-group-solid.svg";
-const gamepad = BASE_URL + "/menu/images/gamepad-solid.svg";
+const profile = BASE_URL + "/menu/images/user-solid.svg";
+const notifications = BASE_URL + "/menu/images/bell-solid.svg";
+const friends = BASE_URL + "/menu/images/user-group-solid.svg";
+const backToCurrentGame = BASE_URL + "/menu/images/gamepad-solid.svg";
 const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
+
+const iconWidth = "36";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -18,12 +22,12 @@ template.innerHTML = `
             </div>
             <div id="nav-background"></div>
             <ul class="nav-menu">
-                <li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Accueil" src=` + house + ` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Notifications" src=` + bell + ` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Amis" src=` + user + ` width="36"></a></li>
-                <li><a class="nav-link" href="#"><img alt="Jouer" src=` + gamepad + ` width="36"></a>
-                </li>
-                <li><a class="nav-link" id="logout" href="#"><img alt="Se déconnecter" src=` + logout + ` width="36"></a></li>
+                <li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Accueil" src=` + house + ` width="` + iconWidth + `"></a></li>
+                <li><a class="nav-link" href=` + BASE_URL + PROFILE_URL + `><img alt="Profil" src=` + profile + ` width="` + iconWidth + `"></a></li>
+                <li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Notifications" src=` + notifications + ` width="` + iconWidth + `"></a></li>
+                <li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Amis" src=` + friends + ` width="` + iconWidth + `"></a></li>
+                <!--<li><a class="nav-link" href=` + BASE_URL + HOME_URL + `><img alt="Jouer" src=` + backToCurrentGame + ` width="` + iconWidth + `"></a></li>-->
+                <li><a class="nav-link" id="logout" href="#"><img alt="Se déconnecter" src=` + logout + ` width="` + iconWidth + `"></a></li>
             </ul>
         </nav>
 `;

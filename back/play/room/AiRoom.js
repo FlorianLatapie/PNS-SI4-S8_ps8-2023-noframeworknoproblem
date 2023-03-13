@@ -1,9 +1,11 @@
+"use strict";
+
 import Player from "../../../front/GameLogic/Player.js";
 import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import {AI} from "../../logic/minMaxAi.js";
 import gamedb from "../../database/gamedb.js";
-import {displayACatchedError} from "../../util/util.js";
+import {displayACaughtError} from "../../util/util.js";
 
 
 class AiRoom {
@@ -68,7 +70,7 @@ class AiRoom {
                 this.newGame(setupObject);
             }
         }).catch(function (error) {
-            displayACatchedError(error, "error while searching for a game engine in the database");
+            displayACaughtError(error, "error while searching for a game engine in the database");
         });
     }
 

@@ -1,3 +1,5 @@
+"use strict";
+
 // The http module contains methods to handle http queries.
 import * as http from 'http';
 import * as crypto from "crypto";
@@ -12,7 +14,7 @@ import GameEngine from "../front/GameLogic/GameEngine.js";
 import {nextMove, setup} from "./logic/minMaxAi.js";
 import jwt, {verify} from "jsonwebtoken";
 import GameEngineDBUtil from "./object/GameEngineDBUtil.js";
-import {displayACatchedError} from "./util/util.js";
+import {displayACaughtError} from "./util/util.js";
 import {JWTSecretCode} from "./credentials/credentials.js";
 import {AiRoom} from "./play/room/AiRoom.js";
 import {MatchmakingRoom} from "./play/room/MatchmakingRoom.js";
@@ -44,7 +46,7 @@ let httpServer = http.createServer(function (request, response) {
 
         }
     } catch (error) {
-        displayACatchedError(error,`error while processing ${request.url}:`)
+        displayACaughtError(error,`error while processing ${request.url}:`)
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
