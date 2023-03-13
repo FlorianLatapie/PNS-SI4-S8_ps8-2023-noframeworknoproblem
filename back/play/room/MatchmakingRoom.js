@@ -31,7 +31,6 @@ class MatchmakingRoom {
     }
 
     setListeners = (socket) => {
-        socket.removeAllListeners();
         socket.on("newMove", this.readNewMove.bind(this, socket));
         socket.on("giveUp", this.#giveUpFunction.bind(this, socket));
         socket.join(this.#room);
@@ -49,10 +48,6 @@ class MatchmakingRoom {
 
     #updatedBoardEmit = () => {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
-    }
-    #removeListeners = () => {
-        this.#player1.removeAllListeners();
-        this.#player2.removeAllListeners();
     }
 
     initPlayer = (socket, playPositionOfOpponent) => {
@@ -100,7 +95,7 @@ class MatchmakingRoom {
     #gameIsOver = (winner) => {
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
-        this.#removeListeners()
+        //this.#removeListeners()
     }
 
     humanPlay = (globalCoordinates, socket) => {
