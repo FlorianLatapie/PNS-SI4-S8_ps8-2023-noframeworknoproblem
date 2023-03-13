@@ -1,0 +1,24 @@
+.wrapper {
+    display: grid;
+    grid-template: 10vh 1fr / 8vw 1fr;
+}
+
+
+.wrapper > header {
+    grid-area: 1 / 1 / 1 / span 2
+}
+
+.wrapper > main {
+    grid-area: 2 / 2;
+    position: absolute;
+    top: 35%;
+    left: 35%;
+}
+/* table columns line color */
+td, th {
+    border: 1px solid #000000;
+}
+/* table stroke */
+table {
+    border-collapse: collapse;
+}

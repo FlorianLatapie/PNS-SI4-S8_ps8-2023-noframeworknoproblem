@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>Profile</title>
+    <link href="../common.css" rel="stylesheet">
+    <link href="profile.css" rel="stylesheet">
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="profile.js" type="module"></script>
 </head>
 <body>
-hw
+<div class="wrapper">
+    <header>
+        <burger-menu></burger-menu>
+        <h1 id="page-title">Profil utilisateur</h1>
+        <div class="top-corner-content" id="username"></div>
+    </header>
+    <main>
+        <!--
+        Username : xxx
+        Unique ID : xxx
+        -->
+        <table>
+            <tr>
+                <td>Nom d'utilisateur</td>
+                <td id="displayed-username"></td>
+            </tr>
+            <tr>
+                <td>Identifiant unique</td>
+                <td id="unique-id"></td>
+            </tr>
+        </table>
+    </main>
+</div>
 </body>
+<script src="../menu/burgermenu.js" type="module"></script>
 </html>
