@@ -15,6 +15,7 @@ function WebPageInteraction() {
         let showWinner = document.getElementById("show-winner");
         let close = document.getElementById("cross");
         let winnerText = document.getElementById("winner-text");
+        let title = document.getElementById("page-title");
         close.addEventListener("click", function () {
             showWinner.style.display = "none";
         });
@@ -22,10 +23,15 @@ function WebPageInteraction() {
             winnerText.innerText = "Egalité !!";
             let image = document.getElementById("pic");
             image.src = "../../images/crying.png"
+            title.innerText = "Egalité !!";
         } else {
             winnerText.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
+            title.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
         }
         showWinner.style.display = "block";
+        giveUpButton.removeEventListener("click", giveUp);
+
+
     }
 
     this.webPagePlayTurn = function () {
@@ -70,11 +76,12 @@ function WebPageInteraction() {
     }
 
     let giveUpButton = document.getElementById("button-abandon");
-    giveUpButton.addEventListener("click", function () {
+    function giveUp() {
         ge.getOtherPlayer();
         ge.isGameOver = true;
         showWinner(ge);
-    });
+    }
+    giveUpButton.addEventListener("click", giveUp);
 
     function convertIntToColor(color) {
         if (color === "1") {

@@ -16,7 +16,6 @@ function WebPageInteraction() {
 
     this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
-
         cell.classList.add("fall");
         if (color === Grid.redCellValue) {
             cell.classList.add("red-piece");
@@ -32,7 +31,7 @@ function WebPageInteraction() {
         play(column, row);
     }
     // Constructor -----------------------------------------------------------------------------------------------------
-    this.addListeners = function(){
+    this.addListeners = function () {
         for (let column = 0; column < grid.width; column++) {
             for (let line = 0; line < grid.height; line++) {
                 let cell = document.getElementById(column + "-" + line);
@@ -46,20 +45,20 @@ function WebPageInteraction() {
     let giveUpButton = document.getElementById("button-abandon");
     giveUpButton.addEventListener("click", function () {
         gameSocket.emit("giveUp");
-        console.log("giveUp");
     });
 
-    this.addAllListeners();
+    this.addListeners();
 
 
 }
 
-function removeListeners (){
+function removeListeners() {
     document.querySelectorAll(".grid-item").forEach(c => {
         c.removeEventListener("click", wpi.webPagePlayTurn);
         c.style.cursor = "not-allowed";
     });
 }
+
 let wpi = new WebPageInteraction()
 
 let setupAI = function (AIplayTurn) {
@@ -133,20 +132,28 @@ gameSocket.on("connect", () => {
         close.addEventListener("click", function () {
             divWinner.style.display = "none";
         });
+        let title = document.getElementById("page-title");
         if (winner === "draw") {
             winnerText.innerText = "Egalité !!";
+            title.innerText = "Egalité !!";
         } else {
-            if (winner !== "AI"){
+            if (winner !== "AI") {
                 winnerText.innerText = "Tu as gagné !!";
                 let image = document.getElementById("pic");
                 image.src = "../../images/smile.png";
-            }
-            else {
+                title.innerText = "Tu as gagné !!";
+            } else {
                 winnerText.innerText = "Tu as perdu !!";
+                title.innerText = "Tu as perdu !!";
             }
         }
         divWinner.style.display = "block";
         removeListeners();
+        let giveUpButton = document.getElementById("button-abandon");
+        giveUpButton.style.cursor = "not-allowed";
+        giveUpButton.addEventListener("click", function () {
+            gameSocket.emit("giveUp");
+        });
     });
 
     gameSocket.on("playError", (Error) => {
