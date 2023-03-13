@@ -1,3 +1,5 @@
+"use strict";
+
 const {
     DB_USER,
     DB_PASSWORD,
@@ -7,6 +9,7 @@ const {
     USER_COLLECTION,
     GAME_COLLECTION,
     ACHIEVEMENTS_COLLECTION,
+    USER_STATS_COLLECTION,
 } = process.env;
 
 export default {
@@ -15,4 +18,5 @@ export default {
     userCollection: USER_COLLECTION,
     gameCollection: GAME_COLLECTION,
     achievementsCollection: ACHIEVEMENTS_COLLECTION,
+    userStatsCollection: USER_STATS_COLLECTION,
 };

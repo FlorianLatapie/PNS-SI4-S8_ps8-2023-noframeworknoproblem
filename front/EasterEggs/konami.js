@@ -17,14 +17,14 @@ class KonamiCode {
 
             if (this.positionInKonamiCode === this.code.length) {
                 this.positionInKonamiCode = 0;
-                alert("You found the easter egg !")
+                alert("Bravo tu as fait le Konami Code !")
 
                 fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "add/", {
                     method: "post", headers: {
                         'Accept': 'application/json', 'Content-Type': 'application/json'
                     }, body: JSON.stringify({token: localStorage.getItem("token"), achievement: "konami"})
                 }).then((response) => {
-                    console.log("konami sent");
+                    console.log("konami success unlocked");
                 });
             }
         } else {

@@ -13,7 +13,7 @@ class AchievementDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.achievements = this.database.collection(DB_CONF.achievementsCollection+"");
+            this.achievements = this.database.collection(DB_CONF.achievementsCollection + "");
             // TODO: understand why it's necessary to add +"" to the collection name
         } catch (error) {
             console.error(error);
@@ -25,11 +25,11 @@ class AchievementDb {
         await this.connect();
     }
 
-    async addAchievement(userId, achievementId){
+    async addAchievement(userId, achievementId) {
         console.log("Adding achievement: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
-        try{
-            if (!await this.existsAchievementForThisUser(userId, achievementId)){
+        try {
+            if (!await this.existsAchievementForThisUser(userId, achievementId)) {
                 return await this.achievements.insertOne({userId, achievementId})
             } else {
                 return await this.achievements.updateOne({userId, achievementId}, {$set: {userId, achievementId}})
@@ -38,7 +38,7 @@ class AchievementDb {
             console.error(error);
         }
 
-        return new Error("Achievement already exists for this user :" +  JSON.stringify({userId, achievementId}))
+        return new Error("Achievement already exists for this user :" + JSON.stringify({userId, achievementId}))
     }
 
     async existsAchievementForThisUser(userId, achievementId) {
@@ -54,6 +54,15 @@ class AchievementDb {
         await this.verifyConnection();
         try {
             return await this.achievements.find({userId}).toArray();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async removeAllAchievements() {
+        await this.verifyConnection();
+        try {
+            return await this.achievements.deleteMany({});
         } catch (error) {
             console.error(error);
         }
