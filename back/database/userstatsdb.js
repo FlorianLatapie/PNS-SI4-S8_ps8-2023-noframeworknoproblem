@@ -27,24 +27,15 @@ class UserStatsDb {
     async addStats(userId, stats){
         await this.verifyConnection();
 
-        ///
-        await this.usersStats.find({}).toArray().then(function (result) {
-            console.log("all stats db : ",result);
-        });
-        ///
-
         try {
             if (!await this.existsStatsForThisUser(userId)){
                 return await this.usersStats.insertOne({userId, stats});
             } else {
                 return await this.usersStats.updateOne({userId}, {$set: stats});
             }
-            console.log("get stats for user: ", this.getStatsForUser(userId));
         } catch (error) {
             console.error(error);
         }
-
-
     }
 
     async existsStatsForThisUser(userId) {
