@@ -11,7 +11,7 @@ class UserDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.users = this.database.collection(DB_CONF.userCollection);
+            this.users = this.database.collection(DB_CONF.userCollection+"");
         } catch (error) {
             console.error(error);
         }
