@@ -30,7 +30,7 @@ function WebPageInteraction() {
         }
         showWinner.style.display = "block";
         giveUpButton.removeEventListener("click", giveUp);
-
+        giveUpButton.style.cursor = "not-allowed";
 
     }
 

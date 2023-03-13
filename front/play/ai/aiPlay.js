@@ -121,7 +121,7 @@ gameSocket.on("connect", () => {
             wpi.addListeners();
             document.getElementById("page-title").innerText = "A ton tour";
         }
-        toPlay = !toPlay
+        toPlay = !toPlay;
     })
 
     gameSocket.on("gameIsOver", (winner) => {

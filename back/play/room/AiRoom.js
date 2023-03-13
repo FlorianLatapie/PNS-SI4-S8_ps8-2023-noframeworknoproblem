@@ -156,16 +156,16 @@ class AiRoom {
         }
     }
 
-    newGame = (setupObject) => {
+    newGame = (AIturn) => {
         console.log("game engine not found in the database, creating a new game ...")
 
         // game engine not found : create a new one
 
         let uuid = crypto.randomBytes(16).toString("hex");
 
-        this.#ai.setup(setupObject.AIplays);
+        this.#ai.setup(AIturn);
 
-        if (setupObject.AIplays === 1) {
+        if (AIturn === 1) {
             console.log("AI plays first")
             this.#gameEngine = new GameEngine(this.#AIPlayer, this.#HumanPlayer, uuid);
             this.AIPlay([]);
