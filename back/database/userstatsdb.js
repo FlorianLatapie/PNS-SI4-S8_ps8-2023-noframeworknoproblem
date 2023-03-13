@@ -13,7 +13,7 @@ class UserStatsDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.usersStats = this.database.collection(DB_CONF.userStatsCollection);
+            this.usersStats = this.database.collection(DB_CONF.userStatsCollection+"");
         } catch (error) {
             console.error(error);
         }
