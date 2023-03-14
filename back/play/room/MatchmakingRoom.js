@@ -44,7 +44,6 @@ class MatchmakingRoom {
     }
 
     #giveUpFunction = (socket) => {
-        console.log("The abandon of the player", socket);
         let winner = this.#gameEngine.getOpponentPlayer(socket.userId).name;
         this.#gameIsOver(winner);
         console.log("giveUpFunction", winner)
@@ -56,11 +55,7 @@ class MatchmakingRoom {
 
     #updatedBoardEmit = (socket) => {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
-        console.log("currentPlayingPlayer", this.#gameEngine.currentPlayingPlayer.id)
-        console.log("socket", socket.id);
-        console.log("currentPlayingPlayer === socket", this.#gameEngine.currentPlayingPlayer.id === socket.id)
         if(this.#gameEngine.currentPlayingPlayer.id !== socket.id) {
-            console.log("inside the if")
             this.#timer = this.checkTimer();
         }
     }
@@ -110,6 +105,7 @@ class MatchmakingRoom {
     #gameIsOver = (winner) => {
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
+        this.#gameSocket.to(this.#room).emit("timer", 0);
         //this.#removeListeners()
     }
 
@@ -123,6 +119,7 @@ class MatchmakingRoom {
     }
 
     checkTimer = () => {
+        this.#gameSocket.to(this.#room).emit("timer", this.timeToPlay);
         return setTimeout(() => {
             if(this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
                 this.#giveUpFunction(this.#player1)

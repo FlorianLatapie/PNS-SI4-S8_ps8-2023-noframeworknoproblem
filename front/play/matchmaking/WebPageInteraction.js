@@ -109,6 +109,7 @@ class WebPageInteraction {
         this.updateWebPageGrid(column, row, color);
         this.addAllListeners();
         this.playerTurnMessage();
+        document.getElementById("timer").innerText = "0:10";
     }
 
     reconnectPlayerTurn = () => {
@@ -160,6 +161,10 @@ class WebPageInteraction {
 
     alreadyConnectedMessage = () => {
         this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
+    }
+
+    updateTimer = (time) => {
+        document.getElementById("timer").innerText = "0:0" + time / 1000;
     }
 }
 

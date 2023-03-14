@@ -1,5 +1,3 @@
-import {Position} from "../../GameLogic/Position.js";
-import {parseJwt} from "../../util/jwtParser.js";
 import Grid from "../../GameLogic/Grid.js";
 import GameState from "./GameState.js";
 
@@ -8,6 +6,7 @@ class SocketMatchmaking {
     #webPageInteraction;
     #grid;
     #gameState;
+    #interval;
 
     constructor(webPageInteraction, grid) {
         this.#gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
@@ -28,10 +27,24 @@ class SocketMatchmaking {
             this.#gameSocket.on("waitingForOpponent", this.#waitingForOpponentFunction);
             this.#gameSocket.on("reconnect", this.#reconnectFunction);
             this.#gameSocket.on("alreadyConnected", this.#alreadyConnectedFunction);
+            this.#gameSocket.on("timer", this.#timerFunction);
         });
     }
 
+    #timerFunction = (time) => {
+        if (this.#gameState.getToPlay()) {
+            if (time !== 0) {
+                this.#interval = setInterval(() => {
+                    time -= 1000;
+                    this.#webPageInteraction.updateTimer(time);
+                }, 1000);
+            }else document.getElementById("timer").innerHTML = "0:00";
+        }
+
+    }
+
     #updatedBoardFunction = (globalCoordsGrid) => {
+        clearInterval(this.#interval);
         console.log("updatedBoard received", globalCoordsGrid);
         let move = this.#grid.findMove(globalCoordsGrid.board)
         this.#grid.cells = globalCoordsGrid.board
@@ -52,6 +65,7 @@ class SocketMatchmaking {
 
     #gameIsOverFunction = (winner) => {
         this.#webPageInteraction.gameIsOver(winner);
+        clearInterval(this.#interval);
     }
 
     #setupFunction = (OpponentTurn) => {
