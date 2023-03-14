@@ -14,7 +14,6 @@ class AchievementDb {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
             this.achievements = this.database.collection(DB_CONF.achievementsCollection + "");
-            // TODO: understand why it's necessary to add +"" to the collection name
         } catch (error) {
             console.error(error);
         }
