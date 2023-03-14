@@ -103,13 +103,14 @@ class WebPageInteraction {
         this.updateWebPageGrid(column, row, color);
         this.removeGridListeners();
         this.otherPlayerTurnMessage();
+        document.getElementById("timer").innerText = "Temps restant pour l'adversaire 0:10";
     }
 
     otherPlayerPlay = (column, row, color) => {
         this.updateWebPageGrid(column, row, color);
         this.addAllListeners();
         this.playerTurnMessage();
-        document.getElementById("timer").innerText = "0:10";
+        document.getElementById("timer").innerText = "Temps restant pour toi 0:10";
     }
 
     reconnectPlayerTurn = () => {
@@ -163,8 +164,13 @@ class WebPageInteraction {
         this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
     }
 
-    updateTimer = (time) => {
-        document.getElementById("timer").innerText = "0:0" + time / 1000;
+    updateTimer = (time, boolean) => {
+        if(boolean){
+            document.getElementById("timer").innerText = "Temps restant pour toi 0:0" + time / 1000;
+        }
+        else{
+            document.getElementById("timer").innerText = "Temps restant pour l'adversaire 0:0" + time / 1000;
+        }
     }
 }
 

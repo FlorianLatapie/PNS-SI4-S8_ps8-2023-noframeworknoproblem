@@ -32,15 +32,15 @@ class SocketMatchmaking {
     }
 
     #timerFunction = (time) => {
-        if (this.#gameState.getToPlay()) {
-            if (time !== 0) {
-                this.#interval = setInterval(() => {
-                    time -= 1000;
-                    this.#webPageInteraction.updateTimer(time);
-                }, 1000);
-            }else document.getElementById("timer").innerHTML = "0:00";
+        if (time !== 0) {
+            this.#interval = setInterval(() => {
+                time -= 1000;
+                this.#webPageInteraction.updateTimer(time, this.#gameState.getToPlay());
+            }, 1000);
+        }else{
+            this.#webPageInteraction.updateTimer(0, this.#gameState.getToPlay());
+            clearInterval(this.#interval);
         }
-
     }
 
     #updatedBoardFunction = (globalCoordsGrid) => {
