@@ -17,6 +17,12 @@ class MatchmakingRoom {
 
     #matchmakingRoomInstances;
 
+    #timer;
+
+    timeToPlay = 10000;
+
+
+
     constructor(player1, player2, gameSocket, matchmakingRoomInstances) {
         this.#player1 = player1;
         this.#player2 = player2;
@@ -28,6 +34,7 @@ class MatchmakingRoom {
 
         this.initPlayer(this.#player1, 2);
         this.initPlayer(this.#player2, 1);
+        this.#timer = this.checkTimer();
     }
 
     setListeners = (socket) => {
@@ -37,6 +44,7 @@ class MatchmakingRoom {
     }
 
     #giveUpFunction = (socket) => {
+        console.log("The abandon of the player", socket);
         let winner = this.#gameEngine.getOpponentPlayer(socket.userId).name;
         this.#gameIsOver(winner);
         console.log("giveUpFunction", winner)
@@ -46,8 +54,15 @@ class MatchmakingRoom {
         this.#gameSocket.to(this.#room).emit("gameIsOver", winner)
     }
 
-    #updatedBoardEmit = () => {
+    #updatedBoardEmit = (socket) => {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
+        console.log("currentPlayingPlayer", this.#gameEngine.currentPlayingPlayer.id)
+        console.log("socket", socket.id);
+        console.log("currentPlayingPlayer === socket", this.#gameEngine.currentPlayingPlayer.id === socket.id)
+        if(this.#gameEngine.currentPlayingPlayer.id !== socket.id) {
+            console.log("inside the if")
+            this.#timer = this.checkTimer();
+        }
     }
 
     initPlayer = (socket, playPositionOfOpponent) => {
@@ -107,6 +122,17 @@ class MatchmakingRoom {
         return [column, row];
     }
 
+    checkTimer = () => {
+        return setTimeout(() => {
+            if(this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
+                this.#giveUpFunction(this.#player1)
+            } else {
+                this.#giveUpFunction(this.#player2)
+            }
+        }, this.timeToPlay);
+
+    }
+
     /*
     autoPlay = (gameEngineFromDB) => {
         for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
@@ -156,6 +182,10 @@ class MatchmakingRoom {
 
 
     readNewMove = (socket, globalCoordinates) => {
+        if(this.#gameEngine.currentPlayingPlayer.id === socket.userId) {
+            console.log("clear the timeOut")
+            clearTimeout(this.#timer);
+        }
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
 

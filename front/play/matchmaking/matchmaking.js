@@ -107,11 +107,13 @@ let play = function (clickRow, clickColumn) {
     console.log("newMove", [column, row]);
     return new Position(column, row)
 }
+
+
 gameSocket.on("connect", () => {
     console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
     console.log("token: " + localStorage.getItem("token"));
 
-    gameSocket.on("updatedBoard", globalCoordsGrid => {
+    gameSocket.on("updatedBoard", (globalCoordsGrid, timeToPlay) => {
         console.log("updatedBoard received", globalCoordsGrid);
         let move = grid.findMove(globalCoordsGrid.board)
         grid.cells = globalCoordsGrid.board
