@@ -11,7 +11,7 @@ class FriendDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.friends = this.database.collection(DB_CONF.friendsCollection+"");
+            this.friends = this.database.collection(DB_CONF.friendsCollection + "");
         } catch (error) {
             console.error(error);
         }
@@ -28,9 +28,8 @@ class FriendDb {
 
         // test conditions and recover the object from the database
         console.log("addFriends ", userID, friendID)
-        let userObject, friendObject;
-        [userObject, friendObject] = await Promise.all([
-                this.isInPending(userID, friendID), this.isInRequests(friendID, userID)]);
+        let [userObject, friendObject] = await Promise.all([
+            this.isInPending(userID, friendID), this.isInRequests(friendID, userID)]);
 
         console.log("addFriends ", userObject, friendObject)
         userObject.friends.push(friendID);
@@ -133,7 +132,7 @@ class FriendDb {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
         console.log("isInRequests objectInDB", objectInDB)
-        if (! objectInDB.requests.includes(friendID)) {
+        if (!objectInDB.requests.includes(friendID)) {
             throw new Error("Friend request from " + friendID + " not found for " + userID);
         }
         return objectInDB;
@@ -143,7 +142,7 @@ class FriendDb {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
         console.log("isInPending objectInDB", objectInDB)
-        if (! objectInDB.pending.includes(friendID)) {
+        if (!objectInDB.pending.includes(friendID)) {
             throw new Error("Friend pending from " + friendID + " not found for " + userID);
         }
         return objectInDB;
@@ -152,7 +151,7 @@ class FriendDb {
     async isInFriends(userID, friendID) {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
-        if (! objectInDB.friends.includes(friendID)) {
+        if (!objectInDB.friends.includes(friendID)) {
             throw new Error("Friend " + friendID + " not found for " + userID);
         }
         return objectInDB;
@@ -160,23 +159,81 @@ class FriendDb {
 
     async removeFriend(userID, friendID) {
         await this.verifyConnection();
-        let objectInDB = await this.recoverFriendWithInit(userID);
-        objectInDB.friends = objectInDB.friends.filter((friend) => friend !== friendID)
-        this.friends.updateOne(objectInDB);
-    }
-
-    async removePending(userID, friendID) {
-        await this.verifyConnection();
-        let objectInDB = await this.recoverFriendWithInit(userID);
-        objectInDB.pending = objectInDB.pending.filter((friend) => friend !== friendID)
-        this.friends.updateOne(objectInDB);
+        await Promise.all([
+            this.removeFriendInternal(userID, friendID),
+            this.removeFriendInternal(friendID, userID),
+        ]);
     }
 
     async removeRequest(userID, friendID) {
         await this.verifyConnection();
+        await Promise.all([
+            this.removeRequestInternal(userID, friendID),
+            this.removePendingInternal(friendID, userID)
+        ]);
+    }
+
+    async removePending(userID, friendID) {
+        await this.verifyConnection();
+        await Promise.all([
+            this.removePendingInternal(userID, friendID),
+            this.removeRequestInternal(friendID, userID)
+        ]);
+    }
+
+    async removeFriendInternal(userID, friendID) {
+        await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
-        objectInDB.requests = objectInDB.requests.filter((friend) => friend !== friendID)
-        await this.friends.updateOne(objectInDB);
+        let newPendingParams = objectInDB.friends.filter((friend) => friend !== friendID)
+
+        if (objectInDB.friends.length === newPendingParams.length) {
+            throw new Error(userID + " is not friend with " + friendID);
+        }
+
+        const updateDocument = {
+            $set: {
+                friends: newPendingParams,
+            },
+        };
+
+        await this.friends.updateOne({userId: userID}, updateDocument);
+    }
+
+    async removePendingInternal(userID, friendID) {
+        await this.verifyConnection();
+        let userInDB = await this.recoverFriendWithInit(userID);
+
+        let newPendingParams = userInDB.pending.filter((friend) => friend !== friendID)
+        if (userInDB.pending.length === newPendingParams.length) {
+            throw new Error(userID + " is not pending with " + friendID);
+        }
+
+        const updateUser = {
+            $set: {
+                pending: newPendingParams,
+            },
+        };
+
+        await this.friends.updateOne({userId: userID}, updateUser);
+    }
+
+    async removeRequestInternal(userID, friendID) {
+        await this.verifyConnection();
+        let userInDB = await this.recoverFriendWithInit(userID);
+
+        let newRequestsParams = userInDB.requests.filter((friend) => friend !== friendID)
+
+        if (userInDB.requests.length === newRequestsParams.length) {
+            throw new Error(userID + " is not pending with " + friendID);
+        }
+
+        const updateUser = {
+            $set: {
+                requests: newRequestsParams,
+            },
+        };
+
+        await this.friends.updateOne({userId: userID}, updateUser);
     }
 
     async getElementFromDB(userID) {
@@ -193,6 +250,7 @@ class FriendDb {
         }
         return objectInDB;
     }
+
     async createNewFriendObject(userID) {
         let obj = {
             userId: userID,

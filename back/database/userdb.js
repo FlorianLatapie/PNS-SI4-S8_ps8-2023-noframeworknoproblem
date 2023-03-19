@@ -107,6 +107,17 @@ class UserDb {
         });
         return res;
     }
+
+    async getUsersByNameRegex(name) {
+        // TODO: implement regex feature
+        await this.verifyConnection();
+        let res = await this.users.find({username: {$in: name}}, {projection: {password: 0, mail: 0}}).toArray();
+        res.forEach(e => {
+            e["userId"] = e["_id"].toString();
+            delete e["_id"];
+        });
+        return res;
+    }
 }
 
 export default new UserDb();

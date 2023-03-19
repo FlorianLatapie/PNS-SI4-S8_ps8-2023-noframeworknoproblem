@@ -24,6 +24,15 @@ function friendsApi(urlPathArray, userIdEmitTheRequest, response, urlParams) {
         case "accept":
             acceptFriend(userIdEmitTheRequest, response, urlPathArray[4]);
             break;
+        case "removeFriend":
+            removeFriend(userIdEmitTheRequest, response, urlPathArray[4]);
+            break;
+        case "removePending":
+            removePending(userIdEmitTheRequest, response, urlPathArray[4]);
+            break;
+        case "removeRequest":
+            removeRequest(userIdEmitTheRequest, response, urlPathArray[4]);
+            break;
         default:
             console.log("URL", urlPathArray, "not supported");
             sendResponse(response, 404, "URL " + urlPathArray + " not supported");
@@ -76,7 +85,7 @@ async function getFriendsInternal(userIdEmitTheRequest) {
     await userdb.checkUserExists(userIdEmitTheRequest)
     let friendsId = await frienddb.getFriends(userIdEmitTheRequest);
     try {
-        let res  = await userdb.getUsersByIds(friendsId)
+        let res = await userdb.getUsersByIds(friendsId)
         console.log("getFriendsInternal 1", res);
         return res;
     } catch (err) {
@@ -84,6 +93,29 @@ async function getFriendsInternal(userIdEmitTheRequest) {
     }
 }
 
+function removeFriend(userIdEmitTheRequest, response, friendId) {
+    frienddb.removeFriend(userIdEmitTheRequest, friendId).then(() => {
+        sendResponse(response, 200, "Friend " + friendId + " removed from " + userIdEmitTheRequest);
+    }).catch((err) => {
+        sendResponse(response, 404, "" + err);
+    });
+}
+
+function removePending(userIdEmitTheRequest, response, friendId) {
+    frienddb.removePending(userIdEmitTheRequest, friendId).then(() => {
+        sendResponse(response, 200, "Pending friend " + friendId + " removed from " + userIdEmitTheRequest);
+    }).catch((err) => {
+        sendResponse(response, 404, "" + err);
+    });
+}
+
+function removeRequest(userIdEmitTheRequest, response, friendId) {
+    frienddb.removeRequest(userIdEmitTheRequest, friendId).then(() => {
+        sendResponse(response, 200, "Request friend " + friendId + " removed from " + userIdEmitTheRequest);
+    }).catch((err) => {
+        sendResponse(response, 404, "" + err);
+    });
+}
 function checkUserIds(userId, friendId) {
     let checkUserId = userdb.checkUserExists(userId);
     let checkFriendId = userdb.checkUserExists(friendId);

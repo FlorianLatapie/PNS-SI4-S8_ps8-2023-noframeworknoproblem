@@ -3,18 +3,28 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
 import {sendResponse} from "./util.js";
-import {userSignUp, userLogIn} from "./user/apiUser.js";
+import {userSignUp, userLogIn} from "./user/accountApi.js";
 import {achievementsManager, addAchievements} from "./user/userAchievements.js";
 import friendsApi from "./friends/apiFriends.js";
-import {isTokenValid, parseJwt} from "../../front/util/jwtParser.js";
 import {validateJwt} from "../auth/jwtParserBack.js";
+import {usersApi} from "./user/usersApi.js";
 
 function manageRequest(request, response) {
     addCors(response)
 
     let url = request.url.split("?")
     let urlPath = url[0].split("/")
-    let urlParams = (urlPath.length === 2) ? url[1].split("&") : undefined;
+
+    let paramsObject = {}
+    if (urlPath.length === 2) {
+        let urlParams = url[1].split("&");
+        urlParams.forEach(param => {
+            const [key, value] = param.split("=")
+            paramsObject[key] = value
+        })
+    } else {
+        paramsObject = undefined;
+    }
 
     // C'est dans la correction de Vella à voir si c'est utile
     if (request.method === 'OPTIONS') {
@@ -91,7 +101,11 @@ function manageRequest(request, response) {
 
         switch (urlPath[2]) {
             case "friends":
-                friendsApi(urlPath, userIdEmitTheRequest, response, urlParams);
+                friendsApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                break;
+            case "users":
+                usersApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                break;
         }
     } else {
         console.log("Method", request.method, "not supported");
