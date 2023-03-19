@@ -115,4 +115,13 @@
     width: 130px;
 }
 
+#timer{
+    position: absolute;
+    top: 5vw;
+    right: 7vw;
+    font-size: 25px;
+    font-family: 'Arial', sans-serif;
+    z-index: 1;
+}
+
 

@@ -17,6 +17,12 @@ class MatchmakingRoom {
 
     #matchmakingRoomInstances;
 
+    #timer;
+
+    timeToPlay = 10000;
+
+
+
     constructor(player1, player2, gameSocket, matchmakingRoomInstances) {
         this.#player1 = player1;
         this.#player2 = player2;
@@ -28,6 +34,7 @@ class MatchmakingRoom {
 
         this.initPlayer(this.#player1, 2);
         this.initPlayer(this.#player2, 1);
+        this.#timer = this.checkTimer();
     }
 
     setListeners = (socket) => {
@@ -46,8 +53,11 @@ class MatchmakingRoom {
         this.#gameSocket.to(this.#room).emit("gameIsOver", winner)
     }
 
-    #updatedBoardEmit = () => {
+    #updatedBoardEmit = (socket) => {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
+        if(this.#gameEngine.currentPlayingPlayer.id !== socket.id) {
+            this.#timer = this.checkTimer();
+        }
     }
 
     initPlayer = (socket, playPositionOfOpponent) => {
@@ -95,6 +105,7 @@ class MatchmakingRoom {
     #gameIsOver = (winner) => {
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
+        this.#gameSocket.to(this.#room).emit("timer", 0);
         //this.#removeListeners()
     }
 
@@ -105,6 +116,18 @@ class MatchmakingRoom {
         this.playerPlay(this.#HumanPlayers[socket.userId], column, row);
         console.log("HumanPlay new board ", this.#gameEngine.grid.toString())
         return [column, row];
+    }
+
+    checkTimer = () => {
+        this.#gameSocket.to(this.#room).emit("timer", this.timeToPlay);
+        return setTimeout(() => {
+            if(this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
+                this.#giveUpFunction(this.#player1)
+            } else {
+                this.#giveUpFunction(this.#player2)
+            }
+        }, this.timeToPlay);
+
     }
 
     /*
@@ -156,6 +179,10 @@ class MatchmakingRoom {
 
 
     readNewMove = (socket, globalCoordinates) => {
+        if(this.#gameEngine.currentPlayingPlayer.id === socket.userId) {
+            console.log("clear the timeOut")
+            clearTimeout(this.#timer);
+        }
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
 

@@ -21,6 +21,8 @@ import {MatchmakingRoom} from "./play/room/MatchmakingRoom.js";
 import {jsonValidator} from "./util/jsonValidator.js";
 import PlayersQueue from "./play/PlayersQueue.js";
 import MatchmakingController from "./play/MatchmakingController.js";
+import userstatsdb from "./database/userstatsdb.js";
+import achievementdb from "./database/achievementdb.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -67,10 +69,16 @@ const gameSocket = io.of("/api/game")
 
 // removes all the games from the database when the server starts/restarts
 gamedb.removeAllGames().then(() => {
-    console.log("Server started, all the games have been removed from the database")
-})
+    console.log("Server started, all the games        have been removed from the database, look for /back/index.js to change this behaviour");
+});
+userstatsdb.removeAllStats().then(() => {
+    console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
+});
+achievementdb.removeAllAchievements().then(() => {
+    console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
+});
 
-function authenthicate(socket, next) {
+function authenticate(socket, next) {
     let token = socket.handshake.auth.token;
     if (token) {
         jwt.verify(token, JWTSecretCode, (err, decoded) => {
@@ -90,7 +98,7 @@ function authenthicate(socket, next) {
 
 // middle ware ---------------------------------------------------------------------------------------------------------
 gameSocket.use((socket, next) => {
-    authenthicate(socket, next);
+    authenticate(socket, next);
 });
 
 // Connection ----------------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ import * as crypto from "crypto";
 import {AI} from "../../logic/minMaxAi.js";
 import gamedb from "../../database/gamedb.js";
 import {displayACaughtError} from "../../util/util.js";
-
+import {STATSaddGamePlayed} from "../../object/UserStatsDBUtil.js";
 
 class AiRoom {
     #player;
@@ -52,6 +52,8 @@ class AiRoom {
     }
 
     #gameIsOverEmit = (winner) => {
+        STATSaddGamePlayed(this.#player.userId);
+
         this.#gameSocket.to(this.#player.id).emit("gameIsOver", winner)
         console.log("gameIsOverEmit AIRoom", winner)
     }
@@ -179,7 +181,7 @@ class AiRoom {
 
     readNewMove = (globalCoordinates) => {
         console.log("newMove", globalCoordinates);
-        console.log("Game Engine ", this.#gameEngine)
+        //console.log("Game Engine ", this.#gameEngine)
         globalCoordinates[0] = parseInt(globalCoordinates[0]);
         globalCoordinates[1] = parseInt(globalCoordinates[1]);
 
