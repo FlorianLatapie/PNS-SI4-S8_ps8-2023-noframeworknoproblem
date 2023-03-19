@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche d'utilisateurs</title>
+    <script type="module" src="../menu/burgermenu.js"></script>
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script type="module" src="search.js"></script>
+</head>
+<body>
+
+<header>
+    <burger-menu></burger-menu>
+    <h1 id="page-title">Accueil</h1>
+    <div class="top-corner-content" id="username">
+    </div>
+</header>
+
+<div>
+    <h1>Recherche d'utilisateurs</h1>
+    <form id="search-form">
+        <input id="form-username" class="text-input" name="search" placeholder="Nom d'utilisateur" type="text" maxlength="16" required>
+        <button name="search-button" type="submit"><img src="../images/search.svg" alt="Bouton de Recherche"/></button>
+    </form>
+</div>
+
+</body>
+</html>

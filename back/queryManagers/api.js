@@ -16,12 +16,13 @@ function manageRequest(request, response) {
     let urlPath = url[0].split("/")
 
     let paramsObject = {}
-    if (urlPath.length === 2) {
+    if (url.length === 2) {
         let urlParams = url[1].split("&");
         urlParams.forEach(param => {
             const [key, value] = param.split("=")
             paramsObject[key] = value
         })
+        console.log(paramsObject)
     } else {
         paramsObject = undefined;
     }
@@ -104,6 +105,7 @@ function manageRequest(request, response) {
                 friendsApi(urlPath, userIdEmitTheRequest, response, paramsObject);
                 break;
             case "users":
+                console.log("users ", urlPath, paramsObject)
                 usersApi(urlPath, userIdEmitTheRequest, response, paramsObject);
                 break;
         }
