@@ -7,6 +7,7 @@ const {
     USER_COLLECTION,
     GAME_COLLECTION,
     ACHIEVEMENTS_COLLECTION,
+    FRIENDS_COLLECTION,
 } = process.env;
 
 export default {
@@ -15,4 +16,5 @@ export default {
     userCollection: USER_COLLECTION,
     gameCollection: GAME_COLLECTION,
     achievementsCollection: ACHIEVEMENTS_COLLECTION,
+    friendsCollection: FRIENDS_COLLECTION,
 };

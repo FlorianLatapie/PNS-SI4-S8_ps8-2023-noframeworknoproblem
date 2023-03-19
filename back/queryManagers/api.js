@@ -5,6 +5,9 @@
 import {sendResponse} from "./util.js";
 import {userSignUp, userLogIn} from "./user/apiUser.js";
 import {achievementsManager, addAchievements} from "./user/userAchievements.js";
+import friendsApi from "./friends/apiFriends.js";
+import {isTokenValid, parseJwt} from "../../front/util/jwtParser.js";
+import {validateJwt} from "../auth/jwtParserBack.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -17,6 +20,10 @@ function manageRequest(request, response) {
     if (request.method === 'OPTIONS') {
         sendResponse(response, 200, "OK");
     } else if (request.method === "POST") {
+        if (urlPath.length < 3) {
+            sendResponse(response, 404, "URL " + url + " not supported");
+            return;
+        }
         let body = "";
         request.on('data', function (data) {
             body += data;
@@ -50,12 +57,42 @@ function manageRequest(request, response) {
                 case "achievements":
                     achievementsManager(url, urlPath, request, response, bodyJson);
                     break;
+
                 default:
                     console.log("URL", url, "not supported");
                     sendResponse(response, 404, "URL " + url + " not supported");
                     break;
+
             }
         });
+    } else if (request.method === "GET") {
+        if (urlPath.length < 3) {
+            sendResponse(response, 404, "URL " + url + " not supported");
+            return;
+        }
+
+        if (request.headers.authorization === undefined || request.headers.authorization.split(" ")[0] !== "Bearer") {
+            sendResponse(response, 401, "Unauthorized");
+            return;
+        }
+
+        let userToken = request.headers.authorization.split(" ")[1];
+
+        console.log("Before validation of the Authorization header")
+        let userIdEmitTheRequest;
+        try {
+            userIdEmitTheRequest = validateJwt(userToken).userId;
+        } catch (err) {
+            sendResponse(response, 401, "Unauthorized  : " + err);
+            return;
+        }
+
+        console.log("After validation of the Authorization header")
+
+        switch (urlPath[2]) {
+            case "friends":
+                friendsApi(urlPath, userIdEmitTheRequest, response, urlParams);
+        }
     } else {
         console.log("Method", request.method, "not supported");
         sendResponse(response, 404, "Method " + request.method + " not supported");

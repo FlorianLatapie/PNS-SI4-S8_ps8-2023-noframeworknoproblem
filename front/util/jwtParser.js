@@ -10,7 +10,6 @@ function isTokenValid(token) {
     let parsedJwt = parseJwt(token);
     if (parsedJwt === null)
         return false;
-    
     let expirationTime = parsedJwt.exp;
     let currentTime = Date.now() / 1000;
     return currentTime < expirationTime;

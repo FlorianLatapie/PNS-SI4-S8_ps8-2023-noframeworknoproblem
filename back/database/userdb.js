@@ -1,4 +1,4 @@
-import {MongoClient} from "mongodb";
+import {MongoClient, ObjectId} from "mongodb";
 
 import DB_CONF from "../conf/mongodb.conf.js";
 
@@ -25,7 +25,7 @@ class UserDb {
     async addUser(data) {
         await this.verifyConnection();
         try {
-            if (! await this.existsUser(data)) {
+            if (!await this.existsUser(data)) {
                 console.log("User doesn't exist, adding user");
                 return await this.users.insertOne(data);
             }
@@ -85,6 +85,27 @@ class UserDb {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    async checkUserExists(userId) {
+        await this.verifyConnection();
+        // findOne returns null if no data was not found
+        //console.log("Checking if user exists: ", await this.users.findOne({_id: userId}));
+        if (await this.users.findOne({_id: new ObjectId(userId)}) === null) {
+            throw new Error("User " + userId + " doesn't exist");
+        }
+    }
+
+    async getUsersByIds(arrayUserId) {
+        await this.verifyConnection();
+        arrayUserId = arrayUserId.map((userId) => new ObjectId(userId));
+        console.log(arrayUserId)
+        let res = await this.users.find({_id: {$in: arrayUserId}}, {projection: {password: 0, mail: 0}}).toArray();
+        res.forEach(e => {
+            e["userId"] = e["_id"].toString();
+            delete e["_id"];
+        });
+        return res;
     }
 }
 
