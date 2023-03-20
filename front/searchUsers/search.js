@@ -1,12 +1,13 @@
-import {API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL, USERS_URL} from "../path.js";
+import {API_URL, BASE_URL, HOME_URL, USERS_URL} from "../path.js";
 
 window.addEventListener('load', function () {
     console.log("search.js loaded");
     document.getElementById("search-form").addEventListener("submit", function (event) {
+        suppressAllUsersRepresentations();
         console.log("search-form submitted");
         event.preventDefault();
         let name = document.getElementById("form-username").value
-
+        console.log("Name value " + name)
         fetch(BASE_URL + API_URL + USERS_URL + "get?" + new URLSearchParams({
             name: name
         }), {
@@ -16,12 +17,49 @@ window.addEventListener('load', function () {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-            console.log(response);
-            if (response.status === 201) {
-                // TODO: Display the users on the page
-                console.log("every works fine");
-                console.log(response.json());
+            console.log("Response status " + response.status);
+            if (!response.ok) {
+                console.log("Error while retrieving users", response.status)
+                // There is an error
             }
-        });
+            return response.json()
+
+        }).then(data => data.forEach(user => {
+            // Add a user case on the web page
+            addUserRepresentation(user);
+        }))
     });
 });
+
+function addUserRepresentation(userObj) {
+    const container = document.createElement('div');
+    const img = document.createElement('img');
+    const usernameContainer = document.createElement('p')
+
+    // TODO change the link to redirect to the user page
+    container.addEventListener("click", () => {
+        window.location.replace(BASE_URL + HOME_URL)
+    })
+
+    container.classList.add("flex-row",  "userProfil");
+    img.classList.add("profil_image");
+
+    img.src = "../images/user-solid.svg"
+    img.alt = "Profil image"
+
+    usernameContainer.innerHTML = userObj.username;
+
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(img)
+    fragment.appendChild(usernameContainer)
+
+    container.appendChild(fragment)
+
+    document.getElementById("users-result").appendChild(container)
+}
+
+function suppressAllUsersRepresentations() {
+    document.getElementById("users-result").innerHTML = ""
+}
+
+

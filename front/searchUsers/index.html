@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Recherche d'utilisateurs</title>
+    <link href="../commonCSS/common.css" rel="stylesheet">
+    <link href="search.css" rel="stylesheet">
     <script type="module" src="../menu/burgermenu.js"></script>
     <script src="../util/guards/guard.js" type="module"></script>
     <script src="../util/updateUsernameDiv.js" type="module"></script>
@@ -11,19 +13,27 @@
 <body>
 
 <header>
-    <burger-menu></burger-menu>
     <h1 id="page-title">Accueil</h1>
     <div class="top-corner-content" id="username">
     </div>
 </header>
 
+<!-- TODO : put the burger menu correctly -->
+<!--
 <div>
-    <h1>Recherche d'utilisateurs</h1>
-    <form id="search-form">
-        <input id="form-username" class="text-input" name="search" placeholder="Nom d'utilisateur" type="text" maxlength="16" required>
-        <button name="search-button" type="submit"><img src="../images/search.svg" alt="Bouton de Recherche"/></button>
-    </form>
+    <burger-menu></burger-menu>
 </div>
+-->
+
+<main class="flex-column">
+    <form id="search-form">
+        <input id="form-username" class="text-input" name="search" placeholder="Nom d'utilisateur" type="text"
+               maxlength="16" required>
+        <button name="search-button" type="submit"><img src="../images/search.svg" alt="Bouton de Recherche"/>
+        </button>
+    </form>
+</main>
+
 
 </body>
 </html>
