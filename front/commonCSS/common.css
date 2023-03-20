@@ -1,5 +1,6 @@
 @import "../menu/burgermenu.css";
 @import "header.css";
+@import "../templates/UserRepesentationInList.css";
 
 * {
     font-family: "Verdana";
