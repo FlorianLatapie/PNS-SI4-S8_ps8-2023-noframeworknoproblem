@@ -74,9 +74,9 @@ gamedb.removeAllGames().then(() => {
 userstatsdb.removeAllStats().then(() => {
     console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
 });
-achievementdb.removeAllAchievements().then(() => {
+/*achievementdb.removeAllAchievements().then(() => {
     console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
-});
+});*/
 
 function authenticate(socket, next) {
     let token = socket.handshake.auth.token;
