@@ -8,8 +8,17 @@ function friendsApi(urlPathArray, userIdEmitTheRequest, response, urlParams) {
     }
 
     switch (urlPathArray[3]) {
-        case "get":
+        case "getFriends":
             getFriends(userIdEmitTheRequest, response);
+            return;
+        case "getPending":
+            getPending(userIdEmitTheRequest, response);
+            return;
+        case "getRequests":
+            getRequest(userIdEmitTheRequest, response);
+            return;
+        case "getAll":
+            getAll(userIdEmitTheRequest, response);
             return;
     }
 
@@ -84,13 +93,7 @@ function getFriends(userIdEmitTheRequest, response) {
 async function getFriendsInternal(userIdEmitTheRequest) {
     await userdb.checkUserExists(userIdEmitTheRequest)
     let friendsId = await frienddb.getFriends(userIdEmitTheRequest);
-    try {
-        let res = await userdb.getUsersByIds(friendsId)
-        console.log("getFriendsInternal 1", res);
-        return res;
-    } catch (err) {
-        console.log("getFriendsInternal error ", err);
-    }
+    return await userdb.getUsersByIds(friendsId);
 }
 
 function removeFriend(userIdEmitTheRequest, response, friendId) {
@@ -116,10 +119,56 @@ function removeRequest(userIdEmitTheRequest, response, friendId) {
         sendResponse(response, 404, "" + err);
     });
 }
+
+function getPending(userIdEmitTheRequest, response) {
+    getPendingInternal(userIdEmitTheRequest).then(friends => {
+        sendResponse(response, 200, JSON.stringify(friends));
+    }).catch(err => {
+        sendResponse(response, 500, "Impossible to retrieve friends " + err)
+    });
+}
+
+async function getPendingInternal(userIdEmitTheRequest) {
+    await userdb.checkUserExists(userIdEmitTheRequest)
+    let friendsId = await frienddb.getPending(userIdEmitTheRequest);
+    return await userdb.getUsersByIds(friendsId);
+}
+
+function getRequest(userIdEmitTheRequest, response) {
+    getRequestInternal(userIdEmitTheRequest).then(friends => {
+        sendResponse(response, 200, JSON.stringify(friends));
+    }).catch(err => {
+        sendResponse(response, 500, "Impossible to retrieve friends " + err)
+    });
+}
+
+async function getRequestInternal(userIdEmitTheRequest) {
+    await userdb.checkUserExists(userIdEmitTheRequest)
+    let friendsId = await frienddb.getRequests(userIdEmitTheRequest);
+    return await userdb.getUsersByIds(friendsId);
+}
+
 function checkUserIds(userId, friendId) {
     let checkUserId = userdb.checkUserExists(userId);
     let checkFriendId = userdb.checkUserExists(friendId);
     return Promise.all([checkUserId, checkFriendId]);
+}
+
+function getAll(userIdEmitTheRequest, response) {
+    Promise.all([
+        getFriendsInternal(userIdEmitTheRequest),
+        getPendingInternal(userIdEmitTheRequest),
+        getRequestInternal(userIdEmitTheRequest)]
+    ).then((values) => {
+        let friends = values[0];
+        let pending = values[1];
+        let requests = values[2];
+        sendResponse(response, 200, JSON.stringify(
+            {friends: friends, pending: pending, requests: requests}
+        ));
+    }).catch((err) => {
+        sendResponse(response, 500, "" + err)
+    });
 }
 
 export default friendsApi;
