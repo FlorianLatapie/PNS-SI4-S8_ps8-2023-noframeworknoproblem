@@ -6,7 +6,6 @@ let userId = localStorage.getItem("userId");
 let username = localStorage.getItem("username");
 
 document.getElementById("displayed-username").innerText = username;
-document.getElementById("unique-id").innerText = userId;
 
 fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", {
     method: "post", headers: {
@@ -18,9 +17,9 @@ fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", {
 
     let achievementsDiv = document.getElementById("achievements");
     achievements.forEach(achievement => {
-        let achievementDiv = document.createElement("div");
+        let achievementDiv = document.createElement("li");
         achievementDiv.classList.add("achievement");
-        achievementDiv.innerText = achievement.achievementId;
+        achievementDiv.innerText = achievement.achievementId + " - " + "débloqué (100%)";
         achievementsDiv.appendChild(achievementDiv);
     });
 });

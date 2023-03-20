@@ -3,28 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Order</title>
-    <link rel="stylesheet" href="../../../commonCSS/common.css">
-    <link rel="stylesheet" href="order.css">
-    <script type="module" src="../../../util/guards/guard.js"></script>
+    <link href="../../../commonCSS/common.css" rel="stylesheet">
+    <link href="order.css" rel="stylesheet">
+    <script src="../../../util/guards/guard.js" type="module"></script>
+    <script src="../../../util/updateUsernameDiv.js" type="module"></script>
 </head>
 <body>
 
-<form id="form-position">
-    <h1>Choisissez votre ordre de jeu</h1>
-    <div>
-        <input type="radio" id="first"
-               name="AIplays" value="2">
-        <label for="first">Premier</label>
-
-        <input type="radio" id="second"
-               name="AIplays" value="1">
-        <label for="second">Second</label>
-    </div>
-    <div>
-        <button type="submit">Envoyer</button>
-    </div>
-</form>
+<header>
+    <div class="top-corner-content"></div>
+    <div class="page-title"><h1 id="page-title">Réglages partie</h1></div>
+    <div class="top-corner-content" id="username"></div>
+</header>
+<div id="bottom-content">
+    <burger-menu></burger-menu>
+    <main>
+        <form id="form-position">
+            <h2>Choisissez votre ordre de jeu</h2>
+            <div id="choice">
+                <div>
+                    <input id="first" name="AIplays"
+                           type="radio" value="2">
+                    <label for="first">Premier</label>
+                </div>
+                <div>
+                    <input id="second" name="AIplays"
+                           type="radio" value="1">
+                    <label for="second">Second</label>
+                </div>
+            </div>
+            <div>
+                <button id="send-button" type="submit">Envoyer</button>
+            </div>
+        </form>
+    </main>
+</div>
 
 </body>
-<script type="module" src="order.js"></script>
+<script src="../../../menu/burgermenu.js" type="module"></script>
+
+<script src="order.js" type="module"></script>
 </html>
