@@ -10,24 +10,10 @@ main {
     grid-gap: 1vw;
     justify-content: center;
     align-items: center;
-    width: 33vw;
+    width: 40vw;
 }
 
 #button-container * {
     height: 8.6vh;
-}
-
-form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.home-button {
     width: 100%;
-}
-
-.half-home-button {
-    width: 50%;
 }
