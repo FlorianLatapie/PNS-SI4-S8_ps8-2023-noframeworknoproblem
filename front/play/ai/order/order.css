@@ -26,6 +26,6 @@ button {
 
 #choice > * {
     padding: 10px;
-    background-color: #b3b3b3;
+    background-color: var(--dark-accentuation);
     border-radius: 100vw;
 }

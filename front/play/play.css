@@ -142,7 +142,7 @@
     content: ' ';
     height: fit-content;
     width: fit-content;
-    background-color: #0084ff;
+    background-color: var(--bubble-bg-color)
 }
 
 .send {
@@ -161,7 +161,7 @@
 .spike:after {
     content: ' ';
     border: 7px solid;
-    border-color: transparent transparent transparent #0084ff;
+    border-color: transparent transparent transparent var(--bubble-bg-color);
 }
 
 .bulle-texte {

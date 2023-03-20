@@ -11,9 +11,9 @@ const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
 
 const iconWidth = "36";
 
-const bugerMenuTemplate = document.createElement("template");
+const burgerMenuTemplate = document.createElement("template");
 
-bugerMenuTemplate.innerHTML = `
+burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="` + BASE_URL + `/menu/burgermenu.css">
 <nav class="nav-bar top-corner-content">
     <a>
@@ -41,13 +41,13 @@ bugerMenuTemplate.innerHTML = `
     </ul>
 </nav>
 `;
-export default bugerMenuTemplate;
+export default burgerMenuTemplate;
 
 class Burgermenu extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: "open"});
-        this.shadowRoot.appendChild(bugerMenuTemplate.content.cloneNode(true));
+        this.shadowRoot.appendChild(burgerMenuTemplate.content.cloneNode(true));
     }
 
     connectedCallback() {
@@ -66,9 +66,6 @@ class Burgermenu extends HTMLElement {
                 navButtons.forEach(button => button.style.display = "none");
             }
         });
-
-
-
 
         this.shadowRoot
             .querySelectorAll(".nav-link")

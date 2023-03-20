@@ -9,7 +9,7 @@ header {
 /* header not the first child */
 header > *:not(:first-child) {
     margin: 10px;
-    background-color: #f5f5f5;
+    background-color: var(--light-accentuation);
     display: flex;
     align-items: center;
     justify-content: center;
