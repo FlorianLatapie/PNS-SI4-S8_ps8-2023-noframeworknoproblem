@@ -19,12 +19,7 @@ body {
 
 /* header see header.css */
 
-/* main */
-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* main depends on every page, check each page css */
 
 /* buttons */
 button {

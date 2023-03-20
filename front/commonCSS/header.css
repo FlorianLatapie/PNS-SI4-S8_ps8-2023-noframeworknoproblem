@@ -17,9 +17,8 @@ header > *:not(:first-child) {
 
 .page-title {
     width: 22vw;
-    /* font bold */
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 #username {
 }
