@@ -1,16 +1,20 @@
-.wrapper {
-    display: grid;
-    grid-template: 10vh 1fr / 8vw 1fr;
+main {
+    padding: 10%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
-
-.wrapper > header {
-    grid-area: 1 / 1 / 1 / span 2
+main > * {
+    margin: 0.5em;
 }
 
-.wrapper > main {
-    grid-area: 2 / 2;
-    position: absolute;
-    top: 35%;
-    left: 35%;
+#salutations{
+    display: flex;
+    flex-direction: row;
+}
+
+#salutations > * {
+    margin: 0 0.2em;
 }

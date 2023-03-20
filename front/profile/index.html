@@ -11,31 +11,28 @@
     <script src="profile.js" type="module"></script>
 </head>
 <body>
-<div class="wrapper">
-    <header>
-        <burger-menu></burger-menu>
-        <h1 id="page-title">Profil utilisateur</h1>
-        <div class="top-corner-content" id="username"></div>
-    </header>
+
+<header>
+    <div class="top-corner-content"></div>
+    <div class="page-title"><h1 id="page-title">Profil utilisateur</h1></div>
+    <div class="top-corner-content" id="username"></div>
+</header>
+
+<div id="bottom-content">
+    <burger-menu></burger-menu>
     <main>
-        <!--
-        Username : xxx
-        Unique ID : xxx
-        -->
-        <table>
-            <tr>
-                <td>Nom d'utilisateur</td>
-                <td id="displayed-username"></td>
-            </tr>
-            <tr>
-                <td>Identifiant unique</td>
-                <td id="unique-id"></td>
-            </tr>
-        </table>
-        <p>Succès découverts :</p>
-        <div id="achievements"></div>
+        <div id="salutations">
+            <p>Bonjour </p>
+            <p id="displayed-username"></p>
+        </div>
+        <div id="successes">
+            <p>Succès découverts :</p>
+            <ul id="achievements">
+            </ul>
+        </div>
     </main>
 </div>
+
 </body>
 <script src="../menu/burgermenu.js" type="module"></script>
 </html>
