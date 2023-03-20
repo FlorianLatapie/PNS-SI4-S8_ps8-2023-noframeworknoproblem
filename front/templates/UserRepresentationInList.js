@@ -10,8 +10,8 @@ function createUserRepresentation(userObj) {
         window.location.replace(BASE_URL + HOME_URL)
     })
 
-    container.classList.add("flex-row", "userProfil");
-    img.classList.add("profil_image");
+    container.classList.add("flex-row", "user-profil");
+    img.classList.add("profil-image");
 
     img.src = "../images/user-solid.svg"
     img.alt = "Profil image"
