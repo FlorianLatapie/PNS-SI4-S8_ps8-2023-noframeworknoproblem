@@ -48,5 +48,12 @@ header > * {
 
 #button-container > div > * {
     height: 8.6vh;
-    width: 40%;
+    width: 42%;
+}
+
+p {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
