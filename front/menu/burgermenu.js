@@ -1,6 +1,6 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, LOGIN_URL} from "../path.js";
+import {HOME_URL, BASE_URL, PROFILE_URL, LOGIN_URL, FRIENDS_URL} from "../path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
@@ -32,7 +32,7 @@ bugerMenuTemplate.innerHTML = `
     <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
         <img alt="Notifications" src=` + notifications + `><button>Notifications</button>
     </a>
-    <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
+    <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>
         <img alt="Amis" src=` + friends + `><button>Amis</button>
     </a>
     <a class="nav-link" id="logout" href="` + BASE_URL + LOGIN_URL + `">
