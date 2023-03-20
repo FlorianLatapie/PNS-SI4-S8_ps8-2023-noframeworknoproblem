@@ -21,7 +21,7 @@ class PlayersQueue {
       } else {
           let otherPlayer = this.#queue.pop();
           let matchm = new MatchmakingRoom(otherPlayer, player, this.#gameSocket, this.#matchmakingRoomInstances);
-            this.#matchmakingRoomInstances.newGame(otherPlayer, player, matchm);
+          this.#matchmakingRoomInstances.newGame(otherPlayer, player, matchm);
           console.log(`Game is starting between ${otherPlayer.username} (id : ${otherPlayer.userId}) and ${player.username} (id : ${player.userId})`);
       }
   }

@@ -54,6 +54,7 @@ class WebPageInteraction {
     addAllListeners = () => {
         this.#gridListener();
         this.#giveUpListener();
+        this.#tempChatListener();
     }
 
     removeAllListeners = () => {
@@ -171,6 +172,51 @@ class WebPageInteraction {
         else{
             document.getElementById("timer").innerText = "Temps restant pour l'adversaire 0:0" + time / 1000;
         }
+    }
+
+    #tempChatListener = () => {
+        let tempChat = document.getElementById("tempChat");
+        tempChat.style.cursor = "pointer";
+        tempChat.addEventListener("click", this.#clickChatButton);
+    }
+
+
+    #clickChatButton = () => {
+        let bulles = document.getElementsByClassName("send");
+        if(bulles[0].style.visibility === "hidden"){
+            for (let i = 0; i < bulles.length; i++) {
+                bulles[i].style.visibility = "visible";
+                bulles[i].style.cursor = "pointer";
+                bulles[i].addEventListener("click", () => {
+                    this.#emitMessage(bulles[i]);
+                });
+            }
+        }
+        else{
+            for (let i = 0; i < bulles.length; i++) {
+                bulles[i].style.visibility = "hidden";
+                bulles[i].style.cursor = "default"
+                bulles[i].removeEventListener("click", () => {
+                    this.#emitMessage(bulles[i].childNodes[1].childNodes[1].textContent);
+                });
+            }
+        }
+
+    }
+
+    #emitMessage = (bulle) => {
+        //console.log("message to send", bulle.childNodes[1].childNodes[1].textContent);
+        this.#socketMatchmaking.chatEmit(bulle.childNodes[1].childNodes[1].textContent);
+        bulle.style.visibility = "hidden";
+    }
+
+    updateChat = (message) => {
+        let chat = document.getElementById("chatTest");
+        setTimeout(() => {
+            chat.style.visibility = "hidden";
+        }, 5000);
+        chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
+        chat.style.visibility = "visible";
     }
 }
 

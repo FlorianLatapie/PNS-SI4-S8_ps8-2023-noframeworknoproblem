@@ -19,8 +19,7 @@ class MatchmakingRoom {
 
     #timer;
 
-    timeToPlay = 10000;
-
+    #timeToPlay = 10000;
 
 
     constructor(player1, player2, gameSocket, matchmakingRoomInstances) {
@@ -41,12 +40,17 @@ class MatchmakingRoom {
         socket.on("newMove", this.readNewMove.bind(this, socket));
         socket.on("giveUp", this.#giveUpFunction.bind(this, socket));
         socket.join(this.#room);
+        socket.on("chatToBack", this.#tempChatFunction.bind(this, socket));
     }
 
     #giveUpFunction = (socket) => {
         let winner = this.#gameEngine.getOpponentPlayer(socket.userId).name;
         this.#gameIsOver(winner);
         console.log("giveUpFunction", winner)
+    }
+
+    #tempChatFunction = (socket, message) => {
+        this.#gameSocket.to(this.#room).emit("chatToFront", message);
     }
 
     #gameIsOverEmit = (winner) => {
@@ -119,16 +123,18 @@ class MatchmakingRoom {
     }
 
     checkTimer = () => {
-        this.#gameSocket.to(this.#room).emit("timer", this.timeToPlay);
+        this.#gameSocket.to(this.#room).emit("timer", this.#timeToPlay);
         return setTimeout(() => {
             if(this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
                 this.#giveUpFunction(this.#player1)
             } else {
                 this.#giveUpFunction(this.#player2)
             }
-        }, this.timeToPlay);
+        }, this.#timeToPlay);
 
     }
+
+
 
     /*
     autoPlay = (gameEngineFromDB) => {

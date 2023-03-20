@@ -86,8 +86,8 @@
 
 }
 
-#show-winner{
-    position:absolute;
+#show-winner {
+    position: absolute;
     display: none;
     border: black solid 5px;
     height: 220px;
@@ -99,7 +99,7 @@
     font-size: 20px;
 }
 
-#cross{
+#cross {
     position: inherit;
     right: 5px;
     top: 5px;
@@ -110,18 +110,64 @@
     z-index: inherit;
 }
 
-#pic{
+#pic {
     height: 130px;
     width: 130px;
 }
 
-#timer{
+#timer {
     position: absolute;
     top: 5vw;
     right: 7vw;
     font-size: 25px;
     font-family: 'Arial', sans-serif;
     z-index: 1;
+}
+
+#tempChat {
+    position: absolute;
+    top: 25vw;
+    left: 10vw;
+    z-index: 2;
+}
+
+#chatTest {
+    position: absolute;
+    top: 5vw;
+    left: 10vw;
+    visibility: hidden;
+}
+
+.bulle {
+    content: ' ';
+    height: auto;
+    width: auto;
+    background-color: #0084ff;
+}
+
+.send {
+    position: absolute;
+    top: 19vw;
+    left: 13vw;
+    visibility: hidden;
+}
+
+.round {
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+
+.spike:after {
+    content: ' ';
+    border: 22px solid;
+    border-color: transparent transparent transparent #0084ff;
+}
+
+.bulle-texte {
+    padding: 0.5em;
+    text-align: center;
+    line-height: 0.2em;
 }
 
 

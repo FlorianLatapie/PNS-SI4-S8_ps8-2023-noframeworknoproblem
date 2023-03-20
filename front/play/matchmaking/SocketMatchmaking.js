@@ -28,6 +28,7 @@ class SocketMatchmaking {
             this.#gameSocket.on("reconnect", this.#reconnectFunction);
             this.#gameSocket.on("alreadyConnected", this.#alreadyConnectedFunction);
             this.#gameSocket.on("timer", this.#timerFunction);
+            this.#gameSocket.on("chatToFront", this.#chatFunction);
         });
     }
 
@@ -134,6 +135,13 @@ class SocketMatchmaking {
     giveUpEmit = () => {
         this.#gameSocket.emit("giveUp");
         console.log("giveUp");
+    }
+
+    chatEmit = (message) => {
+        this.#gameSocket.emit("chatToBack", message);
+    }
+    #chatFunction = (message) => {
+        this.#webPageInteraction.updateChat(message);
     }
 }
 
