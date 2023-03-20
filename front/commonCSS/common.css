@@ -46,7 +46,7 @@ button a {
 }
 
 button:hover {
-    background-color: #909090;
+    background-color: var(--very-dark-accentuation);
 }
 
 .text-input {

@@ -12,5 +12,4 @@ fetch(url, {
     }
 }).then(response => {
     console.log("success");
-})
-    .catch(error => console.log("ehec"));
+}).catch(error => console.log("echec"));
