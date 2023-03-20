@@ -3,7 +3,9 @@ import {API_URL, BASE_URL, FRIENDS_URL, HOME_URL} from "../path.js";
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");
 const requestsListContainer = document.getElementById("users-requests");
-window.addEventListener('load', function () {
+window.addEventListener('load', getAllData);
+
+function getAllData() {
     fetch(BASE_URL + API_URL + FRIENDS_URL + "getAll", {
         method: "get", headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -23,7 +25,7 @@ window.addEventListener('load', function () {
         data["pending"].forEach(user => addPendingToContainer(user));
         data["requests"].forEach(user => addRequestToContainer(user));
     })
-});
+}
 
 function createUserRepresentation(userObj) {
     const container = document.createElement('div');
@@ -42,6 +44,7 @@ function createUserRepresentation(userObj) {
     img.alt = "Profil image"
 
     usernameContainer.innerHTML = userObj.username;
+    usernameContainer.id = userObj.userId;
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(img)
@@ -58,7 +61,8 @@ function addFriendToContainer(friend) {
 
     friendContainer.classList.add("flex-row");
 
-    removeButton.innerHTML = "Remove";
+    removeButton.innerHTML = "Supprimer";
+    removeButton.addEventListener("click", () => callFriendAPI("removeFriend", friendDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(friendDiv);
@@ -76,8 +80,10 @@ function addPendingToContainer(pending) {
 
     pendingContainer.classList.add("flex-row");
 
-    removeButton.innerHTML = "Remove";
-    acceptButton.innerHTML = "Accept";
+    removeButton.innerHTML = "Décliner";
+    removeButton.addEventListener("click", () => callFriendAPI("removePending", pendingDiv.getElementsByTagName("p")[0].id));
+    acceptButton.innerHTML = "Accepter";
+    acceptButton.addEventListener("click", () => callFriendAPI("accept", pendingDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(pendingDiv);
@@ -94,7 +100,8 @@ function addRequestToContainer(request) {
     const removeButton = document.createElement('button');
 
     requestContainer.classList.add("flex-row");
-    removeButton.innerHTML = "Remove";
+    removeButton.innerHTML = "Supprimer";
+    removeButton.addEventListener("click", () => callFriendAPI("removeRequest", requestDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(requestDiv);
@@ -102,6 +109,30 @@ function addRequestToContainer(request) {
 
     requestContainer.appendChild(fragment);
     requestsListContainer.appendChild(requestContainer);
+}
+
+function callFriendAPI(action, id) {
+    fetch(BASE_URL + API_URL + FRIENDS_URL + action + "/" + id, {
+        method: "get", headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (!response.ok) {
+            throw new Error("Error while calling API (button)", response.status)
+        }
+        reloadAllData();
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
+function reloadAllData() {
+    friendsListContainer.innerHTML = "";
+    pendingListContainer.innerHTML = "";
+    requestsListContainer.innerHTML = "";
+    getAllData();
 }
 
 
