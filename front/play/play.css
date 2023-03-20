@@ -125,30 +125,30 @@
 }
 
 #tempChat {
-    position: absolute;
-    top: 25vw;
-    left: 10vw;
+    position: relative;
+    top: -30vw;
+    left: 5vw;
     z-index: 2;
 }
 
 #chatTest {
-    position: absolute;
-    top: 5vw;
-    left: 10vw;
+    position: relative;
+    top: -50vw;
+    left: 7vw;
     visibility: hidden;
 }
 
 .bulle {
     content: ' ';
-    height: auto;
-    width: auto;
+    height: fit-content;
+    width: fit-content;
     background-color: #0084ff;
 }
 
 .send {
-    position: absolute;
-    top: 19vw;
-    left: 13vw;
+    position: relative;
+    top: -35vw;
+    left: 7vw;
     visibility: hidden;
 }
 
@@ -160,7 +160,7 @@
 
 .spike:after {
     content: ' ';
-    border: 22px solid;
+    border: 7px solid;
     border-color: transparent transparent transparent #0084ff;
 }
 
@@ -169,5 +169,4 @@
     text-align: center;
     line-height: 0.2em;
 }
-
 
