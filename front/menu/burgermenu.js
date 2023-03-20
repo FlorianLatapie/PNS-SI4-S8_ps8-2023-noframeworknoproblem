@@ -1,6 +1,6 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, LOGIN_URL} from "../path.js";
+import {HOME_URL, BASE_URL, PROFILE_URL, LOGIN_URL, FRIENDS_URL} from "../path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
@@ -11,9 +11,9 @@ const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
 
 const iconWidth = "36";
 
-const bugerMenuTemplate = document.createElement("template");
+const burgerMenuTemplate = document.createElement("template");
 
-bugerMenuTemplate.innerHTML = `
+burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="` + BASE_URL + `/menu/burgermenu.css">
 <nav class="nav-bar top-corner-content">
     <a>
@@ -32,7 +32,7 @@ bugerMenuTemplate.innerHTML = `
     <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
         <img alt="Notifications" src=` + notifications + `><button>Notifications</button>
     </a>
-    <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
+    <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>
         <img alt="Amis" src=` + friends + `><button>Amis</button>
     </a>
     <a class="nav-link" id="logout" href="` + BASE_URL + LOGIN_URL + `">
@@ -41,13 +41,13 @@ bugerMenuTemplate.innerHTML = `
     </ul>
 </nav>
 `;
-export default bugerMenuTemplate;
+export default burgerMenuTemplate;
 
 class Burgermenu extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: "open"});
-        this.shadowRoot.appendChild(bugerMenuTemplate.content.cloneNode(true));
+        this.shadowRoot.appendChild(burgerMenuTemplate.content.cloneNode(true));
     }
 
     connectedCallback() {
@@ -66,9 +66,6 @@ class Burgermenu extends HTMLElement {
                 navButtons.forEach(button => button.style.display = "none");
             }
         });
-
-
-
 
         this.shadowRoot
             .querySelectorAll(".nav-link")

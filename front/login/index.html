@@ -1,34 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
 <head>
     <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
     <title>Se connecter</title>
     <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="login.css" rel="stylesheet">
-    <script type="module" src="../util/guards/guardLoginSignUp.js"></script>
+    <script src="../util/guards/guardLoginSignUp.js" type="module"></script>
 </head>
 <body>
 
 <header>
-    <h1 id="page-title">Se connecter</h1>
+    <div class="page-title"><h1>Se connecter</h1></div>
 </header>
 
 <main>
     <div id="button-container">
         <form id="login-form">
-            <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur ou Email" id="login-username"
-            required>
-            <input class="text-input" type="password" name="password" placeholder="Mot de passe" id="login-password"
-            required>
+            <input class="text-input" id="login-username" name="username" placeholder="Nom d'utilisateur ou Email"
+                   required
+                   type="text">
+            <input class="text-input" id="login-password" name="password" placeholder="Mot de passe" required
+                   type="password">
             <button class="home-button" id="login-button">Se connecter</button>
         </form>
-        <div class="text half-home-button bottom">
-            <div class="text half-home-button">Pas encore de compte ?</div>
-            <button class="signup half-home-button"><a id="signup">Créez-en un !</a></button>
+        <div>
+            <p>Pas encore de compte ?</p>
+            <button><a id="signup">Créez-en un !</a></button>
         </div>
     </div>
 </main>
-<script type="module" src="./login.js"></script>
+
+<script src="./login.js" type="module"></script>
 </body>
 </html>
