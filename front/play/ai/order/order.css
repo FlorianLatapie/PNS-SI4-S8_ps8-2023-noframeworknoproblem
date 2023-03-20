@@ -27,6 +27,5 @@ button {
 #choice > * {
     padding: 10px;
     background-color: #b3b3b3;
-    /*rounded corners*/
     border-radius: 100vw;
 }
