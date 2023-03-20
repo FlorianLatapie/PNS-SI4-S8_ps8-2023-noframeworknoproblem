@@ -4,7 +4,7 @@
     <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
     <title>Puissance 4</title>
-    <link href="../common.css" rel="stylesheet">
+    <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="home.css" rel="stylesheet">
     <script src="../util/guards/guard.js" type="module"></script>
     <script src="../util/updateUsernameDiv.js" type="module"></script>
@@ -12,20 +12,25 @@
 </head>
 <body>
 
-<div class="wrapper">
-    <header>
-        <burger-menu></burger-menu>
-        <h1 id="page-title">Accueil</h1>
-        <div class="top-corner-content" id="username">
+<header>
+    <div class="top-corner-content"></div>
+    <div class="page-title">Accueil</div>
+    <div class="top-corner-content" id="username"></div>
+</header>
 
-        </div>
-    </header>
-
+<div id="bottom-content">
+    <burger-menu></burger-menu>
     <main>
         <div id="button-container">
-            <button class="home-button"><a href="../play/matchmaking/" id="play-matchmaking">Lancer une partie contre un joueur humain</a></button>
-            <button class="home-button"><a href="../play/ai/order/" id="play-ai">Lancer une partie contre un bot</a></button>
-            <button class="home-button"><a href="../play/local/" id="play-local">Lancer une partie locale</a></button>
+            <button class="home-button">
+                <a href="../play/matchmaking/" id="play-matchmaking">Lancer une partie contre un joueur humain</a>
+            </button>
+            <button class="home-button">
+                <a href="../play/ai/order/" id="play-ai">Lancer une partie contre un bot</a>
+            </button>
+            <button class="home-button">
+                <a href="../play/local/" id="play-local">Lancer une partie locale</a>
+            </button>
             <form class="home-button" method="post">
                 <input class="text-input half-home-button" name="friend-name" placeholder="Nom d'un ami" type="text">
                 <button class="half-home-button" name="launch-game" type="submit">Partie contre un ami</button>
@@ -33,7 +38,7 @@
         </div>
     </main>
 </div>
+
 </body>
 <script src="../menu/burgermenu.js" type="module"></script>
-
 </html>
