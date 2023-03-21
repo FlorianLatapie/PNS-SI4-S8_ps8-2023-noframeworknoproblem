@@ -1,3 +1,5 @@
+"use strict";
+
 import {JWTSecretCode} from "../credentials/credentials.js";
 import crypto from "crypto"
 
@@ -30,8 +32,9 @@ function validateJwt(token) {
 
 function isTokenValid(token) {
     let parsedJwt = validateJwt(token);
-    if (parsedJwt === null)
+    if (parsedJwt === null){
         return false;
+    }
     let expirationTime = parsedJwt.exp;
     let currentTime = Date.now() / 1000;
     return currentTime < expirationTime;

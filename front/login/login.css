@@ -21,13 +21,7 @@ header > * {
     justify-content: center;
 }
 
-#button-container {
-    display: flex;
-    flex-direction: column;
-    grid-gap: 1vw;
-}
-
-#button-container form{
+#button-container, form{
     display: flex;
     flex-direction: column;
     grid-gap: 1vw;
