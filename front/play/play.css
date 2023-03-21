@@ -14,7 +14,6 @@
     margin: 3px;
     cursor: pointer;
     z-index: 1;
-
 }
 
 .fall {
@@ -67,23 +66,6 @@
 .red-piece {
     background-color: red;
     z-index: 1;
-}
-
-.wrapper {
-    display: grid;
-    grid-template: 10vh 1fr / 8vw 1fr;
-    z-index: 1;
-}
-
-.wrapper > header {
-    grid-area: 1 / 1 / 1 / span 2;
-    z-index: 1;
-}
-
-.wrapper > main {
-    grid-area: 2 / 2;
-    z-index: 1;
-
 }
 
 #show-winner {
