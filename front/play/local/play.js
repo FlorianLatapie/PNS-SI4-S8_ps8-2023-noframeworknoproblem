@@ -6,7 +6,7 @@ import Grid from "../../GameLogic/Grid.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
-let ge = new GameEngine(p1, p2)
+let ge = new GameEngine(p1, p2, "I am a local game engine", false)
 
 function WebPageInteraction() {
     this.cells = ge.grid.cells;

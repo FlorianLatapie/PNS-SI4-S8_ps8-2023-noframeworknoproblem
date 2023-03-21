@@ -4,7 +4,7 @@ import GameState from "../DataExanges/GameState.js";
 
 
 // TODO : to convert in class
-export default function GameEngine(player1, player2, gameID = "I am a local game engine") {
+export default function GameEngine(player1, player2, gameID, debug = true) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.id = gameID;
     this.player1 = player1
@@ -108,21 +108,27 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
 
         // Play
         let positionCell = this.grid.addDisk(player, column)
-        console.log(this.grid.toString())
+        if (debug) {
+            console.log(this.grid.toString())
+        }
         this.currentPlayingPlayer = this.getOtherPlayer()
 
         this.turns.push(column)
 
         // Check win condition
         if (this.checkWin(positionCell.row, positionCell.column, player.color)) {
-            console.log("Game Finished : " + player.name + " won");
+            if (debug){
+                console.log("Game Finished : " + player.name + " won");
+            }
             return new GameState(true, player.name);
         }
 
         // Check equality condition
         if (this.gridChecker.checkDraw()) {
             this.isGameOver = true;
-            console.log("Game Finished : draw");
+            if (debug){
+                console.log("Game Finished : draw");
+            }
             return new GameState(true, "draw");
         }
 
@@ -137,7 +143,9 @@ export default function GameEngine(player1, player2, gameID = "I am a local game
 
     // The first player is randomly chosen
     this.currentPlayingPlayer = player1;
-    console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
-    console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")")
-    console.log("Game ID : " + this.id)
+    if (debug) {
+        console.log("Players : " + player1.name + "(" + player1.color + ") and " + player2.name + "(" + player2.color + ")");
+        console.log("First player : " + this.currentPlayingPlayer.name + "(" + this.currentPlayingPlayer.color + ")");
+        console.log("Game ID : " + this.id);
+    }
 }
