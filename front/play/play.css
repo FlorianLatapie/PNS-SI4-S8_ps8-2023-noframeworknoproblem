@@ -10,12 +10,12 @@
     z-index: 1;
 }
 
-.yellow-piece {
+.yellow-disc {
     background-color: yellow;
     z-index: 1;
 }
 
-.red-piece {
+.red-disc {
     background-color: red;
     z-index: 1;
 }

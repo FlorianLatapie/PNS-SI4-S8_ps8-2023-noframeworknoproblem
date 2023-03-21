@@ -11,6 +11,9 @@ let ge = new GameEngine(p1, p2, "I am a local game engine", false)
 function WebPageInteraction() {
     this.cells = ge.grid.cells;
 
+    const redDiscCSSClass = "red-disc";
+    const yellowDiscCSSClass = "yellow-disc";
+
     function showWinner(gameState) {
         let showWinner = document.getElementById("show-winner");
         let close = document.getElementById("cross");
@@ -45,9 +48,9 @@ function WebPageInteraction() {
 
         cell.classList.add("fall");
         if (ge.getOtherPlayer().color === Grid.redCellValue) {
-            cell.classList.add("red-piece");
+            cell.classList.add(redDiscCSSClass);
         } else {
-            cell.classList.add("yellow-piece");
+            cell.classList.add(yellowDiscCSSClass);
         }
 
         if (ge.isGameOver) {

@@ -13,15 +13,17 @@ let colorOtherPlayer;
 let playerUsername = parseJwt(localStorage.getItem("token")).username;
 
 function WebPageInteraction() {
+    const redDiscCSSClass = "red-disc";
+    const yellowDiscCSSClass = "yellow-disc";
 
     this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
 
         cell.classList.add("fall");
         if (color === grid.redCellValue) {
-            cell.classList.add("red-piece");
+            cell.classList.add(redDiscCSSClass);
         } else {
-            cell.classList.add("yellow-piece");
+            cell.classList.add(yellowDiscCSSClass);
         }
     }
 
@@ -37,9 +39,9 @@ function WebPageInteraction() {
                 console.log("column ", grid.cells[column])
                 console.log("cell ", grid.cells[line][column])
                 if (grid.cells[line][column] === grid.redCellValue) {
-                    cell.classList.add("red-piece");
+                    cell.classList.add(redDiscCSSClass);
                 } else if (grid.cells[line][column] === grid.yellowCellValue) {
-                    cell.classList.add("yellow-piece");
+                    cell.classList.add(yellowDiscCSSClass);
                 } else {
                     break;
                 }
