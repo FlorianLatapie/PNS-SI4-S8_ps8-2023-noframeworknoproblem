@@ -2,31 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-  <link href="../commonCSS/common.css" rel="stylesheet">
-  <link href="friends.css" rel="stylesheet">
-  <script type="module" src="../menu/burgermenu.js"></script>
-  <script src="../util/guards/guard.js" type="module"></script>
-  <script src="../util/updateUsernameDiv.js" type="module"></script>
-  <script type="module" src="friends.js"></script>
+    <link href="../commonCSS/common.css" rel="stylesheet">
+    <link href="friends.css" rel="stylesheet">
+    <script src="../menu/burgermenu.js" type="module"></script>
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="friends.js" type="module"></script>
     <title>Liste d'amis</title>
 </head>
 <body>
 <header>
-  <h1 id="page-title">Accueil</h1>
-  <div class="top-corner-content" id="username">
-  </div>
+    <div class="top-corner-content"></div>
+    <div class="page-title"><h1>Mes amis</h1></div>
+    <div class="top-corner-content" id="username"></div>
 </header>
 
-<main class="flex-column">
-  <h2>Liste d'amis</h2>
-  <div id="users-friends"></div>
+<div id="bottom-content">
+    <burger-menu></burger-menu>
+    <main class="flex-column">
+        <h2>Liste d'amis</h2>
+        <div id="users-friends"></div>
 
-  <h2>Liste des demandes d'amis en attente d'acceptation</h2>
-  <div id="users-pending"></div>
+        <h2>Liste des demandes d'amis en attente d'acceptation</h2>
+        <div id="users-pending"></div>
 
-  <h2>Liste des demandes envoyées</h2>
-  <div id="users-requests"></div>
-</main>
-
+        <h2>Liste des demandes envoyées</h2>
+        <div id="users-requests"></div>
+    </main>
+</div>
 </body>
 </html>

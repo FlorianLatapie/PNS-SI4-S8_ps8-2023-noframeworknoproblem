@@ -33,7 +33,7 @@ burgerMenuTemplate.innerHTML = `
         <img alt="Notifications" src=` + notifications + `><button>Notifications</button>
     </a>
     <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>
-        <img alt="Amis" src=` + friends + `><button>Amis</button>
+        <img alt="Amis" src=` + friends + `><button>Mes amis</button>
     </a>
     <a class="nav-link" href=` + BASE_URL + SEARCH_USERS_URL + `>
         <img alt="Ajouter un ami" src=` + addFriend + `><button>Ajouter un ami</button>
