@@ -42,7 +42,7 @@ function WebPageInteraction() {
         }
     }
 
-    let giveUpButton = document.getElementById("button-abandon");
+    let giveUpButton = document.getElementById("give-up-button");
     giveUpButton.addEventListener("click", function () {
         gameSocket.emit("giveUp");
     });
@@ -149,7 +149,7 @@ gameSocket.on("connect", () => {
         }
         divWinner.style.display = "block";
         removeListeners();
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.style.cursor = "not-allowed";
         giveUpButton.addEventListener("click", function () {
             gameSocket.emit("giveUp");

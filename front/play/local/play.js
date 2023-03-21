@@ -6,7 +6,7 @@ import Grid from "../../GameLogic/Grid.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
-let ge = new GameEngine(p1, p2)
+let ge = new GameEngine(p1, p2, "I am a local game engine", false)
 
 function WebPageInteraction() {
     this.cells = ge.grid.cells;
@@ -23,7 +23,7 @@ function WebPageInteraction() {
             winnerText.innerText = "Egalité !!";
             let image = document.getElementById("pic");
             image.src = "../../images/crying.png"
-            title.innerText = "Egalité !!";
+            title.innerText = "Egalité !";
         } else {
             winnerText.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
             title.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
@@ -75,7 +75,7 @@ function WebPageInteraction() {
         }
     }
 
-    let giveUpButton = document.getElementById("button-abandon");
+    let giveUpButton = document.getElementById("give-up-button");
     function giveUp() {
         ge.getOtherPlayer();
         ge.isGameOver = true;
