@@ -1,9 +1,4 @@
-/* game grid */
-#grid-div {
-    display: flex;
-    justify-content: center;
-    z-index: 1;
-}
+/* discs */
 
 .grid-item {
     border-radius: 50%;
@@ -12,6 +7,16 @@
     height: 100px;
     margin: 3px;
     cursor: pointer;
+    z-index: 1;
+}
+
+.yellow-piece {
+    background-color: yellow;
+    z-index: 1;
+}
+
+.red-piece {
+    background-color: red;
     z-index: 1;
 }
 
@@ -31,6 +36,13 @@
     }
 }
 
+/* game grid */
+#grid-div {
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
 #grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -41,23 +53,7 @@
     z-index: 1;
 }
 
-#give-up-button {
-    position: absolute;
-    bottom: 30px;
-    left: 9vw;
-    cursor: pointer;
-}
-
-.yellow-piece {
-    background-color: yellow;
-    z-index: 1;
-}
-
-.red-piece {
-    background-color: red;
-    z-index: 1;
-}
-
+/* winner pop up */
 #show-winner {
     position: absolute;
     display: none;
@@ -87,14 +83,17 @@
     width: 130px;
 }
 
-#chat {
-     position: absolute;
-     right: 0;
-     bottom: 0;
-     width: 20vw;
-     height: 80vh;
-     background-color: darkslategrey;
- }
+/* buttons */
+#give-up-button {
+    position: absolute;
+    bottom: 30px;
+    left: 9vw;
+    cursor: pointer;
+}
+
+/* additionnal features */
+
+/* timer */
 
 #timer {
     position: absolute;
@@ -103,6 +102,16 @@
     font-size: 25px;
     font-family: 'Arial', sans-serif;
     z-index: 1;
+}
+
+/* chat */
+#chat {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20vw;
+    height: 80vh;
+    background-color: darkslategrey;
 }
 
 #tempChat {
@@ -150,4 +159,3 @@
     text-align: center;
     line-height: 0.2em;
 }
-
