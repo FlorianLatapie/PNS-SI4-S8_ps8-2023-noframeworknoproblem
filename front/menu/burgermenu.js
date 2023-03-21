@@ -1,12 +1,12 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, LOGIN_URL, FRIENDS_URL} from "../path.js";
+import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL} from "../path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
 const notifications = BASE_URL + "/menu/images/bell-solid.svg";
 const friends = BASE_URL + "/menu/images/user-group-solid.svg";
-const backToCurrentGame = BASE_URL + "/menu/images/gamepad-solid.svg";
+const addFriend = BASE_URL + "/menu/images/user-plus-solid.svg";
 const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
 
 const iconWidth = "36";
@@ -34,6 +34,9 @@ burgerMenuTemplate.innerHTML = `
     </a>
     <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>
         <img alt="Amis" src=` + friends + `><button>Amis</button>
+    </a>
+    <a class="nav-link" href=` + BASE_URL + SEARCH_USERS_URL + `>
+        <img alt="Ajouter un ami" src=` + addFriend + `><button>Ajouter un ami</button>
     </a>
     <a class="nav-link" id="logout" href="` + BASE_URL + LOGIN_URL + `">
         <img alt="Se déconnecter" src=` + logout + `><button>Se déconnecter</button>
