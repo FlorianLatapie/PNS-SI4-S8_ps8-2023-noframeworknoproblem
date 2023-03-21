@@ -65,7 +65,7 @@ function WebPageInteraction() {
         }
     }
 
-    let giveUpButton = document.getElementById("button-abandon");
+    let giveUpButton = document.getElementById("give-up-button");
     giveUpButton.addEventListener("click", function () {
         gameSocket.emit("giveUp");
         console.log("giveUp");

@@ -23,7 +23,7 @@ function WebPageInteraction() {
             winnerText.innerText = "Egalité !!";
             let image = document.getElementById("pic");
             image.src = "../../images/crying.png"
-            title.innerText = "Egalité !!";
+            title.innerText = "Egalité !";
         } else {
             winnerText.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
             title.innerText = ge.getOtherPlayer().name + " est le gagnant !!";
@@ -75,7 +75,7 @@ function WebPageInteraction() {
         }
     }
 
-    let giveUpButton = document.getElementById("button-abandon");
+    let giveUpButton = document.getElementById("give-up-button");
     function giveUp() {
         ge.getOtherPlayer();
         ge.isGameOver = true;

@@ -74,7 +74,7 @@ class WebPageInteraction {
     }
 
     #giveUpListener = () => {
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.addEventListener("click", this.#clickGiveUpButton);
     }
 
@@ -90,7 +90,7 @@ class WebPageInteraction {
     }
 
     removeGiveUpListener = () => {
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.removeEventListener("click", this.#clickGiveUpButton);
     }
 
