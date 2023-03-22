@@ -15,7 +15,7 @@ header > *:not(:first-child) {
 }
 
 .page-title {
-    width: 25vw;
+    width: 40vw;
     font-weight: bold;
     font-size: 1em;
 }
