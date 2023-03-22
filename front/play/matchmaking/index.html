@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" href="../../images/icon.png" type="image/png" sizes="32x32">
+    <link href="../../images/icon.png" rel="icon" sizes="32x32" type="image/png">
 
     <link href="../../commonCSS/common.css" rel="stylesheet">
     <link href="./matchmaking.css" rel="stylesheet">
 
-    <script type="module" src="../../util/guards/guard.js"></script>
-    <script type="module" src="../../util/updateUsernameDiv.js"></script>
+    <script src="../../util/guards/guard.js" type="module"></script>
+    <script src="../../util/updateUsernameDiv.js" type="module"></script>
+    <script src="../../menu/burgermenu.js" type="module"></script>
+
 
     <script src="/socket.io/socket.io.js"></script>
 
@@ -17,70 +19,73 @@
 </head>
 <body>
 
-<div class="wrapper">
-    <header>
-        <burger-menu></burger-menu>
-        <h1 id="page-title"></h1>
-        <div class="top-corner-content" id="username">
-        </div>
-    </header>
+<header>
+    <div class="top-corner-content"></div>
+    <div class="page-title"><h1 id="page-title">Partie en ligne contre humain</h1></div>
+    <div class="top-corner-content" id="username"></div>
+</header>
 
+<div id="bottom-content">
+    <burger-menu></burger-menu>
     <main>
         <div id="show-winner">
             <p id="winner-text"></p>
             <span id="cross">&times</span>
-            <img id="pic" src="../../images/crying.png" alt="smile">
+            <img alt="smile" id="pic" src="../../images/crying.png">
         </div>
+
         <div id="grid-div">
+
             <div id="grid">
-                <div class="grid-item" id="6-5"></div>
-                <div class="grid-item" id="6-4"></div>
-                <div class="grid-item" id="6-3"></div>
-                <div class="grid-item" id="6-2"></div>
-                <div class="grid-item" id="6-1"></div>
-                <div class="grid-item" id="6-0"></div>
-
-                <div class="grid-item" id="5-5"></div>
-                <div class="grid-item" id="5-4"></div>
-                <div class="grid-item" id="5-3"></div>
-                <div class="grid-item" id="5-2"></div>
-                <div class="grid-item" id="5-1"></div>
-                <div class="grid-item" id="5-0"></div>
-
-                <div class="grid-item" id="4-5"></div>
-                <div class="grid-item" id="4-4"></div>
-                <div class="grid-item" id="4-3"></div>
-                <div class="grid-item" id="4-2"></div>
-                <div class="grid-item" id="4-1"></div>
-                <div class="grid-item" id="4-0"></div>
-
-                <div class="grid-item" id="3-5"></div>
-                <div class="grid-item" id="3-4"></div>
-                <div class="grid-item" id="3-3"></div>
-                <div class="grid-item" id="3-2"></div>
-                <div class="grid-item" id="3-1"></div>
-                <div class="grid-item" id="3-0"></div>
-
-                <div class="grid-item" id="2-5"></div>
-                <div class="grid-item" id="2-4"></div>
-                <div class="grid-item" id="2-3"></div>
-                <div class="grid-item" id="2-2"></div>
-                <div class="grid-item" id="2-1"></div>
-                <div class="grid-item" id="2-0"></div>
-
-                <div class="grid-item" id="1-5"></div>
-                <div class="grid-item" id="1-4"></div>
-                <div class="grid-item" id="1-3"></div>
-                <div class="grid-item" id="1-2"></div>
-                <div class="grid-item" id="1-1"></div>
-                <div class="grid-item" id="1-0"></div>
-
                 <div class="grid-item" id="0-5"></div>
+                <div class="grid-item" id="1-5"></div>
+                <div class="grid-item" id="2-5"></div>
+                <div class="grid-item" id="3-5"></div>
+                <div class="grid-item" id="4-5"></div>
+                <div class="grid-item" id="5-5"></div>
+                <div class="grid-item" id="6-5"></div>
+
                 <div class="grid-item" id="0-4"></div>
+                <div class="grid-item" id="1-4"></div>
+                <div class="grid-item" id="2-4"></div>
+                <div class="grid-item" id="3-4"></div>
+                <div class="grid-item" id="4-4"></div>
+                <div class="grid-item" id="5-4"></div>
+                <div class="grid-item" id="6-4"></div>
+
+
                 <div class="grid-item" id="0-3"></div>
+                <div class="grid-item" id="1-3"></div>
+                <div class="grid-item" id="2-3"></div>
+                <div class="grid-item" id="3-3"></div>
+                <div class="grid-item" id="4-3"></div>
+                <div class="grid-item" id="5-3"></div>
+                <div class="grid-item" id="6-3"></div>
+
                 <div class="grid-item" id="0-2"></div>
+                <div class="grid-item" id="1-2"></div>
+                <div class="grid-item" id="2-2"></div>
+                <div class="grid-item" id="3-2"></div>
+                <div class="grid-item" id="4-2"></div>
+                <div class="grid-item" id="5-2"></div>
+                <div class="grid-item" id="6-2"></div>
+
+
                 <div class="grid-item" id="0-1"></div>
+                <div class="grid-item" id="1-1"></div>
+                <div class="grid-item" id="2-1"></div>
+                <div class="grid-item" id="3-1"></div>
+                <div class="grid-item" id="4-1"></div>
+                <div class="grid-item" id="5-1"></div>
+                <div class="grid-item" id="6-1"></div>
+
                 <div class="grid-item" id="0-0"></div>
+                <div class="grid-item" id="1-0"></div>
+                <div class="grid-item" id="2-0"></div>
+                <div class="grid-item" id="3-0"></div>
+                <div class="grid-item" id="4-0"></div>
+                <div class="grid-item" id="5-0"></div>
+                <div class="grid-item" id="6-0"></div>
             </div>
         </div>
 
