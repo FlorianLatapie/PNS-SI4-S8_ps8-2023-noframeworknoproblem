@@ -36,7 +36,7 @@ function addFriendToContainer(friend) {
     friendContainer.classList.add("flex-row");
 
     removeButton.innerHTML = "Supprimer";
-    removeButton.addEventListener("click", () => callFriendAPI("removeFriend", friendDiv.getElementsByTagName("p")[0].id));
+    removeButton.addEventListener("click", () => callFriendAPI("delete", "removeFriend", friendDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(friendDiv);
@@ -55,9 +55,9 @@ function addPendingToContainer(pending) {
     pendingContainer.classList.add("flex-row");
 
     removeButton.innerHTML = "Décliner";
-    removeButton.addEventListener("click", () => callFriendAPI("removePending", pendingDiv.getElementsByTagName("p")[0].id));
+    removeButton.addEventListener("click", () => callFriendAPI("delete", "removePending", pendingDiv.getElementsByTagName("p")[0].id));
     acceptButton.innerHTML = "Accepter";
-    acceptButton.addEventListener("click", () => callFriendAPI("accept", pendingDiv.getElementsByTagName("p")[0].id));
+    acceptButton.addEventListener("click", () => callFriendAPI("post", "accept", pendingDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(pendingDiv);
@@ -75,7 +75,7 @@ function addRequestToContainer(request) {
 
     requestContainer.classList.add("flex-row");
     removeButton.innerHTML = "Supprimer";
-    removeButton.addEventListener("click", () => callFriendAPI("removeRequest", requestDiv.getElementsByTagName("p")[0].id));
+    removeButton.addEventListener("click", () => callFriendAPI("delete", "removeRequest", requestDiv.getElementsByTagName("p")[0].id));
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(requestDiv);
@@ -85,16 +85,16 @@ function addRequestToContainer(request) {
     requestsListContainer.appendChild(requestContainer);
 }
 
-function callFriendAPI(action, id) {
+function callFriendAPI(method, action, id) {
     fetch(BASE_URL + API_URL + FRIENDS_URL + action + "/" + id, {
-        method: "get", headers: {
+        method: method, headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
     }).then((response) => {
         if (!response.ok) {
-            throw new Error("Error while calling API (button)", response.status)
+            throw new Error("Error while calling API (button) " + response.status)
         }
         reloadAllData();
     }).catch(error => {

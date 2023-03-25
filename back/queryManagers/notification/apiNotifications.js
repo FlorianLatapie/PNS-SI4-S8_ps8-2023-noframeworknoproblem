@@ -1,9 +1,17 @@
 import notificationdb from "../../database/notificationdb.js";
-import {sendResponse} from "../util.js";
+import {checkAuthorization, PARAMS, sendResponse, USER_ID} from "../utilsApi.js";
 
 
 // TODO : need to secure this API
-function notificationsApi(urlPathArray, userIdEmitTheRequest, response, paramsObject) {
+function notificationsApiGet(request, response, urlPathArray) {
+    if (!checkAuthorization(request, response)) {
+        return;
+    }
+
+    let userIdEmitTheRequest = request[USER_ID];
+    let paramsObject = request[PARAMS];
+
+    // TODO : modify because it's shit
     switch (urlPathArray[3]) {
         case "get":
             if (paramsObject.numberNotificationsToSkip
@@ -21,6 +29,18 @@ function notificationsApi(urlPathArray, userIdEmitTheRequest, response, paramsOb
             deleteNotification(userIdEmitTheRequest, notificationId, response);
             break;
     }
+}
+
+function notificationsApiPost(request, response, urlPathArray) {
+
+}
+
+function notificationsApiPut(request, response, urlPathArray) {
+
+}
+
+function notificationsApiDelete(request, response, urlPathArray) {
+
 }
 
 function deleteNotification(userIdEmitTheRequest, notificationId, response) {
@@ -47,4 +67,4 @@ function getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numbe
     });
 }
 
-export {notificationsApi};
+export {notificationsApiGet};

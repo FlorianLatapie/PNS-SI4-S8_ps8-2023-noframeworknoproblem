@@ -1,46 +1,68 @@
-import {sendResponse} from "../util.js";
+import {authorizeRequest, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
 import frienddb from "../../database/frienddb.js";
 import userdb from "../../database/userdb.js";
 
-function friendsApi(urlPathArray, userIdEmitTheRequest, response, urlParams) {
-    if (urlPathArray.length < 4) {
-        throw new Error("URL " + urlPathArray + " not supported");
+function friendsApiGet(request, response, urlPathArray) {
+    if (!authorizeRequest(request, response)) {
+        return;
     }
+    let userIdEmitTheRequest = request[USER_ID];
 
-    switch (urlPathArray[3]) {
+    switch (urlPathArray[0]) {
         case "getFriends":
             getFriends(userIdEmitTheRequest, response);
-            return;
+            break;
         case "getPending":
             getPending(userIdEmitTheRequest, response);
-            return;
+            break;
         case "getRequests":
             getRequest(userIdEmitTheRequest, response);
-            return;
+            break;
         case "getAll":
             getAll(userIdEmitTheRequest, response);
-            return;
+            break;
+        default:
+            urlNotFound(request, response)
     }
+}
 
-    if (urlPathArray.length < 5) {
-        throw new Error("URL " + urlPathArray + " not supported");
+function friendsApiPost(request, response, urlPathArray) {
+    if (!authorizeRequest(request, response)) {
+        return;
     }
+    let userIdEmitTheRequest = request[USER_ID];
 
-    switch (urlPathArray[3]) {
+    switch (urlPathArray[0]) {
         case "add":
-            addFriend(userIdEmitTheRequest, response, urlPathArray[4]);
+            addFriend(userIdEmitTheRequest, response, urlPathArray[1]);
             break;
         case "accept":
-            acceptFriend(userIdEmitTheRequest, response, urlPathArray[4]);
+            acceptFriend(userIdEmitTheRequest, response, urlPathArray[1]);
             break;
+        default:
+            urlNotFound(request, response)
+    }
+}
+
+function friendsApiPut(request, response, urlPathArray) {
+
+}
+
+function friendsApiDelete(request, response, urlPathArray) {
+    if (!authorizeRequest(request, response)) {
+        return;
+    }
+    let userIdEmitTheRequest = request[USER_ID];
+
+    switch (urlPathArray[0]) {
         case "removeFriend":
-            removeFriend(userIdEmitTheRequest, response, urlPathArray[4]);
+            removeFriend(userIdEmitTheRequest, response, urlPathArray[1]);
             break;
         case "removePending":
-            removePending(userIdEmitTheRequest, response, urlPathArray[4]);
+            removePending(userIdEmitTheRequest, response, urlPathArray[1]);
             break;
         case "removeRequest":
-            removeRequest(userIdEmitTheRequest, response, urlPathArray[4]);
+            removeRequest(userIdEmitTheRequest, response, urlPathArray[1]);
             break;
         default:
             console.log("URL", urlPathArray, "not supported");
@@ -48,6 +70,8 @@ function friendsApi(urlPathArray, userIdEmitTheRequest, response, urlParams) {
             break;
     }
 }
+
+// ------------------------------------------------------------------------------------------------------------------
 
 function addFriend(userIdEmitTheRequest, response, friendId) {
     console.log("add Friend start", userIdEmitTheRequest, friendId)
@@ -171,4 +195,4 @@ function getAll(userIdEmitTheRequest, response) {
     });
 }
 
-export default friendsApi;
+export {friendsApiGet, friendsApiPost, friendsApiPut, friendsApiDelete};

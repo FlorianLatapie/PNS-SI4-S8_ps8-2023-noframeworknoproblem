@@ -1,16 +1,22 @@
 import userdb from "../../database/userdb.js";
-import {sendResponse} from "../util.js";
+import {authorizeRequest, PARAMS, sendResponse, USER_ID} from "../utilsApi.js";
 
-function usersApi(urlPath, userIdEmitTheRequest, response, paramsObject) {
-    if (urlPath.length < 4) {
-        throw new Error("URL " + urlPath + " not supported");
+function usersApiGet(request, response, urlPathArray) {
+    if (!authorizeRequest(request, response)) {
+        return;
     }
 
+    let userIdEmitTheRequest = request[USER_ID];
+    let paramsObject = request[PARAMS]
 
-    switch (urlPath[3]) {
+    switch (urlPathArray[0]) {
         case "get":
             getUser(userIdEmitTheRequest, response, paramsObject);
             break;
+        default:
+            console.log("URL", urlPathArray, "not supported");
+            sendResponse(response, 404, "URL " + request.url + " not supported");
+
     }
 }
 
@@ -27,4 +33,4 @@ function getUser(userIdEmitTheRequest, response, paramsObject) {
     });
 }
 
-export {usersApi};
+export {usersApiGet};

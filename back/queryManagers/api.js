@@ -2,74 +2,52 @@
 
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 
-import {sendResponse} from "./util.js";
-import {userSignUp, userLogIn} from "./user/accountApi.js";
-import {achievementsManager, addAchievements} from "./user/userAchievements.js";
-import friendsApi from "./friends/apiFriends.js";
-import {validateJwt} from "../auth/jwtParserBack.js";
-import {usersApi} from "./user/usersApi.js";
-import {notificationsApi} from "./notification/apiNotifications.js";
+import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
+import {userLogIn, userSignUp} from "./user/accountApi.js";
+import {achievementsManager} from "./user/userAchievements.js";
+import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFriends.js";
+import {usersApiGet} from "./user/usersApiGet.js";
+import {notificationsApiGet} from "./notification/apiNotifications.js";
 
 function manageRequest(request, response) {
     addCors(response)
 
     let url = request.url.split("?")
-    let urlPath = url[0].split("/")
+    let urlPathArray = url[0].split("/")
 
-    let paramsObject = {}
-    if (url.length === 2) {
-        let urlParams = url[1].split("&");
-        urlParams.forEach(param => {
-            const [key, value] = param.split("=")
-            paramsObject[key] = value
-        })
-        console.log(paramsObject)
-    } else {
-        paramsObject = undefined;
-    }
+    console.log("URL Path Array before removing informations: ", urlPathArray)
+    removeUselessInformationsUrlPathArray(urlPathArray)
+    console.log("URL Path Array after removing informations: ", urlPathArray)
+    retrieveParamsQuery(request)
 
-    // C'est dans la correction de Vella à voir si c'est utile
     if (request.method === 'OPTIONS') {
         sendResponse(response, 200, "OK");
     } else if (request.method === "POST") {
-        if (urlPath.length < 3) {
-            sendResponse(response, 404, "URL " + url + " not supported");
-            return;
-        }
         let body = "";
         request.on('data', function (data) {
             body += data;
         });
 
         request.on('end', function () {
-            // sanitize the body
-            if (body === "") {
-                sendResponse(response, 404, "Bad request : no body");
-                return;
-            }
-
-            // try to parse the body as a JSON
-            let bodyJson
-            try {
-                bodyJson = JSON.parse(body);
-            } catch (err) {
-                sendResponse(response, 404, "Bad request : body is not a valid JSON")
-                return;
-            }
+            putBodyInRequest(request, body)
 
             // parse the url and use the right function
-            switch (urlPath[2]) {
+            switch (urlPathArray[0]) {
                 case "signup":
-                    userSignUp(request, response, bodyJson);
+                    userSignUp(request, response);
                     break;
                 case "login":
                     // need to search the user in the database and check error
-                    userLogIn(request, response, bodyJson);
+                    userLogIn(request, response);
                     break;
                 case "achievements":
-                    achievementsManager(url, urlPath, request, response, bodyJson);
+                    urlPathArray.shift()
+                    achievementsManager(request, response, urlPathArray);
                     break;
-
+                case "friends":
+                    urlPathArray.shift()
+                    friendsApiPost(request, response, urlPathArray);
+                    break;
                 default:
                     console.log("URL", url, "not supported");
                     sendResponse(response, 404, "URL " + url + " not supported");
@@ -77,45 +55,87 @@ function manageRequest(request, response) {
             }
         });
     } else if (request.method === "GET") {
-        if (urlPath.length < 3) {
-            sendResponse(response, 404, "URL " + url + " not supported");
-            return;
-        }
-
-        if (request.headers.authorization === undefined || request.headers.authorization.split(" ")[0] !== "Bearer") {
-            sendResponse(response, 401, "Unauthorized");
-            return;
-        }
-
-        let userToken = request.headers.authorization.split(" ")[1];
-
-        console.log("Before validation of the Authorization header")
-        let userIdEmitTheRequest;
-        try {
-            userIdEmitTheRequest = validateJwt(userToken).userId;
-        } catch (err) {
-            sendResponse(response, 401, "Unauthorized  : " + err);
-            return;
-        }
-
-        console.log("After validation of the Authorization header")
-
-        switch (urlPath[2]) {
+        switch (urlPathArray[0]) {
             case "friends":
-                friendsApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                urlPathArray.shift()
+                friendsApiGet(request, response, urlPathArray);
                 break;
             case "users":
-                console.log("users ", urlPath, paramsObject)
-                usersApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                urlPathArray.shift()
+                usersApiGet(request, response, urlPathArray);
                 break;
             case "notifications":
-                notificationsApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                urlPathArray.shift()
+                notificationsApiGet(request, response, urlPathArray);
                 break;
+        }
+    } else if (request.method === "PUT") {
+        switch (urlPathArray[0]) {
+            default:
+                urlNotFound(request, response)
+        }
+
+    } else if (request.method === "DELETE") {
+        switch (urlPathArray[0]) {
+            case "friends":
+                urlPathArray.shift()
+                friendsApiDelete(request, response, urlPathArray);
+                break;
+            default:
+                urlNotFound(request, response)
         }
     } else {
         console.log("Method", request.method, "not supported");
         sendResponse(response, 404, "Method " + request.method + " not supported");
     }
+}
+
+
+/* For the url http://localhost:8000/api/login the urlPathArray is ["", "api", "login"].
+** For the url http://localhost:8000/api/login/ the urlPathArray is ["", "api", "login", ""].
+** This method removes the first and last element of the array if they are empty strings.
+* For instance, the url http://localhost:8000/api/login/ and http://localhost:8000/api/login and  will become ["login"].
+ */
+function removeUselessInformationsUrlPathArray(urlPathArray) {
+    if (urlPathArray[0] === "") {
+        urlPathArray.shift();
+    }
+
+    if (urlPathArray[0] === "api") {
+        urlPathArray.shift();
+    }
+
+    if (urlPathArray[urlPathArray.length - 1] === "") {
+        urlPathArray.pop();
+    }
+}
+
+// A POST request may contain a body. This body is stored in the request object at the key "body".
+// If the body cannot be parsed as a JSON, it is interpreted as an empty object.
+function putBodyInRequest(request, body) {
+    try {
+        request[BODY] = JSON.parse(body);
+    } catch (err) {
+        request[BODY] = {};
+    }
+}
+
+// Params query are stored in the request object at the key "params"
+function retrieveParamsQuery(request) {
+    let url = request.url.split("?")
+
+    let paramsObject = {}
+    if (url.length === 2) {
+        let urlParams = url[1].split("&");
+        urlParams.forEach(param => {
+            const [key, value] = param.split("=")
+            if (value !== undefined) {
+                paramsObject[key] = value
+            }
+        })
+    }
+
+    request[PARAMS] = paramsObject;
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
@@ -133,6 +153,7 @@ function addCors(response) {
     // Set to true if you need the website to include cookies in the requests sent to the API.
     response.setHeader('Access-Control-Allow-Credentials', true);
 }
+
 
 //exports.manage = manageRequest;
 // error ReferenceError: exports is not defined in ES module scope

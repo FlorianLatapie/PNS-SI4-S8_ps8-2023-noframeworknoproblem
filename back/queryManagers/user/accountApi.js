@@ -1,13 +1,13 @@
 import UserValidator from "../../object/UserValidator.js";
 import userdb from "../../database/userdb.js";
 import jwt from "jsonwebtoken";
-import {sendResponse} from "../util.js";
+import {BODY, sendResponse} from "../utilsApi.js";
 import {JWTSecretCode} from "../../credentials/credentials.js";
 
-function userSignUp(request, response, data) {
+function userSignUp(request, response) {
     let user;
     try {
-        user = UserValidator.convertSignUp(data);
+        user = UserValidator.convertSignUp(request[BODY]);
         UserValidator.checkUserConstraints(user);
     } catch (err) {
         console.log("User not valid: ", err);
@@ -25,11 +25,11 @@ function userSignUp(request, response, data) {
     });
 }
 
-function userLogIn(request, response, data) {
+function userLogIn(request, response) {
     // need to search the user in the database and check error
     let user;
     try {
-        user = UserValidator.convertLogin(data);
+        user = UserValidator.convertLogin(request[BODY]);
     } catch (err) {
         console.log("User not found ", err);
         sendResponse(response, 404, "User not found: " + JSON.stringify(err));
