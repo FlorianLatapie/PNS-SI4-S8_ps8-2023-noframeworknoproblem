@@ -3,7 +3,6 @@ import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "..
 import SchemaValidator from "../../util/SchemaValidator.js";
 
 
-// TODO : need to secure this API
 function notificationsApiGet(request, response, urlPathArray) {
     console.log("Enter in notificationsApiGet");
     if (!checkAuthorization(request, response)) {

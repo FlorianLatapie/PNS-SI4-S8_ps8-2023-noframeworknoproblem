@@ -1,10 +1,28 @@
-.notification-profile {
-    margin : 5px;
-    width: 300px;
-    height: 50px;
+.message-container {
+    padding: 10px;
+    width: 200px;
     background-color: var(--dark-accentuation);
-    align-items: center;
     border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 5px;
+}
+
+.notification-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-container > p {
+    font-size: 13px;
+}
+
+.message-container > img {
+    margin: 10px;
 }
 
 .profile-picture {
@@ -13,6 +31,16 @@
     width: 32px;
 }
 
-.notification-profile:hover {
+.message-container:hover {
     background-color: var(--very-dark-accentuation);
+}
+
+.notification-container > img {
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+}
+
+.notification-container > img:hover {
+    filter: opacity(40%);
 }
