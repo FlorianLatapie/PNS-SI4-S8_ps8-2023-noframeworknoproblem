@@ -81,7 +81,12 @@ function addFriend(request, response, friendId) {
         Promise.all([promise1, promise2]).then(() => {
             console.log("add Friend end 1")
             sendResponse(response, 200, "Friend request sent to " + friendId + " from " + userIdEmitTheRequest);
-            sendNotifications.sendNotificationFriendRequestReceived(friendId, userIdEmitTheRequest, username);
+
+            try {
+                sendNotifications.sendNotificationFriendRequestReceived(friendId, userIdEmitTheRequest, username);
+            } catch (err) {
+                console.log("add Friend send notification " + err)
+            }
         }).catch((err) => {
             console.log("add Friend end 2")
             sendResponse(response, 404, "Friend request not processed : " + err);

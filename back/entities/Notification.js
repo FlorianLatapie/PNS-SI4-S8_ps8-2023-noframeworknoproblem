@@ -8,3 +8,5 @@ class Notification {
         this.action = action
     }
 }
+
+export default Notification

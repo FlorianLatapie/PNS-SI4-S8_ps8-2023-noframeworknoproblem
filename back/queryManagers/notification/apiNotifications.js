@@ -5,6 +5,7 @@ import SchemaValidator from "../../util/SchemaValidator.js";
 
 // TODO : need to secure this API
 function notificationsApiGet(request, response, urlPathArray) {
+    console.log("Enter in notificationsApiGet");
     if (!checkAuthorization(request, response)) {
         return;
     }
@@ -22,6 +23,7 @@ function notificationsApiGet(request, response, urlPathArray) {
     }
     switch (urlPathArray[0]) {
         case "get":
+            console.log("Enter in notificationsApiGet get case");
             let schemaValidator = new SchemaValidator();
             let validationFunction = schemaValidator.compile(schemaGetQuery);
             let paramsObject = request[PARAMS];
@@ -81,7 +83,7 @@ function addNotification(userIdEmitTheRequest, notification, response) {
 
 function getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numberNotificationsToGet, response) {
     notificationdb.getNotifications(userIdEmitTheRequest, numberNotificationsToGet, numberNotificationsToSkip).then((result) => {
-        sendResponse(response, 200, result);
+        sendResponse(response, 200, JSON.stringify(result));
     }).catch((err) => {
         sendResponse(response, 404, "Notifications not found : " + err);
     });

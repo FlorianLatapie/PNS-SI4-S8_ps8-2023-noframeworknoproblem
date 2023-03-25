@@ -25,16 +25,22 @@ class GameDb {
     // TODO : need to test this function
     async addNotification(userId, notification) {
         await this.verifyConnection();
-        const query = {userId: userId};
-        const update = {notifications: this.createNewNotificationDBObject(userId, notification)};
-        return await this.notifications.insertOne(query, update);
+        let object = this.createNewNotificationDBObject(userId, notification);
+        await this.notifications.insertOne(object);
+        object["notificationId"] = object._id.toString();
+        delete object._id;
+        return object;
     }
 
     async getNotifications(userId, numberNotificationsToGet, numberNotificationsToSkip) {
         await this.verifyConnection();
         const query = {userId: userId};
-        const projection = {_id: 1, notification: 1};
-        return await this.notifications.find(query, projection).sort({date: -1}).skip(numberNotificationsToSkip).limit(numberNotificationsToGet);
+        const projection = [
+            {"$match": query},
+            {"$addFields": {notificationId: "$_id"}},
+            {"$project":  {_id: 0, userId: 0}},
+        ];
+        return await this.notifications.aggregate(projection).sort({date: -1}).skip(numberNotificationsToSkip).limit(numberNotificationsToGet).toArray();
     }
 
     async deleteNotification(notificationId) {

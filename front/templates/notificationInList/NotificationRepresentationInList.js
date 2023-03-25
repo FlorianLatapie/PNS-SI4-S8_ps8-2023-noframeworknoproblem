@@ -1,30 +1,42 @@
 "use strict";
 
-import {BASE_URL, HOME_URL} from "../../path.js";
+import {API_URL, BASE_URL, HOME_URL} from "../../path.js";
 
-function createNotificationRepresentation(userObj) {
+function createNotificationRepresentation(notificationInDB) {
     const container = document.createElement('div');
-    const img = document.createElement('img');
     const usernameContainer = document.createElement('p');
 
-    // TODO change the link to redirect to the user page
-    container.addEventListener("click", () => {
-        window.location.replace(BASE_URL + HOME_URL)
-    })
+    // TODO to change later, put the action on button instead of click on the whole div
+    let notification = notificationInDB.notification;
+    if (notification.action !== null && notification.action !== undefined) {
+        container.addEventListener("click", () => {
+            fetch(BASE_URL + notification.action.url, {
+                method: notification.action.method, headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => {
+                if (!response.ok) {
+                    console.log("Error while retrieving notifications", response.status)
+                    // There is an error
+                }
+                return response.json()
+            }).then(data => {
+                console.log(data);
+            });
+        })
+    }
 
-    container.classList.add("flex-row", "user-profile");
-    img.classList.add("profile-picture");
+    container.classList.add("flex-row", "notification-profile");
+    container.id = notificationInDB.notificationId;
 
-    img.src = "../images/user-solid.svg";
-    img.alt = "Image de profil de l'utilisateur.";
+    // TODO : add the possibility to delete a notification
 
-    usernameContainer.innerHTML = userObj.username;
-    usernameContainer.id = userObj.userId;
+    usernameContainer.innerHTML = notification.message;
 
     const fragment = document.createDocumentFragment();
-    fragment.appendChild(img);
     fragment.appendChild(usernameContainer);
-
     container.appendChild(fragment);
     return container;
 }

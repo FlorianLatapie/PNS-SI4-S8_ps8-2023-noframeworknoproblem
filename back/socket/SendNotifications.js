@@ -1,12 +1,17 @@
 import userdb from "../database/userdb.js";
 import connectedPlayer from "./ConnectedPlayer.js";
 import notificationdb from "../database/notificationdb.js";
+import Action from "../entities/Action.js";
+import Notification from "../entities/Notification.js";
 
 class SendNotifications {
 
     static #sendNotification = (receiverId, notification) => {
-        SendNotifications.#sendNotificationToSocketPlayer(receiverId, notification);
-        SendNotifications.#addNotificationToDatabase(receiverId, notification);
+        SendNotifications.#addNotificationToDatabase(receiverId, notification).then((notificationFromDB) => {
+            delete notificationFromDB.userId;
+            console.log("notificationFromDB", notificationFromDB);
+            SendNotifications.#sendNotificationToSocketPlayer(receiverId, notificationFromDB);
+        });
     }
 
     static #sendNotificationToSocketPlayer = (receiverId, notification) => {
@@ -16,7 +21,7 @@ class SendNotifications {
     }
 
     static #addNotificationToDatabase = (receiverId, notification) => {
-        notificationdb.addNotification(receiverId, notification).then(r => {});
+        return notificationdb.addNotification(receiverId, notification);
     }
 
     // ----------------------------------------- FRIEND REQUEST ----------------------------------------------
