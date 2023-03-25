@@ -1,8 +1,8 @@
 "use strict";
 
-import {BASE_URL} from "../path.js";
-import frienddb from "../../back/database/frienddb.js";
-import chatdb from "../../back/database/chatdb.js";
+import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
+//import { io } from "/socket.io/socket.io-client.js";
+const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
 const chatTemplate = document.createElement("template");
 
@@ -69,6 +69,7 @@ chatTemplate.innerHTML = `
 class Chat extends HTMLElement {
     #userId;
     #friends;
+    #LastMessage;
 
     constructor(userId) {
         super();
@@ -79,7 +80,8 @@ class Chat extends HTMLElement {
     }
 
     async connectedCallback() {
-        //this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
+        this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
+        this.#addSocketEvent();
         let contacts = this.shadowRoot.querySelector(".contacts");
         let contact = document.createElement("div");
         let name = document.createElement("div");
@@ -87,16 +89,42 @@ class Chat extends HTMLElement {
         contact.classList.add("contact");
         name.classList.add("name");
         message.classList.add("message");
-        this.#friends = await frienddb.getFriends(this.#friends);
+        this.#friends = fetch(BASE_URL + API_URL + FRIENDS_URL + 'getFriends' + "/" + this.#userId, {
+            method: 'get', headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Error while calling API (button) " + response.status)
+            }
+            return response.json();
+        }).then((data) => {
+            console.log("data", data);
+            return data;
+        }).catch(error => {
+            console.log(error);
+        });
+        this.#friends = await this.#friends;
         for(let i = 0; i < this.#friends.length; i++){
-            name.innerHTML = this.#friends[i].name;
-            message.innerHTML = await chatdb.getLastReceivedMessage(this.#friends[i].id, this.#userId);
+            name.innerHTML = this.#friends[i].username;
+            chatSocket.emit("getLastMessage", this.#friends[i].id, this.#userId);
+            if(this.#LastMessage === undefined)
+                this.#LastMessage = "No message";
+            message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
             fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
         }
+    }
+
+    #addSocketEvent(){
+        chatSocket.on("getLastMessageFromBack", (message) => {
+            this.#LastMessage = message;
+        });
     }
 
 }

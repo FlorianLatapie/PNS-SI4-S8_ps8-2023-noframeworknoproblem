@@ -11,6 +11,7 @@ function usersApiGet(request, response, urlPathArray) {
 
     switch (urlPathArray[0]) {
         case "getName":
+            console.log("getName");
             getUser(userIdEmitTheRequest, response, paramsObject);
             break;
         case "get":
@@ -27,7 +28,8 @@ function usersApiGet(request, response, urlPathArray) {
     }
 }
 
-function getUser(response, paramsObject) {
+function getUser(userId, response, paramsObject) {
+
     if (paramsObject.name === undefined) {
         sendResponse(response, 404, "Malformed request : name is undefined");
         return;

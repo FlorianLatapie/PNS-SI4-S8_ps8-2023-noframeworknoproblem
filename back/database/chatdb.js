@@ -38,14 +38,14 @@ class ChatDb {
     }
 
     //TODO: changer pour récupérer seulement X messages
-    async getMessages(idSender, idReceiver){
+    async getMessages(idSender, idReceiver, numberMessagesToGet, numberMessagesToSkip) {
         await this.verifyConnection();
         try {
             return await this.chats.find({
                 $or: [
                     {idSender: idSender, idReceiver: idReceiver},
                     {idSender: idReceiver, idReceiver: idSender}
-                ]
+                ].sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
             }).toArray();
         } catch (error) {
             console.error(error);

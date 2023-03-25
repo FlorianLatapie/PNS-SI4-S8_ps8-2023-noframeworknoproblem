@@ -66,7 +66,8 @@ const io = new Server(httpServer, {
 });
 
 // main ----------------------------------------------------------------------------------------------------------------
-const gameSocket = io.of("/api/game")
+const gameSocket = io.of("/api/game");
+const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
 // removes all the games from the database when the server starts/restarts
@@ -100,6 +101,10 @@ function authenticate(socket, next) {
 
 // middle ware ---------------------------------------------------------------------------------------------------------
 gameSocket.use((socket, next) => {
+    authenticate(socket, next);
+});
+
+chatSocket.use((socket, next) => {
     authenticate(socket, next);
 });
 
@@ -147,4 +152,36 @@ permanentSocket.on('connection', (socket) => {
         connectedPlayer.removePlayer(socket);
     });
 });
+
+// Chat ---------------------------------------------------------------------------------------------------------------
+let chatManager;
+chatSocket.on('connection', (socket) => {
+    console.log("Socket id chat : " + socket.id);
+
+    socket.on('message', (message, user1, user2) => {
+        chatManager = new chatManager(user1, user2);
+        chatManager.addMessage(message);
+    });
+
+    socket.on('getMessages', (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
+        chatManager = new chatManager(user1, user2);
+        socket.emit('getMessagesFromBack', chatManager.getMessages(numberMessagesToGet, numberMessagesToSkip));
+    });
+
+    socket.on('read', (user1, user2) => {
+        chatManager = new chatManager(user1, user2);
+        chatManager.readMessages();
+    });
+
+    socket.on('getLastMessage', (user1, user2) => {
+        chatManager = new chatManager(user1, user2);
+        chatManager.getLastMessage();
+        socket.emit('getLastMessageFromBack', chatManager.getLastMessage());
+    });
+
+    socket.on('disconnect', () => {
+        console.log("Socket id chat : " + socket.id + " disconnected");
+    });
+});
+
 
