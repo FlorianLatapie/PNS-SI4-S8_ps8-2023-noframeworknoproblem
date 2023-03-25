@@ -3,7 +3,6 @@ import GridChecker from "./GridChecker.js";
 import GameState from "../DataExanges/GameState.js";
 
 
-// TODO : to convert in class
 export default function GameEngine(player1, player2, gameID, debug = true) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.id = gameID;

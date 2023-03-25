@@ -22,7 +22,6 @@ class GameDb {
         await this.connect();
     }
 
-    // TODO : need to test this function
     async addNotification(userId, notification) {
         await this.verifyConnection();
         let object = this.createNewNotificationDBObject(userId, notification);
