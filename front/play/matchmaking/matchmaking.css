@@ -1,0 +1,69 @@
+@import "../play.css";
+@import "../ai/ai.css";
+
+/* timer */
+
+#timer {
+    position: absolute;
+    top: 5vw;
+    right: 7vw;
+    font-size: 25px;
+    font-family: 'Arial', sans-serif;
+    z-index: 1;
+}
+
+/* chat */
+#chat {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20vw;
+    height: 80vh;
+    background-color: darkslategrey;
+}
+
+#tempChat {
+    position: relative;
+    top: -30vw;
+    left: 5vw;
+    z-index: 2;
+}
+
+#chatTest {
+    position: relative;
+    top: -50vw;
+    left: 7vw;
+    visibility: hidden;
+}
+
+.bulle {
+    content: ' ';
+    height: fit-content;
+    width: fit-content;
+    background-color: var(--bubble-bg-color)
+}
+
+.send {
+    position: relative;
+    top: -35vw;
+    left: 7vw;
+    visibility: hidden;
+}
+
+.round {
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+
+.spike:after {
+    content: ' ';
+    border: 7px solid;
+    border-color: transparent transparent transparent var(--bubble-bg-color);
+}
+
+.bulle-texte {
+    padding: 0.5em;
+    text-align: center;
+    line-height: 0.2em;
+}

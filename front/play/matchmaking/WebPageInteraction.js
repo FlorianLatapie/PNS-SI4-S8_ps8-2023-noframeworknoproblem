@@ -6,6 +6,9 @@ class WebPageInteraction {
     #grid
     #socketMatchmaking;
 
+    #redDiscCSSClass = "red-disc";
+    #yellowDiscCSSClass = "yellow-disc";
+
     constructor(grid) {
         this.#grid = grid;
         console.log("WebPageInteraction constructor grid ", grid)
@@ -21,9 +24,9 @@ class WebPageInteraction {
 
         cell.classList.add("fall");
         if (color === Grid.redCellValue) {
-            cell.classList.add("red-piece");
+            cell.classList.add(this.#redDiscCSSClass);
         } else {
-            cell.classList.add("yellow-piece");
+            cell.classList.add(this.#yellowDiscCSSClass);
         }
     }
 
@@ -34,9 +37,9 @@ class WebPageInteraction {
 
                 let cell = document.getElementById(pos.column + "-" + pos.row);
                 if (grid.cells[line][column] === Grid.redCellValue) {
-                    cell.classList.add("red-piece");
+                    cell.classList.add(this.#redDiscCSSClass);
                 } else if (grid.cells[line][column] === Grid.yellowCellValue) {
-                    cell.classList.add("yellow-piece");
+                    cell.classList.add(this.#yellowDiscCSSClass);
                 } else {
                     break;
                 }
@@ -74,7 +77,7 @@ class WebPageInteraction {
     }
 
     #giveUpListener = () => {
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.addEventListener("click", this.#clickGiveUpButton);
     }
 
@@ -90,7 +93,7 @@ class WebPageInteraction {
     }
 
     removeGiveUpListener = () => {
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.removeEventListener("click", this.#clickGiveUpButton);
     }
 

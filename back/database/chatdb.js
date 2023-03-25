@@ -30,12 +30,14 @@ class ChatDb {
                 idReceiver: idReceiver,
                 message: message,
                 read: false,
+                sentDate: new Date(),
             });
         } catch (error) {
             console.error(error);
         }
     }
 
+    //TODO: changer pour récupérer seulement X messages
     async getMessages(idSender, idReceiver){
         await this.verifyConnection();
         try {
@@ -62,6 +64,19 @@ class ChatDb {
                     read: true
                 }
             });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async getLastReceivedMessage(idSender, idReceiver){
+        await this.verifyConnection();
+        try {
+            return await this.chats.find({
+                idSender: idSender,
+                idReceiver: idReceiver,
+                read: false
+            }).sort({sentDate: -1}).limit(1).toArray();
         } catch (error) {
             console.error(error);
         }

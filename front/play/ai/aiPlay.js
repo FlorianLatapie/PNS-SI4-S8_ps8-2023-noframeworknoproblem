@@ -13,14 +13,16 @@ let colorOtherPlayer;
 
 
 function WebPageInteraction() {
+    const redDiscCSSClass = "red-disc";
+    const yellowDiscCSSClass = "yellow-disc";
 
     this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
         cell.classList.add("fall");
         if (color === Grid.redCellValue) {
-            cell.classList.add("red-piece");
+            cell.classList.add(redDiscCSSClass);
         } else {
-            cell.classList.add("yellow-piece");
+            cell.classList.add(yellowDiscCSSClass);
         }
     }
 
@@ -42,7 +44,7 @@ function WebPageInteraction() {
         }
     }
 
-    let giveUpButton = document.getElementById("button-abandon");
+    let giveUpButton = document.getElementById("give-up-button");
     giveUpButton.addEventListener("click", function () {
         gameSocket.emit("giveUp");
     });
@@ -149,7 +151,7 @@ gameSocket.on("connect", () => {
         }
         divWinner.style.display = "block";
         removeListeners();
-        let giveUpButton = document.getElementById("button-abandon");
+        let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.style.cursor = "not-allowed";
         giveUpButton.addEventListener("click", function () {
             gameSocket.emit("giveUp");

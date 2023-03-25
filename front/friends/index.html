@@ -12,21 +12,23 @@
 </head>
 <body>
 <header>
-  <h1 id="page-title">Page d'amis</h1>
-  <div class="top-corner-content" id="username">
-  </div>
+    <div class="top-corner-content"></div>
+    <div class="page-title"><h1>Mes amis</h1></div>
+    <div class="top-corner-content" id="username"></div>
 </header>
 
-<main class="flex-column">
-  <h2>Liste d'amis</h2>
-  <div id="users-friends"></div>
+<div id="bottom-content">
+    <burger-menu></burger-menu>
+    <main class="flex-column">
+        <h2>Liste d'amis</h2>
+        <div id="users-friends"></div>
 
-  <h2>Liste des demandes d'amis en attente d'acceptation</h2>
-  <div id="users-pending"></div>
+        <h2>Liste des demandes d'amis en attente d'acceptation</h2>
+        <div id="users-pending"></div>
 
-  <h2>Liste des demandes envoyées</h2>
-  <div id="users-requests"></div>
-</main>
-
+        <h2>Liste des demandes envoyées</h2>
+        <div id="users-requests"></div>
+    </main>
+</div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 "use strict";
 
 import {BASE_URL} from "../path.js";
+import frienddb from "../../back/database/frienddb.js";
+import chatdb from "../../back/database/chatdb.js";
 
 const chatTemplate = document.createElement("template");
 
@@ -15,7 +17,6 @@ chatTemplate.innerHTML = `
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
 <div class="center">
   <div class="contacts">
     <i class="fas fa-bars fa-2x"></i>
@@ -24,42 +25,8 @@ chatTemplate.innerHTML = `
     </h2>
     <div class="contact">
       <div class="name">
-        Steve Rogers
       </div>
       <div class="message">
-        That is America's ass 🇺🇸🍑
-      </div>
-    </div>
-    <div class="contact">
-      <div class="name">
-        Tony Stark
-      </div>
-      <div class="message">
-        Uh, he's from space, he came here to steal a necklace from a wizard.
-      </div>
-    </div>
-    <div class="contact">
-      <div class="name">
-        Bruce Banner
-      </div>
-      <div class="message">
-        There's an Ant-Man *and* a Spider-Man?
-      </div>
-    </div>
-    <div class="contact">
-      <div class="name">
-        Thor Odinson
-      </div>
-      <div class="message">
-        I like this one
-      </div>
-    </div>
-    <div class="contact">
-      <div class="name">
-        Carol Danvers
-      </div>
-      <div class="message">
-        Hey Peter Parker, you got something for me?
       </div>
     </div>
   </div>
@@ -69,33 +36,24 @@ chatTemplate.innerHTML = `
         Tony Stark
       </div>
       <div class="seen">
-        Today at 12:56
       </div>
     </div>
     <div class="messages" id="chat">
-      <div class="time">
-        Today at 11:41
-      </div>
       <div class="message parker">
-        Hey, man! What's up, Mr Stark? 👋
       </div>
       <div class="message stark">
-        Kid, where'd you come from? 
       </div>
       <div class="message parker">
-        Field trip! 🤣
       </div>
       <div class="message parker">
-        Uh, what is this guy's problem, Mr. Stark? 🤔
       </div>
       <div class="message stark">
-        Uh, he's from space, he came here to steal a necklace from a wizard.
       </div>
-      <div class="message stark">
+<!--      <div class="message stark">
         <div class="typing typing-1"></div>
         <div class="typing typing-2"></div>
         <div class="typing typing-3"></div>
-      </div>
+      </div>-->
     </div>
     <div class="input">
       <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!" type="text" /><i class="fas fa-microphone"></i>
@@ -109,10 +67,36 @@ chatTemplate.innerHTML = `
     `;
 
 class Chat extends HTMLElement {
-    constructor() {
+    #userId;
+    #friends;
+
+    constructor(userId) {
         super();
-        this.attachShadow({ mode: "open" });
+        this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(chatTemplate.content.cloneNode(true));
+        this.#userId = userId;
+
+    }
+
+    async connectedCallback() {
+        //this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
+        let contacts = this.shadowRoot.querySelector(".contacts");
+        let contact = document.createElement("div");
+        let name = document.createElement("div");
+        let message = document.createElement("div");
+        contact.classList.add("contact");
+        name.classList.add("name");
+        message.classList.add("message");
+        this.#friends = await frienddb.getFriends(this.#friends);
+        for(let i = 0; i < this.#friends.length; i++){
+            name.innerHTML = this.#friends[i].name;
+            message.innerHTML = await chatdb.getLastReceivedMessage(this.#friends[i].id, this.#userId);
+            let fragment = document.createDocumentFragment();
+            fragment.appendChild(name.cloneNode(true));
+            fragment.appendChild(message.cloneNode(true));
+            contact.appendChild(fragment);
+            contacts.appendChild(contact.cloneNode(true));
+        }
     }
 
 }

@@ -1,3 +1,12 @@
+:root {
+    --background-color: white;
+    --light-accentuation: #f5f5f5;
+    --dark-accentuation: #b3b3b3;
+    --very-dark-accentuation: #909090;
+
+    --icon-width: 35px;
+}
+
 nav {
     height: 100%;
 
@@ -6,16 +15,16 @@ nav {
     justify-content: flex-start;
 }
 
-img {
-    width: 2vw;
+nav img {
+    width: var(--icon-width);
 }
 
 nav > * {
-    padding: 1vw;
+    padding: 19px;
 }
 
 nav > a {
-    height: 2vw;
+    height: var(--icon-width);
 
     display: flex;
     flex-direction: row;
@@ -27,6 +36,7 @@ nav > a {
 nav > * > button {
     display: none;
     cursor: pointer;
+
     margin-left: 2vw;
 
     border: none;
@@ -34,13 +44,19 @@ nav > * > button {
     font-size: 2.3vh;
 
     width: 100%;
-    height: 2vw;
+    height: 100%;
+    
+    background-color: var(--dark-accentuation);
+}
+
+nav > * > button:hover {
+    background-color: var(--very-dark-accentuation);
 }
 
 /* hamburger icon animation */
 .bar {
     display: block;
-    width: 35px;
+    width: var(--icon-width);
     height: 5px;
     margin: 6px auto;
     background-color: black;

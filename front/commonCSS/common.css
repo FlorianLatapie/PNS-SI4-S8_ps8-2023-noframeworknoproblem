@@ -12,7 +12,6 @@
 }
 
 body {
-
     height: 100vh;
     display: grid;
 
@@ -23,6 +22,9 @@ body {
 /* header see header.css */
 
 /* main depends on every page, check each page css */
+h1 {
+    text-align: center;
+}
 
 /* buttons */
 button {
@@ -30,11 +32,10 @@ button {
     border: none;
     border-radius: 100vw;
     font-size: 2.3vh;
+    cursor: pointer;
 }
 
 button a {
-    cursor: pointer;
-
     display: flex;
     justify-content: center;
     align-items: center;
