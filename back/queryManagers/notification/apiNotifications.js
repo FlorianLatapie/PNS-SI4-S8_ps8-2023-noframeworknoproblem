@@ -44,10 +44,6 @@ function notificationsApiGet(request, response, urlPathArray) {
 
             getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numberNotificationsToGet, response);
             break;
-        case "delete":
-            let notificationId = urlPathArray[1];
-            deleteNotification(userIdEmitTheRequest, notificationId, response);
-            break;
         default:
             urlNotFound(request, response)
             break;
@@ -63,21 +59,33 @@ function notificationsApiPut(request, response, urlPathArray) {
 }
 
 function notificationsApiDelete(request, response, urlPathArray) {
+    if (!checkAuthorization(request, response)) {
+        return;
+    }
+
+    let userIdEmitTheRequest = request[USER_ID];
+    let paramsObject = request[PARAMS];
+
+    switch (urlPathArray[0]) {
+        case "delete" :
+            console.log("Enter in notificationsApiDelete delete case");
+            let notificationId = urlPathArray[1];
+            deleteNotification(userIdEmitTheRequest, notificationId, response);
+            break;
+        default:
+            urlNotFound(request, response)
+            break;
+    }
 }
 
 function deleteNotification(userIdEmitTheRequest, notificationId, response) {
-    notificationdb.deleteNotification(userIdEmitTheRequest, notificationId).then((result) => {
+    console.log("Enter in deleteNotification")
+    notificationdb.deleteNotification(notificationId).then((result) => {
         sendResponse(response, 200, "Notification deleted");
+        console.log("Notification deleted")
     }).catch((err) => {
         sendResponse(response, 404, "Notification not deleted : " + err);
-    });
-}
-
-function addNotification(userIdEmitTheRequest, notification, response) {
-    notificationdb.addNotification(userIdEmitTheRequest, notification).then((result) => {
-        sendResponse(response, 200, "Notification added");
-    }).catch((err) => {
-        sendResponse(response, 404, "Notification not added : " + err);
+        console.log("Notification not deleted : " + err)
     });
 }
 
@@ -94,4 +102,4 @@ function checkStringIsPositiveInteger(string) {
     return !isNaN(number) && number >= 0;
 }
 
-export {notificationsApiGet};
+export {notificationsApiGet, notificationsApiPost, notificationsApiPut, notificationsApiDelete};

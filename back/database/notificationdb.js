@@ -1,4 +1,4 @@
-import {MongoClient} from "mongodb";
+import {MongoClient, ObjectId} from "mongodb";
 
 import DB_CONF from "../conf/mongodb.conf.js";
 
@@ -45,7 +45,7 @@ class GameDb {
 
     async deleteNotification(notificationId) {
         await this.verifyConnection();
-        const result = await this.notifications.deleteOne({_id: notificationId})
+        const result = await this.notifications.deleteOne({_id: new ObjectId(notificationId)})
         // if result.deletedCount === 0, the notification was not deleted, otherwise 1 it was deleted
         return result.deletedCount;
     }

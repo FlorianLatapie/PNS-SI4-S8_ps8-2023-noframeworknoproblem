@@ -7,7 +7,7 @@ import {userLogIn, userSignUp} from "./user/accountApi.js";
 import {achievementsManager} from "./user/userAchievements.js";
 import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFriends.js";
 import {usersApiGet} from "./user/usersApi.js";
-import {notificationsApiGet} from "./notification/apiNotifications.js";
+import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -81,6 +81,10 @@ function manageRequest(request, response) {
                 urlPathArray.shift()
                 friendsApiDelete(request, response, urlPathArray);
                 break;
+                case "notifications":
+                    urlPathArray.shift()
+                    notificationsApiDelete(request, response, urlPathArray);
+                    break;
             default:
                 urlNotFound(request, response)
         }
