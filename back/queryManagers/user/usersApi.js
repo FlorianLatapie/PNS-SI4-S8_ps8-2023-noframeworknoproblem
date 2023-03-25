@@ -10,8 +10,15 @@ function usersApiGet(request, response, urlPathArray) {
     let paramsObject = request[PARAMS]
 
     switch (urlPathArray[0]) {
-        case "get":
+        case "getName":
             getUser(userIdEmitTheRequest, response, paramsObject);
+            break;
+        case "get":
+            if (urlPathArray[1] === undefined) {
+                sendResponse(response, 404, "Malformed request : userId is undefined");
+                return;
+            }
+            getUserById(response, urlPathArray[1]);
             break;
         default:
             console.log("URL", urlPathArray, "not supported");
@@ -20,7 +27,7 @@ function usersApiGet(request, response, urlPathArray) {
     }
 }
 
-function getUser(userIdEmitTheRequest, response, paramsObject) {
+function getUser(response, paramsObject) {
     if (paramsObject.name === undefined) {
         sendResponse(response, 404, "Malformed request : name is undefined");
         return;
@@ -28,6 +35,14 @@ function getUser(userIdEmitTheRequest, response, paramsObject) {
 
     userdb.getUsersByNameRegex(paramsObject.name).then((users) => {
         sendResponse(response, 200, JSON.stringify(users));
+    }).catch((err) => {
+        sendResponse(response, 404, "Malformed request : " + err);
+    });
+}
+
+function getUserById(response, userId) {
+    userdb.getUserById(userId).then((user) => {
+        sendResponse(response, 200, JSON.stringify(user));
     }).catch((err) => {
         sendResponse(response, 404, "Malformed request : " + err);
     });

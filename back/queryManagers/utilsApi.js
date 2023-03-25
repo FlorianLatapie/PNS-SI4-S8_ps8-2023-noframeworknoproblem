@@ -4,6 +4,8 @@ const PARAMS = "params";
 const BODY = "body";
 const USER_ID = "userId";
 
+const USERNAME = "username";
+
 function sendResponse(response, statusCode, message) {
     response.statusCode = statusCode;
     response.end(message);
@@ -23,6 +25,7 @@ function checkAuthorization(request) {
 
     try {
         request[USER_ID] = validateJwt(userToken).userId;
+        request[USERNAME] = validateJwt(userToken).username;
     } catch (err) {
         return false;
     }
@@ -37,4 +40,4 @@ function authorizeRequest(request, response) {
     return true;
 }
 
-export {sendResponse, checkAuthorization, authorizeRequest, urlNotFound, PARAMS, BODY, USER_ID};
+export {sendResponse, checkAuthorization, authorizeRequest, urlNotFound, PARAMS, BODY, USER_ID, USERNAME};

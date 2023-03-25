@@ -1,5 +1,6 @@
 import notificationdb from "../../database/notificationdb.js";
-import {checkAuthorization, PARAMS, sendResponse, USER_ID} from "../utilsApi.js";
+import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
+import SchemaValidator from "../../util/SchemaValidator.js";
 
 
 // TODO : need to secure this API
@@ -11,22 +12,42 @@ function notificationsApiGet(request, response, urlPathArray) {
     let userIdEmitTheRequest = request[USER_ID];
     let paramsObject = request[PARAMS];
 
-    // TODO : modify because it's shit
-    switch (urlPathArray[3]) {
+    const schemaGetQuery = {
+        type: "object",
+        properties: {
+            numberNotificationsToSkip: {"type": "string"},
+            numberNotificationsToGet: {"type": "string"}
+        },
+        required: ["numberNotificationsToSkip", "numberNotificationsToGet"]
+    }
+    switch (urlPathArray[0]) {
         case "get":
-            if (paramsObject.numberNotificationsToSkip
-                && paramsObject.numberNotificationsToGet
-                && !isNaN(parseInt(paramsObject.numberNotificationsToSkip))
-                && !isNaN(parseInt(paramsObject.numberNotificationsToGet))) {
+            let schemaValidator = new SchemaValidator();
+            let validationFunction = schemaValidator.compile(schemaGetQuery);
+            let paramsObject = request[PARAMS];
 
-                let numberNotificationsToSkip = parseInt(paramsObject.numberNotificationsToSkip);
-                let numberNotificationsToGet = parseInt(paramsObject.numberNotificationsToGet);
-                getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numberNotificationsToGet, response);
+            if (!validationFunction(paramsObject)) {
+                sendResponse(response, 400, "Bad request : Query is not valid");
+                return;
             }
+
+
+            if (!(checkStringIsPositiveInteger(paramsObject.numberNotificationsToSkip)
+                && checkStringIsPositiveInteger(paramsObject.numberNotificationsToGet))) {
+                sendResponse(response, 400, "Bad request : the value in the query are not positive integer");
+            }
+
+            let numberNotificationsToSkip = parseInt(paramsObject.numberNotificationsToSkip);
+            let numberNotificationsToGet = parseInt(paramsObject.numberNotificationsToGet);
+
+            getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numberNotificationsToGet, response);
             break;
         case "delete":
-            let notificationId = urlPathArray[4];
+            let notificationId = urlPathArray[1];
             deleteNotification(userIdEmitTheRequest, notificationId, response);
+            break;
+        default:
+            urlNotFound(request, response)
             break;
     }
 }
@@ -40,7 +61,6 @@ function notificationsApiPut(request, response, urlPathArray) {
 }
 
 function notificationsApiDelete(request, response, urlPathArray) {
-
 }
 
 function deleteNotification(userIdEmitTheRequest, notificationId, response) {
@@ -65,6 +85,11 @@ function getNotifications(userIdEmitTheRequest, numberNotificationsToSkip, numbe
     }).catch((err) => {
         sendResponse(response, 404, "Notifications not found : " + err);
     });
+}
+
+function checkStringIsPositiveInteger(string) {
+    let number = parseInt(string);
+    return !isNaN(number) && number >= 0;
 }
 
 export {notificationsApiGet};

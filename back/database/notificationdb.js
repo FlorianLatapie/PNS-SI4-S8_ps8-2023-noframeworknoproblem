@@ -26,7 +26,7 @@ class GameDb {
     async addNotification(userId, notification) {
         await this.verifyConnection();
         const query = {userId: userId};
-        const update = {notifications: notification};
+        const update = {notifications: this.createNewNotificationDBObject(userId, notification)};
         return await this.notifications.insertOne(query, update);
     }
 
@@ -44,14 +44,13 @@ class GameDb {
         return result.deletedCount;
     }
 
-    createNewNotificationObject(userId, notification) {
-        let obj = {
+    createNewNotificationDBObject(userId, notification) {
+        return {
             userId: userId,
             // friends of the user
-            notification,
+            notification: notification,
             date: Date.now(),
-        }
-        return obj;
+        };
     }
 
 }

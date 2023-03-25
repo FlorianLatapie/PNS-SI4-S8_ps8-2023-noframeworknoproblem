@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
         event.preventDefault();
         suppressAllUsersRepresentations();
         let name = document.getElementById("form-username").value
-        fetch(BASE_URL + API_URL + USERS_URL + "get?" + new URLSearchParams({
+        fetch(BASE_URL + API_URL + USERS_URL + "getName?" + new URLSearchParams({
             name: name
         }), {
             method: "get", headers: {

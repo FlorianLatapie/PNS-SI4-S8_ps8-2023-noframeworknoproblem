@@ -1,3 +1,9 @@
+/* Author : Sami Elkateb
+** This class is used to validate the data against a schema in a similar way to the jsonschema library.
+* Because, we can't use libraries
+* Thanks to Sami for the code
+ */
+
 class SchemaValidator {
     compile(schemaToValidate) {
         const schema = schemaToValidate;
@@ -8,10 +14,10 @@ class SchemaValidator {
         if (typeof schema === 'undefined') return true;
         if (schema.type === 'array') {
             if (Array.isArray(value)) {
-                if (typeof schema.elements === 'undefined') return true;
+                if (typeof schema.items === 'undefined') return true;
                 return value
                     .reduce(
-                        (acc, val) => (acc && this.#validateType(val, schema.elements.type)),
+                        (acc, val) => (acc && this.#validateType(val, schema.items.type)),
                         true,
                     );
             }

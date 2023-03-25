@@ -6,7 +6,7 @@ import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
 import {userLogIn, userSignUp} from "./user/accountApi.js";
 import {achievementsManager} from "./user/userAchievements.js";
 import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFriends.js";
-import {usersApiGet} from "./user/usersApiGet.js";
+import {usersApiGet} from "./user/usersApi.js";
 import {notificationsApiGet} from "./notification/apiNotifications.js";
 
 function manageRequest(request, response) {

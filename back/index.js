@@ -23,6 +23,7 @@ import PlayersQueue from "./play/PlayersQueue.js";
 import MatchmakingController from "./play/MatchmakingController.js";
 import userstatsdb from "./database/userstatsdb.js";
 import achievementdb from "./database/achievementdb.js";
+import connectedPlayer from "./socket/ConnectedPlayer.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -66,6 +67,7 @@ const io = new Server(httpServer, {
 
 // main ----------------------------------------------------------------------------------------------------------------
 const gameSocket = io.of("/api/game")
+const permanentSocket = io.of("/api/permanent")
 
 // removes all the games from the database when the server starts/restarts
 gamedb.removeAllGames().then(() => {
@@ -131,12 +133,18 @@ gameSocket.on('connection', (socket) => {
     socket.once('matchmaking', () => {
         matchmakingController.newConnection(socket);
     });
+});
 
-    // TODO : need to move this in AIRoom and MatchmakingRoom
-    // giveUp ----------------------------------------------------------------------------------------------------------
-    socket.on("giveUp", () => {
-        socket.emit("gameIsOver", gameEngine.getOtherPlayer().name);
-        GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id);
+permanentSocket.use((socket, next) => {
+    authenticate(socket, next);
+});
+
+permanentSocket.on('connection', (socket) => {
+    connectedPlayer.addPlayer(socket);
+
+    // TODO : need to change later to a better way to handle the disconnection with timeout
+    socket.on("disconnect", () => {
+        connectedPlayer.removePlayer(socket);
     });
 });
 

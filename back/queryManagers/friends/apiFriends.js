@@ -1,25 +1,26 @@
-import {authorizeRequest, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
+import {authorizeRequest, sendResponse, urlNotFound, USER_ID, USERNAME} from "../utilsApi.js";
 import frienddb from "../../database/frienddb.js";
 import userdb from "../../database/userdb.js";
+import sendNotifications from "../../socket/SendNotifications.js";
+import SendNotifications from "../../socket/SendNotifications.js";
 
 function friendsApiGet(request, response, urlPathArray) {
     if (!authorizeRequest(request, response)) {
         return;
     }
-    let userIdEmitTheRequest = request[USER_ID];
 
     switch (urlPathArray[0]) {
         case "getFriends":
-            getFriends(userIdEmitTheRequest, response);
+            getFriends(request, response);
             break;
         case "getPending":
-            getPending(userIdEmitTheRequest, response);
+            getPending(request, response);
             break;
         case "getRequests":
-            getRequest(userIdEmitTheRequest, response);
+            getRequest(request, response);
             break;
         case "getAll":
-            getAll(userIdEmitTheRequest, response);
+            getAll(request, response);
             break;
         default:
             urlNotFound(request, response)
@@ -30,14 +31,13 @@ function friendsApiPost(request, response, urlPathArray) {
     if (!authorizeRequest(request, response)) {
         return;
     }
-    let userIdEmitTheRequest = request[USER_ID];
 
     switch (urlPathArray[0]) {
         case "add":
-            addFriend(userIdEmitTheRequest, response, urlPathArray[1]);
+            addFriend(request, response, urlPathArray[1]);
             break;
         case "accept":
-            acceptFriend(userIdEmitTheRequest, response, urlPathArray[1]);
+            acceptFriend(request, response, urlPathArray[1]);
             break;
         default:
             urlNotFound(request, response)
@@ -52,28 +52,28 @@ function friendsApiDelete(request, response, urlPathArray) {
     if (!authorizeRequest(request, response)) {
         return;
     }
-    let userIdEmitTheRequest = request[USER_ID];
 
     switch (urlPathArray[0]) {
         case "removeFriend":
-            removeFriend(userIdEmitTheRequest, response, urlPathArray[1]);
+            removeFriend(request, response, urlPathArray[1]);
             break;
         case "removePending":
-            removePending(userIdEmitTheRequest, response, urlPathArray[1]);
+            removePending(request, response, urlPathArray[1]);
             break;
         case "removeRequest":
-            removeRequest(userIdEmitTheRequest, response, urlPathArray[1]);
+            removeRequest(request, response, urlPathArray[1]);
             break;
         default:
-            console.log("URL", urlPathArray, "not supported");
-            sendResponse(response, 404, "URL " + urlPathArray + " not supported");
-            break;
+            urlNotFound(request, response);
     }
 }
 
 // ------------------------------------------------------------------------------------------------------------------
 
-function addFriend(userIdEmitTheRequest, response, friendId) {
+function addFriend(request, response, friendId) {
+    let userIdEmitTheRequest = request[USER_ID];
+    let username = request[USERNAME];
+
     console.log("add Friend start", userIdEmitTheRequest, friendId)
     checkUserIds(userIdEmitTheRequest, friendId).then((values) => {
         let promise1 = frienddb.addRequest(userIdEmitTheRequest, friendId);
@@ -81,6 +81,7 @@ function addFriend(userIdEmitTheRequest, response, friendId) {
         Promise.all([promise1, promise2]).then(() => {
             console.log("add Friend end 1")
             sendResponse(response, 200, "Friend request sent to " + friendId + " from " + userIdEmitTheRequest);
+            sendNotifications.sendNotificationFriendRequestReceived(friendId, userIdEmitTheRequest, username);
         }).catch((err) => {
             console.log("add Friend end 2")
             sendResponse(response, 404, "Friend request not processed : " + err);
@@ -92,10 +93,13 @@ function addFriend(userIdEmitTheRequest, response, friendId) {
     console.log("add Friend end")
 }
 
-function acceptFriend(userIdEmitTheRequest, response, friendId) {
+function acceptFriend(request, response, friendId) {
+    let userIdEmitTheRequest = request[USER_ID];
+    let username = request[USERNAME];
     checkUserIds(userIdEmitTheRequest, friendId).then((values) => {
         frienddb.addFriends(userIdEmitTheRequest, friendId).then(() => {
             sendResponse(response, 200, "Friend request accepted from " + friendId + " to " + userIdEmitTheRequest);
+            sendNotifications.sendNotificationFriendRequestAccepted(friendId, username);
         }).catch((err) => {
             sendResponse(response, 404, "" + err);
         });
@@ -105,7 +109,8 @@ function acceptFriend(userIdEmitTheRequest, response, friendId) {
 
 }
 
-function getFriends(userIdEmitTheRequest, response) {
+function getFriends(request, response) {
+    let userIdEmitTheRequest = request[USER_ID];
     console.log("getFriends", userIdEmitTheRequest);
     getFriendsInternal(userIdEmitTheRequest).then(friends => {
         sendResponse(response, 200, JSON.stringify(friends));
@@ -120,23 +125,28 @@ async function getFriendsInternal(userIdEmitTheRequest) {
     return await userdb.getUsersByIds(friendsId);
 }
 
-function removeFriend(userIdEmitTheRequest, response, friendId) {
+function removeFriend(request, response, friendId) {
+    let userIdEmitTheRequest = request[USER_ID];
     frienddb.removeFriend(userIdEmitTheRequest, friendId).then(() => {
         sendResponse(response, 200, "Friend " + friendId + " removed from " + userIdEmitTheRequest);
+        SendNotifications.sendNotificationFriendRemoved(friendId, request[USERNAME]);
     }).catch((err) => {
         sendResponse(response, 404, "" + err);
     });
 }
 
-function removePending(userIdEmitTheRequest, response, friendId) {
+function removePending(request, response, friendId) {
+    let userIdEmitTheRequest = request[USER_ID];
     frienddb.removePending(userIdEmitTheRequest, friendId).then(() => {
         sendResponse(response, 200, "Pending friend " + friendId + " removed from " + userIdEmitTheRequest);
+        SendNotifications.sendNotificationFriendRequestRefused(friendId, request[USERNAME])
     }).catch((err) => {
         sendResponse(response, 404, "" + err);
     });
 }
 
-function removeRequest(userIdEmitTheRequest, response, friendId) {
+function removeRequest(request, response, friendId) {
+    let userIdEmitTheRequest = request[USER_ID];
     frienddb.removeRequest(userIdEmitTheRequest, friendId).then(() => {
         sendResponse(response, 200, "Request friend " + friendId + " removed from " + userIdEmitTheRequest);
     }).catch((err) => {
@@ -144,7 +154,8 @@ function removeRequest(userIdEmitTheRequest, response, friendId) {
     });
 }
 
-function getPending(userIdEmitTheRequest, response) {
+function getPending(request, response) {
+    let userIdEmitTheRequest = request[USER_ID];
     getPendingInternal(userIdEmitTheRequest).then(friends => {
         sendResponse(response, 200, JSON.stringify(friends));
     }).catch(err => {
@@ -158,7 +169,8 @@ async function getPendingInternal(userIdEmitTheRequest) {
     return await userdb.getUsersByIds(friendsId);
 }
 
-function getRequest(userIdEmitTheRequest, response) {
+function getRequest(request, response) {
+    let userIdEmitTheRequest = request[USER_ID];
     getRequestInternal(userIdEmitTheRequest).then(friends => {
         sendResponse(response, 200, JSON.stringify(friends));
     }).catch(err => {
@@ -178,7 +190,8 @@ function checkUserIds(userId, friendId) {
     return Promise.all([checkUserId, checkFriendId]);
 }
 
-function getAll(userIdEmitTheRequest, response) {
+function getAll(request, response) {
+    let userIdEmitTheRequest = request[USER_ID];
     Promise.all([
         getFriendsInternal(userIdEmitTheRequest),
         getPendingInternal(userIdEmitTheRequest),

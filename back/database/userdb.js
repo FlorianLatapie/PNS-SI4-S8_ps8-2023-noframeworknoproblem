@@ -108,6 +108,14 @@ class UserDb {
         return res;
     }
 
+    async getUserById(userId) {
+        await this.verifyConnection();
+        let user = await this.users.findOne({_id: new ObjectId(userId)}, {projection: {password: 0, mail: 0}});
+        user["userId"] = user["_id"].toString();
+        delete user["_id"];
+        return user;
+    }
+
     async getUsersByNameRegex(name) {
         await this.verifyConnection();
 
@@ -119,6 +127,11 @@ class UserDb {
             delete e["_id"];
         });
         return res;
+    }
+
+    async getUsername(userId) {
+        await this.verifyConnection();
+        return await this.users.findOne({_id: new ObjectId(userId)}, {projection: {username: 1}});
     }
 }
 
