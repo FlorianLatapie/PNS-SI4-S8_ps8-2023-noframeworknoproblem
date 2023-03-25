@@ -1,6 +1,6 @@
 import chatdb from "../database/chatdb.js";
 
-class chatManager {
+export default class chatManager {
     #user1;
     #user2;
 
@@ -38,4 +38,4 @@ class chatManager {
     }
 }
 
-export default new chatManager();
+//export default new chatManager();

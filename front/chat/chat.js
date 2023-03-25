@@ -23,41 +23,23 @@ chatTemplate.innerHTML = `
     <h2>
       Contacts
     </h2>
-    <div class="contact">
-      <div class="name">
-      </div>
-      <div class="message">
-      </div>
-    </div>
   </div>
   <div class="chat">
     <div class="contact bar">
-      <div class="name">
-        Tony Stark
-      </div>
-      <div class="seen">
+      <div class="name" id="friendSelected">
       </div>
     </div>
     <div class="messages" id="chat">
-      <div class="message parker">
+      <div class="message sender">
       </div>
-      <div class="message stark">
+      <div class="message receiver">
       </div>
-      <div class="message parker">
-      </div>
-      <div class="message parker">
-      </div>
-      <div class="message stark">
-      </div>
-<!--      <div class="message stark">
-        <div class="typing typing-1"></div>
-        <div class="typing typing-2"></div>
-        <div class="typing typing-3"></div>
-      </div>-->
     </div>
-    <div class="input">
-      <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!" type="text" /><i class="fas fa-microphone"></i>
-    </div>
+    <form class="input">
+      <input placeholder="Type your message here!" type="text" class="message-input"/>
+      <button type="submit">
+        <i class="send-button">Envoyer</i>
+    </form>
   </div>
 </div>
 
@@ -70,6 +52,7 @@ class Chat extends HTMLElement {
     #userId;
     #friends;
     #LastMessage;
+    #friendSelected;
 
     constructor(userId) {
         super();
@@ -83,12 +66,6 @@ class Chat extends HTMLElement {
         this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
         this.#addSocketEvent();
         let contacts = this.shadowRoot.querySelector(".contacts");
-        let contact = document.createElement("div");
-        let name = document.createElement("div");
-        let message = document.createElement("div");
-        contact.classList.add("contact");
-        name.classList.add("name");
-        message.classList.add("message");
         this.#friends = fetch(BASE_URL + API_URL + FRIENDS_URL + 'getFriends' + "/" + this.#userId, {
             method: 'get', headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -101,16 +78,21 @@ class Chat extends HTMLElement {
             }
             return response.json();
         }).then((data) => {
-            console.log("data", data);
             return data;
         }).catch(error => {
             console.log(error);
         });
         this.#friends = await this.#friends;
-        for(let i = 0; i < this.#friends.length; i++){
+        for (let i = 0; i < this.#friends.length; i++) {
+            let contact = document.createElement("div");
+            let name = document.createElement("div");
+            let message = document.createElement("div");
+            contact.classList.add("contact");
+            name.classList.add("name");
+            message.classList.add("message");
             name.innerHTML = this.#friends[i].username;
             chatSocket.emit("getLastMessage", this.#friends[i].id, this.#userId);
-            if(this.#LastMessage === undefined)
+            if (this.#LastMessage === undefined)
                 this.#LastMessage = "No message";
             message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
@@ -119,11 +101,37 @@ class Chat extends HTMLElement {
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
         }
+        this.#friendSelected = this.#friends[0];
+        let name = this.shadowRoot.querySelector("#friendSelected");
+        name.innerHTML = this.#friendSelected.username;
+        this.#addEventSubmit();
+
     }
 
-    #addSocketEvent(){
+    #addSocketEvent() {
         chatSocket.on("getLastMessageFromBack", (message) => {
             this.#LastMessage = message;
+        });
+    }
+
+    #addEventSubmit() {
+        let submitForm = this.shadowRoot.querySelector(".input");
+        let submitButton = this.shadowRoot.querySelector(".send-button");
+        submitButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (submitForm.querySelector(".message-input").value !== "") {
+                let message = submitForm.querySelector(".message-input").value;
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.id);
+                submitForm.querySelector(".message-input").value = "";
+            }
+        });
+        submitForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (submitForm.querySelector(".message-input").value !== "") {
+                let message = submitForm.querySelector(".message-input").value;
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.id);
+                submitForm.querySelector(".message-input").value = "";
+            }
         });
     }
 

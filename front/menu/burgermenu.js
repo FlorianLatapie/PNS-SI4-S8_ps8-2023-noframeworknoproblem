@@ -1,6 +1,6 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL} from "../path.js";
+import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_URL} from "../path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
@@ -29,7 +29,7 @@ burgerMenuTemplate.innerHTML = `
     <a class="nav-link" href=` + BASE_URL + PROFILE_URL + `>
         <img alt="Profil" src=` + profile + `><button>Profil</button>
     </a>
-    <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
+    <a class="nav-link" href=` + BASE_URL + NOTIFICATIONS_URL + `>
         <img alt="Notifications" src=` + notifications + `><button>Notifications</button>
     </a>
     <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>

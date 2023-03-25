@@ -16,7 +16,7 @@ const PLAY_MATCHMAKING_URL = 'play/matchmaking/';
 
 const SEARCH_USERS_URL = 'searchUsers/';
 
-const NOTIFICATIONS_URL = 'notifications/';
+const NOTIFICATIONS_URL = 'notificationCenter/';
 
 const API_URL = 'api/';
 

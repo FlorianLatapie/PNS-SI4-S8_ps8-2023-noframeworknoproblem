@@ -24,6 +24,7 @@ import MatchmakingController from "./play/MatchmakingController.js";
 import userstatsdb from "./database/userstatsdb.js";
 import achievementdb from "./database/achievementdb.js";
 import connectedPlayer from "./socket/ConnectedPlayer.js";
+import chatManager from "./socket/ChatManager.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ let httpServer = http.createServer(function (request, response) {
 
         }
     } catch (error) {
-        displayACaughtError(error,`error while processing ${request.url}:`)
+        displayACaughtError(error, `error while processing ${request.url}:`)
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
@@ -77,6 +78,7 @@ gamedb.removeAllGames().then(() => {
 userstatsdb.removeAllStats().then(() => {
     console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
 });
+
 /*achievementdb.removeAllAchievements().then(() => {
     console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
 });*/
@@ -111,7 +113,7 @@ chatSocket.use((socket, next) => {
 // Connection ----------------------------------------------------------------------------------------------------------
 
 let verifyObjectSetup = (setupObject) => {
-    let schema = {AIplays : 'number'}
+    let schema = {AIplays: 'number'}
     let newObject = jsonValidator(setupObject, schema);
 
     if (newObject.AIplays !== 1 && newObject.AIplays !== 2) {
@@ -154,29 +156,33 @@ permanentSocket.on('connection', (socket) => {
 });
 
 // Chat ---------------------------------------------------------------------------------------------------------------
-let chatManager;
 chatSocket.on('connection', (socket) => {
     console.log("Socket id chat : " + socket.id);
 
-    socket.on('message', (message, user1, user2) => {
-        chatManager = new chatManager(user1, user2);
-        chatManager.addMessage(message);
+    socket.on('sendMessage', (message, user1, user2) => {
+        console.log("message received : " + message);
+        let chat = new chatManager(user1, user2);
+        chat.addMessage(message).then(r => {
+            console.log("message added to the database");
+        }).catch(e => {
+            console.log("error while adding the message to the database");
+            console.log(e);
+        });
     });
 
     socket.on('getMessages', (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
-        chatManager = new chatManager(user1, user2);
-        socket.emit('getMessagesFromBack', chatManager.getMessages(numberMessagesToGet, numberMessagesToSkip));
+        let chat = new chatManager(user1, user2);
+        socket.emit('getMessagesFromBack', chat.getMessages(numberMessagesToGet, numberMessagesToSkip));
     });
 
-    socket.on('read', (user1, user2) => {
-        chatManager = new chatManager(user1, user2);
-        chatManager.readMessages();
+    socket.on('read', async (user1, user2) => {
+        let chat = new chatManager(user1, user2);
+        await chat.readMessages();
     });
 
     socket.on('getLastMessage', (user1, user2) => {
-        chatManager = new chatManager(user1, user2);
-        chatManager.getLastMessage();
-        socket.emit('getLastMessageFromBack', chatManager.getLastMessage());
+        let chat = new chatManager(user1, user2);
+        socket.emit('getLastMessageFromBack', chat.getLastMessage());
     });
 
     socket.on('disconnect', () => {
