@@ -8,6 +8,7 @@ import {achievementsManager, addAchievements} from "./user/userAchievements.js";
 import friendsApi from "./friends/apiFriends.js";
 import {validateJwt} from "../auth/jwtParserBack.js";
 import {usersApi} from "./user/usersApi.js";
+import {notificationsApi} from "./notification/apiNotifications.js";
 
 function manageRequest(request, response) {
     addCors(response)
@@ -73,7 +74,6 @@ function manageRequest(request, response) {
                     console.log("URL", url, "not supported");
                     sendResponse(response, 404, "URL " + url + " not supported");
                     break;
-
             }
         });
     } else if (request.method === "GET") {
@@ -107,6 +107,9 @@ function manageRequest(request, response) {
             case "users":
                 console.log("users ", urlPath, paramsObject)
                 usersApi(urlPath, userIdEmitTheRequest, response, paramsObject);
+                break;
+            case "notifications":
+                notificationsApi(urlPath, userIdEmitTheRequest, response, paramsObject);
                 break;
         }
     } else {

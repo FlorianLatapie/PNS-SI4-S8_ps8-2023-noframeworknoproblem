@@ -8,7 +8,7 @@ let jsonValidator = (data, schema) => {
 
     let newObject = {};
     for (const key in data) {
-        if (!data.hasOwnProperty(key)) {
+        if (!data.key !== undefined) {
             console.log("Convert Data: data doesn't have key ", key, data);
             throw Error("Invalid data");
         }

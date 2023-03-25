@@ -1,6 +1,7 @@
 @import "../menu/burgermenu.css";
 @import "header.css";
-@import "../templates/UserRepesentationInList.css";
+@import "../templates/userInList/UserRepesentationInList.css";
+@import "../templates/notificationInList/NotificationRepesentationInList.css";
 @import "CSSvariables.css";
 
 * {

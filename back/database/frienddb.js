@@ -18,7 +18,7 @@ class FriendDb {
     }
 
     async verifyConnection() {
-        // TODO : need to check if the connection is not already active (if (typeof this.games !== 'undefined') return;) wasn't working
+        // TODO : need to check if the connection is not already active (if (typeof this.friends !== 'undefined') return;) wasn't working
         await this.connect();
     }
 

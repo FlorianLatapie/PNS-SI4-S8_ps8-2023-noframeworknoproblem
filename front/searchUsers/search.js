@@ -1,5 +1,5 @@
 import {API_URL, BASE_URL, HOME_URL, USERS_URL} from "../path.js";
-import {createUserRepresentation} from "../templates/UserRepresentationInList.js";
+import {createUserRepresentation} from "../templates/userInList/UserRepresentationInList.js";
 
 const usersListContainer = document.getElementById("search-result");
 window.addEventListener('load', function () {

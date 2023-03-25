@@ -10,6 +10,7 @@ const {
     FRIENDS_COLLECTION,
     USER_STATS_COLLECTION,
     CHATS_COLLECTION,
+    NOTIFICATION_COLLECTION,
 } = process.env;
 
 export default {
@@ -21,4 +22,5 @@ export default {
     friendsCollection: FRIENDS_COLLECTION,
     userStatsCollection: USER_STATS_COLLECTION,
     chatsCollection: CHATS_COLLECTION,
+    notificationCollection: NOTIFICATION_COLLECTION,
 };
