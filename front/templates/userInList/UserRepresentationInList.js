@@ -2,7 +2,7 @@
 
 import {BASE_URL, HOME_URL} from "../../path.js";
 
-function createUserRepresentation(userObj) {
+function createUserPreviewDiv(userObj) {
     const container = document.createElement('div');
     const img = document.createElement('img');
     const usernameContainer = document.createElement('p');
@@ -29,4 +29,4 @@ function createUserRepresentation(userObj) {
     return container;
 }
 
-export {createUserRepresentation};
+export {createUserPreviewDiv};

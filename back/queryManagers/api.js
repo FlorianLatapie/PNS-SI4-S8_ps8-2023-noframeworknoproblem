@@ -15,9 +15,8 @@ function manageRequest(request, response) {
     let url = request.url.split("?")
     let urlPathArray = url[0].split("/")
 
-    console.log("URL Path Array before removing informations: ", urlPathArray)
     removeUselessInformationsUrlPathArray(urlPathArray)
-    console.log("URL Path Array after removing informations: ", urlPathArray)
+
     retrieveParamsQuery(request)
 
     if (request.method === 'OPTIONS') {
@@ -49,9 +48,7 @@ function manageRequest(request, response) {
                     friendsApiPost(request, response, urlPathArray);
                     break;
                 default:
-                    console.log("URL", url, "not supported");
-                    sendResponse(response, 404, "URL " + url + " not supported");
-                    break;
+                    urlNotFound(request, response)
             }
         });
     } else if (request.method === "GET") {
@@ -68,6 +65,8 @@ function manageRequest(request, response) {
                 urlPathArray.shift()
                 notificationsApiGet(request, response, urlPathArray);
                 break;
+            default:
+                urlNotFound(request, response)
         }
     } else if (request.method === "PUT") {
         switch (urlPathArray[0]) {
@@ -89,8 +88,7 @@ function manageRequest(request, response) {
                 urlNotFound(request, response)
         }
     } else {
-        console.log("Method", request.method, "not supported");
-        sendResponse(response, 404, "Method " + request.method + " not supported");
+        urlNotFound(request, response)
     }
 }
 
