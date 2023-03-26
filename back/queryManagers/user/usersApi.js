@@ -24,12 +24,10 @@ function usersApiGet(request, response, urlPathArray) {
         default:
             console.log("URL", urlPathArray, "not supported");
             sendResponse(response, 404, "URL " + request.url + " not supported");
-
     }
 }
 
 function getUser(userId, response, paramsObject) {
-
     if (paramsObject.name === undefined) {
         sendResponse(response, 404, "Malformed request : name is undefined");
         return;
