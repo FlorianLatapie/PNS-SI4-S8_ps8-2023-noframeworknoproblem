@@ -18,7 +18,10 @@ document.getElementById("login-form").addEventListener("submit", function (event
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
     }).then(async (response) => {
-        // if the login worked, we should save the token.
+        if (!response.ok) {
+            alert("Erreur d'authentification");
+            return;
+        }
         let jwtToken = await response.text();
         localStorage.setItem("token", jwtToken);
 
