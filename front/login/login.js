@@ -26,7 +26,6 @@ document.getElementById("login-form").addEventListener("submit", function (event
         localStorage.setItem("token", jwtToken);
 
         let parsedJwt = parseJwt(jwtToken);
-        //console.log(parsedJwt);
 
         let username = parsedJwt.username;
         localStorage.setItem("username", username);

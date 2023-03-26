@@ -19,7 +19,10 @@ window.addEventListener('load', function () {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
         }).then((response) => {
-            console.log(response);
+            if (!response.ok){
+                alert("An error has occurred");
+                return;
+            }
             if (response.status === 201) {
                 window.location.replace(BASE_URL + LOGIN_URL);
             }
