@@ -24,7 +24,7 @@ import MatchmakingController from "./play/MatchmakingController.js";
 import userstatsdb from "./database/userstatsdb.js";
 import achievementdb from "./database/achievementdb.js";
 import connectedPlayer from "./socket/ConnectedPlayer.js";
-import chatManager from "./socket/ChatManager.js";
+import chatManager from "./socket/chatManager.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 

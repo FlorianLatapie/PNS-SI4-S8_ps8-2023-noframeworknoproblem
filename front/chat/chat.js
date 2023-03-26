@@ -92,18 +92,13 @@ class Chat extends HTMLElement {
             message.classList.add("message");
             name.innerHTML = this.#friends[i].username;
             chatSocket.emit("getLastMessage", this.#userId, this.#friends[i].userId);
+            message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
             fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
             this.#addFriendSelector();
-        }
-        for(let i = 5; i < this.#friends.length+5; i++){
-            let contact = contacts.childNodes[i];
-            console.log("contact", contact.childNodes[1]);
-            let message = contact.childNodes[1];
-            message.innerHTML = this.#LastMessage;
         }
         this.#friendSelected = this.#friends[0];
         let name = this.shadowRoot.querySelector("#friendSelected");
@@ -113,7 +108,7 @@ class Chat extends HTMLElement {
     }
 
     #addSocketEvent() {
-        chatSocket.on("getLastMessageFromBack", (message, user2) => {
+        chatSocket.on("getLastMessageFromBack", (message) => {
             if(message.length !== 0) {
                 console.log("coucou")
                 this.#LastMessage = message[0].message;
