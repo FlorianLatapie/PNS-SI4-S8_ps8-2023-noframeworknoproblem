@@ -53,13 +53,16 @@ class Chat extends HTMLElement {
     #friends;
     #LastMessage;
     #friendSelected;
+    #messageToGet;
+    #messageToSkip;
 
-    constructor(userId) {
+    constructor() {
         super();
         this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(chatTemplate.content.cloneNode(true));
-        this.#userId = userId;
-
+        this.#userId = localStorage.getItem("userId");
+        this.#messageToGet = 10;
+        this.#messageToSkip = 0;
     }
 
     async connectedCallback() {
@@ -106,6 +109,7 @@ class Chat extends HTMLElement {
         let name = this.shadowRoot.querySelector("#friendSelected");
         name.innerHTML = this.#friendSelected.username;
         this.#addEventSubmit();
+        this.#retrieveMessages();
     }
 
     #addSocketEvent() {
@@ -117,12 +121,11 @@ class Chat extends HTMLElement {
     #addFriendSelector(){
         let contacts = this.shadowRoot.querySelector(".contacts");
         let contact = contacts.lastChild;
-        console.log(contact);
         contact.addEventListener("click", (e) => {
             e.preventDefault();
             this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
             let name = this.shadowRoot.querySelector("#friendSelected");
-            chatSocket.emit('read', this.#friendSelected.id, this.#userId);
+            chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
             name.innerHTML = this.#friendSelected.username;
         });
     }
@@ -135,17 +138,40 @@ class Chat extends HTMLElement {
             e.preventDefault();
             if (submitForm.querySelector(".message-input").value !== "") {
                 let message = submitForm.querySelector(".message-input").value;
-                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.id);
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
                 submitForm.querySelector(".message-input").value = "";
+                this.#retrieveMessages();
             }
         });
         submitForm.addEventListener("submit", (e) => {
             e.preventDefault();
             if (submitForm.querySelector(".message-input").value !== "") {
                 let message = submitForm.querySelector(".message-input").value;
-                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.id);
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
                 submitForm.querySelector(".message-input").value = "";
+                this.#retrieveMessages();
             }
+        });
+    }
+
+    #retrieveMessages(){
+        let chat = this.shadowRoot.querySelector("#chat");
+        console.log(chat)
+        chatSocket.emit("getMessages", this.#userId, this.#friendSelected.userId, this.#messageToGet, this.#messageToSkip);
+        chatSocket.on("getMessagesFromBack", (messages) => {
+            console.log(messages)
+            for (let i = 0; i < messages.length; i++) {
+                let message = document.createElement("div");
+                message.classList.add("message");
+                if (messages[i].idSender === this.#userId) {
+                    message.classList.add("sender");
+                } else {
+                    message.classList.add("receiver");
+                }
+                message.innerHTML = messages[i].content;
+                chat.appendChild(message);
+            }
+            if(messages.length !== undefined) this.#messageToSkip += messages.length;
         });
     }
 

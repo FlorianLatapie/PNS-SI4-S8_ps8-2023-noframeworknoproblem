@@ -172,7 +172,9 @@ chatSocket.on('connection', (socket) => {
 
     socket.on('getMessages', (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
         let chat = new chatManager(user1, user2);
-        socket.emit('getMessagesFromBack', chat.getMessages(numberMessagesToGet, numberMessagesToSkip));
+        let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
+        console.log("messages sent : " + messages);
+        socket.emit('getMessagesFromBack', messages);
     });
 
     socket.on('read', (user1, user2) => {

@@ -40,13 +40,18 @@ class ChatDb {
     //TODO: changer pour récupérer seulement X messages
     async getMessages(idSender, idReceiver, numberMessagesToGet, numberMessagesToSkip) {
         await this.verifyConnection();
+        console.log("getMessages", idSender, idReceiver, numberMessagesToGet, numberMessagesToSkip);
         try {
-            return await this.chats.find({
+            let messages = await this.chats.find({
                 $or: [
                     {idSender: idSender, idReceiver: idReceiver},
                     {idSender: idReceiver, idReceiver: idSender}
-                ].sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
-            }).toArray();
+                ]});
+            console.log("messages in the db", messages.valueOf());
+            console.log("messages in the db", messages.sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
+                .toArray());
+            return await messages.sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
+            .toArray()
         } catch (error) {
             console.error(error);
         }
