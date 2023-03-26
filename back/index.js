@@ -162,7 +162,7 @@ chatSocket.on('connection', (socket) => {
     socket.on('sendMessage', (message, user1, user2) => {
         console.log("message received : " + message);
         let chat = new chatManager(user1, user2);
-        chat.addMessage(message).then(r => {
+        chat.addMessage(message).then(() => {
             console.log("message added to the database");
         }).catch(e => {
             console.log("error while adding the message to the database");
@@ -175,9 +175,14 @@ chatSocket.on('connection', (socket) => {
         socket.emit('getMessagesFromBack', chat.getMessages(numberMessagesToGet, numberMessagesToSkip));
     });
 
-    socket.on('read', async (user1, user2) => {
+    socket.on('read', (user1, user2) => {
         let chat = new chatManager(user1, user2);
-        await chat.readMessages();
+        chat.readMessages().then(() => {
+            console.log("messages read");
+        }).catch(e => {
+            console.log("error while reading the messages");
+            console.log(e);
+        });
     });
 
     socket.on('getLastMessage', (user1, user2) => {

@@ -100,12 +100,12 @@ class Chat extends HTMLElement {
             fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
+            this.#addFriendSelector();
         }
         this.#friendSelected = this.#friends[0];
         let name = this.shadowRoot.querySelector("#friendSelected");
         name.innerHTML = this.#friendSelected.username;
         this.#addEventSubmit();
-
     }
 
     #addSocketEvent() {
@@ -113,6 +113,20 @@ class Chat extends HTMLElement {
             this.#LastMessage = message;
         });
     }
+
+    #addFriendSelector(){
+        let contacts = this.shadowRoot.querySelector(".contacts");
+        let contact = contacts.lastChild;
+        console.log(contact);
+        contact.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
+            let name = this.shadowRoot.querySelector("#friendSelected");
+            chatSocket.emit('read', this.#friendSelected.id, this.#userId);
+            name.innerHTML = this.#friendSelected.username;
+        });
+    }
+
 
     #addEventSubmit() {
         let submitForm = this.shadowRoot.querySelector(".input");
