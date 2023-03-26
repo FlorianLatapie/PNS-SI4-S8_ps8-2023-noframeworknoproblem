@@ -168,12 +168,13 @@ chatSocket.on('connection', (socket) => {
             console.log("error while adding the message to the database");
             console.log(e);
         });
+
     });
 
     socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
         let chat = new chatManager(user1, user2);
         let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
-        socket.emit('getMessagesFromBack', await messages);
+        chatSocket.emit('getMessagesFromBack', await messages);
     });
 
     socket.on('read', (user1, user2) => {
@@ -189,7 +190,6 @@ chatSocket.on('connection', (socket) => {
     socket.on('getLastMessage', async (user1, user2) => {
         let chat = new chatManager(user1, user2);
         let lastMessage = chat.getLastMessage();
-        //console.log("getLastMessage", await lastMessage);
         socket.emit('getLastMessageFromBack', await lastMessage, user2);
     });
 
