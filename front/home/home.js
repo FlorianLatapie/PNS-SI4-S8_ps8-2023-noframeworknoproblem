@@ -1,5 +1,6 @@
-import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL, PLAY_MATCHMAKING_URL} from "../util/path.js";
+import {PLAY_AI_ORDER_URL, PLAY_LOCAL_URL, PLAY_MATCHMAKING_URL} from "../util/path.js";
 import {KonamiCode} from "../EasterEggs/konami.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const konami = new KonamiCode(true);
 document.addEventListener("keydown", (e) => {

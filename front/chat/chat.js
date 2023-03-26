@@ -1,6 +1,9 @@
 "use strict";
 
-import {API_URL, BASE_URL, FRIENDS_URL} from "../util/path.js";
+import {API_URL, FRIENDS_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
+
+// do not import io, it is imported from the HTML file.
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
 const chatTemplate = document.createElement("template");

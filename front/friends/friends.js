@@ -1,5 +1,6 @@
-import {API_URL, BASE_URL, FRIENDS_URL} from "../util/path.js";
+import {API_URL, FRIENDS_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");

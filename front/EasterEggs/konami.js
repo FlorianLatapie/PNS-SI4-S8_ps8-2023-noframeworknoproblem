@@ -1,6 +1,7 @@
 "use strict";
 
-import {ACHIEVEMENTS_URL, API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {ACHIEVEMENTS_URL, API_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 class KonamiCode {
     constructor(showHints = false) {

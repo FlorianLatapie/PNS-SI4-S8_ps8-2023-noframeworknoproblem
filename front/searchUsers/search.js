@@ -1,5 +1,6 @@
-import {API_URL, BASE_URL, USERS_URL} from "../util/path.js";
+import {API_URL, USERS_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const usersListContainer = document.getElementById("search-result");
 

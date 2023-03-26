@@ -1,5 +1,6 @@
 import {PARAMETER_NAME_IA_PLAYS} from "../constant.js";
-import {BASE_URL, PLAY_AI_URL} from "../../../util/path.js";
+import {PLAY_AI_URL} from "../../../util/path.js";
+import {BASE_URL} from "../../../util/frontPath.js";
 
 let form = document.getElementById("form-position")
 form.addEventListener("submit", function (event) {

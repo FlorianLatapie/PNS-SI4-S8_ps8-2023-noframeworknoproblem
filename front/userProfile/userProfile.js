@@ -1,11 +1,12 @@
 "use strict";
 
-import {BASE_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 // Script --------------------------------------------------------------------------------------------------------------
 
 // user id is in the url : http://localhost:8000/userprofile/?userId=XXX
 // parse the url to get the id
+
 let url = new URL(window.location.href);
 let userId = url.searchParams.get("userId");
 let username = userId;

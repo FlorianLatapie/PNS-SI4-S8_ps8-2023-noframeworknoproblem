@@ -1,5 +1,4 @@
 "use strict";
-const BASE_URL = window.location.protocol+ "//" + window.location.host + "/";
 
 // Pages ---------------------------------------------------------------------------------------------------------------
 const SIGNUP_URL = 'signup/';
@@ -9,7 +8,7 @@ const LOGIN_URL = 'login/';
 const HOME_URL = 'home/';
 const PROFILE_URL = 'profile/';
 const USER_PROFILE_URL = 'userProfile/';
-const NOTIFICATIONS_URL = 'notificationCenter/';
+const NOTIFICATIONS_PAGE_URL = 'notificationCenter/';
 const FRIENDS_URL = "friends/";
 const SEARCH_USERS_URL = 'searchUsers/';
 
@@ -26,19 +25,24 @@ const PLAY_AI_ORDER_URL = 'play/ai/order/';
 const PLAY_MATCHMAKING_URL = 'play/matchmaking/';
 
 // API -----------------------------------------------------------------------------------------------------------------
+
+// login, signup, friends,
+// are defined above
+
 const API_URL = 'api/';
 const ACHIEVEMENTS_URL = "achievements/";
 const USERS_URL = "users/";
 
+const NOTIFICATIONS_API_URL = "notifications/";
+
 // export all the constants --------------------------------------------------------------------------------------------
 export {
-    BASE_URL,
     SIGNUP_URL,
     LOGIN_URL,
     HOME_URL,
     PROFILE_URL,
     USER_PROFILE_URL,
-    NOTIFICATIONS_URL,
+    NOTIFICATIONS_PAGE_URL,
     FRIENDS_URL,
     SEARCH_USERS_URL,
     PLAY_LOCAL_URL,
@@ -47,5 +51,6 @@ export {
     PLAY_MATCHMAKING_URL,
     API_URL,
     ACHIEVEMENTS_URL,
-    USERS_URL
+    USERS_URL,
+    NOTIFICATIONS_API_URL
 };

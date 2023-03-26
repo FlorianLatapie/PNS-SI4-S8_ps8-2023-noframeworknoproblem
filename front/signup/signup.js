@@ -1,4 +1,5 @@
-import {API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {API_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 document.getElementById("login")
     .setAttribute("href",
