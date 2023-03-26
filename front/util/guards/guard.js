@@ -8,8 +8,8 @@ window.onload = () => {
     }
 }
 
-// it either ends with a '/' or it has a '?' in the url to be valid because we use the auto search for index.html pages
-// forgetting the '/' will result in a not findable js scripts and css files
+// The URL is considered valid if it ends with a '/' or a '?' because we use automatic search for 'index.html' pages
+// Forgetting to include '/' can result in JS and CSS files not being found
 function isURLCorrect() {
     if (window.location.href.slice(-1) === "/") {
         return true;
