@@ -30,10 +30,6 @@ chatTemplate.innerHTML = `
       </div>
     </div>
     <div class="messages" id="chat">
-      <div class="message sender">
-      </div>
-      <div class="message receiver">
-      </div>
     </div>
     <form class="input">
       <input placeholder="Type your message here!" type="text" class="message-input"/>
@@ -63,6 +59,7 @@ class Chat extends HTMLElement {
         this.#userId = localStorage.getItem("userId");
         this.#messageToGet = 10;
         this.#messageToSkip = 0;
+        this.#LastMessage = "No message";
     }
 
     async connectedCallback() {
@@ -94,16 +91,19 @@ class Chat extends HTMLElement {
             name.classList.add("name");
             message.classList.add("message");
             name.innerHTML = this.#friends[i].username;
-            chatSocket.emit("getLastMessage", this.#friends[i].id, this.#userId);
-            if (this.#LastMessage === undefined)
-                this.#LastMessage = "No message";
-            message.innerHTML = this.#LastMessage;
+            chatSocket.emit("getLastMessage", this.#userId, this.#friends[i].userId);
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
             fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
             this.#addFriendSelector();
+        }
+        for(let i = 5; i < this.#friends.length+5; i++){
+            let contact = contacts.childNodes[i];
+            console.log("contact", contact.childNodes[1]);
+            let message = contact.childNodes[1];
+            message.innerHTML = this.#LastMessage;
         }
         this.#friendSelected = this.#friends[0];
         let name = this.shadowRoot.querySelector("#friendSelected");
@@ -113,8 +113,11 @@ class Chat extends HTMLElement {
     }
 
     #addSocketEvent() {
-        chatSocket.on("getLastMessageFromBack", (message) => {
-            this.#LastMessage = message;
+        chatSocket.on("getLastMessageFromBack", (message, user2) => {
+            if(message.length !== 0) {
+                console.log("coucou")
+                this.#LastMessage = message[0].message;
+            }
         });
     }
 
@@ -127,6 +130,10 @@ class Chat extends HTMLElement {
             let name = this.shadowRoot.querySelector("#friendSelected");
             chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
             name.innerHTML = this.#friendSelected.username;
+            let chat = this.shadowRoot.querySelector("#chat");
+            chat.innerHTML = "";
+            this.#messageToSkip = 0;
+            this.#retrieveMessages();
         });
     }
 
@@ -154,12 +161,10 @@ class Chat extends HTMLElement {
         });
     }
 
-    #retrieveMessages(){
+    #retrieveMessages() {
         let chat = this.shadowRoot.querySelector("#chat");
-        console.log(chat)
         chatSocket.emit("getMessages", this.#userId, this.#friendSelected.userId, this.#messageToGet, this.#messageToSkip);
         chatSocket.on("getMessagesFromBack", (messages) => {
-            console.log(messages)
             for (let i = 0; i < messages.length; i++) {
                 let message = document.createElement("div");
                 message.classList.add("message");
@@ -168,10 +173,10 @@ class Chat extends HTMLElement {
                 } else {
                     message.classList.add("receiver");
                 }
-                message.innerHTML = messages[i].content;
-                chat.appendChild(message);
+                message.innerHTML = messages[i].message;
+                chat.prepend(message);
             }
-            if(messages.length !== undefined) this.#messageToSkip += messages.length;
+            if (messages.length !== undefined) this.#messageToSkip += messages.length;
         });
     }
 
