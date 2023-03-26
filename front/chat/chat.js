@@ -1,6 +1,6 @@
 "use strict";
 
-import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
+import {API_URL, BASE_URL, FRIENDS_URL} from "../util/path.js";
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
 const chatTemplate = document.createElement("template");

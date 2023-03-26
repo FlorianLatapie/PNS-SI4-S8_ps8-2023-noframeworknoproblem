@@ -1,6 +1,6 @@
 "use strict";
 
-import {BASE_URL} from "../path.js";
+import {BASE_URL} from "../util/path.js";
 
 // Script --------------------------------------------------------------------------------------------------------------
 

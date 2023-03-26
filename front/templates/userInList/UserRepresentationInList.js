@@ -1,6 +1,6 @@
 "use strict";
 
-import {BASE_URL, PROFILE_URL, USER_PROFILE_URL} from "../../path.js";
+import {BASE_URL, PROFILE_URL, USER_PROFILE_URL} from "../../util/path.js";
 
 function createUserPreviewDiv(userObj) {
     const container = document.createElement('div');

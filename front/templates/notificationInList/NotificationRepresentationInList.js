@@ -1,6 +1,6 @@
 "use strict";
 
-import {API_URL, BASE_URL, NOTIFICATIONS_URL} from "../../path.js";
+import {API_URL, BASE_URL, NOTIFICATIONS_URL} from "../../util/path.js";
 
 function createNotificationRepresentation(notificationInDB) {
     const container = document.createElement('div');

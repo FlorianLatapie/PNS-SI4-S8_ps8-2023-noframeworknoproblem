@@ -1,5 +1,5 @@
 import {parseJwt} from "../util/jwtParser.js";
-import {API_URL, BASE_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
+import {API_URL, BASE_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
 
 document.getElementById("signup")
     .setAttribute("href",

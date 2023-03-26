@@ -1,6 +1,6 @@
 "use strict";
 
-import {BASE_URL, PROFILE_URL} from "../path.js";
+import {BASE_URL, PROFILE_URL} from "./path.js";
 
 let username = document.getElementById("username");
 username.innerHTML = localStorage.getItem("username");

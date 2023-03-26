@@ -1,5 +1,5 @@
 import {isTokenValid} from "../jwtParser.js";
-import {BASE_URL, HOME_URL} from "../../path.js";
+import {BASE_URL, HOME_URL} from "../path.js";
 
 window.onload = () => {
     let token = localStorage.getItem("token");

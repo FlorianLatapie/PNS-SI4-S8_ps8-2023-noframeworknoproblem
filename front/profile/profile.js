@@ -1,6 +1,6 @@
 "use strict";
 
-import {ACHIEVEMENTS_URL, API_URL, BASE_URL} from "../path.js";
+import {ACHIEVEMENTS_URL, API_URL, BASE_URL} from "../util/path.js";
 
 let userId = localStorage.getItem("userId");
 let username = localStorage.getItem("username");

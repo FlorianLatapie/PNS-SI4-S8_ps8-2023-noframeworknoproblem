@@ -1,4 +1,4 @@
-import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
+import {API_URL, BASE_URL, FRIENDS_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 
 const friendsListContainer = document.getElementById("users-friends");

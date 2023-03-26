@@ -1,4 +1,4 @@
-import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL, PLAY_MATCHMAKING_URL} from "../path.js";
+import {BASE_URL, PLAY_AI_ORDER_URL, PLAY_LOCAL_URL, PLAY_MATCHMAKING_URL} from "../util/path.js";
 import {KonamiCode} from "../EasterEggs/konami.js";
 
 const konami = new KonamiCode(true);

@@ -1,6 +1,6 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_URL} from "../path.js";
+import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_URL} from "../util/path.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
