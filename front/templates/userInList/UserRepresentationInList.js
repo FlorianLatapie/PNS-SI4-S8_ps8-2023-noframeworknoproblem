@@ -12,7 +12,7 @@ function createUserPreviewDiv(userObj) {
         window.location.replace(BASE_URL + HOME_URL)
     })
 
-    container.classList.add("flex-row", "user-profile");
+    container.classList.add("user-profile");
     img.classList.add("profile-picture");
 
     img.src = "../images/user-solid.svg";
