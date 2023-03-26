@@ -62,10 +62,8 @@ class Burgermenu extends HTMLElement {
 
             let navButtons = this.shadowRoot.querySelectorAll("button");
             if (hamburger.classList.contains("active")) {
-                console.log("active");
                 navButtons.forEach(button => button.style.display = "block");
             } else {
-                console.log("not active");
                 navButtons.forEach(button => button.style.display = "none");
             }
         });
