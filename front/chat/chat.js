@@ -124,6 +124,10 @@ class Chat extends HTMLElement {
                 this.#retrieveMessages(messages);
             }
         );
+        chatSocket.on('messageAddedInDb', (message) => {
+            chatSocket.emit("updateChat", this.#userId, this.#friendSelected.userId);
+
+        });
         chatSocket.on('updateChatFromBack', (message) => {
             let chat = this.shadowRoot.querySelector("#chat");
             let messageToAdd = document.createElement("div");
@@ -133,6 +137,7 @@ class Chat extends HTMLElement {
             } else {
                 messageToAdd.classList.add("receiver");
             }
+            console.log(message[0].message);
             messageToAdd.innerHTML = message[0].message;
             chat.append(messageToAdd);
             chat.scrollTop = chat.scrollHeight;
@@ -164,7 +169,6 @@ class Chat extends HTMLElement {
                 chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
                 submitForm.querySelector(".message-input").value = "";
                 this.#messageToSkip = 0;
-                chatSocket.emit("updateChat", this.#userId, this.#friendSelected.userId);
             }
         });
         submitForm.addEventListener("submit", (e) => {
@@ -174,7 +178,6 @@ class Chat extends HTMLElement {
                 chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
                 submitForm.querySelector(".message-input").value = "";
                 this.#messageToSkip = 0;
-                chatSocket.emit("updateChat", this.#userId, this.#friendSelected.userId);
             }
         });
     }

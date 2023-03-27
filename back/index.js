@@ -212,7 +212,7 @@ chatSocket.on('connection', (socket) => {
         let chat = new chatManager(user1, user2);
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
-            //socket.to(roomId).emit('getMessages');
+            chatSocket.to(socket.id).emit('messageAddedInDb');
         }).catch(e => {
             console.log("error while adding the message to the database");
             console.log(e);
