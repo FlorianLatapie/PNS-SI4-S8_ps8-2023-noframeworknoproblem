@@ -22,6 +22,9 @@ function friendsApiGet(request, response, urlPathArray) {
         case "getAll":
             getAll(request, response);
             break;
+        case "friendshipStatus":
+            friendshipStatus(request, response, urlPathArray[1]);
+            break;
         default:
             urlNotFound(request, response)
     }
@@ -42,10 +45,6 @@ function friendsApiPost(request, response, urlPathArray) {
         default:
             urlNotFound(request, response)
     }
-}
-
-function friendsApiPut(request, response, urlPathArray) {
-
 }
 
 function friendsApiDelete(request, response, urlPathArray) {
@@ -76,9 +75,9 @@ function addFriend(request, response, friendId) {
 
     console.log("add Friend start", userIdEmitTheRequest, friendId)
     checkUserIds(userIdEmitTheRequest, friendId).then((values) => {
-        let promise1 = frienddb.addRequest(userIdEmitTheRequest, friendId);
-        let promise2 = frienddb.addPending(friendId, userIdEmitTheRequest);
-        Promise.all([promise1, promise2]).then(() => {
+        let requestPromise = frienddb.addRequest(userIdEmitTheRequest, friendId);
+        let pendingPromise = frienddb.addPending(friendId, userIdEmitTheRequest);
+        Promise.all([requestPromise, pendingPromise]).then(() => {
             console.log("add Friend end 1")
             sendResponse(response, 200, "Friend request sent to " + friendId + " from " + userIdEmitTheRequest);
 
@@ -213,4 +212,29 @@ function getAll(request, response) {
     });
 }
 
-export {friendsApiGet, friendsApiPost, friendsApiPut, friendsApiDelete};
+function friendshipStatus(request, response, friendId) {
+    let askerId = request[USER_ID];
+    let test = frienddb.recoverFriendWithInit(askerId);
+
+    Promise.all([test]).then((values) => {
+        let friends = values[0];
+        if (friends.friends.includes(friendId)) {
+            console.log("friendshipStatus", "friend")
+            sendResponse(response, 200, "friend");
+            return;
+        }
+        if (friends.pending.includes(friendId)) {
+            console.log("friendshipStatus", "pending")
+            sendResponse(response, 200, "pending");
+            return;
+        }
+        if (friends.requests.includes(friendId)) {
+            console.log("friendshipStatus", "request")
+            sendResponse(response, 200, "request");
+            return;
+        }
+        sendResponse(response, 200, "none");
+    });
+}
+
+export {friendsApiGet, friendsApiPost, friendsApiDelete};
