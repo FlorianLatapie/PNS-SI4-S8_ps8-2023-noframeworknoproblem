@@ -58,40 +58,57 @@ let achievementsPromise = fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/
 async function updateButton() {
     let friendshipButton = document.getElementById("friendship-button");
 
-    let status = await getStatus(localStorage.getItem("userId"), userIdOfThisPage)
+    let status = await getStatus(localStorage.getItem("userId"), userIdOfThisPage);
 
     console.log(status);
+
+    // Clone the button to remove existing event listeners
+    let newButton = friendshipButton.cloneNode(true);
+    friendshipButton.parentNode.replaceChild(newButton, friendshipButton);
+    friendshipButton = newButton;
 
     switch (status) {
         case "request":
             friendshipButton.innerHTML = "Annuler la demande d'ami";
             friendshipButton.addEventListener("click", async () => {
-                cancelRequest(userIdOfThisPage);
+                cancelRequest(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
             });
+
             break;
         case "friend":
             friendshipButton.innerHTML = "Retirer de mes amis";
 
             friendshipButton.addEventListener("click", async () => {
-                removeFriend(userIdOfThisPage);
+                removeFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
             });
+
             break;
         case "pending":
             friendshipButton.innerHTML = "Accepter la demande";
 
             friendshipButton.addEventListener("click", async () => {
-                cancelRequest(userIdOfThisPage);
+                acceptFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
             });
+
             break;
 
         case "none":
             friendshipButton.innerHTML = "Ajouter aux amis";
             friendshipButton.addEventListener("click", async () => {
-                addFriend(userIdOfThisPage);
+                addFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
             });
             break;
     }
 }
+
 
 await updateButton();
 
@@ -141,27 +158,8 @@ function getStatus(myId, userId) {
     });
 }
 
-function acceptFriendRequest(userIdOfThisPage) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + 'accept' + "/" + userIdOfThisPage, {
-        method: 'post', headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Error while calling API (button) " + response.status)
-        }
-        console.log("Friend request accepted");
-        return response.text();
-    }).then((data) => {
-        return data;
-    }).catch(error => {
-        console.log(error);
-    });
-}
 
-function addFriend(userIdOfThisPage){
+function addFriend(userIdOfThisPage) {
     return fetch(BASE_URL + API_URL + FRIENDS_URL + "add/" + userIdOfThisPage, {
         method: 'post', headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -181,9 +179,30 @@ function addFriend(userIdOfThisPage){
     });
 }
 
-function cancelRequest(userIdOfThisPage){
+function acceptFriend(userIdOfThisPage) {
+    return fetch(BASE_URL + API_URL + FRIENDS_URL + "accept/" + userIdOfThisPage, {
+        method: 'post', headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        if (!response.ok) {
+            throw new Error("Error while calling API (button) " + response.status)
+        }
+        console.log("Friend request sent");
+        return response.text();
+    }).then((data) => {
+        return data;
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+function cancelRequest(userIdOfThisPage) {
     return fetch(BASE_URL + API_URL + FRIENDS_URL + 'removeRequest' + "/" + userIdOfThisPage, {
-        method: 'delete', headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        method: 'delete', headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
@@ -200,9 +219,10 @@ function cancelRequest(userIdOfThisPage){
     });
 }
 
-function removeFriend(userIdOfThisPage){
+function removeFriend(userIdOfThisPage) {
     return fetch(BASE_URL + API_URL + FRIENDS_URL + 'removeFriend' + "/" + userIdOfThisPage, {
-        method: 'delete', headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        method: 'delete', headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
