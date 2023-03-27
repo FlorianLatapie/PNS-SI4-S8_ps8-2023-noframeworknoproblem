@@ -53,62 +53,7 @@ let achievementsPromise = fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/
     console.log(error);
 });
 
-// friends -------------------------------------
-
-async function updateButton() {
-    let friendshipButton = document.getElementById("friendship-button");
-
-    let status = await getStatus(localStorage.getItem("userId"), userIdOfThisPage);
-
-    console.log(status);
-
-    // Clone the button to remove existing event listeners
-    let newButton = friendshipButton.cloneNode(true);
-    friendshipButton.parentNode.replaceChild(newButton, friendshipButton);
-    friendshipButton = newButton;
-
-    switch (status) {
-        case "request":
-            friendshipButton.innerHTML = "Annuler la demande d'ami";
-            friendshipButton.addEventListener("click", async () => {
-                cancelRequest(userIdOfThisPage).then(() => {
-                    updateButton();
-                });
-            });
-
-            break;
-        case "friend":
-            friendshipButton.innerHTML = "Retirer de mes amis";
-
-            friendshipButton.addEventListener("click", async () => {
-                removeFriend(userIdOfThisPage).then(() => {
-                    updateButton();
-                });
-            });
-
-            break;
-        case "pending":
-            friendshipButton.innerHTML = "Accepter la demande";
-
-            friendshipButton.addEventListener("click", async () => {
-                acceptFriend(userIdOfThisPage).then(() => {
-                    updateButton();
-                });
-            });
-
-            break;
-
-        case "none":
-            friendshipButton.innerHTML = "Ajouter aux amis";
-            friendshipButton.addEventListener("click", async () => {
-                addFriend(userIdOfThisPage).then(() => {
-                    updateButton();
-                });
-            });
-            break;
-    }
-}
-
+// button -------------------------------------
 
 await updateButton();
 
@@ -139,9 +84,9 @@ function whenError() {
     window.location.replace(BASE_URL);
 }
 
-function getStatus(myId, userId) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + 'friendshipStatus' + "/" + userId, {
-        method: 'get', headers: {
+function callFriendAPI(method, subUrl, userId) {
+    return fetch(BASE_URL + API_URL + FRIENDS_URL + subUrl + "/" + userId, {
+        method: method, headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -158,83 +103,73 @@ function getStatus(myId, userId) {
     });
 }
 
+function getStatus(userId) {
+    return callFriendAPI('get', 'friendshipStatus', userId);
+}
 
 function addFriend(userIdOfThisPage) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + "add/" + userIdOfThisPage, {
-        method: 'post', headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Error while calling API (button) " + response.status)
-        }
-        console.log("Friend request sent");
-        return response.text();
-    }).then((data) => {
-        return data;
-    }).catch(error => {
-        console.log(error);
-    });
+    return callFriendAPI('post', 'add', userIdOfThisPage);
 }
 
 function acceptFriend(userIdOfThisPage) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + "accept/" + userIdOfThisPage, {
-        method: 'post', headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Error while calling API (button) " + response.status)
-        }
-        console.log("Friend request sent");
-        return response.text();
-    }).then((data) => {
-        return data;
-    }).catch(error => {
-        console.log(error);
-    });
+    return callFriendAPI('post', 'accept', userIdOfThisPage);
 }
 
 function cancelRequest(userIdOfThisPage) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + 'removeRequest' + "/" + userIdOfThisPage, {
-        method: 'delete', headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Error while calling API (button) " + response.status)
-        }
-        console.log("cancel request");
-        return response.text();
-    }).then((data) => {
-        return data;
-    }).catch(error => {
-        console.log(error);
-    });
+    return callFriendAPI('delete', 'removeRequest', userIdOfThisPage);
 }
 
 function removeFriend(userIdOfThisPage) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + 'removeFriend' + "/" + userIdOfThisPage, {
-        method: 'delete', headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        if (!response.ok) {
-            throw new Error("Error while calling API (button) " + response.status)
-        }
-        console.log("friend removed");
-        return response.text();
-    }).then((data) => {
-        return data;
-    }).catch(error => {
-        console.log(error);
-    });
+    return callFriendAPI('delete', 'removeFriend', userIdOfThisPage);
+}
+
+async function updateButton() {
+    let friendshipButton = document.getElementById("friendship-button");
+
+    let status = await getStatus(userIdOfThisPage);
+
+    console.log(status);
+
+    // Clone the button to remove existing event listeners
+    let newButton = friendshipButton.cloneNode(true);
+    friendshipButton.parentNode.replaceChild(newButton, friendshipButton);
+    friendshipButton = newButton;
+
+    switch (status) {
+        case "request":
+            friendshipButton.innerHTML = "Annuler la demande d'ami";
+            friendshipButton.addEventListener("click", async () => {
+                cancelRequest(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
+            });
+
+            break;
+        case "friend":
+            friendshipButton.innerHTML = "Retirer de mes amis";
+            friendshipButton.addEventListener("click", async () => {
+                removeFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
+            });
+
+            break;
+        case "pending":
+            friendshipButton.innerHTML = "Accepter la demande";
+            friendshipButton.addEventListener("click", async () => {
+                acceptFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
+            });
+            break;
+
+        case "none":
+            friendshipButton.innerHTML = "Ajouter aux amis";
+            friendshipButton.addEventListener("click", async () => {
+                addFriend(userIdOfThisPage).then(() => {
+                    updateButton();
+                });
+            });
+            break;
+    }
 }
