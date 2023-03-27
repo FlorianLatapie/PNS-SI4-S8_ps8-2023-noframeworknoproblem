@@ -117,7 +117,7 @@ class Chat extends HTMLElement {
             if (message.length !== 0) {
                 let id = "#a" + user2;
                 let messageDiv = this.shadowRoot.querySelector(id);
-                messageDiv.innerHTML = message[0].message;
+                messageDiv.innerHTML = "Dernier message : " + message[0].message;
             }
         });
         chatSocket.on('initMessagesFromBack', (messages) => {

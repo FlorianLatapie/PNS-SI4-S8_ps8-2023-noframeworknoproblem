@@ -17,11 +17,14 @@ body, html {
 .contact {
     position: relative;
     margin-bottom: 1rem;
-    padding-left: 0rem;
+    padding-left: 0;
     height: 4.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border: 3px solid black;
+    border-radius: 1rem;
+    text-indent: 1rem;
 }
 
 .contact .name {
@@ -108,41 +111,6 @@ body, html {
     background: #333;
     color: white;
 }
-
-/*.chat .input {
-    box-sizing: border-box;
-    flex-basis: 4rem;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    padding: 0 0.5rem 0 1.5rem;
-}
-.chat .input i {
-    font-size: 1.5rem;
-    margin-right: 1rem;
-    color: #666;
-    cursor: pointer;
-    transition: color 200ms;
-}
-.chat .input i:hover {
-    color: #333;
-}
-.chat .input input {
-    border: none;
-    background-image: none;
-    background-color: white;
-    padding: 0.5rem 1rem;
-    margin-right: 1rem;
-    border-radius: 1.125rem;
-    flex-grow: 2;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1), 0 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
-    font-family: Red hat Display, sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.025em;
-}
-.chat .input input::placeholder {
-    color: #999;
-}*/
 
 .input {
     display: flex;

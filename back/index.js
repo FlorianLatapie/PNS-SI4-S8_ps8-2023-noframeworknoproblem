@@ -207,8 +207,6 @@ chatSocket.on('connection', (socket) => {
     })
 
     socket.on('sendMessage', (message, user1, user2) => {
-        //socket.join(roomId);
-
         let chat = new chatManager(user1, user2);
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
