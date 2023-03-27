@@ -69,24 +69,27 @@ class AchievementDb {
         }
     }
 
-    getAllAchievements() {
+    getAllPossibleAchievements() {
         return [{
             "1stGame": {
+                "friendlyName": "Première partie",
                 "description": "Joue ta première partie", "maxProgress": 1,
             }
         }, {
             "10Games": {
+                "friendlyName": "10 parties",
                 "description": "Joue 10 parties", "maxProgress": 10,
             }
         }, {
             "konami": {
+                "friendlyName": "Code Konami",
                 "description": "Utilise le code Konami", "maxProgress": 1,
             }
         },]
     }
 
     isAchievementValid(achievementId) {
-        return this.getAllAchievements().some(achievement => achievement.hasOwnProperty(achievementId))
+        return this.getAllPossibleAchievements().some(achievement => achievement.hasOwnProperty(achievementId))
     }
 }
 
