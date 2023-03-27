@@ -212,7 +212,7 @@ chatSocket.on('connection', (socket) => {
         let chat = new chatManager(user1, user2);
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
-            //socket.emit('getMessages', user1, user2, 10, 0);
+            //socket.to(roomId).emit('getMessages');
         }).catch(e => {
             console.log("error while adding the message to the database");
             console.log(e);
@@ -223,7 +223,7 @@ chatSocket.on('connection', (socket) => {
     socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
         let chat = new chatManager(user1, user2);
         let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
-        socket.to(roomId).emit('getMessagesFromBack', await messages);
+        chatSocket.to(roomId).emit('getMessagesFromBack', await messages);
     });
 
 
@@ -237,10 +237,16 @@ chatSocket.on('connection', (socket) => {
         });
     });
 
-    socket.on('getLastMessage', async (user1, user2) => {
+    socket.on('getLastMessageForProfile', async (user1, user2) => {
         let chat = new chatManager(user1, user2);
         let lastMessage = chat.getLastMessage();
         chatSocket.to(socket.id).emit('getLastMessageFromBack', await lastMessage, user2);
+    });
+
+    socket.on('updateChat', async (user1, user2) => {
+        let chat = new chatManager(user1, user2);
+        let lastMessage = chat.getLastMessage();
+        chatSocket.to(roomId).emit('updateChatFromBack', await lastMessage);
     });
 
     socket.on('disconnect', () => {
