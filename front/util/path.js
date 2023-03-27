@@ -35,7 +35,6 @@ const PLAY_CHALLENGE_URL = 'play/challenge/';
 const API_URL = 'api/';
 const ACHIEVEMENTS_URL = "achievements/";
 const USERS_URL = "users/";
-
 const NOTIFICATIONS_API_URL = "notifications/";
 
 // export all the constants --------------------------------------------------------------------------------------------

@@ -1,14 +1,12 @@
 import {API_URL, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 import {BASE_URL} from "../util/frontPath.js";
+import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../play/challenge/constantsChallenge.js";
 
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");
 const requestsListContainer = document.getElementById("users-requests");
 window.addEventListener('load', getAllData);
-
-const OPPONENT_ID = "opponent_id";
-const IS_NEW_CHALLENGE = "is_new_challenge";
 
 function getAllData() {
     fetch(BASE_URL + API_URL + FRIENDS_URL + "getAll", {

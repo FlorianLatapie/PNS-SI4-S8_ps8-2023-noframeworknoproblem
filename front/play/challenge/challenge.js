@@ -1,9 +1,7 @@
 import Grid from "../../GameLogic/Grid.js";
 import WebPageInteraction from "./WebPageInteraction.js";
 import SocketChallenge from "./SocketChallenge.js";
-
-const OPPONENT_ID = "opponent_id";
-const IS_NEW_CHALLENGE = "is_new_challenge";
+import {OPPONENT_ID, IS_NEW_CHALLENGE} from "./constantsChallenge.js";
 
 const url = new URL(window.location.href);
 let opponent_id = url.searchParams.get(OPPONENT_ID);

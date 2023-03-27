@@ -38,13 +38,13 @@ function createNotificationRepresentation(notificationInDB) {
                 // There is an error
             }
             console.log(response.text());
-            messageContainer.remove();
+            container.remove();
         }).catch(error => {
             console.log(error);
         });
     });
 
-    if (notification.action !== null && notification.action !== undefined) {
+    if (notification.action) {
         actionButton.addEventListener("click", () => {
             fetch(BASE_URL + API_URL + notification.action.url, {
                 method: notification.action.method,
@@ -53,7 +53,7 @@ function createNotificationRepresentation(notificationInDB) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: (notification.action.body !== null &&  notification.action.body !== undefined)? JSON.stringify(notification.action.body) : {}
+                body: (notification.action.body) ? JSON.stringify(notification.action.body) : {}
 
             }).then((response) => {
                 if (!response.ok) {
@@ -68,12 +68,19 @@ function createNotificationRepresentation(notificationInDB) {
         })
     }
 
+    if (notification.link) {
+        actionButton.addEventListener("click", () => {
+            window.location.replace(BASE_URL + notification.link);
+        })
+    }
+
+
     message.innerHTML = notification.message;
     messageContainer.appendChild(message);
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(messageContainer);
-    if (notification.action !== null && notification.action !== undefined) {
+    if (notification.action || notification.link) {
         fragment.appendChild(actionButton);
     }
     fragment.appendChild(deleteButton);

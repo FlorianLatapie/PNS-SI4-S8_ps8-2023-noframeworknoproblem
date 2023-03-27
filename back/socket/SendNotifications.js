@@ -1,8 +1,8 @@
-import userdb from "../database/userdb.js";
 import connectedPlayer from "./PermanentSocketPlayers.js";
 import notificationdb from "../database/notificationdb.js";
 import Action from "../entities/Action.js";
 import Notification from "../entities/Notification.js";
+import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../../front/play/challenge/constantsChallenge.js";
 
 class SendNotifications {
 
@@ -51,10 +51,8 @@ class SendNotifications {
         // Those are the same as in the challenge.js file in the front
 
         console.log("sendNotificationChallengeRequest", receiverId, userId, username)
-        const OPPONENT_ID = "opponent_id";
-        const IS_NEW_CHALLENGE = "is_new_challenge";
 
-        let url = `play/challenge?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
+        let url = `play/challenge/?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
         let notification = new Notification(`Demande de défi reçu par ${username}` , null, url);
         SendNotifications.#sendNotification(receiverId, notification);
     }
