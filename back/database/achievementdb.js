@@ -66,6 +66,22 @@ class AchievementDb {
             console.error(error);
         }
     }
+
+    getAllAchievements() {
+        return [{
+            "1stGame": {
+                "description": "Joue ta première partie", "maxProgress": 1,
+            }
+        }, {
+            "10Games": {
+                "description": "Joue 10 parties", "maxProgress": 10,
+            }
+        }, {
+            "konami": {
+                "description": "Utilise le code Konami", "maxProgress": 1,
+            }
+        },]
+    }
 }
 
 export default new AchievementDb();
