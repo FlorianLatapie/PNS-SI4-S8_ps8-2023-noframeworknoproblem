@@ -16,10 +16,8 @@ function getAllData() {
             'Content-Type': 'application/json'
         }
     }).then((response) => {
-        console.log("Response status " + response.status);
         if (!response.ok) {
             console.log("Error while retrieving users", response.status)
-            // There is an error
         }
         return response.json()
 
@@ -39,7 +37,7 @@ function addFriendToContainer(friend) {
     friendContainer.classList.add("flex-row");
     let userId = friendDiv.id;
 
-    removeButton.innerHTML = "Supprimer";
+    removeButton.innerHTML = "Retirer";
     removeButton.addEventListener("click", () => deleteFriendApi("removeFriend", userId, friendContainer));
 
     challengeButton.innerHTML = "Défier";
@@ -87,7 +85,7 @@ function addRequestToContainer(request) {
     let userId = requestDiv.id;
 
     requestContainer.classList.add("flex-row");
-    removeButton.innerHTML = "Supprimer";
+    removeButton.innerHTML = "Retirer";
     removeButton.addEventListener("click", () => deleteFriendApi("removeRequest", userId, requestContainer));
 
     const fragment = document.createDocumentFragment();
