@@ -1,5 +1,5 @@
 import userdb from "../database/userdb.js";
-import connectedPlayer from "./ConnectedPlayer.js";
+import connectedPlayer from "./PermanentSocketPlayers.js";
 import notificationdb from "../database/notificationdb.js";
 import Action from "../entities/Action.js";
 import Notification from "../entities/Notification.js";
@@ -32,20 +32,25 @@ class SendNotifications {
     }
 
     static sendNotificationFriendRequestAccepted(receiverId, username) {
-        let action = null;
-        let notification = new Notification(`Demande d'ami acceptée par ${username}`, action);
+        let notification = new Notification(`Demande d'ami acceptée par ${username}`);
         SendNotifications.#sendNotification(receiverId, notification);
     }
 
     static sendNotificationFriendRequestRefused(receiverId, username) {
-        let action = null;
-        let notification = new Notification(`Demande d'ami refusée par ${username}`, action);
+        let notification = new Notification(`Demande d'ami refusée par ${username}`);
         SendNotifications.#sendNotification(receiverId, notification);
     }
 
     static sendNotificationFriendRemoved(receiverId, username) {
-        let action = null;
-        let notification = new Notification(`Vous n'êtes plus ami avec ${username}`, action);
+        let notification = new Notification(`Vous n'êtes plus ami avec ${username}`);
+        SendNotifications.#sendNotification(receiverId, notification);
+    }
+
+    // ----------------------------------------- CHALLENGE REQUEST ----------------------------------------------
+    static sendNotificationChallengeRequest(receiverId, userId, username) {
+        // TODO : change the url to the game
+        let url = `play/challenge?challenger=${userId}`;
+        let notification = new Notification(`Demande de défi reçu par ${username}` , null, url);
         SendNotifications.#sendNotification(receiverId, notification);
     }
 }
