@@ -19,11 +19,13 @@ import {JWTSecretCode} from "./credentials/credentials.js";
 import {AiRoom} from "./play/room/AiRoom.js";
 import {MatchmakingRoom} from "./play/room/MatchmakingRoom.js";
 import {jsonValidator} from "./util/jsonValidator.js";
-import PlayersQueue from "./play/PlayersQueue.js";
-import MatchmakingController from "./play/MatchmakingController.js";
+import PlayersQueue from "./play/matchmaking/PlayersQueue.js";
+import MatchmakingController from "./play/matchmaking/MatchmakingController.js";
 import userstatsdb from "./database/userstatsdb.js";
 import achievementdb from "./database/achievementdb.js";
-import connectedPlayer from "./socket/ConnectedPlayer.js";
+import connectedPlayer from "./socket/PermanentSocketPlayers.js";
+import ChallengeController from "./play/challenge/ChallengeController.js";
+import ConnectedPlayers from "./socket/ConnectedPlayers.js";
 import chatManager from "./socket/chatManager.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
@@ -123,9 +125,23 @@ let verifyObjectSetup = (setupObject) => {
     return newObject;
 }
 
-let matchmakingController = new MatchmakingController(gameSocket);
+let connectedPlayers = new ConnectedPlayers();
+let matchmakingController = new MatchmakingController(gameSocket, connectedPlayers);
+let challengeController = new ChallengeController(gameSocket, connectedPlayers);
+
 gameSocket.on('connection', (socket) => {
     console.log("Socket id player : " + socket.id);
+
+    if (connectedPlayers.isPlayerConnected(socket.userId)) {
+        gameSocket.to(socket.id).emit("error", "You are already connected");
+        console.log("Player " + socket.username + " tried to connect but is already connected");
+        socket.disconnect();
+        return;
+    }
+
+    console.log("Player " + socket.username + " connected");
+
+    connectedPlayers.addPlayer(socket);
 
     socket.once('setup', (setupObject) => {
         socket.removeAllListeners();
@@ -135,6 +151,16 @@ gameSocket.on('connection', (socket) => {
         } catch (error) {
             gameSocket.to(socket.id).emit("error", error.message);
         }
+    });
+
+    socket.once('challenge_request', (id_challenged) => {
+        console.log("challenge request received from " + socket.username + " to " + id_challenged)
+        challengeController.challengeRequest(socket, id_challenged);
+    });
+
+    socket.once('challenge_accepted', (id_challenge_sender) => {
+        console.log("challenge accepted received from " + socket.username + " to " + id_challenge_sender)
+        challengeController.challengeAccepted(socket, id_challenge_sender);
     });
 
     socket.once('matchmaking', () => {

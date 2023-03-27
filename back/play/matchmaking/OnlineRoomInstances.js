@@ -1,6 +1,6 @@
 // Class to manage the players playing
 // the map contains as keys the id of the players and as a value the instance of the MatchmakingRoom associated to the player
-class MatchmakingRoomInstances {
+class OnlineRoomInstances {
 
     constructor() {
         this.players = new Map()
@@ -37,4 +37,4 @@ class MatchmakingRoomInstances {
 
 }
 
-export default MatchmakingRoomInstances
+export default new OnlineRoomInstances();

@@ -1,4 +1,4 @@
-class ConnectedPlayer {
+class ConnectedPlayers {
 
     #mapPlayers
     constructor() {
@@ -27,4 +27,4 @@ class ConnectedPlayer {
     }
 }
 
-export default new ConnectedPlayer();
+export default ConnectedPlayers;

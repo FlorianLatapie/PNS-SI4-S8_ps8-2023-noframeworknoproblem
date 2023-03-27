@@ -1,6 +1,8 @@
 "use strict";
 
-import {API_URL, BASE_URL, NOTIFICATIONS_URL} from "../../path.js";
+import {API_URL, NOTIFICATIONS_API_URL} from "../../util/path.js";
+import {BASE_URL} from "../../util/frontPath.js";
+
 
 function createNotificationRepresentation(notificationInDB) {
     const container = document.createElement('div');
@@ -23,26 +25,14 @@ function createNotificationRepresentation(notificationInDB) {
     actionButton.alt = "Valider l'action de la notification";
 
     deleteButton.addEventListener("click", () => {
-        fetch(BASE_URL + API_URL + NOTIFICATIONS_URL + "delete/" + messageContainer.id, {
-            method: "delete", headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then((response) => {
-            console.log("Get a response ", response.status);
-            if (!response.ok) {
-                console.log("Error while deleting notifications", response.status, response.text())
-                // There is an error
-            }
-            console.log(response.text());
-            messageContainer.remove();
-        }).catch(error => {
-            console.log(error);
-        });
+        deleteNotification(container, messageContainer.id);
     });
 
-    if (notification.action !== null && notification.action !== undefined) {
+    actionButton.addEventListener("click", () => {
+        deleteNotification(container, messageContainer.id);
+    });
+
+    if (notification.action) {
         actionButton.addEventListener("click", () => {
             fetch(BASE_URL + API_URL + notification.action.url, {
                 method: notification.action.method,
@@ -51,7 +41,7 @@ function createNotificationRepresentation(notificationInDB) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: (notification.action.body !== null &&  notification.action.body !== undefined)? JSON.stringify(notification.action.body) : {}
+                body: (notification.action.body) ? JSON.stringify(notification.action.body) : {}
 
             }).then((response) => {
                 if (!response.ok) {
@@ -66,18 +56,45 @@ function createNotificationRepresentation(notificationInDB) {
         })
     }
 
+    if (notification.link) {
+        actionButton.addEventListener("click", () => {
+            window.location.replace(BASE_URL + notification.link);
+        })
+    }
+
+
     message.innerHTML = notification.message;
     messageContainer.appendChild(message);
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(messageContainer);
-    if (notification.action !== null && notification.action !== undefined) {
+    if (notification.action || notification.link) {
         fragment.appendChild(actionButton);
     }
     fragment.appendChild(deleteButton);
     container.appendChild(fragment);
 
     return container;
+}
+
+function deleteNotification(container, notificationId) {
+    fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "delete/" + notificationId, {
+        method: "delete", headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        console.log("Get a response ", response.status);
+        if (!response.ok) {
+            console.log("Error while deleting notifications", response.status, response.text())
+            // There is an error
+        }
+        console.log(response.text());
+        container.remove();
+    }).catch(error => {
+        console.log(error);
+    });
 }
 
 export {createNotificationRepresentation};

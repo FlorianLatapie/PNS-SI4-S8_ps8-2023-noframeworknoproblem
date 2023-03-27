@@ -1,6 +1,7 @@
 "use strict";
 
-import {BASE_URL, HOME_URL} from "../../path.js";
+import {PROFILE_URL, USER_PROFILE_URL} from "../../util/path.js";
+import {BASE_URL} from "../../util/frontPath.js";
 
 function createUserPreviewDiv(userObj) {
     const container = document.createElement('div');
@@ -9,8 +10,15 @@ function createUserPreviewDiv(userObj) {
 
     // TODO change the link to redirect to the user page
     container.addEventListener("click", () => {
-        window.location.replace(BASE_URL + HOME_URL)
+        let destination = BASE_URL + USER_PROFILE_URL + "?userId=" + userObj.userId;
+
+        if (localStorage.getItem("userId") === userObj.userId){
+            destination = BASE_URL + PROFILE_URL;
+        }
+        window.location.replace(destination);
     })
+
+    usernameContainer.classList.add("username");
 
     container.classList.add("user-profile");
     img.classList.add("profile-picture");
@@ -19,7 +27,7 @@ function createUserPreviewDiv(userObj) {
     img.alt = "Image de profil de l'utilisateur.";
 
     usernameContainer.innerHTML = userObj.username;
-    usernameContainer.id = userObj.userId;
+    container.id = userObj.userId;
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(img);

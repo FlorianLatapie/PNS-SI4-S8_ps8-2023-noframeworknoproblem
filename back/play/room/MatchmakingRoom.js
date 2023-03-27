@@ -1,6 +1,7 @@
 import Player from "../../../front/GameLogic/Player.js";
 import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
+import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 
 class MatchmakingRoom {
     #player1;
@@ -19,10 +20,11 @@ class MatchmakingRoom {
 
     #timer;
 
+    // In milliseconds
     #timeToPlay = 10000;
 
 
-    constructor(player1, player2, gameSocket, matchmakingRoomInstances) {
+    constructor(player1, player2, gameSocket) {
         this.#player1 = player1;
         this.#player2 = player2;
         this.#gameSocket = gameSocket;

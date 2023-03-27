@@ -1,6 +1,7 @@
 "use strict";
 
-import {HOME_URL, BASE_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_URL} from "../path.js";
+import {HOME_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_PAGE_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
 const profile = BASE_URL + "/menu/images/user-solid.svg";
@@ -29,7 +30,7 @@ burgerMenuTemplate.innerHTML = `
     <a class="nav-link" href=` + BASE_URL + PROFILE_URL + `>
         <img alt="Profil" src=` + profile + `><button>Profil</button>
     </a>
-    <a class="nav-link" href=` + BASE_URL + NOTIFICATIONS_URL + `>
+    <a class="nav-link" href=` + BASE_URL + NOTIFICATIONS_PAGE_URL + `>
         <img alt="Notifications" src=` + notifications + `><button>Notifications</button>
     </a>
     <a class="nav-link" href=` + BASE_URL + FRIENDS_URL + `>
@@ -62,10 +63,8 @@ class Burgermenu extends HTMLElement {
 
             let navButtons = this.shadowRoot.querySelectorAll("button");
             if (hamburger.classList.contains("active")) {
-                console.log("active");
                 navButtons.forEach(button => button.style.display = "block");
             } else {
-                console.log("not active");
                 navButtons.forEach(button => button.style.display = "none");
             }
         });

@@ -2,6 +2,7 @@
 
 import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
 
+// do not import io, it is imported from the HTML file.
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
 const chatTemplate = document.createElement("template");

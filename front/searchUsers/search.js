@@ -1,23 +1,8 @@
-import {API_URL, BASE_URL, USERS_URL} from "../path.js";
+import {API_URL, USERS_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const usersListContainer = document.getElementById("search-result");
-
-function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
-    // Get the <p> element containing the username in userDiv
-    let usernameElement = userDiv.querySelector("p");
-    let usernameText = usernameElement.innerHTML;
-
-    let dbUsername = completeUser.username.toLowerCase();
-
-    let index = dbUsername.indexOf(searchName);
-    // If the search term is found in the username, make the search term bold
-    if (index !== -1) {
-        let boldElement = document.createElement("b");
-        boldElement.innerHTML = usernameText.substring(index, index + searchName.length);
-        usernameElement.innerHTML = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
-    }
-}
 
 window.addEventListener('load', function () {
     document.getElementById("search-form").addEventListener("submit", function (event) {
@@ -49,6 +34,21 @@ window.addEventListener('load', function () {
     });
 });
 
+function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
+    // Get the <p> element containing the username in userDiv
+    let usernameElement = userDiv.querySelector("p");
+    let usernameText = usernameElement.innerHTML;
+
+    let dbUsername = completeUser.username.toLowerCase();
+
+    let index = dbUsername.indexOf(searchName);
+    // If the search term is found in the username, make the search term bold
+    if (index !== -1) {
+        let boldElement = document.createElement("b");
+        boldElement.innerHTML = usernameText.substring(index, index + searchName.length);
+        usernameElement.innerHTML = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
+    }
+}
 function removeUsersListContent() {
     usersListContainer.innerHTML = ""
 }

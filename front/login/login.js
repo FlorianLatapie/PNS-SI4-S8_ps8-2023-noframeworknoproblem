@@ -1,5 +1,6 @@
 import {parseJwt} from "../util/jwtParser.js";
-import {API_URL, BASE_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
+import {API_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 document.getElementById("signup")
     .setAttribute("href",
@@ -17,12 +18,14 @@ document.getElementById("login-form").addEventListener("submit", function (event
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
     }).then(async (response) => {
-        // if the login worked, we should save the token.
+        if (!response.ok) {
+            alert("Erreur d'authentification");
+            return;
+        }
         let jwtToken = await response.text();
         localStorage.setItem("token", jwtToken);
 
         let parsedJwt = parseJwt(jwtToken);
-        //console.log(parsedJwt);
 
         let username = parsedJwt.username;
         localStorage.setItem("username", username);
