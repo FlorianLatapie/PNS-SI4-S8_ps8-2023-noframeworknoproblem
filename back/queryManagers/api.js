@@ -1,6 +1,6 @@
 "use strict";
 
-// Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
+// code is sorted by request type (GET, POST, DELETE, PUT, OPTIONS)
 
 import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
 import {userLogIn, userSignUp} from "./user/accountApi.js";
@@ -9,12 +9,7 @@ import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFrie
 import {usersApiGet} from "./user/usersApi.js";
 import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
 import {
-    ACHIEVEMENTS_URL,
-    FRIENDS_URL,
-    LOGIN_URL,
-    NOTIFICATIONS_API_URL,
-    SIGNUP_URL,
-    USERS_URL
+    ACHIEVEMENTS_URL, FRIENDS_URL, LOGIN_URL, NOTIFICATIONS_API_URL, SIGNUP_URL, USERS_URL
 } from "../../front/util/path.js";
 
 function manageRequest(request, response) {
@@ -27,76 +22,73 @@ function manageRequest(request, response) {
 
     retrieveParamsQuery(request)
 
-    if (request.method === 'OPTIONS') {
-        sendResponse(response, 200, "OK");
-    } else if (request.method === "POST") {
-        let body = "";
-        request.on('data', function (data) {
-            body += data;
-        });
+    switch (request.method) {
+        case "OPTIONS":
+            sendResponse(response, 200, "OK");
+            break;
+        case "POST":
+            let body = "";
+            request.on('data', function (data) {
+                body += data;
+            });
 
-        request.on('end', function () {
-            putBodyInRequest(request, body)
+            request.on('end', function () {
+                putBodyInRequest(request, body)
 
-            // parse the url and use the right function
-            switch (urlPathArray[0]+"/") {
-                case SIGNUP_URL:
-                    userSignUp(request, response);
-                    break;
-                case LOGIN_URL:
-                    // need to search the user in the database and check error
-                    userLogIn(request, response);
-                    break;
-                case ACHIEVEMENTS_URL:
-                    urlPathArray.shift()
-                    achievementsManager(request, response, urlPathArray);
-                    break;
+                switch (urlPathArray[0] + "/") {
+                    case SIGNUP_URL:
+                        userSignUp(request, response);
+                        break;
+                    case LOGIN_URL:
+                        userLogIn(request, response);
+                        break;
+                    case ACHIEVEMENTS_URL:
+                        urlPathArray.shift()
+                        achievementsManager(request, response, urlPathArray);
+                        break;
+                    case FRIENDS_URL:
+                        urlPathArray.shift()
+                        friendsApiPost(request, response, urlPathArray);
+                        break;
+                    default:
+                        urlNotFound(request, response)
+                }
+            });
+            break;
+        case "GET":
+            switch (urlPathArray[0] + "/") {
                 case FRIENDS_URL:
                     urlPathArray.shift()
-                    friendsApiPost(request, response, urlPathArray);
+                    friendsApiGet(request, response, urlPathArray);
+                    break;
+                case USERS_URL:
+                    urlPathArray.shift()
+                    usersApiGet(request, response, urlPathArray);
+                    break;
+                case NOTIFICATIONS_API_URL:
+                    urlPathArray.shift()
+                    notificationsApiGet(request, response, urlPathArray);
                     break;
                 default:
                     urlNotFound(request, response)
             }
-        });
-    } else if (request.method === "GET") {
-        switch (urlPathArray[0]+"/") {
-            case FRIENDS_URL:
-                urlPathArray.shift()
-                friendsApiGet(request, response, urlPathArray);
-                break;
-            case USERS_URL:
-                urlPathArray.shift()
-                usersApiGet(request, response, urlPathArray);
-                break;
-            case NOTIFICATIONS_API_URL:
-                urlPathArray.shift()
-                notificationsApiGet(request, response, urlPathArray);
-                break;
-            default:
-                urlNotFound(request, response)
-        }
-    } else if (request.method === "PUT") {
-        switch (urlPathArray[0]) { // do not forget to put the +'/' at the end of the url because the const are like that
-            default:
-                urlNotFound(request, response)
-        }
-
-    } else if (request.method === "DELETE") {
-        switch (urlPathArray[0] + "/") {
-            case FRIENDS_URL:
-                urlPathArray.shift()
-                friendsApiDelete(request, response, urlPathArray);
-                break;
-            case NOTIFICATIONS_API_URL:
+            break;
+        case "DELETE":
+            switch (urlPathArray[0] + "/") {
+                case FRIENDS_URL:
+                    urlPathArray.shift()
+                    friendsApiDelete(request, response, urlPathArray);
+                    break;
+                case NOTIFICATIONS_API_URL:
                     urlPathArray.shift()
                     notificationsApiDelete(request, response, urlPathArray);
                     break;
-            default:
-                urlNotFound(request, response)
-        }
-    } else {
-        urlNotFound(request, response)
+                default:
+                    urlNotFound(request, response)
+            }
+            break;
+        default:
+            urlNotFound(request, response);
     }
 }
 
