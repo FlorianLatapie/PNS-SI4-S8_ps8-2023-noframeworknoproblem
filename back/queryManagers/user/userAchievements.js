@@ -23,6 +23,8 @@ export function achievementsManager(request, response, urlPathArray) {
 function getAllAchievements(request, response) {
     let data = request[BODY];
     let token = data.token;
+    let userId = data.userId;
+
     try {
         jwt.verify(token, JWTSecretCode)
     } catch (err) {
@@ -30,7 +32,6 @@ function getAllAchievements(request, response) {
         return;
     }
 
-    let userId = jwt.decode(token).userId;
     achievementdb.getAchievementsForUser(userId).then((achievements) => {
         console.log("Achievements: ", achievements);
         sendResponse(response, 200, JSON.stringify(achievements));
@@ -43,6 +44,7 @@ function getAllAchievements(request, response) {
 export function addAchievements(request, response) {
     let data = request[BODY];
     let token = data.token;
+
     try {
         jwt.verify(token, JWTSecretCode)
     } catch (err) {
