@@ -134,9 +134,12 @@ gameSocket.on('connection', (socket) => {
 
     if (connectedPlayers.isPlayerConnected(socket.userId)) {
         gameSocket.to(socket.id).emit("error", "You are already connected");
+        console.log("Player " + socket.username + " tried to connect but is already connected");
         socket.disconnect();
         return;
     }
+
+    console.log("Player " + socket.username + " connected");
 
     connectedPlayers.addPlayer(socket);
 
@@ -151,10 +154,12 @@ gameSocket.on('connection', (socket) => {
     });
 
     socket.once('challenge_request', (id_challenged) => {
+        console.log("challenge request received from " + socket.username + " to " + id_challenged)
         challengeController.challengeRequest(socket, id_challenged);
     });
 
     socket.once('challenge_accepted', (id_challenge_sender) => {
+        console.log("challenge accepted received from " + socket.username + " to " + id_challenge_sender)
         challengeController.challengeAccepted(socket, id_challenge_sender);
     });
 

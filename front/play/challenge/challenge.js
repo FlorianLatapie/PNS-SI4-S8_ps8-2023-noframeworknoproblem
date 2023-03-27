@@ -33,13 +33,16 @@ function checkData() {
 
 function launchChallenge() {
     if (!checkData()) {
+        console.log("ERROR : Data are not valid");
         return;
     }
 
     // Here the data are valid
-    if (is_new_challenge === true) {
+    if (is_new_challenge === 'true') {
+        console.log("New challenge");
         socketMatchmaking.newChallenge(opponent_id);
-    } else if (is_new_challenge === false) {
+    } else if (is_new_challenge === 'false') {
+        console.log("Accept challenge");
         socketMatchmaking.acceptChallenge(opponent_id);
     }
 }
