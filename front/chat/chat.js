@@ -1,6 +1,7 @@
 "use strict";
 
-import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
+import {API_URL, FRIENDS_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 // do not import io, it is imported from the HTML file.
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
@@ -137,7 +138,8 @@ class Chat extends HTMLElement {
             chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
             name.innerHTML = this.#friendSelected.username;
             this.#messageToSkip = 0;
-            chatSocket.emit("getMessages", this.#userId, this.#friendSelected.userId, this.#messageToGet, this.#messageToSkip);
+            chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
+            //chatSocket.emit("getMessages", this.#userId, this.#friendSelected.userId, this.#messageToGet, this.#messageToSkip);
         });
     }
 
