@@ -1,4 +1,4 @@
-import {API_URL, FRIENDS_URL} from "../util/path.js";
+import {API_URL, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 import {BASE_URL} from "../util/frontPath.js";
 
@@ -6,6 +6,9 @@ const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");
 const requestsListContainer = document.getElementById("users-requests");
 window.addEventListener('load', getAllData);
+
+const OPPONENT_ID = "opponent_id";
+const IS_NEW_CHALLENGE = "is_new_challenge";
 
 function getAllData() {
     fetch(BASE_URL + API_URL + FRIENDS_URL + "getAll", {
@@ -33,15 +36,22 @@ function addFriendToContainer(friend) {
     const friendContainer = document.createElement('div')
     const friendDiv = createUserPreviewDiv(friend);
     const removeButton = document.createElement('button');
+    const challengeButton = document.createElement('button');
 
     friendContainer.classList.add("flex-row");
 
     removeButton.innerHTML = "Supprimer";
     removeButton.addEventListener("click", () => callFriendAPI("delete", "removeFriend", friendDiv.getElementsByTagName("p")[0].id));
 
+    challengeButton.innerHTML = "Défier";
+    challengeButton.addEventListener("click", () => {
+        window.location.replace(BASE_URL + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${friendDiv.getElementsByTagName("p")[0].id}&${IS_NEW_CHALLENGE}=true`)
+    });
+
     const fragment = document.createDocumentFragment();
     fragment.appendChild(friendDiv);
     fragment.appendChild(removeButton);
+    fragment.appendChild(challengeButton);
 
     friendContainer.appendChild(fragment);
     friendsListContainer.appendChild(friendContainer);

@@ -34,6 +34,7 @@ class ChallengeController {
         frienddb.isInFriends(player.userId, id_receiver).then(() => {
             // add the challenge to the challenge manager
             challengeManager.newChallenge(player.userId, id_receiver);
+            console.log("Before sending the notification");
             SendNotifications.sendNotificationChallengeRequest(id_receiver, player.userId, player.username);
         }).catch((err) => {
             this.#gameSocket.to(player.id).emit("error", err + "");

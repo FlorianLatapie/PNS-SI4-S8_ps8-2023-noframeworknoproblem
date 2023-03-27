@@ -48,8 +48,13 @@ class SendNotifications {
 
     // ----------------------------------------- CHALLENGE REQUEST ----------------------------------------------
     static sendNotificationChallengeRequest(receiverId, userId, username) {
-        // TODO : change the url to the game
-        let url = `play/challenge?challenger=${userId}`;
+        // Those are the same as in the challenge.js file in the front
+
+        console.log("sendNotificationChallengeRequest", receiverId, userId, username)
+        const OPPONENT_ID = "opponent_id";
+        const IS_NEW_CHALLENGE = "is_new_challenge";
+
+        let url = `play/challenge?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
         let notification = new Notification(`Demande de défi reçu par ${username}` , null, url);
         SendNotifications.#sendNotification(receiverId, notification);
     }

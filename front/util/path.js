@@ -24,6 +24,9 @@ const PLAY_AI_ORDER_URL = 'play/ai/order/';
 ///// Matchmaking
 const PLAY_MATCHMAKING_URL = 'play/matchmaking/';
 
+//// Challenge
+const PLAY_CHALLENGE_URL = 'play/challenge/';
+
 // API -----------------------------------------------------------------------------------------------------------------
 
 // login, signup, friends,
@@ -52,5 +55,6 @@ export {
     API_URL,
     ACHIEVEMENTS_URL,
     USERS_URL,
-    NOTIFICATIONS_API_URL
+    NOTIFICATIONS_API_URL,
+    PLAY_CHALLENGE_URL
 };
