@@ -1,8 +1,10 @@
 "use strict";
 
-import {BASE_URL} from "../path.js";
-import frienddb from "../../back/database/frienddb.js";
-import chatdb from "../../back/database/chatdb.js";
+import {API_URL, FRIENDS_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
+
+// do not import io, it is imported from the HTML file.
+const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
 const chatTemplate = document.createElement("template");
 
@@ -23,41 +25,19 @@ chatTemplate.innerHTML = `
     <h2>
       Contacts
     </h2>
-    <div class="contact">
-      <div class="name">
-      </div>
-      <div class="message">
-      </div>
-    </div>
   </div>
   <div class="chat">
     <div class="contact bar">
-      <div class="name">
-        Tony Stark
-      </div>
-      <div class="seen">
+      <div class="name" id="friendSelected">
       </div>
     </div>
     <div class="messages" id="chat">
-      <div class="message parker">
-      </div>
-      <div class="message stark">
-      </div>
-      <div class="message parker">
-      </div>
-      <div class="message parker">
-      </div>
-      <div class="message stark">
-      </div>
-<!--      <div class="message stark">
-        <div class="typing typing-1"></div>
-        <div class="typing typing-2"></div>
-        <div class="typing typing-3"></div>
-      </div>-->
     </div>
-    <div class="input">
-      <i class="fas fa-camera"></i><i class="far fa-laugh-beam"></i><input placeholder="Type your message here!" type="text" /><i class="fas fa-microphone"></i>
-    </div>
+    <form class="input">
+      <input placeholder="Type your message here!" type="text" class="message-input"/>
+      <button type="submit">
+        <i class="send-button">Envoyer</i>
+    </form>
   </div>
 </div>
 
@@ -69,34 +49,137 @@ chatTemplate.innerHTML = `
 class Chat extends HTMLElement {
     #userId;
     #friends;
+    #LastMessage;
+    #friendSelected;
+    #messageToGet;
+    #messageToSkip;
 
-    constructor(userId) {
+    constructor() {
         super();
         this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(chatTemplate.content.cloneNode(true));
-        this.#userId = userId;
-
+        this.#userId = localStorage.getItem("userId");
+        this.#messageToGet = 10;
+        this.#messageToSkip = 0;
+        this.#LastMessage = "No message";
     }
 
     async connectedCallback() {
-        //this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
+        this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
+        this.#addSocketEvent();
         let contacts = this.shadowRoot.querySelector(".contacts");
-        let contact = document.createElement("div");
-        let name = document.createElement("div");
-        let message = document.createElement("div");
-        contact.classList.add("contact");
-        name.classList.add("name");
-        message.classList.add("message");
-        this.#friends = await frienddb.getFriends(this.#friends);
-        for(let i = 0; i < this.#friends.length; i++){
-            name.innerHTML = this.#friends[i].name;
-            message.innerHTML = await chatdb.getLastReceivedMessage(this.#friends[i].id, this.#userId);
+        this.#friends = fetch(BASE_URL + API_URL + FRIENDS_URL + 'getFriends' + "/" + this.#userId, {
+            method: 'get', headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Error while calling API (button) " + response.status)
+            }
+            return response.json();
+        }).then((data) => {
+            return data;
+        }).catch(error => {
+            console.log(error);
+        });
+        this.#friends = await this.#friends;
+        for (let i = 0; i < this.#friends.length; i++) {
+            let contact = document.createElement("div");
+            let name = document.createElement("div");
+            let message = document.createElement("div");
+            contact.classList.add("contact");
+            name.classList.add("name");
+            message.classList.add("message");
+            // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
+            message.id = "a"+this.#friends[i].userId;
+            name.innerHTML = this.#friends[i].username;
+            chatSocket.emit("getLastMessage", this.#userId, this.#friends[i].userId);
+            message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
             fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
+            this.#addFriendSelector();
         }
+        this.#friendSelected = this.#friends[0];
+        let name = this.shadowRoot.querySelector("#friendSelected");
+        name.innerHTML = this.#friendSelected.username;
+        this.#addEventSubmit();
+        this.#retrieveMessages();
+    }
+
+    #addSocketEvent() {
+        chatSocket.on("getLastMessageFromBack", (message, user2) => {
+            if(message.length !== 0) {
+                let id = "#a"+user2;
+                let messageDiv = this.shadowRoot.querySelector(id);
+                messageDiv.innerHTML = message[0].message;
+            }
+        });
+    }
+
+    #addFriendSelector(){
+        let contacts = this.shadowRoot.querySelector(".contacts");
+        let contact = contacts.lastChild;
+        contact.addEventListener("click", (e) => {
+            //e.preventDefault();
+            this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
+            let name = this.shadowRoot.querySelector("#friendSelected");
+            chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
+            name.innerHTML = this.#friendSelected.username;
+            this.#messageToSkip = 0;
+            this.#retrieveMessages();
+        });
+    }
+
+
+    #addEventSubmit() {
+        let submitForm = this.shadowRoot.querySelector(".input");
+        let submitButton = this.shadowRoot.querySelector(".send-button");
+        submitButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (submitForm.querySelector(".message-input").value !== "") {
+                let message = submitForm.querySelector(".message-input").value;
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
+                submitForm.querySelector(".message-input").value = "";
+                this.#messageToSkip = 0;
+                this.#retrieveMessages();
+            }
+        });
+        submitForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (submitForm.querySelector(".message-input").value !== "") {
+                let message = submitForm.querySelector(".message-input").value;
+                chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
+                submitForm.querySelector(".message-input").value = "";
+                this.#messageToSkip = 0;
+                this.#retrieveMessages();
+            }
+        });
+    }
+
+
+    #retrieveMessages() {
+        let chat = this.shadowRoot.querySelector("#chat");
+        if(this.#messageToSkip === 0) chat.innerHTML = "";
+        chatSocket.emit("getMessages", this.#userId, this.#friendSelected.userId, this.#messageToGet, this.#messageToSkip);
+        chatSocket.once("getMessagesFromBack", (messages) => {
+            for (let i = 0; i < messages.length; i++) {
+                let message = document.createElement("div");
+                message.classList.add("message");
+                if (messages[i].idSender === this.#userId) {
+                    message.classList.add("sender");
+                } else {
+                    message.classList.add("receiver");
+                }
+                message.innerHTML = messages[i].message;
+                chat.prepend(message);
+            }
+            if (messages.length !== undefined) this.#messageToSkip += messages.length;
+        });
     }
 
 }

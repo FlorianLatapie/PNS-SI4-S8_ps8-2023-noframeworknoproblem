@@ -1,10 +1,10 @@
 import chatdb from "../database/chatdb.js";
 
-class chatManager {
+export default class chatManager {
     #user1;
     #user2;
 
-    constructor(chatSocket, user1, user2) {
+    constructor(user1, user2) {
         this.#user1 = user1;
         this.#user2 = user2;
     }
@@ -16,8 +16,8 @@ class chatManager {
             });
     }
 
-    getMessages = async () => {
-        return await chatdb.getMessages(this.#user1, this.#user2)
+    getMessages = async (numberMessagesToGet, numberMessagesToSkip) => {
+        return await chatdb.getMessages(this.#user1, this.#user2, numberMessagesToGet, numberMessagesToSkip)
             .catch((err) => {
                 console.log(err);
             });
@@ -38,4 +38,4 @@ class chatManager {
     }
 }
 
-export default chatManager;
+//export default new chatManager();

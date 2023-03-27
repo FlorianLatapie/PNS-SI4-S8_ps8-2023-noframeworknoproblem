@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" href="../images/icon.png" type="image/png" sizes="32x32">
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
+
     <title>S'inscrire</title>
+
     <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="./signup.css" rel="stylesheet">
-    <script type="module" src="../util/guards/guardLoginSignUp.js"></script>
+
+    <script src="../util/guards/guardLoginSignUp.js" type="module"></script>
 </head>
 <body>
 
 <header>
-    <h1 id="page-title">S'inscrire</h1>
+    <div class="page-title"><h1>S'inscrire</h1></div>
 </header>
 
 <main>
     <div id="button-container">
-       <form id="signup-form">
-        <input class="text-input" type="email" name="email" placeholder="Email" id="signup-email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$"
-               required>
-        <input class="text-input" type="text" name="username" placeholder="Nom d'utilisateur" id="signup-username" maxlength="16"
-               required>
-        <input class="text-input" type="password" name="password" placeholder="Mot de passe" id="signup-password" required>
-        <button class="home-button" id="signup-button">S'inscrire</button>
-       </form>
+        <form id="signup-form">
+            <input class="text-input" id="signup-email" name="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Email"
+                   required
+                   type="email">
+            <input class="text-input" id="signup-username" maxlength="16" name="username" placeholder="Nom d'utilisateur"
+                   required
+                   type="text">
+            <input class="text-input" id="signup-password" name="password" placeholder="Mot de passe" required
+                   type="password">
+            <button class="home-button" id="signup-button">S'inscrire</button>
+        </form>
 
-    <div class="text half-home-button bottom">
-        <p>Vous possédez un compte ?</p>
-        <button class="signup half-home-button"><a id="login">Connectez-vous !</a></button>
-    </div>
+        <div class="text half-home-button bottom">
+            <p>Vous possédez un compte ?</p>
+            <button class="signup half-home-button"><a id="login">Connectez-vous !</a></button>
+        </div>
     </div>
 
 </main>
-<script type="module" src="./signup.js"></script>
+<script src="./signup.js" type="module"></script>
 </body>
 </html>

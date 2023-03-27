@@ -119,13 +119,20 @@ class UserDb {
     async getUsersByNameRegex(name) {
         await this.verifyConnection();
 
-        // start with the content of name
+        // contains the name in the username
         // flags i for case-insensitive
-        let res = await this.users.find({username: new RegExp('^' + name, 'i')}, {projection: {password: 0, mail: 0}}).toArray();
+        let res = await this.users.find(
+            {username: new RegExp(name, 'i')},
+            {projection:
+                    {password: 0, mail: 0}
+            }
+        ).toArray();
+
         res.forEach(e => {
             e["userId"] = e["_id"].toString();
             delete e["_id"];
         });
+
         return res;
     }
 

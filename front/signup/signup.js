@@ -1,4 +1,5 @@
-import {API_URL, BASE_URL, LOGIN_URL, SIGNUP_URL} from "../path.js";
+import {API_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 document.getElementById("login")
     .setAttribute("href",
@@ -18,7 +19,10 @@ window.addEventListener('load', function () {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
         }).then((response) => {
-            console.log(response);
+            if (!response.ok){
+                alert("An error has occurred");
+                return;
+            }
             if (response.status === 201) {
                 window.location.replace(BASE_URL + LOGIN_URL);
             }

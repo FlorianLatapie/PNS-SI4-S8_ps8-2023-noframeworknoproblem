@@ -1,18 +1,24 @@
 "use strict";
 
-import {BASE_URL, HOME_URL} from "../../path.js";
+import {PROFILE_URL, USER_PROFILE_URL} from "../../util/path.js";
+import {BASE_URL} from "../../util/frontPath.js";
 
-function createUserRepresentation(userObj) {
+function createUserPreviewDiv(userObj) {
     const container = document.createElement('div');
     const img = document.createElement('img');
     const usernameContainer = document.createElement('p');
 
     // TODO change the link to redirect to the user page
     container.addEventListener("click", () => {
-        window.location.replace(BASE_URL + HOME_URL)
+        let destination = BASE_URL + USER_PROFILE_URL + "?userId=" + userObj.userId;
+
+        if (localStorage.getItem("userId") === userObj.userId){
+            destination = BASE_URL + PROFILE_URL;
+        }
+        window.location.replace(destination);
     })
 
-    container.classList.add("flex-row", "user-profile");
+    container.classList.add("user-profile");
     img.classList.add("profile-picture");
 
     img.src = "../images/user-solid.svg";
@@ -29,4 +35,4 @@ function createUserRepresentation(userObj) {
     return container;
 }
 
-export {createUserRepresentation};
+export {createUserPreviewDiv};

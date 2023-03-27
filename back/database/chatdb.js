@@ -37,16 +37,16 @@ class ChatDb {
         }
     }
 
-    //TODO: changer pour récupérer seulement X messages
-    async getMessages(idSender, idReceiver){
+    async getMessages(idSender, idReceiver, numberMessagesToGet, numberMessagesToSkip) {
         await this.verifyConnection();
         try {
-            return await this.chats.find({
+            let messages = await this.chats.find({
                 $or: [
                     {idSender: idSender, idReceiver: idReceiver},
                     {idSender: idReceiver, idReceiver: idSender}
-                ]
-            }).toArray();
+                ]});
+            return await messages.sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
+            .toArray();
         } catch (error) {
             console.error(error);
         }
@@ -58,7 +58,6 @@ class ChatDb {
             this.chats.updateMany({
                 idSender: idSender,
                 idReceiver: idReceiver,
-                read: false
             }, {
                 $set: {
                     read: true
@@ -72,11 +71,15 @@ class ChatDb {
     async getLastReceivedMessage(idSender, idReceiver){
         await this.verifyConnection();
         try {
-            return await this.chats.find({
-                idSender: idSender,
-                idReceiver: idReceiver,
-                read: false
-            }).sort({sentDate: -1}).limit(1).toArray();
+            let messages = await this.chats.find({
+                $or: [
+                    {idSender: idSender, idReceiver: idReceiver},
+                    {idSender: idReceiver, idReceiver: idSender}
+                ]});
+            return await messages.sort({sentDate: -1}).limit(1)
+                .toArray();
+            /*console.log("Last Message in db", await messages.toArray());
+            return messages;*/
         } catch (error) {
             console.error(error);
         }

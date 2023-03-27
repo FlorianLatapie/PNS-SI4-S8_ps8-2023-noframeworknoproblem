@@ -1,6 +1,8 @@
 "use strict";
 
-import {API_URL, BASE_URL, NOTIFICATIONS_URL} from "../../path.js";
+import {API_URL, NOTIFICATIONS_API_URL} from "../../util/path.js";
+import {BASE_URL} from "../../util/frontPath.js";
+
 
 function createNotificationRepresentation(notificationInDB) {
     const container = document.createElement('div');
@@ -23,7 +25,7 @@ function createNotificationRepresentation(notificationInDB) {
     actionButton.alt = "Valider l'action de la notification";
 
     deleteButton.addEventListener("click", () => {
-        fetch(BASE_URL + API_URL + NOTIFICATIONS_URL + "delete/" + messageContainer.id, {
+        fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "delete/" + messageContainer.id, {
             method: "delete", headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 'Accept': 'application/json',

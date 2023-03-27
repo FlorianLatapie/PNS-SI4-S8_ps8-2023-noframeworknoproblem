@@ -26,6 +26,7 @@ import achievementdb from "./database/achievementdb.js";
 import connectedPlayer from "./socket/PermanentSocketPlayers.js";
 import ChallengeController from "./play/challenge/ChallengeController.js";
 import ConnectedPlayers from "./socket/ConnectedPlayers.js";
+import chatManager from "./socket/chatManager.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -51,7 +52,7 @@ let httpServer = http.createServer(function (request, response) {
 
         }
     } catch (error) {
-        displayACaughtError(error,`error while processing ${request.url}:`)
+        displayACaughtError(error, `error while processing ${request.url}:`)
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
@@ -68,7 +69,8 @@ const io = new Server(httpServer, {
 });
 
 // main ----------------------------------------------------------------------------------------------------------------
-const gameSocket = io.of("/api/game")
+const gameSocket = io.of("/api/game");
+const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
 // removes all the games from the database when the server starts/restarts
@@ -78,6 +80,7 @@ gamedb.removeAllGames().then(() => {
 userstatsdb.removeAllStats().then(() => {
     console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
 });
+
 /*achievementdb.removeAllAchievements().then(() => {
     console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
 });*/
@@ -105,10 +108,14 @@ gameSocket.use((socket, next) => {
     authenticate(socket, next);
 });
 
+chatSocket.use((socket, next) => {
+    authenticate(socket, next);
+});
+
 // Connection ----------------------------------------------------------------------------------------------------------
 
 let verifyObjectSetup = (setupObject) => {
-    let schema = {AIplays : 'number'}
+    let schema = {AIplays: 'number'}
     let newObject = jsonValidator(setupObject, schema);
 
     if (newObject.AIplays !== 1 && newObject.AIplays !== 2) {
@@ -168,4 +175,48 @@ permanentSocket.on('connection', (socket) => {
         connectedPlayer.removePlayer(socket);
     });
 });
+
+// Chat ---------------------------------------------------------------------------------------------------------------
+chatSocket.on('connection', (socket) => {
+    console.log("Socket id chat : " + socket.id);
+
+    socket.on('sendMessage', (message, user1, user2) => {
+        console.log("message received : " + message);
+        let chat = new chatManager(user1, user2);
+        chat.addMessage(message).then(() => {
+            console.log("message added to the database");
+        }).catch(e => {
+            console.log("error while adding the message to the database");
+            console.log(e);
+        });
+
+    });
+
+    socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
+        let chat = new chatManager(user1, user2);
+        let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
+        chatSocket.emit('getMessagesFromBack', await messages);
+    });
+
+    socket.on('read', (user1, user2) => {
+        let chat = new chatManager(user1, user2);
+        chat.readMessages().then(() => {
+            console.log("messages read");
+        }).catch(e => {
+            console.log("error while reading the messages");
+            console.log(e);
+        });
+    });
+
+    socket.on('getLastMessage', async (user1, user2) => {
+        let chat = new chatManager(user1, user2);
+        let lastMessage = chat.getLastMessage();
+        socket.emit('getLastMessageFromBack', await lastMessage, user2);
+    });
+
+    socket.on('disconnect', () => {
+        console.log("Socket id chat : " + socket.id + " disconnected");
+    });
+});
+
 

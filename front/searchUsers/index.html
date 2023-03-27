@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
+
     <meta charset="UTF-8">
-    <title>Recherche d'utilisateurs</title>
+    <title>Recherche d'amis</title>
+
+    <script src="search.js" type="module"></script>
+
     <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="search.css" rel="stylesheet">
-    <script type="module" src="../menu/burgermenu.js"></script>
+
+    <script src="../menu/burgermenu.js" type="module"></script>
     <script src="../util/guards/guard.js" type="module"></script>
     <script src="../util/updateUsernameDiv.js" type="module"></script>
-    <script type="module" src="search.js"></script>
 </head>
 <body>
 
@@ -20,18 +25,17 @@
 
 <div id="bottom-content">
     <burger-menu></burger-menu>
-    <main class="flex-column">
+    <main>
         <form id="search-form">
-            <input id="form-username" class="text-input" name="search" placeholder="Nom d'utilisateur" type="text"
-                   maxlength="16" required>
-            <button name="search-button" type="submit"><img src="../images/search.svg" alt="Bouton de Recherche"/>
+            <input class="text-input" id="form-username" maxlength="16" name="search" placeholder="Nom d'utilisateur"
+                   required type="text">
+            <button name="search-button" type="submit">
+                <img alt="Bouton de Recherche" src="../images/search.svg"/>
             </button>
         </form>
         <div id="search-result"></div>
     </main>
 </div>
-
-
 
 </body>
 </html>

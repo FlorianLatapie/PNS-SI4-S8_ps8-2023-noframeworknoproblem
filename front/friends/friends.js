@@ -1,5 +1,6 @@
-import {API_URL, BASE_URL, FRIENDS_URL} from "../path.js";
-import {createUserRepresentation} from "../templates/userInList/UserRepresentationInList.js";
+import {API_URL, FRIENDS_URL} from "../util/path.js";
+import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL} from "../util/frontPath.js";
 
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");
@@ -30,7 +31,7 @@ function getAllData() {
 
 function addFriendToContainer(friend) {
     const friendContainer = document.createElement('div')
-    const friendDiv = createUserRepresentation(friend);
+    const friendDiv = createUserPreviewDiv(friend);
     const removeButton = document.createElement('button');
 
     friendContainer.classList.add("flex-row");
@@ -48,7 +49,7 @@ function addFriendToContainer(friend) {
 
 function addPendingToContainer(pending) {
     const pendingContainer = document.createElement('div')
-    const pendingDiv = createUserRepresentation(pending);
+    const pendingDiv = createUserPreviewDiv(pending);
     const removeButton = document.createElement('button');
     const acceptButton = document.createElement('button');
 
@@ -70,7 +71,7 @@ function addPendingToContainer(pending) {
 
 function addRequestToContainer(request) {
     const requestContainer = document.createElement('div')
-    const requestDiv = createUserRepresentation(request);
+    const requestDiv = createUserPreviewDiv(request);
     const removeButton = document.createElement('button');
 
     requestContainer.classList.add("flex-row");
