@@ -224,6 +224,33 @@ class FriendDb {
         return objectInDB;
     }
 
+    async isInRequests(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        console.log("isInRequests objectInDB", objectInDB)
+        if (!objectInDB.requests.includes(friendID)) {
+            throw new Error("Friend request from " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+    async isInPending(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        console.log("isInPending objectInDB", objectInDB)
+        if (!objectInDB.pending.includes(friendID)) {
+            throw new Error("Friend pending from " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+    async isInFriends(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        if (!objectInDB.friends.includes(friendID)) {
+            throw new Error("Friend " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+
     async createNewFriendObject(userID) {
         let obj = {
             userId: userID,
