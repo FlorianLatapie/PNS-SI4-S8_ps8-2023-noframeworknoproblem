@@ -156,14 +156,37 @@ permanentSocket.on('connection', (socket) => {
 });
 
 // Chat ---------------------------------------------------------------------------------------------------------------
+
+let chatRooms = [];
 chatSocket.on('connection', (socket) => {
     console.log("Socket id chat : " + socket.id);
 
+    let roomId;
+
+    socket.on('init', async (user1, user2) => {
+        if (user1 < user2) {
+            roomId = user1 + user2;
+        } else {
+            roomId = user2 + user1;
+        }
+        if (!(chatRooms.includes(roomId))) {
+            chatRooms.push(roomId);
+        }
+        socket.join(roomId);
+        console.log("rooms", socket.rooms)
+        let chat = new chatManager(user1, user2);
+        let messages = chat.getMessages(10, 0);
+        chatSocket.to(socket.id).emit('initMessagesFromBack', await messages);
+
+    })
+
     socket.on('sendMessage', (message, user1, user2) => {
-        console.log("message received : " + message);
+        //socket.join(roomId);
+
         let chat = new chatManager(user1, user2);
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
+            //socket.emit('getMessages', user1, user2, 10, 0);
         }).catch(e => {
             console.log("error while adding the message to the database");
             console.log(e);
@@ -174,8 +197,9 @@ chatSocket.on('connection', (socket) => {
     socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
         let chat = new chatManager(user1, user2);
         let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
-        chatSocket.emit('getMessagesFromBack', await messages);
+        socket.to(roomId).emit('getMessagesFromBack', await messages);
     });
+
 
     socket.on('read', (user1, user2) => {
         let chat = new chatManager(user1, user2);
@@ -190,7 +214,7 @@ chatSocket.on('connection', (socket) => {
     socket.on('getLastMessage', async (user1, user2) => {
         let chat = new chatManager(user1, user2);
         let lastMessage = chat.getLastMessage();
-        socket.emit('getLastMessageFromBack', await lastMessage, user2);
+        chatSocket.to(socket.id).emit('getLastMessageFromBack', await lastMessage, user2);
     });
 
     socket.on('disconnect', () => {
