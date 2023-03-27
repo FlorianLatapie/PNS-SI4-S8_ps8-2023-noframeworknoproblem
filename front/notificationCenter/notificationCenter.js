@@ -3,13 +3,40 @@ import {API_URL, NOTIFICATIONS_API_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 
 let container = document.getElementById("notifications-container")
-const DEFAULT_NUMBER_NOTIFICATIONS_TO_GET = 10;
+const DEFAULT_NUMBER_NOTIFICATIONS_TO_GET = 13;
+
+let nbNotificationsReceived = 0;
 
 const permanentSocket = io("/api/permanent", {auth: {token: localStorage.getItem("token")}});
 
-window.window.addEventListener('load', function () {
+window.window.addEventListener('load', () => {
+    getMoreNotifications(0);
+});
+
+window.addEventListener('scroll', () => {
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight - 1;
+    if (window.scrollY >= scrollableHeight) {
+        console.log("Scroll reached the bottom")
+        console.log("Number of notifications received", nbNotificationsReceived)
+        getMoreNotifications(nbNotificationsReceived);
+    }
+});
+
+permanentSocket.on("connect", () => {
+    console.log("Socket connected");
+
+    permanentSocket.on("notificationReceived", (notification) => {
+        console.log("Notification received from Socket", notification);
+
+        // We want to display the notification at the top because it is the most recent
+        container.insertBefore(createNotificationRepresentation(notification), container.firstChild);
+        nbNotificationsReceived++;
+    });
+});
+
+function getMoreNotifications(numberToSkip) {
     fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "get?"
-        + `numberNotificationsToGet=${DEFAULT_NUMBER_NOTIFICATIONS_TO_GET}&numberNotificationsToSkip=0`, {
+        + `numberNotificationsToGet=${DEFAULT_NUMBER_NOTIFICATIONS_TO_GET}&numberNotificationsToSkip=${numberToSkip}`, {
         method: "get", headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
@@ -28,16 +55,6 @@ window.window.addEventListener('load', function () {
         // Notifications are received from the most recent to the oldest
         // We want to display them from the more recent at the top to the oldest at the bottom
         container.appendChild(createNotificationRepresentation(notificationInDB));
+        nbNotificationsReceived++;
     }));
-});
-
-permanentSocket.on("connect", () => {
-    console.log("Socket connected");
-
-    permanentSocket.on("notificationReceived", (notification) => {
-        console.log("Notification received from Socket", notification);
-
-        // We want to display the notification at the top because it is the most recent
-        container.insertBefore(createNotificationRepresentation(notification), container.firstChild);
-    });
-});
+}
