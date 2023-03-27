@@ -4,12 +4,12 @@ import AchievementsDBUtil from "./AchievementsDBUtil.js";
 import userstatsdb from "../database/userstatsdb.js";
 
 export function STATSaddGamePlayed(userId) {
-    let gamesPlayed = -Infinity;
-
     userstatsdb.getStatsForUser(userId).then(function (result) {
-        gamesPlayed = result.gamesPlayed;
+        let gamesPlayed = result.gamesPlayed;
 
+        console.log("gamesPlayed", gamesPlayed)
         if (!Number.isFinite(gamesPlayed)) {
+            console.log("no previous stats found for this user, creating new stats");
             gamesPlayed = 0;
         }
 

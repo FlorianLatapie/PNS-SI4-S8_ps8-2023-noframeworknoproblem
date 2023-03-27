@@ -29,9 +29,9 @@ class UserStatsDb {
 
         try {
             if (!await this.existsStatsForThisUser(userId)){
-                return await this.usersStats.insertOne({userId, stats});
+                return await this.usersStats.insertOne({userId, ...stats});
             } else {
-                return await this.usersStats.updateOne({userId}, {$set: stats});
+                return await this.usersStats.updateOne({userId}, {$set: {userId, ...stats}});
             }
         } catch (error) {
             console.error(error);
@@ -54,7 +54,8 @@ class UserStatsDb {
             if (await this.existsStatsForThisUser(userId)){
                 return await this.usersStats.findOne({userId});
             } else {
-                return {stats: {gamesPlayed: 0}};
+                await this.addStats(userId, this.getDefaultStats());
+                return this.getStatsForUser(userId);
             }
         } catch (error) {
             console.error(error);
@@ -69,6 +70,10 @@ class UserStatsDb {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    getDefaultStats(){
+        return {gamesPlayed: 0}
     }
 }
 
