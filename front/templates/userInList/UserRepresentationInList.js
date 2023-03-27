@@ -18,6 +18,8 @@ function createUserPreviewDiv(userObj) {
         window.location.replace(destination);
     })
 
+    usernameContainer.classList.add("username");
+
     container.classList.add("user-profile");
     img.classList.add("profile-picture");
 
@@ -25,7 +27,7 @@ function createUserPreviewDiv(userObj) {
     img.alt = "Image de profil de l'utilisateur.";
 
     usernameContainer.innerHTML = userObj.username;
-    usernameContainer.id = userObj.userId;
+    container.id = userObj.userId;
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(img);

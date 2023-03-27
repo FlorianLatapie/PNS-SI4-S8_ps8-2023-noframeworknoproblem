@@ -9,10 +9,12 @@ let nbNotificationsReceived = 0;
 
 const permanentSocket = io("/api/permanent", {auth: {token: localStorage.getItem("token")}});
 
+// When the page is loaded, we want to load the first notifications
 window.window.addEventListener('load', () => {
     getMoreNotifications(0);
 });
 
+// When the user scrolls down, we want to load more notifications
 window.addEventListener('scroll', () => {
     const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight - 1;
     if (window.scrollY >= scrollableHeight) {

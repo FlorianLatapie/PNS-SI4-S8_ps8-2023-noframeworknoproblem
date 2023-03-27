@@ -25,23 +25,11 @@ function createNotificationRepresentation(notificationInDB) {
     actionButton.alt = "Valider l'action de la notification";
 
     deleteButton.addEventListener("click", () => {
-        fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "delete/" + messageContainer.id, {
-            method: "delete", headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then((response) => {
-            console.log("Get a response ", response.status);
-            if (!response.ok) {
-                console.log("Error while deleting notifications", response.status, response.text())
-                // There is an error
-            }
-            console.log(response.text());
-            container.remove();
-        }).catch(error => {
-            console.log(error);
-        });
+        deleteNotification(container, messageContainer.id);
+    });
+
+    actionButton.addEventListener("click", () => {
+        deleteNotification(container, messageContainer.id);
     });
 
     if (notification.action) {
@@ -87,6 +75,26 @@ function createNotificationRepresentation(notificationInDB) {
     container.appendChild(fragment);
 
     return container;
+}
+
+function deleteNotification(container, notificationId) {
+    fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "delete/" + notificationId, {
+        method: "delete", headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => {
+        console.log("Get a response ", response.status);
+        if (!response.ok) {
+            console.log("Error while deleting notifications", response.status, response.text())
+            // There is an error
+        }
+        console.log(response.text());
+        container.remove();
+    }).catch(error => {
+        console.log(error);
+    });
 }
 
 export {createNotificationRepresentation};
