@@ -11,7 +11,6 @@ let toPlay;
 let colorPlayer;
 let colorOtherPlayer;
 
-
 function WebPageInteraction() {
     const redDiscCSSClass = "red-disc";
     const yellowDiscCSSClass = "yellow-disc";

@@ -3,10 +3,11 @@
 import Player from "../../../front/GameLogic/Player.js";
 import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
-import {AI} from "../../logic/minMaxAi.js";
+import {AI, setup} from "../../logic/minMaxAi.js";
 import gamedb from "../../database/gamedb.js";
 import {displayACaughtError} from "../../util/util.js";
 import {STATSaddGamePlayed} from "../../object/UserStatsDBUtil.js";
+import GameEngineDBUtil from "../../object/GameEngineDBUtil.js";
 
 class AiRoom {
     #player;
@@ -76,14 +77,13 @@ class AiRoom {
         });
     }
 
-    // TODO : Le problème est que gameEngine.id est undefined je sais pas trop pourquoi à voir plus tard
     saveOrDeleteGame = (gameState) => {
         console.log("Player id ", this.#player.id)
         if (gameState.isFinished === true) {
-            //GameEngineDBUtil.removeGameEngineFromDB(gameEngine.id)
+            GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
             this.#gameIsOverEmit(gameState.winner)
         } else {
-            //GameEngineDBUtil.saveGameEngineToFSAndDB(gameEngine, "./back/savedGames/" + gameEngine.id + ".json")
+            GameEngineDBUtil.saveGameEngineDB(this.#gameEngine);
         }
     }
 
@@ -119,28 +119,38 @@ class AiRoom {
         let column = globalCoordinates[0];
         let row = globalCoordinates[1];
 
-        console.log("Human plays : ", this.#HumanPlayer)
         this.playerPlay(this.#HumanPlayer, column, row);
         return [column, row];
     }
 
     autoPlay = (gameEngineFromDB) => {
+        let firstPlayer, secondPlayer;
+
+        if (gameEngineFromDB.player1.id === this.#HumanPlayer.id){
+            firstPlayer = this.#HumanPlayer;
+            secondPlayer = this.#AIPlayer;
+        } else {
+            firstPlayer = this.#AIPlayer;
+            secondPlayer = this.#HumanPlayer;
+        }
+
         for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
             if (i % 2 === 0) {
-                this.#gameEngine.playTurn(this.#HumanPlayer, gameEngineFromDB.turns[i])
+                this.#gameEngine.playTurn(firstPlayer, gameEngineFromDB.turns[i])
                 let sentBoard = {
                     board: this.#gameEngine.grid.cells
                 }
                 this.#updatedBoardEmit(sentBoard);
             } else {
-                this.#gameEngine.playTurn(this.#AIPlayer, gameEngineFromDB.turns[i])
+                this.#gameEngine.playTurn(secondPlayer, gameEngineFromDB.turns[i])
                 let sentBoard = {
                     board: this.#gameEngine.grid.cells
                 }
                 this.#updatedBoardEmit(sentBoard);
             }
         }
-        console.log(this.#gameEngine.grid.toString())
+
+        this.#ai.grid = this.#gameEngine.grid.cells.map(row => row.map(cell => parseInt(cell)));
     }
 
     reloadGameFromDB = (dbResult, userId) => {
@@ -149,13 +159,15 @@ class AiRoom {
         let gameEngineFromDB = dbResult.gameEngine;
 
         if (gameEngineFromDB.player1.id === userId) {
+            this.#ai.setup(2);
+
             this.#gameEngine = new GameEngine(this.#HumanPlayer, this.#AIPlayer, gameEngineFromDB.id);
-            this.autoPlay(gameEngineFromDB);
         } else {
+            this.#ai.setup(1);
+
             this.#gameEngine = new GameEngine(this.#AIPlayer, this.#HumanPlayer, gameEngineFromDB.id);
-            this.autoPlay(gameEngineFromDB);
-            console.log(this.#gameEngine.grid.toString())
         }
+        this.autoPlay(gameEngineFromDB);
     }
 
     newGame = (AIturn) => {

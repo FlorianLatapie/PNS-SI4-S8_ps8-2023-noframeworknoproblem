@@ -17,13 +17,11 @@ class AI {
     setup(AIplays) {
         // need to initialize the grid
         // need to transform it later to improve performance
-        //console.log("AI setup : ", AIplays);
         this.player = AIplays;
         this.otherPlayer = AIplays === 1 ? 2 : 1;
 
         // initialize a grid with only 0 with a width of 7 and a height of 6
         this.grid = Array.from({length: height}, () => new Array(width).fill(0));
-        //console.log("Setup grid ", this.grid);
         return true;
     }
 
@@ -36,7 +34,6 @@ class AI {
             this.grid[height-1][3] = this.player;
             return [3, 0];
         } else {
-            console.log("first else")
             // update the grid with the last move
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
