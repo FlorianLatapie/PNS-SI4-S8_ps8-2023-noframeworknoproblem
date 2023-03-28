@@ -34,7 +34,7 @@ chatTemplate.innerHTML = `
     <div class="messages" id="chat">
     </div>
     <form class="input">
-      <input placeholder="Type your message here!" type="text" class="message-input"/>
+      <input placeholder="Ecris ton message ici !" type="text" class="message-input"/>
       <button type="submit">
         <i class="send-button">Envoyer</i>
     </form>
@@ -88,18 +88,20 @@ class Chat extends HTMLElement {
         for (let i = 0; i < this.#friends.length; i++) {
             let contact = document.createElement("div");
             let name = document.createElement("div");
-            let message = document.createElement("div");
+            //let message = document.createElement("div");
             contact.classList.add("contact");
             name.classList.add("name");
-            message.classList.add("message");
+            //message.classList.add("message");
             // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
+/*
             message.id = "a" + this.#friends[i].userId;
+*/
             name.innerHTML = this.#friends[i].username;
             chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
-            message.innerHTML = this.#LastMessage;
+            //message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
-            fragment.appendChild(message.cloneNode(true));
+            //fragment.appendChild(message.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
             this.#addFriendSelector();
@@ -113,18 +115,18 @@ class Chat extends HTMLElement {
     }
 
     #addSocketEvent() {
-        chatSocket.on("getLastMessageFromBack", (message, user2) => {
+        /*chatSocket.on("getLastMessageFromBack", (message, user2) => {
             if (message.length !== 0) {
                 let id = "#a" + user2;
                 let messageDiv = this.shadowRoot.querySelector(id);
                 messageDiv.innerHTML = "Dernier message : " + message[0].message;
             }
-        });
+        });*/
         chatSocket.on('initMessagesFromBack', (messages) => {
                 this.#retrieveMessages(messages);
             }
         );
-        chatSocket.on('messageAddedInDb', (message) => {
+        chatSocket.on('messageAddedInDb', () => {
             chatSocket.emit("updateChat", this.#userId, this.#friendSelected.userId);
 
         });
@@ -141,6 +143,7 @@ class Chat extends HTMLElement {
             messageToAdd.innerHTML = message[0].message;
             chat.append(messageToAdd);
             chat.scrollTop = chat.scrollHeight;
+            //chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friendSelected.userId);
         });
     }
 
@@ -149,6 +152,7 @@ class Chat extends HTMLElement {
         let contact = contacts.lastChild;
         contact.addEventListener("click", (e) => {
             //e.preventDefault();
+            chatSocket.emit('leaveRoom');
             this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
             let name = this.shadowRoot.querySelector("#friendSelected");
             chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
@@ -162,8 +166,8 @@ class Chat extends HTMLElement {
     #addEventSubmit() {
         let submitForm = this.shadowRoot.querySelector(".input");
         let submitButton = this.shadowRoot.querySelector(".send-button");
-        submitButton.addEventListener("click", (e) => {
-            e.preventDefault();
+        submitButton.addEventListener("click", (event) => {
+            event.preventDefault();
             if (submitForm.querySelector(".message-input").value !== "") {
                 let message = submitForm.querySelector(".message-input").value;
                 chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);
@@ -171,8 +175,8 @@ class Chat extends HTMLElement {
                 this.#messageToSkip = 0;
             }
         });
-        submitForm.addEventListener("submit", (e) => {
-            e.preventDefault();
+        submitForm.addEventListener("submit", (event) => {
+            event.preventDefault();
             if (submitForm.querySelector(".message-input").value !== "") {
                 let message = submitForm.querySelector(".message-input").value;
                 chatSocket.emit("sendMessage", message, this.#userId, this.#friendSelected.userId);

@@ -247,6 +247,10 @@ chatSocket.on('connection', (socket) => {
         chatSocket.to(roomId).emit('updateChatFromBack', await lastMessage);
     });
 
+    socket.on('leaveRoom', () =>{
+        socket.leave(roomId);
+    })
+
     socket.on('disconnect', () => {
         console.log("Socket id chat : " + socket.id + " disconnected");
     });
