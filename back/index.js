@@ -131,17 +131,7 @@ let challengeController = new ChallengeController(gameSocket, connectedPlayers);
 
 gameSocket.on('connection', (socket) => {
     console.log("Socket id player : " + socket.id);
-
-    if (connectedPlayers.isPlayerConnected(socket.userId)) {
-        gameSocket.to(socket.id).emit("error", "You are already connected");
-        console.log("Player " + socket.username + " tried to connect but is already connected");
-        socket.disconnect();
-        return;
-    }
-
     console.log("Player " + socket.username + " connected");
-
-    connectedPlayers.addPlayer(socket);
 
     socket.once('setup', (setupObject) => {
         socket.removeAllListeners();
@@ -217,13 +207,12 @@ chatSocket.on('connection', (socket) => {
             console.log("error while adding the message to the database");
             console.log(e);
         });
-
     });
 
     socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
         let chat = new chatManager(user1, user2);
         let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
-        socket.to(roomId).emit('getMessagesFromBack', await messages);
+        chatSocket.to(roomId).emit('getMessagesFromBack', await messages);
     });
 
 

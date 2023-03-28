@@ -220,6 +220,15 @@ class WebPageInteraction {
         chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
         chat.style.visibility = "visible";
     }
+
+    opponentLeaved = () => {
+        this.#changeTitlePage("L'adversaire a quitté la partie");
+        alert("L'adversaire a quitté la partie");
+    }
+
+    waitingForOpponent = (username) => {
+        this.#changeTitlePage("En attente de l'adversaire " + username);
+    }
 }
 
 export default WebPageInteraction;

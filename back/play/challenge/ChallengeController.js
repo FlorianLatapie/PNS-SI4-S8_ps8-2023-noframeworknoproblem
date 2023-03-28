@@ -4,6 +4,7 @@ import {MatchmakingRoom} from "../room/MatchmakingRoom.js";
 import userdb from "../../database/userdb.js";
 import frienddb from "../../database/frienddb.js";
 import SendNotifications from "../../socket/SendNotifications.js";
+import notificationdb from "../../database/notificationdb.js";
 
 // TODO : need  to handle you can send challenge to only connected friends
 class ChallengeController {
@@ -19,6 +20,14 @@ class ChallengeController {
         player.removeAllListeners();
         console.log("Player sending challenge ", player.userId);
 
+        if (this.#connectedPlayers.isPlayerConnected(player.userId)) {
+            console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
+            this.#gameSocket.to(player.id).emit("alreadyConnected");
+            this.#connectedPlayers.removePlayer(player.userId);
+            player.disconnect();
+            return;
+        }
+
         // If the player has already sent a challenge, we don't went to add him
         if (challengeManager.hasSentChallenge(player.userId)) {
             console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
@@ -28,6 +37,7 @@ class ChallengeController {
             return;
         }
 
+        this.#connectedPlayers.addPlayer(player);
         this.handlePlayerDisconnection(player);
 
         // need to check the id of the receiver is valid and it is a friend
@@ -45,12 +55,22 @@ class ChallengeController {
         player.removeAllListeners();
         console.log("Player accepting challenge ", player.userId);
 
-        if (! challengeManager.acceptChallenge(player.userId, id_challenge_sender)) {
-            this.#gameSocket.to(player.id).emit("error", "The challenge is not valid");
+        if (this.#connectedPlayers.isPlayerConnected(player.userId)) {
+            console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
+            this.#gameSocket.to(player.id).emit("alreadyConnected");
             this.#connectedPlayers.removePlayer(player.userId);
             player.disconnect();
             return;
         }
+
+        if (! challengeManager.acceptChallenge(player.userId, id_challenge_sender)) {
+            this.#gameSocket.to(player.id).emit("invalidChallenge", "The challenge is not valid");
+            this.#connectedPlayers.removePlayer(player.userId);
+            player.disconnect();
+            return;
+        }
+
+        this.#connectedPlayers.addPlayer(player);
 
         this.handlePlayerDisconnection(player);
 

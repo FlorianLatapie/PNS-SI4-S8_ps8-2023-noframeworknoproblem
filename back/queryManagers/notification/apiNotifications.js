@@ -20,6 +20,7 @@ function notificationsApiGet(request, response, urlPathArray) {
         },
         required: ["numberNotificationsToSkip", "numberNotificationsToGet"]
     }
+
     switch (urlPathArray[0]) {
         case "get":
             console.log("Enter in notificationsApiGet get case");
@@ -31,7 +32,6 @@ function notificationsApiGet(request, response, urlPathArray) {
                 sendResponse(response, 400, "Bad request : Query is not valid");
                 return;
             }
-
 
             if (!(checkStringIsPositiveInteger(paramsObject.numberNotificationsToSkip)
                 && checkStringIsPositiveInteger(paramsObject.numberNotificationsToGet))) {
