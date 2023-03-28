@@ -80,7 +80,7 @@ let setupAI = function (AIplayTurn) {
     }
 
     gameSocket.emit("setup", {AIplays: AIplayTurn})
-    console.log("setup", {AIplays: AIplayTurn})
+    //console.log("setup", {AIplays: AIplayTurn})
 }
 
 let play = function (clickRow, clickColumn) {
@@ -89,7 +89,7 @@ let play = function (clickRow, clickColumn) {
 
     // emit the event of the play not working yet
     gameSocket.emit("newMove", [+column, +row]);
-    console.log("newMove", [column, row]);
+    //console.log("newMove", [column, row]);
     return new Position(column, row)
 }
 
@@ -100,8 +100,8 @@ if (AITurn === null) {
     AITurn = 2;
 }
 gameSocket.on("connect", () => {
-    console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
-    console.log("token: " + localStorage.getItem("token"));
+    //console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
+    //console.log("token: " + localStorage.getItem("token"));
 
     setupAI(+AITurn);
 
@@ -126,7 +126,7 @@ gameSocket.on("connect", () => {
     })
 
     gameSocket.on("gameIsOver", (winner) => {
-        console.log("gameIsOver received:", winner)
+        //console.log("gameIsOver received winner is :", winner)
         let divWinner = document.getElementById("show-winner");
         let close = document.getElementById("cross");
         let winnerText = document.getElementById("winner-text");

@@ -40,13 +40,11 @@ class GameDb {
 
     async getGamePlayerId(player) {
         await this.verifyConnection();
-        let game;
         try {
-            game = await this.games.findOne({$or: [{player1: player}, {player2: player}]});
+            return await this.games.findOne({$or: [{player1: player}, {player2: player}]});
         } catch (error) {
-            console.error(error);
+            throw new Error("Game not found for player: " + player);
         }
-        return game;
     }
 
     async existsGameGameEngineId(data) {
