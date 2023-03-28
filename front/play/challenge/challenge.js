@@ -16,7 +16,7 @@ webPageInteraction.setSocketMatchmaking(socketMatchmaking);
 launchChallenge();
 
 function checkData() {
-    if (opponent_id === null) {
+    if (!opponent_id) {
         console.log("ERROR : No opponent id found in url", opponent_id);
         return false;
     }

@@ -128,11 +128,11 @@ class WebPageInteraction {
     }
 
     playerTurnMessage = () => {
-        this.#changeTitlePage("A ton tour");
+        this.#changeInfoPage("A ton tour");
     }
 
     otherPlayerTurnMessage = () => {
-        this.#changeTitlePage("Au tour de l'adversaire");
+        this.#changeInfoPage("Au tour de l'adversaire");
     }
 
     waitingForOtherPlayerMessage = () => {
@@ -140,6 +140,10 @@ class WebPageInteraction {
     }
     #changeTitlePage = (title) => {
         document.getElementById("page-title").innerText = title;
+    }
+
+    #changeInfoPage = (info) => {
+        document.getElementById("info").innerText = info;
     }
 
     gameIsOver = (winner) => {
@@ -220,6 +224,10 @@ class WebPageInteraction {
         }, 5000);
         chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
         chat.style.visibility = "visible";
+    }
+
+    displayOpponent = (opponentUsername) => {
+        this.#changeTitlePage("Adversaire : " + opponentUsername);
     }
 }
 

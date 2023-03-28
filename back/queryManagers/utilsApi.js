@@ -24,8 +24,9 @@ function checkAuthorization(request) {
     let userToken = request.headers.authorization.split(" ")[1];
 
     try {
-        request[USER_ID] = validateJwt(userToken).userId;
-        request[USERNAME] = validateJwt(userToken).username;
+        let decoded = validateJwt(userToken);
+        request[USER_ID] = decoded.userId;
+        request[USERNAME] = decoded.username;
     } catch (err) {
         return false;
     }

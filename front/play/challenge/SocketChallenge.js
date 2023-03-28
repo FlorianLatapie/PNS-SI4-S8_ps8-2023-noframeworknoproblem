@@ -30,7 +30,7 @@ class SocketChallenge {
             this.#gameSocket.on("updatedBoard", this.#updatedBoardFunction);
             this.#gameSocket.on("gameIsOver", this.#gameIsOverFunction);
             this.#gameSocket.on("setup", this.#setupFunction);
-            this.#gameSocket.on("waitingForOpponent", this.#waitingForOpponentFunction);
+            this.#gameSocket.on("invalidChallenge", this.#opponentLeaved);
             this.#gameSocket.on("reconnect", this.#reconnectFunction);
             this.#gameSocket.on("alreadyConnected", this.#alreadyConnectedFunction);
             this.#gameSocket.on("timer", this.#timerFunction);
@@ -75,7 +75,7 @@ class SocketChallenge {
         clearInterval(this.#interval);
     }
 
-    #setupFunction = (OpponentTurn) => {
+    #setupFunction = (OpponentTurn, opponentUsername) => {
         console.log("setup received OpponentTurn: " + OpponentTurn)
         let toPlay;
         let colorPlayer;
@@ -93,6 +93,12 @@ class SocketChallenge {
             this.#webPageInteraction.playerTurnMessage();
         }
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
+        this.#webPageInteraction.displayOpponent(opponentUsername);
+    }
+
+    #opponentLeaved = () => {
+        console.log("opponent leaved received");
+        this.#webPageInteraction.opponentLeaved();
     }
 
     #waitingForOpponentFunction = () => {

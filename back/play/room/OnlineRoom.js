@@ -3,7 +3,7 @@ import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 
-class MatchmakingRoom {
+class OnlineRoom {
     #player1;
 
     #gameEngine;
@@ -41,8 +41,8 @@ class MatchmakingRoom {
     setListeners = (socket) => {
         socket.on("newMove", this.readNewMove.bind(this, socket));
         socket.on("giveUp", this.#giveUpFunction.bind(this, socket));
-        socket.join(this.#room);
         socket.on("chatToBack", this.#tempChatFunction.bind(this, socket));
+        socket.join(this.#room);
     }
 
     #giveUpFunction = (socket) => {
@@ -68,7 +68,8 @@ class MatchmakingRoom {
 
     initPlayer = (socket, playPositionOfOpponent) => {
         this.setListeners(socket);
-        socket.emit("setup", playPositionOfOpponent);
+        console.log("initPlayer function ", this.#gameEngine.getOpponentPlayer(socket.userId).name);
+        socket.emit("setup", playPositionOfOpponent, this.#gameEngine.getOpponentPlayer(socket.userId).name);
     }
 
     /*
@@ -231,4 +232,4 @@ class MatchmakingRoom {
     }
 }
 
-export {MatchmakingRoom}
+export {OnlineRoom}

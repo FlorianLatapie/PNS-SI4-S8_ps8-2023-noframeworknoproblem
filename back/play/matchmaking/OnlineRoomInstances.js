@@ -1,5 +1,5 @@
 // Class to manage the players playing
-// the map contains as keys the id of the players and as a value the instance of the MatchmakingRoom associated to the player
+// the map contains as keys the id of the players and as a value the instance of the OnlineRoom associated to the player
 class OnlineRoomInstances {
 
     constructor() {
@@ -9,7 +9,7 @@ class OnlineRoomInstances {
     newGame(player1, player2, matchMakingRoom) {
         this.players.set(player1.userId, matchMakingRoom);
         this.players.set(player2.userId, matchMakingRoom);
-        console.log("New game entered in the map ", this.players)
+        // console.log("New game entered in the map ", this.players)
     }
 
     removePlayer(player) {
