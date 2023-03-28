@@ -9,10 +9,27 @@ class WebPageInteraction {
     #redDiscCSSClass = "red-disc";
     #yellowDiscCSSClass = "yellow-disc";
 
+    #muteFlag;
+
     constructor(grid) {
+        this.#muteFlag = false;
         this.#grid = grid;
         console.log("WebPageInteraction constructor grid ", grid)
         this.addAllListeners();
+
+        document.getElementById("mute").addEventListener("click", () => {
+            this.#muteFlag = !this.#muteFlag;
+
+            if (this.#muteFlag) {
+                console.log("muteFlag is true");
+                document.getElementById("mute").src = "../../images/unmute.svg";
+                document.getElementById("tempChat").visibility = "visible";
+            } else {
+                console.log("muteFlag is false");
+                document.getElementById("mute").src = "../../images/mute.svg";
+                document.getElementById("tempChat").visibility = "hidden";
+            }
+        });
     }
 
     setSocketMatchmaking = (socketMatchmaking) => {
@@ -218,12 +235,14 @@ class WebPageInteraction {
     }
 
     updateChat = (message) => {
-        let chat = document.getElementById("chatTest");
-        setTimeout(() => {
-            chat.style.visibility = "hidden";
-        }, 5000);
-        chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
-        chat.style.visibility = "visible";
+        if (!this.#muteFlag) {
+            let chat = document.getElementById("chatTest");
+            setTimeout(() => {
+                chat.style.visibility = "hidden";
+            }, 5000);
+            chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
+            chat.style.visibility = "visible";
+        }
     }
 
     displayOpponent = (opponentUsername) => {
