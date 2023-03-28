@@ -25,6 +25,8 @@ class AchievementDb {
     }
 
     async addAchievement(userId, achievementId) {
+        if (!this.isAchievementValid(achievementId)) throw new Error("Invalid achievement id: " + achievementId)
+
         console.log("Adding achievement: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
         try {
@@ -37,7 +39,7 @@ class AchievementDb {
             console.error(error);
         }
 
-        return new Error("Achievement already exists for this user :" + JSON.stringify({userId, achievementId}))
+        throw new Error("Achievement already exists for this user :" + JSON.stringify({userId, achievementId}))
     }
 
     async existsAchievementForThisUser(userId, achievementId) {
@@ -65,6 +67,29 @@ class AchievementDb {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    getAllPossibleAchievements() {
+        return [{
+            "1stGame": {
+                "friendlyName": "Première partie",
+                "description": "Joue ta première partie", "maxProgress": 1,
+            }
+        }, {
+            "10Games": {
+                "friendlyName": "10 parties",
+                "description": "Joue 10 parties", "maxProgress": 10,
+            }
+        }, {
+            "konami": {
+                "friendlyName": "Code Konami",
+                "description": "Utilise le code Konami", "maxProgress": 1,
+            }
+        },]
+    }
+
+    isAchievementValid(achievementId) {
+        return this.getAllPossibleAchievements().some(achievement => achievement.hasOwnProperty(achievementId))
     }
 }
 

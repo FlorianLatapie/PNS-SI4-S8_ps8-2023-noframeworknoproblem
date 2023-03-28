@@ -35,7 +35,7 @@ class GameDb {
             console.error(error);
         }
 
-        return new Error("Game already exists :" +  JSON.stringify(data))
+        throw new Error("Game already exists :" +  JSON.stringify(data))
     }
 
     async getGamePlayerId(player) {

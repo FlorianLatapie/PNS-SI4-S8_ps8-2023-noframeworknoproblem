@@ -77,9 +77,11 @@ const permanentSocket = io.of("/api/permanent")
 gamedb.removeAllGames().then(() => {
     console.log("Server started, all the games        have been removed from the database, look for /back/index.js to change this behaviour");
 });
+
+/*
 userstatsdb.removeAllStats().then(() => {
     console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
-});
+});*/
 
 /*achievementdb.removeAllAchievements().then(() => {
     console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
