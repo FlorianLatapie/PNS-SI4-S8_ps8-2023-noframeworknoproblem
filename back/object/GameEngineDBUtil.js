@@ -1,7 +1,7 @@
 import gamedb from "../database/gamedb.js";
 
 export default class GameEngineDBUtil {
-    static saveGameEngineToFSAndDB(gameEngineToSave) {
+    static saveGameEngineDB(gameEngineToSave) {
         // save the object to the database
         let data = {
             gameId: gameEngineToSave.id,
