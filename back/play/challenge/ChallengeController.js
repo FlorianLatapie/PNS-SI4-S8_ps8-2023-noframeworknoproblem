@@ -1,6 +1,6 @@
 import challengeManager from "./ChallengeManager.js";
 import onlineRoomInstances from "../matchmaking/OnlineRoomInstances.js";
-import {MatchmakingRoom} from "../room/MatchmakingRoom.js";
+import {OnlineRoom} from "../room/OnlineRoom.js";
 import userdb from "../../database/userdb.js";
 import frienddb from "../../database/frienddb.js";
 import SendNotifications from "../../socket/SendNotifications.js";
@@ -75,7 +75,7 @@ class ChallengeController {
         this.handlePlayerDisconnection(player);
 
         let otherPlayer = this.#connectedPlayers.getSocketPlayer(id_challenge_sender);
-        let onlineRoom = new MatchmakingRoom(otherPlayer, player, this.#gameSocket);
+        let onlineRoom = new OnlineRoom(otherPlayer, player, this.#gameSocket);
         onlineRoomInstances.newGame(otherPlayer, player, onlineRoom);
     }
 

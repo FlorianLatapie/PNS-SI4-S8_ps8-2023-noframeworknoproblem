@@ -127,11 +127,11 @@ class WebPageInteraction {
     }
 
     playerTurnMessage = () => {
-        this.#changeTitlePage("A ton tour");
+        this.#changeInfoPage("A ton tour");
     }
 
     otherPlayerTurnMessage = () => {
-        this.#changeTitlePage("Au tour de l'adversaire");
+        this.#changeInfoPage("Au tour de l'adversaire");
     }
 
     waitingForOtherPlayerMessage = () => {
@@ -222,12 +222,20 @@ class WebPageInteraction {
     }
 
     opponentLeaved = () => {
-        this.#changeTitlePage("L'adversaire a quitté la partie");
+        this.#changeInfoPage("L'adversaire a quitté la partie");
         alert("L'adversaire a quitté la partie");
     }
 
     waitingForOpponent = (username) => {
         this.#changeTitlePage("En attente de l'adversaire " + username);
+    }
+
+    displayOpponent = (opponentUsername) => {
+        this.#changeTitlePage("Adversaire : " + opponentUsername);
+    }
+
+    #changeInfoPage = (info) => {
+        document.getElementById("info").innerText = info;
     }
 }
 

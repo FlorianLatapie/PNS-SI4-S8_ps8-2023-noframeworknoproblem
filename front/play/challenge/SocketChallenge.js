@@ -75,7 +75,7 @@ class SocketChallenge {
         clearInterval(this.#interval);
     }
 
-    #setupFunction = (OpponentTurn) => {
+    #setupFunction = (OpponentTurn, opponentUsername) => {
         console.log("setup received OpponentTurn: " + OpponentTurn)
         let toPlay;
         let colorPlayer;
@@ -93,6 +93,7 @@ class SocketChallenge {
             this.#webPageInteraction.playerTurnMessage();
         }
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
+        this.#webPageInteraction.displayOpponent(opponentUsername);
     }
 
     #opponentLeaved = () => {

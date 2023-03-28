@@ -1,6 +1,6 @@
 // Class to manage the players waiting to enter a game
 // the queue contains the socket object of the players
-import {MatchmakingRoom} from "../room/MatchmakingRoom.js";
+import {OnlineRoom} from "../room/OnlineRoom.js";
 import matchmakingRoomInstances from "./OnlineRoomInstances.js";
 
 class PlayersQueue {
@@ -21,7 +21,7 @@ class PlayersQueue {
           console.log(`The player : ${player.username} (id : ${player.userId}) is waiting for an opponent`);
       } else {
           let otherPlayer = this.#queue.pop();
-          let matchm = new MatchmakingRoom(otherPlayer, player, this.#gameSocket);
+          let matchm = new OnlineRoom(otherPlayer, player, this.#gameSocket);
           this.#matchmakingRoomInstances.newGame(otherPlayer, player, matchm);
           console.log(`Game is starting between ${otherPlayer.username} (id : ${otherPlayer.userId}) and ${player.username} (id : ${player.userId})`);
       }
