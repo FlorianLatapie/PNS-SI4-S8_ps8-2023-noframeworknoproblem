@@ -23,7 +23,7 @@ class FriendDb {
     }
 
     async addFriends(userID, friendID) {
-        this.checkEqualityUserIds(userID, friendID);
+        this.checkFriendshipRequestValidity(userID, friendID);
         await this.verifyConnection();
 
         // test conditions and recover the object from the database
@@ -65,8 +65,9 @@ class FriendDb {
         console.log("After sending promise ")
     }
 
+    // Use it after addRequest to populate correctly the database
     async addPending(userID, friendID) {
-        this.checkEqualityUserIds(userID, friendID);
+        this.checkFriendshipRequestValidity(userID, friendID);
 
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
@@ -88,8 +89,9 @@ class FriendDb {
         await this.friends.updateOne({userId: userID}, updateDocument);
     }
 
+    // Make sure that you use the addPending function after this one to populate correctly the database
     async addRequest(userID, friendID) {
-        this.checkEqualityUserIds(userID, friendID);
+        this.checkFriendshipRequestValidity(userID, friendID);
 
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
@@ -126,35 +128,6 @@ class FriendDb {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
         return objectInDB.pending;
-    }
-
-    async isInRequests(userID, friendID) {
-        await this.verifyConnection();
-        let objectInDB = await this.recoverFriendWithInit(userID);
-        console.log("isInRequests objectInDB", objectInDB)
-        if (!objectInDB.requests.includes(friendID)) {
-            throw new Error("Friend request from " + friendID + " not found for " + userID);
-        }
-        return objectInDB;
-    }
-
-    async isInPending(userID, friendID) {
-        await this.verifyConnection();
-        let objectInDB = await this.recoverFriendWithInit(userID);
-        console.log("isInPending objectInDB", objectInDB)
-        if (!objectInDB.pending.includes(friendID)) {
-            throw new Error("Friend pending from " + friendID + " not found for " + userID);
-        }
-        return objectInDB;
-    }
-
-    async isInFriends(userID, friendID) {
-        await this.verifyConnection();
-        let objectInDB = await this.recoverFriendWithInit(userID);
-        if (!objectInDB.friends.includes(friendID)) {
-            throw new Error("Friend " + friendID + " not found for " + userID);
-        }
-        return objectInDB;
     }
 
     async removeFriend(userID, friendID) {
@@ -251,6 +224,33 @@ class FriendDb {
         return objectInDB;
     }
 
+    async isInRequests(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        console.log("isInRequests objectInDB", objectInDB)
+        if (!objectInDB.requests.includes(friendID)) {
+            throw new Error("Friend request from " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+    async isInPending(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        console.log("isInPending objectInDB", objectInDB)
+        if (!objectInDB.pending.includes(friendID)) {
+            throw new Error("Friend pending from " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+    async isInFriends(userID, friendID) {
+        await this.verifyConnection();
+        let objectInDB = await this.recoverFriendWithInit(userID);
+        if (!objectInDB.friends.includes(friendID)) {
+            throw new Error("Friend " + friendID + " not found for " + userID);
+        }
+        return objectInDB;
+    }
+
     async createNewFriendObject(userID) {
         let obj = {
             userId: userID,
@@ -267,7 +267,7 @@ class FriendDb {
         return obj;
     }
 
-    checkEqualityUserIds(userID, friendID) {
+    checkFriendshipRequestValidity(userID, friendID) {
         if (userID === friendID) {
             throw new Error("Cannot add yourself as a friend");
         }

@@ -2,27 +2,19 @@
 
 // The http module contains methods to handle http queries.
 import * as http from 'http';
-import * as crypto from "crypto";
 
 // Let's import our logic.
 import * as fileQuery from './queryManagers/front.js'
 import * as apiQuery from './queryManagers/api.js'
 import gamedb from "./database/gamedb.js";
 import {Server} from "socket.io";
-import Player from "../front/GameLogic/Player.js";
-import GameEngine from "../front/GameLogic/GameEngine.js";
-import {nextMove, setup} from "./logic/minMaxAi.js";
-import jwt, {verify} from "jsonwebtoken";
-import GameEngineDBUtil from "./object/GameEngineDBUtil.js";
+import {setup} from "./logic/minMaxAi.js";
+import jwt from "jsonwebtoken";
 import {displayACaughtError} from "./util/util.js";
 import {JWTSecretCode} from "./credentials/credentials.js";
 import {AiRoom} from "./play/room/AiRoom.js";
-import {MatchmakingRoom} from "./play/room/MatchmakingRoom.js";
 import {jsonValidator} from "./util/jsonValidator.js";
-import PlayersQueue from "./play/matchmaking/PlayersQueue.js";
 import MatchmakingController from "./play/matchmaking/MatchmakingController.js";
-import userstatsdb from "./database/userstatsdb.js";
-import achievementdb from "./database/achievementdb.js";
 import connectedPlayer from "./socket/PermanentSocketPlayers.js";
 import ChallengeController from "./play/challenge/ChallengeController.js";
 import ConnectedPlayers from "./socket/ConnectedPlayers.js";
@@ -77,13 +69,6 @@ const permanentSocket = io.of("/api/permanent")
 gamedb.removeAllGames().then(() => {
     console.log("Server started, all the games        have been removed from the database, look for /back/index.js to change this behaviour");
 });
-userstatsdb.removeAllStats().then(() => {
-    console.log("Server started, all the user STATS   have been removed from the database, look for /back/index.js to change this behaviour");
-});
-
-/*achievementdb.removeAllAchievements().then(() => {
-    console.log("Server started, all the achievements have been removed from the database, look for /back/index.js to change this behaviour");
-});*/
 
 function authenticate(socket, next) {
     let token = socket.handshake.auth.token;
@@ -197,12 +182,10 @@ chatSocket.on('connection', (socket) => {
     })
 
     socket.on('sendMessage', (message, user1, user2) => {
-        //socket.join(roomId);
-
         let chat = new chatManager(user1, user2);
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
-            //socket.emit('getMessages', user1, user2, 10, 0);
+            chatSocket.to(socket.id).emit('messageAddedInDb');
         }).catch(e => {
             console.log("error while adding the message to the database");
             console.log(e);
@@ -226,11 +209,21 @@ chatSocket.on('connection', (socket) => {
         });
     });
 
-    socket.on('getLastMessage', async (user1, user2) => {
+    socket.on('getLastMessageForProfile', async (user1, user2) => {
         let chat = new chatManager(user1, user2);
         let lastMessage = chat.getLastMessage();
         chatSocket.to(socket.id).emit('getLastMessageFromBack', await lastMessage, user2);
     });
+
+    socket.on('updateChat', async (user1, user2) => {
+        let chat = new chatManager(user1, user2);
+        let lastMessage = chat.getLastMessage();
+        chatSocket.to(roomId).emit('updateChatFromBack', await lastMessage);
+    });
+
+    socket.on('leaveRoom', () =>{
+        socket.leave(roomId);
+    })
 
     socket.on('disconnect', () => {
         console.log("Socket id chat : " + socket.id + " disconnected");
