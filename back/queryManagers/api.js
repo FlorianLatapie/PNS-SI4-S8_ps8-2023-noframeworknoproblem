@@ -8,8 +8,9 @@ import {achievementsManager} from "./user/userAchievements.js";
 import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFriends.js";
 import {usersApiGet} from "./user/usersApi.js";
 import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
+import {messagesApiGet} from "./chat/apiChats.js";
 import {
-    ACHIEVEMENTS_URL, FRIENDS_URL, LOGIN_URL, NOTIFICATIONS_API_URL, SIGNUP_URL, USERS_URL
+    ACHIEVEMENTS_URL, CHATS_API_URL, FRIENDS_URL, LOGIN_URL, NOTIFICATIONS_API_URL, SIGNUP_URL, USERS_URL
 } from "../../front/util/path.js";
 
 function manageRequest(request, response) {
@@ -68,6 +69,10 @@ function manageRequest(request, response) {
                 case NOTIFICATIONS_API_URL:
                     urlPathArray.shift()
                     notificationsApiGet(request, response, urlPathArray);
+                    break;
+                case CHATS_API_URL:
+                    urlPathArray.shift()
+                    messagesApiGet(request, response, urlPathArray);
                     break;
                 default:
                     urlNotFound(request, response)

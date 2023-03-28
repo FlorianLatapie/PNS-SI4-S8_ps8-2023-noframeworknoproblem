@@ -201,10 +201,6 @@ chatSocket.on('connection', (socket) => {
             chatRooms.push(roomId);
         }
         socket.join(roomId);
-        console.log("rooms", socket.rooms)
-        let chat = new chatManager(user1, user2);
-        let messages = chat.getMessages(10, 0);
-        chatSocket.to(socket.id).emit('initMessagesFromBack', await messages);
 
     })
 
@@ -219,13 +215,6 @@ chatSocket.on('connection', (socket) => {
         });
 
     });
-
-    socket.on('getMessages', async (user1, user2, numberMessagesToGet, numberMessagesToSkip) => {
-        let chat = new chatManager(user1, user2);
-        let messages = chat.getMessages(numberMessagesToGet, numberMessagesToSkip);
-        chatSocket.to(roomId).emit('getMessagesFromBack', await messages);
-    });
-
 
     socket.on('read', (user1, user2) => {
         let chat = new chatManager(user1, user2);
