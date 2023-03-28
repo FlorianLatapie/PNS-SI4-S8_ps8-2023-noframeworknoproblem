@@ -27,9 +27,7 @@ function messagesApiGet(request, response, urlPathArray) {
             let validationFunction = schemaValidator.compile(schemaGetQuery);
             let paramsObject = request[PARAMS];
 
-            console.log("before validationFunction(paramsObject) : ");
             if (!validationFunction(paramsObject)) {
-                console.log("validationFunction(paramsObject) : " + validationFunction(paramsObject));
                 sendResponse(response, 400, "Bad request : Query is not valid");
                 return;
             }
@@ -44,10 +42,6 @@ function messagesApiGet(request, response, urlPathArray) {
             let numberMessagesToGet = parseInt(paramsObject.numberMessagesToGet);
             let friendId = paramsObject.friendId;
 
-            console.log("userIdEmitTheRequest : " + userIdEmitTheRequest);
-            console.log("friendId : " + friendId);
-            console.log("numberMessagesToGet : " + numberMessagesToGet);
-            console.log("numberMessagesToSkip : " + numberMessagesToSkip);
             getMessages(userIdEmitTheRequest, friendId, numberMessagesToGet, numberMessagesToSkip, response);
             break;
         default:

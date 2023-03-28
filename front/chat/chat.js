@@ -54,6 +54,9 @@ class Chat extends HTMLElement {
     #messagesToGet;
     #messagesToSkip;
     #chat;
+/*
+    #scrollTop;
+*/
 
     constructor() {
         super();
@@ -67,7 +70,6 @@ class Chat extends HTMLElement {
     }
 
     async connectedCallback() {
-        this.shadowRoot.querySelector("#chat").scrollTop = this.shadowRoot.querySelector("#chat").scrollHeight;
         this.#addSocketEvent();
         let contacts = this.shadowRoot.querySelector(".contacts");
         this.#friends = fetch(BASE_URL + API_URL + FRIENDS_URL + 'getFriends' + "/" + this.#userId, {
@@ -114,6 +116,11 @@ class Chat extends HTMLElement {
         this.#addEventSubmit();
         chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
         this.#getMessagesFromBack();
+        this.#chat.addEventListener("scroll", () => {
+            if (this.#chat.scrollTop <= 0) {
+                this.#getMessagesFromBack();
+            }
+        });
     }
 
     #addSocketEvent() {
@@ -197,12 +204,9 @@ class Chat extends HTMLElement {
             if (!response.ok) {
                 console.log("Error while retrieving messages from back", response.status);
             }
-            console.log("Messages retrieved from back");
             return response.json();
         }).then(data => {
-                console.log("Messages from back", data);
                 data.forEach(messageInDB => {
-                    console.log("Message from back with HTTP", messageInDB);
                     let messageDiv = document.createElement("div");
                     messageDiv.classList.add("message");
                     if (messageInDB.idSender === this.#userId) {
@@ -213,8 +217,10 @@ class Chat extends HTMLElement {
                     messageDiv.innerHTML = messageInDB.message;
                     this.#chat.prepend(messageDiv);
                 })
+                console.log("scrollTop : " + this.#chat.scrollTop);
                 if (this.#messagesToSkip === 0) this.#chat.scrollTop = this.#chat.scrollHeight;
-                //else this.#chat.scrollTop = 0;
+                else this.#chat.scrollTop = this.#chat.scrollHeight - this.#chat.scrollTop;
+                /*this.#scrollTop = this.#chat.scrollTop;*/
                 this.#messagesToSkip += data.length;
             }
         )
