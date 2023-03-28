@@ -36,6 +36,7 @@ const API_URL = 'api/';
 const ACHIEVEMENTS_URL = "achievements/";
 const USERS_URL = "users/";
 const NOTIFICATIONS_API_URL = "notifications/";
+const CHATS_API_URL = "chats/";
 
 // export all the constants --------------------------------------------------------------------------------------------
 export {
@@ -55,5 +56,6 @@ export {
     ACHIEVEMENTS_URL,
     USERS_URL,
     NOTIFICATIONS_API_URL,
-    PLAY_CHALLENGE_URL
+    PLAY_CHALLENGE_URL,
+    CHATS_API_URL
 };
