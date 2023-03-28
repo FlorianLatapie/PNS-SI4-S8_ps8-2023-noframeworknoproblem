@@ -36,7 +36,6 @@ function userLogIn(request, response) {
     }
 
     userdb.getUser(user).then((userFound) => {
-        console.log("User found: ", userFound);
         // Returns a Json Web Token containing the name. We know this token is an acceptable proof of
         // identity since only the server know the secretCode.
         let payload = {

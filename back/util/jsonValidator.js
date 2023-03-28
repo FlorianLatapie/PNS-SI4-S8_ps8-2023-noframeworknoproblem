@@ -3,9 +3,7 @@ let jsonValidator = (data, schema) => {
     if (typeof data === 'string') {
         data = JSON.parse(data);
     }
-
-    console.log("Convert Data: data is ", data);
-
+    
     let newObject = {};
     for (const key in data) {
         if (data.key !== undefined) {
