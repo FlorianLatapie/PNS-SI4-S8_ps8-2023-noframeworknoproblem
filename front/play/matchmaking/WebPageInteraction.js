@@ -23,11 +23,11 @@ class WebPageInteraction {
             if (this.#muteFlag) {
                 console.log("muteFlag is true");
                 document.getElementById("mute").src = "../../images/unmute.svg";
-                document.getElementById("tempChat").visibility = "visible";
+                document.getElementById("tempChat").style.visibility = "hidden";
             } else {
                 console.log("muteFlag is false");
                 document.getElementById("mute").src = "../../images/mute.svg";
-                document.getElementById("tempChat").visibility = "hidden";
+                document.getElementById("tempChat").style.visibility = "visible";
             }
         });
     }
