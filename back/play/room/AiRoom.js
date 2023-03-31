@@ -56,6 +56,7 @@ class AiRoom {
         STATSaddGamePlayed(this.#player.userId);
 
         this.#gameSocket.to(this.#player.id).emit("gameIsOver", winner)
+
         console.log("gameIsOverEmit AIRoom", winner)
     }
 
@@ -64,7 +65,6 @@ class AiRoom {
         console.log("setup", setupObject);
         // search for a game engine in the db
         gamedb.getGamePlayerId(userId).then((dbResult) => {
-            console.log("Before database db", dbResult)
             if (dbResult !== null) {
                 console.log("There is a database db");
                 this.reloadGameFromDB(dbResult, userId);
@@ -82,6 +82,7 @@ class AiRoom {
         if (gameState.isFinished === true) {
             GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
             this.#gameIsOverEmit(gameState.winner)
+            console.log("Game is finished, removing from db...")
         } else {
             GameEngineDBUtil.saveGameEngineDB(this.#gameEngine);
         }
