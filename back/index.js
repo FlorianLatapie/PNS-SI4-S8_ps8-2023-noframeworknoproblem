@@ -19,6 +19,8 @@ import connectedPlayer from "./socket/PermanentSocketPlayers.js";
 import ChallengeController from "./play/challenge/ChallengeController.js";
 import ConnectedPlayers from "./socket/ConnectedPlayers.js";
 import chatManager from "./socket/chatManager.js";
+import achievementdb from "./database/achievementdb.js";
+import userstatsdb from "./database/userstatsdb.js";
 
 // Servers setup -------------------------------------------------------------------------------------------------------
 
@@ -53,10 +55,7 @@ let httpServer = http.createServer(function (request, response) {
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST", "PUT", "PATCH"],
-        allowedHeaders: "*",
-        credentials: true
+        origin: "*", methods: ["GET", "POST", "PUT", "PATCH"], allowedHeaders: "*", credentials: true
     }
 });
 
@@ -65,10 +64,19 @@ const gameSocket = io.of("/api/game");
 const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
-// removes all the games from the database when the server starts/restarts
-gamedb.removeAllGames().then(() => {
-    console.log("Server started, all the games        have been removed from the database, look for /back/index.js to change this behaviour");
-});
+let wipeDBOnServerStart = false;
+if (wipeDBOnServerStart) {
+    gamedb.removeAllGames().then(() => {
+        console.log("Server started, all the games             have been removed from the database, look for /back/index.js to change this behaviour");
+    });
+    achievementdb.removeAllAchievements().then(() => {
+        console.log("Server started, all the user achievements have been removed from the database, look for /back/index.js to change this behaviour");
+    });
+    userstatsdb.removeAllStats().then(() => {
+        console.log("Server started, all the user stats        have been removed from the database, look for /back/index.js to change this behaviour");
+    });
+}
+
 
 function authenticate(socket, next) {
     let token = socket.handshake.auth.token;

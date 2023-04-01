@@ -24,7 +24,6 @@ let userPromise = fetch(BASE_URL + API_URL + USERS_URL + "get/" + userIdOfThisPa
     }
     return response.json();
 }).then((data) => {
-    console.log("userpromise data", data);
     return data;
 }).catch(error => {
     whenError();
@@ -41,6 +40,7 @@ greeting.innerHTML = "Bienvenue sur la page de " + username + " !";
 
 let achievementsPromise = fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", {
     method: "post", headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Accept': 'application/json', 'Content-Type': 'application/json'
     }, body: JSON.stringify({token: localStorage.getItem("token"), userId: userIdOfThisPage})
 }).then(async (response) => {
@@ -97,7 +97,6 @@ function callFriendAPI(method, subUrl, userId) {
         }
         return response.text();
     }).then((data) => {
-        console.log("callFriendAPI data :", data);
         return data;
     }).catch(error => {
         console.log(error);
