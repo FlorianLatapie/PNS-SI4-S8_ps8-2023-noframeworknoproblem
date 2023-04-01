@@ -16,4 +16,17 @@ main {
 #button-container * {
     height: 8.6vh;
     width: 100%;
+
 }
+
+#bottom-content{
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+chat-global {
+    position: relative;
+    height: 30vh;
+    right: -5vh;
+}
+
