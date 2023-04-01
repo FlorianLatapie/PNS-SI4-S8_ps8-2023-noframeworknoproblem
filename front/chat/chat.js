@@ -118,7 +118,7 @@ class Chat extends HTMLElement {
         chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
         this.#getMessagesFromBack();
         this.#chat.addEventListener("scroll", () => {
-            if (this.#chat.scrollTop <= 0 && this.#messagesToSkip > 10) {
+            if (this.#chat.scrollTop <= 0 && this.#messagesToSkip >= 10) {
                 this.#getMessagesFromBack();
             }
         });
