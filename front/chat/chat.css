@@ -139,3 +139,12 @@ body, html {
     background: blue;
 }
 
+.notif {
+    visibility: hidden;
+    font-size: 1em;
+    position: relative;
+    width: 0.2em;
+    left: -3vh;
+    bottom: 7vh;
+    margin: 0;
+}

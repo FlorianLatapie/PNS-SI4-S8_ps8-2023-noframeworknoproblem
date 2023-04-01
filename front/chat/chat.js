@@ -54,9 +54,10 @@ class Chat extends HTMLElement {
     #messagesToGet;
     #messagesToSkip;
     #chat;
-/*
-    #scrollTop;
-*/
+
+    /*
+        #scrollTop;
+    */
 
     constructor() {
         super();
@@ -92,20 +93,23 @@ class Chat extends HTMLElement {
         for (let i = 0; i < this.#friends.length; i++) {
             let contact = document.createElement("div");
             let name = document.createElement("div");
-            //let message = document.createElement("div");
+            let message = document.createElement("div");
+            let notif = document.createElement("span");
             contact.classList.add("contact");
             name.classList.add("name");
-            //message.classList.add("message");
+            message.classList.add("message");
+            notif.classList.add("notif");
             // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
-            /*
-                        message.id = "a" + this.#friends[i].userId;
-            */
+            message.id = "a" + this.#friends[i].userId;
+            notif.id = "n" + this.#friends[i].userId;
             name.innerHTML = this.#friends[i].username;
+            notif.innerHTML = "&#128308;";
             chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
-            //message.innerHTML = this.#LastMessage;
+            message.innerHTML = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
-            //fragment.appendChild(message.cloneNode(true));
+            fragment.appendChild(message.cloneNode(true));
+            fragment.appendChild(notif.cloneNode(true));
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
             this.#addFriendSelector();
@@ -124,30 +128,44 @@ class Chat extends HTMLElement {
     }
 
     #addSocketEvent() {
-        /*chatSocket.on("getLastMessageFromBack", (message, user2) => {
+        chatSocket.on("getLastMessageFromBack", (message, user2) => {
             if (message.length !== 0) {
                 let id = "#a" + user2;
                 let messageDiv = this.shadowRoot.querySelector(id);
                 messageDiv.innerHTML = "Dernier message : " + message[0].message;
             }
-        });*/
+        });
         chatSocket.on('messageAddedInDb', () => {
             chatSocket.emit("updateChat", this.#userId, this.#friendSelected.userId);
-
         });
-        chatSocket.on('updateChatFromBack', (message) => {
-            let messageToAdd = document.createElement("div");
-            messageToAdd.classList.add("message");
-            if (message[0].idSender === this.#userId) {
-                messageToAdd.classList.add("sender");
-            } else {
-                messageToAdd.classList.add("receiver");
+        chatSocket.on('updateLastMessage', (user1, user2) => {
+            if (user1 === this.#userId) {
+                chatSocket.emit("getLastMessageForProfile", user1, user2);
             }
-            console.log(message[0].message);
-            messageToAdd.innerHTML = message[0].message;
-            this.#chat.append(messageToAdd);
-            this.#chat.scrollTop = this.#chat.scrollHeight;
-            //chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friendSelected.userId);
+            else
+                chatSocket.emit("getLastMessageForProfile", user2, user1);
+        });
+
+        chatSocket.on('updateChatFromBack', (message, user1, user2) => {
+            if (user1 === this.#userId && user2 === this.#friendSelected.userId || user1 === this.#friendSelected.userId && user2 === this.#userId) {
+                let messageToAdd = document.createElement("div");
+                messageToAdd.classList.add("message");
+                if (message[0].idSender === this.#userId) {
+                    messageToAdd.classList.add("sender");
+                } else {
+                    messageToAdd.classList.add("receiver");
+                }
+                messageToAdd.innerHTML = message[0].message;
+                this.#chat.append(messageToAdd);
+                this.#chat.scrollTop = this.#chat.scrollHeight;
+            }
+            else {
+                let notifId = "#n" + user1;
+                console.log(notifId);
+                let notif = this.shadowRoot.querySelector(notifId);
+                notif.style.visibility = "visible";
+                notif.style.display = "block";
+            }
         });
     }
 
@@ -156,7 +174,6 @@ class Chat extends HTMLElement {
         let contact = contacts.lastChild;
         contact.addEventListener("click", (e) => {
             e.preventDefault();
-            chatSocket.emit('leaveRoom');
             this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
             let name = this.shadowRoot.querySelector("#friendSelected");
             chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
@@ -164,7 +181,11 @@ class Chat extends HTMLElement {
             this.#messagesToSkip = 0;
             chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
             this.#chat.innerHTML = "";
+            //chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friendSelected.userId);
             this.#getMessagesFromBack();
+            let notifId = "#n" + this.#friendSelected.userId;
+            let notif = this.shadowRoot.querySelector(notifId);
+            notif.style.visibility = "hidden";
         });
     }
 
@@ -216,11 +237,8 @@ class Chat extends HTMLElement {
                     }
                     messageDiv.innerHTML = messageInDB.message;
                     this.#chat.prepend(messageDiv);
+                    messageDiv.scrollIntoView();
                 })
-                console.log("scrollTop : " + this.#chat.scrollTop);
-                if (this.#messagesToSkip === 0) this.#chat.scrollTop = this.#chat.scrollHeight;
-                else this.#chat.scrollTop = this.#chat.scrollHeight - this.#chat.scrollTop;
-                /*this.#scrollTop = this.#chat.scrollTop;*/
                 this.#messagesToSkip += data.length;
             }
         )

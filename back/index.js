@@ -182,6 +182,7 @@ chatSocket.on('connection', (socket) => {
         chat.addMessage(message).then(() => {
             console.log("message added to the database");
             chatSocket.to(socket.id).emit('messageAddedInDb');
+            chatSocket.to(roomId).emit('updateLastMessage', user1, user2);
         }).catch(e => {
             console.log("error while adding the message to the database");
             console.log(e);
@@ -207,12 +208,8 @@ chatSocket.on('connection', (socket) => {
     socket.on('updateChat', async (user1, user2) => {
         let chat = new chatManager(user1, user2);
         let lastMessage = chat.getLastMessage();
-        chatSocket.to(roomId).emit('updateChatFromBack', await lastMessage);
+        chatSocket.to(roomId).emit('updateChatFromBack', await lastMessage, user1, user2);
     });
-
-    socket.on('leaveRoom', () =>{
-        socket.leave(roomId);
-    })
 
     socket.on('disconnect', () => {
         console.log("Socket id chat : " + socket.id + " disconnected");
