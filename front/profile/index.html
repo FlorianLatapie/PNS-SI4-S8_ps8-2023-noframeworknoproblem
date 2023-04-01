@@ -6,11 +6,10 @@
 
     <title>Profil</title>
 
-    <script src="profile.js" type="module"></script>
-
     <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="profile.css" rel="stylesheet">
 
+    <script src="profile.js" type="module"></script>
     <script src="../util/guards/guard.js" type="module"></script>
     <script src="../util/updateUsernameDiv.js" type="module"></script>
     <script src="../menu/burgermenu.js" type="module"></script>
@@ -26,15 +25,14 @@
 <div id="bottom-content">
     <burger-menu></burger-menu>
     <main>
-        <div id="salutations">
-            <p>Bonjour </p>
-            <p id="displayed-username"></p>
+        <div id="header-main" class="flex-column-center">
+            <p id="salutation">Bonjour</p>
         </div>
-        <div id="successes">
+        <div id="successes" class="flex-column-center">
             <h2>Succès découverts :</h2>
-            <ul id="achievements">
-            </ul>
         </div>
+
+        <div id="achievements" class="flex-column-center"></div>
     </main>
 </div>
 

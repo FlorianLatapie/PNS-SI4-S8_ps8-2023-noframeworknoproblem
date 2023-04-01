@@ -25,9 +25,9 @@ class AchievementDb {
     }
 
     async addAchievement(userId, achievementId, progress, obtained) {
-        if (!this.isAchievementValid(achievementId)) throw new Error("Invalid achievement id: " + achievementId)
+        if (!this.isAchievementValid(achievementId)) throw new Error("Invalid achievementRepresentation id: " + achievementId)
 
-        console.log("Adding achievement: ", achievementId, " for user: ", userId)
+        console.log("Adding achievementRepresentation: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
         try {
             if (!await this.existsAchievementForThisUser(userId, achievementId)) {
@@ -72,13 +72,25 @@ class AchievementDb {
     getAllPossibleAchievements() {
         return {
             "1stGame": {
-                friendlyName: "Première partie", description: "Joue ta première partie", maxProgress: 1, isHidden: false
+                friendlyName: "Première partie",
+                description: "Joue ta première partie",
+                maxProgress: 1,
+                isHidden: false,
+                imgSrc: "images/1.svg"
             },
             "10Games": {
-                friendlyName: "10 parties", description: "Joue 10 parties", maxProgress: 10, isHidden: false
+                friendlyName: "10 parties",
+                description: "Joue 10 parties",
+                maxProgress: 10,
+                isHidden: false,
+                imgSrc: "images/10.png"
             },
             "konami": {
-                friendlyName: "Code Konami", description: "Utilise le code Konami", maxProgress: 1, isHidden: true
+                friendlyName: "Code Konami",
+                description: "Utilise le code Konami",
+                maxProgress: 1,
+                isHidden: true,
+                imgSrc: "images/konami.png"
             }
         }
     }

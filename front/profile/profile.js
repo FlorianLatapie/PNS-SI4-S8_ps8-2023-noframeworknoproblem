@@ -2,31 +2,43 @@
 
 import {ACHIEVEMENTS_URL, API_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
+import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
 
 let userId = localStorage.getItem("userId");
 let username = localStorage.getItem("username");
 let token = localStorage.getItem("token");
 
-document.getElementById("displayed-username").innerText = username;
-
+document.getElementById("salutation").innerText = `Bonjour ${username} !`;
 
 let achievements = await getUserAchievements();
-
 console.log("my achievements", achievements);
 
 
 let allPossibleAchievements = await getAllPossibleAchievements();
-
 console.log("allPossibleAchievements", allPossibleAchievements);
 
 let achievementsDiv = document.getElementById("achievements");
-achievements.forEach(achievement => {
-    // friendlyname : description (pourcentage)
-    let achievementDiv = document.createElement("li");
-    achievementDiv.classList.add("achievement");
-    achievementDiv.innerText = allPossibleAchievements[achievement.achievementId].friendlyName + " - " + "(" + achievement.progress*100 + "%)";
-    achievementsDiv.appendChild(achievementDiv);
-});
+
+for (let achievementElement of Object.entries(allPossibleAchievements)) {
+    let achievementId = achievementElement[0];
+    let achievement = achievementElement[1];
+    console.log("achievement", achievementElement);
+
+    console.log("achievement", achievement);
+    let userAchievement = achievements.find(userAchievement => userAchievement.achievementId === achievementId);
+    console.log("userAchievement", userAchievement);
+    if (!achievement.isHidden || (achievement.isHidden && userAchievement)) {
+        console.log("achievement respecting the constraints", achievement)
+        let name = achievement.friendlyName;
+        let found = userAchievement !== undefined;
+        let advancement = userAchievement ? userAchievement.progress : 0;
+        let goal = achievement.maxProgress;
+        // let srcImg = allPossibleAchievements[achievementRepresentation.achievementId].imgSrc
+        let srcImg = BASE_URL + achievement.imgSrc;
+        let achievementDiv = achievementRepresentation(name, found, advancement, goal, srcImg);
+        achievementsDiv.appendChild(achievementDiv);
+    }
+}
 
 // methods ------------------------------------------------------------------------------------------------------------
 

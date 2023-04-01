@@ -1,0 +1,17 @@
+.achievement-img {
+    margin-bottom: 15px;
+    margin-inline: 50px;
+    width : 100px;
+    height : 100px;
+}
+
+.achievement-notfound {
+    filter: opacity(0.5);
+}
+
+#achievements {
+    margin-top : 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}

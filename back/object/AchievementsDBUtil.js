@@ -12,20 +12,20 @@ function updateAchievements(userId) {
 }
 
 function nbGamesAchievement(userId, achievementId, goal, actual) {
-    console.log("adding achievement: " + achievementId + " for user: " + userId + " with goal: " + goal + " and actual: " + actual);
+    console.log("adding achievementRepresentation: " + achievementId + " for user: " + userId + " with goal: " + goal + " and actual: " + actual);
     if (actual < goal) {
         let percentage = actual / goal;
         achievementdb.addAchievement(userId, achievementId, percentage, false).then(function (result) {
-            console.log("The achievement 'result.stats.gamesPlayed > " + goal + "' : '" + achievementId + "' was added to the database ! ");
+            console.log("The achievementRepresentation 'result.stats.gamesPlayed > " + goal + "' : '" + achievementId + "' was added to the database ! ");
         }).catch(function (error) {
-            console.log("error while adding the achievement to the database");
+            console.log("error while adding the achievementRepresentation to the database");
             console.log(error);
         });
     } else if (actual === goal) {
         achievementdb.addAchievement(userId, achievementId, 1, true).then(function (result) {
-            console.log("The achievement 'result.stats.gamesPlayed > " + goal + "' : '" + achievementId + "' was added to the database ! ");
+            console.log("The achievementRepresentation 'result.stats.gamesPlayed > " + goal + "' : '" + achievementId + "' was added to the database ! ");
         }).catch(function (error) {
-            console.log("error while adding the achievement to the database");
+            console.log("error while adding the achievementRepresentation to the database");
             console.log(error);
         });
     }
