@@ -4,3 +4,17 @@ input {
     padding: 0.5vw;
     border-radius: 50px;
 }
+
+main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 10vh;
+}
+
+#users-friends > div > *, #users-pending > div > *, #users-requests > div > * {
+    margin: 0.5vw;
+    padding: 0.5vw;
+}
