@@ -1,9 +1,5 @@
-main {
-    padding: 10%;
-
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+main{
+    padding: 0 10vh;
 }
 
 main > * {
@@ -17,4 +13,8 @@ main > * {
 
 #salutations > * {
     margin: 0 0.2em;
+}
+
+li {
+    margin-left: 2em;
 }

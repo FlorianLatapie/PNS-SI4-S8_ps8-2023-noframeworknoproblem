@@ -3,6 +3,8 @@
 import Player from "../../GameLogic/Player.js";
 import GameEngine from "../../GameLogic/GameEngine.js";
 import Grid from "../../GameLogic/Grid.js";
+import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
+import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
@@ -14,26 +16,20 @@ function WebPageInteraction() {
     const redDiscCSSClass = "red-disc";
     const yellowDiscCSSClass = "yellow-disc";
 
-    function showWinner(gameState) {
-        let showWinner = document.getElementById("show-winner");
-        let close = document.getElementById("cross");
-        let winnerText = document.getElementById("winner-text");
+    function changeInfoPage(text) {
         let title = document.getElementById("page-title");
+        title.innerText = text;
+    }
 
-        close.addEventListener("click", function () {
-            showWinner.style.display = "none";
-        });
-
-        if (gameState.winner === "draw") {
-            winnerText.innerText = "Egalité !!";
-            let image = document.getElementById("pic");
-            image.src = "../../images/crying.png"
-            title.innerText = "Egalité !";
+    function showWinner(gameState) {
+        let winner = gameState.winner;
+        if (winner === "draw") {
+            drawPopUp();
+            changeInfoPage("Egalité");
         } else {
-            let text = "Le joueur " + ge.getOtherPlayer().name + " a gagné !";
-            winnerText.innerText = text;
-            title.innerText = text;
+            informativePopUp("Le joueur " + ge.getOtherPlayer().name + " a gagné !");
         }
+
         showWinner.style.display = "block";
         giveUpButton.removeEventListener("click", giveUp);
         giveUpButton.style.cursor = "not-allowed";

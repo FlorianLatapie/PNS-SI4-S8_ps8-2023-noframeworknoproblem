@@ -113,7 +113,7 @@ function callFriendAPI(method, action, id) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-    })
+    });
 }
 
 function addFriendApi(action, id, container) {

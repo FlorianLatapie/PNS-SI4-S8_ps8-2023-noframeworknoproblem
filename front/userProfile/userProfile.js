@@ -2,6 +2,7 @@
 
 import {BASE_URL} from "../util/frontPath.js";
 import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, USERS_URL} from "../util/path.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 // Script --------------------------------------------------------------------------------------------------------------
 let url = new URL(window.location.href);
@@ -23,7 +24,6 @@ let userPromise = fetch(BASE_URL + API_URL + USERS_URL + "get/" + userIdOfThisPa
     }
     return response.json();
 }).then((data) => {
-    console.log("userpromise data", data);
     return data;
 }).catch(error => {
     whenError();
@@ -40,6 +40,7 @@ greeting.innerHTML = "Bienvenue sur la page de " + username + " !";
 
 let achievementsPromise = fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", {
     method: "post", headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Accept': 'application/json', 'Content-Type': 'application/json'
     }, body: JSON.stringify({token: localStorage.getItem("token"), userId: userIdOfThisPage})
 }).then(async (response) => {
@@ -80,8 +81,7 @@ function isUserValid(userId) {
 }
 
 function whenError() {
-    alert("User '" + userIdOfThisPage + "' not found, redirecting to home page...");
-    window.location.replace(BASE_URL);
+    informativePopUp("User '" + userIdOfThisPage + "' not found, redirecting to home page...", () => window.location.replace(BASE_URL));
 }
 
 function callFriendAPI(method, subUrl, userId) {
@@ -97,7 +97,6 @@ function callFriendAPI(method, subUrl, userId) {
         }
         return response.text();
     }).then((data) => {
-        console.log("callFriendAPI data :", data);
         return data;
     }).catch(error => {
         console.log(error);

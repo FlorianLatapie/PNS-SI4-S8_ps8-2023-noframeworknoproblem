@@ -1,6 +1,6 @@
 import {BASE_URL} from "../../../util/frontPath.js";
 
-function informativePopUp(text, functionToExecute) {
+function endGamePopUp(text, imgSrc) {
     const validationPopUp = document.createElement("div");
     validationPopUp.classList.add("popup");
 
@@ -8,16 +8,18 @@ function informativePopUp(text, functionToExecute) {
     popUpContainer.classList.add("popup-container", "flex-column");
 
     const content = document.createElement("p")
-    content.innerText = text;
+    content.innerText = text
 
     const imgContainer = document.createElement("div");
     imgContainer.classList.add("img-container");
+
+    const img = document.createElement("img");
+    img.src = imgSrc;
 
     const closeIcon = document.createElement("img");
     closeIcon.src = BASE_URL + "/images/cross.png";
 
     closeIcon.addEventListener("click", () => {
-        if (functionToExecute) functionToExecute();
         validationPopUp.remove();
     });
 
@@ -29,6 +31,7 @@ function informativePopUp(text, functionToExecute) {
     const popUpFragment = document.createDocumentFragment();
     popUpFragment.appendChild(imgContainer);
     popUpFragment.appendChild(content);
+    popUpFragment.appendChild(img);
 
     popUpContainer.appendChild(popUpFragment);
     validationPopUp.appendChild(popUpContainer);
@@ -36,4 +39,4 @@ function informativePopUp(text, functionToExecute) {
     document.body.appendChild(validationPopUp);
 }
 
-export { informativePopUp };
+export { endGamePopUp };

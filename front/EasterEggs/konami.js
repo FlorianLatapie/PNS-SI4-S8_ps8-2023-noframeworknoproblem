@@ -23,7 +23,9 @@ class KonamiCode {
 
                 fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "add/", {
                     method: "post", headers: {
-                        'Accept': 'application/json', 'Content-Type': 'application/json'
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     }, body: JSON.stringify({token: localStorage.getItem("token"), achievement: "konami"})
                 }).then((response) => {
                     console.log("konami success unlocked");
