@@ -80,10 +80,11 @@ class AiRoom {
     saveOrDeleteGame = (gameState) => {
         console.log("Player id ", this.#player.id)
         if (gameState.isFinished === true) {
+            console.log("Game is finished, removing from db..." + this.#gameEngine.turns.length)
             GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
             this.#gameIsOverEmit(gameState.winner)
-            console.log("Game is finished, removing from db...")
         } else {
+            console.log("Game is not finished, saving to db..." + this.#gameEngine.turns.length)
             GameEngineDBUtil.saveGameEngineDB(this.#gameEngine);
         }
     }
@@ -92,6 +93,7 @@ class AiRoom {
         let gameState = this.#gameEngine.playTurn(player, column, row);
         this.#updatedBoardEmit({board: this.#gameEngine.grid.cells})
 
+        console.log("we will save the turn #" + this.#gameEngine.turns.length + " to the database")
         this.saveOrDeleteGame(gameState);
     }
 
