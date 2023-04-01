@@ -32,7 +32,6 @@ function authorizeRequest(request, response) {
         sendResponse(response, 401, "Unauthorized");
         return false;
     }
-    console.log("authorized for request", request.url)
     return true;
 }
 
@@ -44,7 +43,7 @@ function addAchievements(request, response) {
 
     let achievement = data.achievement;
     let userId = jwt.decode(token).userId;
-    achievementdb.addAchievement(userId, achievement).then((achievementAdded) => {
+    achievementdb.addAchievement(userId, achievement, 1, true).then((achievementAdded) => {
         console.log("Achievement added: ", achievementAdded);
         sendResponse(response, 201, "OK");
     }).catch((err) => {

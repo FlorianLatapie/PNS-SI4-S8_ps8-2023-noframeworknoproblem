@@ -21,13 +21,18 @@ console.log("allPossibleAchievements", allPossibleAchievements);
 
 let achievementsDiv = document.getElementById("achievements");
 achievements.forEach(achievement => {
+    // friendlyname : description (pourcentage)
     let achievementDiv = document.createElement("li");
     achievementDiv.classList.add("achievement");
-    achievementDiv.innerText = achievement.achievementId + " - " + "débloqué (100%)";
+    achievementDiv.innerText = allPossibleAchievements[achievement.achievementId].friendlyName + " - " + "(" + achievement.progress*100 + "%)";
     achievementsDiv.appendChild(achievementDiv);
 });
 
 // methods ------------------------------------------------------------------------------------------------------------
+
+function getFriendlyName(achievementId, allAchievementsObject) {
+
+}
 
 function getAllPossibleAchievements() {
     return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAllPossible/", "post");

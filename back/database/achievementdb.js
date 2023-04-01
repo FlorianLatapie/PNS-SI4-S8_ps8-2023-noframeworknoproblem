@@ -24,16 +24,16 @@ class AchievementDb {
         await this.connect();
     }
 
-    async addAchievement(userId, achievementId) {
+    async addAchievement(userId, achievementId, progress, obtained) {
         if (!this.isAchievementValid(achievementId)) throw new Error("Invalid achievement id: " + achievementId)
 
         console.log("Adding achievement: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
         try {
             if (!await this.existsAchievementForThisUser(userId, achievementId)) {
-                return await this.achievements.insertOne({userId, achievementId})
+                return await this.achievements.insertOne({userId, achievementId, progress, obtained})
             } else {
-                return await this.achievements.updateOne({userId, achievementId}, {$set: {userId, achievementId}})
+                return await this.achievements.updateOne({userId, achievementId}, {$set: {progress, obtained}})
             }
         } catch (error) {
             console.error(error);
@@ -70,23 +70,21 @@ class AchievementDb {
     }
 
     getAllPossibleAchievements() {
-        return [{
+        return {
             "1stGame": {
                 "friendlyName": "Première partie", "description": "Joue ta première partie", "maxProgress": 1,
-            }
-        }, {
+            },
             "10Games": {
                 "friendlyName": "10 parties", "description": "Joue 10 parties", "maxProgress": 10,
-            }
-        }, {
+            },
             "konami": {
                 "friendlyName": "Code Konami", "description": "Utilise le code Konami", "maxProgress": 1,
             }
-        },]
+        }
     }
 
     isAchievementValid(achievementId) {
-        return this.getAllPossibleAchievements().some(achievement => achievement.hasOwnProperty(achievementId))
+        return Object.keys(this.getAllPossibleAchievements()).includes(achievementId);
     }
 }
 
