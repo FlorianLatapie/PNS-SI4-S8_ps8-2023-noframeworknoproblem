@@ -52,8 +52,9 @@ class AiRoom {
         this.#player.removeAllListeners();
     }
 
-    #gameIsOverEmit = (winner) => {
+    #gameIsOverEmit = async (winner) => {
         STATSaddGamePlayed(this.#player.userId);
+        await GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
 
         this.#gameSocket.to(this.#player.id).emit("gameIsOver", winner)
 
@@ -80,7 +81,7 @@ class AiRoom {
     saveOrDeleteGame = (gameState) => {
         console.log("Player id ", this.#player.id)
         if (gameState.isFinished === true) {
-            GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
+            //GameEngineDBUtil.removeGameEngineFromDB(this.#gameEngine.id);
             this.#gameIsOverEmit(gameState.winner)
             console.log("Game is finished, removing from db...")
         } else {

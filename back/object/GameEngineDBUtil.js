@@ -25,7 +25,7 @@ export default class GameEngineDBUtil {
         });
     }
 
-    static removeGameEngineFromDB(id) {
+    static async removeGameEngineFromDB(id) {
         gamedb.removeGame(id).then(function (result) {
             console.log("The game was removed from the database");
             return result;

@@ -30,7 +30,8 @@ function WebPageInteraction() {
             informativePopUp("Le joueur " + ge.getOtherPlayer().name + " a gagné !");
         }
 
-        showWinner.style.display = "block";
+        console.log("Game is over");
+        //showWinner.style.display = "block";
         giveUpButton.removeEventListener("click", giveUp);
         giveUpButton.style.cursor = "not-allowed";
 
