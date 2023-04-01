@@ -173,7 +173,7 @@ chatSocket.on('connection', (socket) => {
         if (!(chatRooms.includes(roomId))) {
             chatRooms.push(roomId);
         }
-        socket.join(roomId);
+        socket.join(roomId)
 
     })
 
