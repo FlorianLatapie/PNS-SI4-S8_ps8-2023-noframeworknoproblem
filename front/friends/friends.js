@@ -2,6 +2,7 @@ import {API_URL, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../play/challenge/constantsChallenge.js";
+import {validationPopUp} from "../templates/validationPopUp/validationPopUp.js";
 
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");
@@ -38,7 +39,10 @@ function addFriendToContainer(friend) {
     let userId = friendDiv.id;
 
     removeButton.innerHTML = "Retirer";
-    removeButton.addEventListener("click", () => deleteFriendApi("removeFriend", userId, friendContainer));
+    removeButton.addEventListener("click", () => {
+        const functionToExecute = () => deleteFriendApi("removeFriend", userId, friendContainer);
+        validationPopUp(functionToExecute, `Voulez-vous vraiment retirer ${friend.username} de vos amis ?`);
+    });
 
     challengeButton.innerHTML = "Défier";
     challengeButton.addEventListener("click", () => {
@@ -64,7 +68,10 @@ function addPendingToContainer(pending) {
     let userId = pendingDiv.id;
 
     removeButton.innerHTML = "Décliner";
-    removeButton.addEventListener("click", () => deleteFriendApi("removePending", userId, pendingContainer));
+    removeButton.addEventListener("click", () => {
+        const functionToExecute  = () => deleteFriendApi("removePending", userId, pendingContainer)
+        validationPopUp(functionToExecute, `Voulez-vous vraiment décliner la demande d'ami de ${pending.username} ?`);
+    });
     acceptButton.innerHTML = "Accepter";
     acceptButton.addEventListener("click", () => addFriendApi("accept", userId, pendingContainer));
 
@@ -86,7 +93,10 @@ function addRequestToContainer(request) {
 
     requestContainer.classList.add("flex-row");
     removeButton.innerHTML = "Retirer";
-    removeButton.addEventListener("click", () => deleteFriendApi("removeRequest", userId, requestContainer));
+    removeButton.addEventListener("click", () => {
+        const functionToExecute = () => deleteFriendApi("removeRequest", userId, requestContainer);
+        validationPopUp(functionToExecute, `Voulez-vous vraiment retirer votre demande d'ami à ${request.username} ?`);
+    });
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(requestDiv);

@@ -2,6 +2,7 @@
 
 import {API_URL, NOTIFICATIONS_API_URL} from "../../util/path.js";
 import {BASE_URL} from "../../util/frontPath.js";
+import {validationPopUp} from "../validationPopUp/validationPopUp.js";
 
 
 function createNotificationRepresentation(notificationInDB) {
@@ -25,11 +26,11 @@ function createNotificationRepresentation(notificationInDB) {
     actionButton.alt = "Valider l'action de la notification";
 
     deleteButton.addEventListener("click", () => {
-        deleteNotification(container, messageContainer.id);
+        deleteNotificationWithValidation(container, messageContainer.id);
     });
 
     actionButton.addEventListener("click", () => {
-        deleteNotification(container, messageContainer.id);
+        deleteNotificationWithValidation(container, messageContainer.id);
     });
 
     if (notification.action) {
@@ -95,6 +96,10 @@ function deleteNotification(container, notificationId) {
     }).catch(error => {
         console.log(error);
     });
+}
+
+function deleteNotificationWithValidation(container, notificationId) {
+    validationPopUp(() => deleteNotification(container, notificationId), "Voulez-vous supprimer cette notification ?");
 }
 
 export {createNotificationRepresentation};
