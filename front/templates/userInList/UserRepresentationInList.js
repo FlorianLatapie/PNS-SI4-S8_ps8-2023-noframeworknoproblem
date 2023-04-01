@@ -26,7 +26,7 @@ function createUserPreviewDiv(userObj) {
     img.src = "../images/user-solid.svg";
     img.alt = "Image de profil de l'utilisateur.";
 
-    usernameContainer.innerHTML = userObj.username;
+    usernameContainer.innerText = userObj.username;
     container.id = userObj.userId;
 
     const fragment = document.createDocumentFragment();

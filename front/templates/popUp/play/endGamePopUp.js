@@ -1,4 +1,5 @@
 import {BASE_URL} from "../../../util/frontPath.js";
+import {HOME_URL} from "../../../util/path.js";
 
 function endGamePopUp(text, imgSrc) {
     const validationPopUp = document.createElement("div");
@@ -23,6 +24,12 @@ function endGamePopUp(text, imgSrc) {
         validationPopUp.remove();
     });
 
+    const homeButton = document.createElement("button");
+    homeButton.innerText = "Retour à l'accueil";
+    homeButton.addEventListener("click", () => {
+        window.location.replace(BASE_URL + HOME_URL);
+    });
+
     // ------------------ Add elements to the DOM ------------------
 
     imgContainer.appendChild(closeIcon);
@@ -32,6 +39,7 @@ function endGamePopUp(text, imgSrc) {
     popUpFragment.appendChild(imgContainer);
     popUpFragment.appendChild(content);
     popUpFragment.appendChild(img);
+    popUpFragment.appendChild(homeButton);
 
     popUpContainer.appendChild(popUpFragment);
     validationPopUp.appendChild(popUpContainer);

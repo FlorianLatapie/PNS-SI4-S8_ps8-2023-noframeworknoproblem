@@ -38,13 +38,13 @@ function addFriendToContainer(friend) {
     friendContainer.classList.add("flex-row");
     let userId = friendDiv.id;
 
-    removeButton.innerHTML = "Retirer";
+    removeButton.innerText = "Retirer";
     removeButton.addEventListener("click", () => {
         const functionToExecute = () => deleteFriendApi("removeFriend", userId, friendContainer);
         validationPopUp(functionToExecute, `Voulez-vous vraiment retirer ${friend.username} de vos amis ?`);
     });
 
-    challengeButton.innerHTML = "Défier";
+    challengeButton.innerText = "Défier";
     challengeButton.addEventListener("click", () => {
         window.location.replace(BASE_URL + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=true`)
     });
@@ -67,12 +67,12 @@ function addPendingToContainer(pending) {
     pendingContainer.classList.add("flex-row");
     let userId = pendingDiv.id;
 
-    removeButton.innerHTML = "Décliner";
+    removeButton.innerText = "Décliner";
     removeButton.addEventListener("click", () => {
         const functionToExecute  = () => deleteFriendApi("removePending", userId, pendingContainer)
         validationPopUp(functionToExecute, `Voulez-vous vraiment décliner la demande d'ami de ${pending.username} ?`);
     });
-    acceptButton.innerHTML = "Accepter";
+    acceptButton.innerText = "Accepter";
     acceptButton.addEventListener("click", () => addFriendApi("accept", userId, pendingContainer));
 
     const fragment = document.createDocumentFragment();
@@ -92,7 +92,7 @@ function addRequestToContainer(request) {
     let userId = requestDiv.id;
 
     requestContainer.classList.add("flex-row");
-    removeButton.innerHTML = "Retirer";
+    removeButton.innerText = "Retirer";
     removeButton.addEventListener("click", () => {
         const functionToExecute = () => deleteFriendApi("removeRequest", userId, requestContainer);
         validationPopUp(functionToExecute, `Voulez-vous vraiment retirer votre demande d'ami à ${request.username} ?`);
@@ -123,7 +123,7 @@ function addFriendApi(action, id, container) {
         }
         addFriendToContainer(
             {userId: container.getAttribute("id"),
-                username: container.getElementsByClassName("username")[0].innerHTML})
+                username: container.getElementsByClassName("username")[0].innerText})
         container.remove();
     }).catch(error => {
         console.log(error);

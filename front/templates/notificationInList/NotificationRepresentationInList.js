@@ -64,7 +64,7 @@ function createNotificationRepresentation(notificationInDB) {
     }
 
 
-    message.innerHTML = notification.message;
+    message.innerText = notification.message;
     messageContainer.appendChild(message);
 
     const fragment = document.createDocumentFragment();

@@ -37,7 +37,7 @@ window.addEventListener('load', function () {
 function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
     // Get the <p> element containing the username in userDiv
     let usernameElement = userDiv.querySelector("p");
-    let usernameText = usernameElement.innerHTML;
+    let usernameText = usernameElement.innerText;
 
     let dbUsername = completeUser.username.toLowerCase();
 
@@ -45,8 +45,8 @@ function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
     // If the search term is found in the username, make the search term bold
     if (index !== -1) {
         let boldElement = document.createElement("b");
-        boldElement.innerHTML = usernameText.substring(index, index + searchName.length);
-        usernameElement.innerHTML = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
+        boldElement.innerText = usernameText.substring(index, index + searchName.length);
+        usernameElement.innerText = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
     }
 }
 function removeUsersListContent() {
