@@ -53,8 +53,7 @@ function getUserById(response, userId) {
 
 function getCurrentAIGame(response, userId){
     gamedb.getGamePlayerId(userId).then((game) => {
-        if(game.gameEngine.isGameOver === true) sendResponse(response, 200, null);
-        else sendResponse(response, 200, JSON.stringify(game));
+        sendResponse(response, 200, JSON.stringify(game));
     }).catch((err) =>{
         sendResponse(response, 404, "Malformed request : " + err);
     });

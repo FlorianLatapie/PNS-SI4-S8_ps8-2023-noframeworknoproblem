@@ -41,7 +41,11 @@ class GameDb {
     async getGamePlayerId(player) {
         await this.verifyConnection();
         try {
-            return await this.games.findOne({$or: [{player1: player}, {player2: player}]});
+            let game = await this.games.findOne({$or: [{player1: player}, {player2: player}]});
+            if (game.gameEngine.isGameOver) {
+                await this.removeGame(game.gameId);
+            }
+            return game;
         } catch (error) {
             throw new Error("Game not found for player: " + player);
         }
