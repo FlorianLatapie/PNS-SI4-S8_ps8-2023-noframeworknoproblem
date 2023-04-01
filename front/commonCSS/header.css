@@ -2,6 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     font-size: 1em;
+    min-height: 10vh;
 }
 
 /* header not the first child */

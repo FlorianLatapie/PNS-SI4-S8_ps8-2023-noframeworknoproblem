@@ -4,6 +4,7 @@
 @import "../templates/notificationInList/NotificationRepesentationInList.css";
 @import "../templates/popUp/popUp.css";
 @import "CSSvariables.css";
+@import "../templates/achievement/achievement.css";
 
 * {
     font-family: "Verdana";
