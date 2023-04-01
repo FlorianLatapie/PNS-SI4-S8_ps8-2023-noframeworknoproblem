@@ -44,6 +44,7 @@ class GameDb {
             if (game) {
                 if (game.gameEngine.isGameOver) {
                     await this.removeGame(game.gameId);
+                    return null;
                 }
             }
             return game;
