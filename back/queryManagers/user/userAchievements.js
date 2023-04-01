@@ -1,17 +1,24 @@
 "use strict";
 
-import {BODY, sendResponse} from "../utilsApi.js";
+import {BODY, checkAuthorization, sendResponse, USER_ID} from "../utilsApi.js";
 import jwt from "jsonwebtoken";
 import {JWTSecretCode} from "../../credentials/credentials.js";
 import achievementdb from "../../database/achievementdb.js";
 
 export function achievementsManager(request, response, urlPathArray) {
+    if (!authorizeRequest(request, response)) {
+        return;
+    }
+
     switch (urlPathArray[0]) {
         case "add":
             addAchievements(request, response);
             break;
         case "getAll":
             getAllAchievements(request, response);
+            break;
+        case "getAllPossible":
+            getAllPossibleAchievements(request, response);
             break;
         default:
             console.log("URL", request.url, "not supported");
@@ -20,37 +27,21 @@ export function achievementsManager(request, response, urlPathArray) {
     }
 }
 
-function getAllAchievements(request, response) {
-    let data = request[BODY];
-    let token = data.token;
-    let userId = data.userId;
-
-    try {
-        jwt.verify(token, JWTSecretCode)
-    } catch (err) {
-        sendResponse(response, 401, "No token provided");
-        return;
+function authorizeRequest(request, response) {
+    if (!checkAuthorization(request)) {
+        sendResponse(response, 401, "Unauthorized");
+        return false;
     }
-
-    achievementdb.getAchievementsForUser(userId).then((achievements) => {
-        console.log("Achievements: ", achievements);
-        sendResponse(response, 200, JSON.stringify(achievements));
-    }).catch((err) => {
-        console.log("Error: ", err);
-        sendResponse(response, 409, "Achievements not found: " + JSON.stringify(err));
-    });
+    console.log("authorized for request", request.url)
+    return true;
 }
 
-export function addAchievements(request, response) {
+
+
+function addAchievements(request, response) {
     let data = request[BODY];
     let token = data.token;
 
-    try {
-        jwt.verify(token, JWTSecretCode)
-    } catch (err) {
-        sendResponse(response, 401, "No token provided");
-        return;
-    }
     let achievement = data.achievement;
     let userId = jwt.decode(token).userId;
     achievementdb.addAchievement(userId, achievement).then((achievementAdded) => {
@@ -59,4 +50,19 @@ export function addAchievements(request, response) {
     }).catch((err) => {
         sendResponse(response, 409, "Achievement not added: " + JSON.stringify(err));
     });
+}
+
+function getAllAchievements(request, response) {
+    let userId = request[USER_ID];
+
+    achievementdb.getAchievementsForUser(userId).then((achievements) => {
+        sendResponse(response, 200, JSON.stringify(achievements));
+    }).catch((err) => {
+        console.log("Error: ", err);
+        sendResponse(response, 409, "Achievements not found: " + JSON.stringify(err));
+    });
+}
+
+function getAllPossibleAchievements(request, response) {
+   sendResponse(response, 200, JSON.stringify(achievementdb.getAllPossibleAchievements()));
 }

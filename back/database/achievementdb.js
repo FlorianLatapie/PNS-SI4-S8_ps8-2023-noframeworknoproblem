@@ -72,18 +72,15 @@ class AchievementDb {
     getAllPossibleAchievements() {
         return [{
             "1stGame": {
-                "friendlyName": "Première partie",
-                "description": "Joue ta première partie", "maxProgress": 1,
+                "friendlyName": "Première partie", "description": "Joue ta première partie", "maxProgress": 1,
             }
         }, {
             "10Games": {
-                "friendlyName": "10 parties",
-                "description": "Joue 10 parties", "maxProgress": 10,
+                "friendlyName": "10 parties", "description": "Joue 10 parties", "maxProgress": 10,
             }
         }, {
             "konami": {
-                "friendlyName": "Code Konami",
-                "description": "Utilise le code Konami", "maxProgress": 1,
+                "friendlyName": "Code Konami", "description": "Utilise le code Konami", "maxProgress": 1,
             }
         },]
     }
