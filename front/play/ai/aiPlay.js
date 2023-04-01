@@ -3,6 +3,10 @@
 import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
 import {PARAMETER_NAME_IA_PLAYS} from "./constant.js";
+import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
+import {parseJwt} from "../../util/jwtParser.js";
+import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
+import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
 
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
@@ -99,6 +103,11 @@ let AITurn = url.searchParams.get(PARAMETER_NAME_IA_PLAYS);
 if (AITurn === null) {
     AITurn = 2;
 }
+
+function changeInfoPage(text) {
+    document.getElementById("info").innerText = text;
+}
+
 gameSocket.on("connect", () => {
     //console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
     //console.log("token: " + localStorage.getItem("token"));
@@ -127,28 +136,19 @@ gameSocket.on("connect", () => {
 
     gameSocket.on("gameIsOver", (winner) => {
         //console.log("gameIsOver received winner is :", winner)
-        let divWinner = document.getElementById("show-winner");
-        let close = document.getElementById("cross");
-        let winnerText = document.getElementById("winner-text");
-        close.addEventListener("click", function () {
-            divWinner.style.display = "none";
-        });
-        let title = document.getElementById("page-title");
         if (winner === "draw") {
-            winnerText.innerText = "Egalité !!";
-            title.innerText = "Egalité !!";
+            drawPopUp();
+            changeInfoPage("Egalité");
         } else {
-            if (winner !== "AI") {
-                winnerText.innerText = "Tu as gagné !!";
-                let image = document.getElementById("pic");
-                image.src = "../../images/smile.png";
-                title.innerText = "Tu as gagné !!";
+            if (winner === parseJwt(localStorage.getItem("token")).username) {
+                winningPopUp();
+                changeInfoPage("Victoire");
             } else {
-                winnerText.innerText = "Tu as perdu !!";
-                title.innerText = "Tu as perdu !!";
+                losingPopUp();
+                changeInfoPage("Défaite");
             }
         }
-        divWinner.style.display = "block";
+
         removeListeners();
         let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.style.cursor = "not-allowed";

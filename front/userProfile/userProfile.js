@@ -2,6 +2,7 @@
 
 import {BASE_URL} from "../util/frontPath.js";
 import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, USERS_URL} from "../util/path.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 // Script --------------------------------------------------------------------------------------------------------------
 let url = new URL(window.location.href);
@@ -80,8 +81,7 @@ function isUserValid(userId) {
 }
 
 function whenError() {
-    alert("User '" + userIdOfThisPage + "' not found, redirecting to home page...");
-    window.location.replace(BASE_URL);
+    informativePopUp("User '" + userIdOfThisPage + "' not found, redirecting to home page...", () => window.location.replace(BASE_URL));
 }
 
 function callFriendAPI(method, subUrl, userId) {

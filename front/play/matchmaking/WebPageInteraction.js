@@ -1,5 +1,8 @@
 import Grid from "../../GameLogic/Grid.js";
 import {parseJwt} from "../../util/jwtParser.js";
+import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
+import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
+import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 
 class WebPageInteraction {
 
@@ -164,24 +167,18 @@ class WebPageInteraction {
     }
 
     gameIsOver = (winner) => {
-        let divWinner = document.getElementById("show-winner");
-        let close = document.getElementById("cross");
-        let winnerText = document.getElementById("winner-text");
-        close.addEventListener("click", function () {
-            divWinner.style.display = "none";
-        });
         if (winner === "draw") {
-            winnerText.innerText = "Egalité !!";
+            drawPopUp();
+            this.#changeInfoPage("Egalité");
         } else {
             if (winner === parseJwt(localStorage.getItem("token")).username) {
-                winnerText.innerText = "Tu as gagné !!";
-                let image = document.getElementById("pic");
-                image.src = "../../images/smile.png";
+                winningPopUp();
+                this.#changeInfoPage("Victoire");
             } else {
-                winnerText.innerText = "Tu as perdu !!";
+                losingPopUp();
+                this.#changeInfoPage("Défaite");
             }
         }
-        divWinner.style.display = "block";
         this.removeAllListeners();
     }
 

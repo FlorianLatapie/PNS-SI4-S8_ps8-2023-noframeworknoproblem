@@ -1,5 +1,5 @@
-@import "../play.css";
-@import "../ai/ai.css";
+@import "play/play.css";
+@import "ai/ai.css";
 
 /* timer */
 
@@ -66,4 +66,8 @@
     padding: 0.5em;
     text-align: center;
     line-height: 0.2em;
+}
+
+#info {
+    margin-top: 10px;
 }
