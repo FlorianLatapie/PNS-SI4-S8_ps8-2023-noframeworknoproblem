@@ -64,11 +64,12 @@ const gameSocket = io.of("/api/game");
 const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
+gamedb.removeAllGames().then(() => {
+    console.log("Server started, all the games             have been removed from the database, look for /back/index.js to change this behaviour");
+});
+
 let wipeDBOnServerStart = false;
 if (wipeDBOnServerStart) {
-    gamedb.removeAllGames().then(() => {
-        console.log("Server started, all the games             have been removed from the database, look for /back/index.js to change this behaviour");
-    });
     achievementdb.removeAllAchievements().then(() => {
         console.log("Server started, all the user achievements have been removed from the database, look for /back/index.js to change this behaviour");
     });
