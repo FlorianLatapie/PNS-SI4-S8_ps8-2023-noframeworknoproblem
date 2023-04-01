@@ -4,7 +4,6 @@ import {BASE_URL} from "../util/frontPath.js";
 import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, USERS_URL} from "../util/path.js";
 
 // Script --------------------------------------------------------------------------------------------------------------
-
 let url = new URL(window.location.href);
 let userIdOfThisPage = url.searchParams.get("userId");
 
@@ -24,6 +23,7 @@ let userPromise = fetch(BASE_URL + API_URL + USERS_URL + "get/" + userIdOfThisPa
     }
     return response.json();
 }).then((data) => {
+    console.log("userpromise data", data);
     return data;
 }).catch(error => {
     whenError();
@@ -97,6 +97,7 @@ function callFriendAPI(method, subUrl, userId) {
         }
         return response.text();
     }).then((data) => {
+        console.log("callFriendAPI data :", data);
         return data;
     }).catch(error => {
         console.log(error);
@@ -127,8 +128,6 @@ async function updateButton() {
     let friendshipButton = document.getElementById("friendship-button");
 
     let status = await getStatus(userIdOfThisPage);
-
-    console.log(status);
 
     // Clone the button to remove existing event listeners
     let newButton = friendshipButton.cloneNode(true);
