@@ -27,15 +27,16 @@ for (let achievementElement of Object.entries(allPossibleAchievements)) {
     console.log("achievement", achievement);
     let userAchievement = achievements.find(userAchievement => userAchievement.achievementId === achievementId);
     console.log("userAchievement", userAchievement);
-    if (!achievement.isHidden || (achievement.isHidden && userAchievement)) {
+
+    if (!achievement.isHidden || (achievement.isHidden && userAchievement && userAchievement.obtained)) {
         console.log("achievement respecting the constraints", achievement)
         let name = achievement.friendlyName;
-        let found = userAchievement !== undefined;
-        let advancement = userAchievement ? userAchievement.progress : 0;
+        let found = userAchievement.obtained;
+        let advancement_ratio = userAchievement ? userAchievement.progress : 0;
         let goal = achievement.maxProgress;
         // let srcImg = allPossibleAchievements[achievementRepresentation.achievementId].imgSrc
         let srcImg = BASE_URL + achievement.imgSrc;
-        let achievementDiv = achievementRepresentation(name, found, advancement, goal, srcImg);
+        let achievementDiv = achievementRepresentation(name, found, advancement_ratio, goal, srcImg);
         achievementsDiv.appendChild(achievementDiv);
     }
 }

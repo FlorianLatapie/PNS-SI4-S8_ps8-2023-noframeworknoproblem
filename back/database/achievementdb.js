@@ -72,14 +72,14 @@ class AchievementDb {
     getAllPossibleAchievements() {
         return {
             "1stGame": {
-                friendlyName: "Première partie",
+                friendlyName: "1er partie en ligne",
                 description: "Joue ta première partie",
                 maxProgress: 1,
                 isHidden: false,
                 imgSrc: "images/1.svg"
             },
             "10Games": {
-                friendlyName: "10 parties",
+                friendlyName: "10 parties en ligne",
                 description: "Joue 10 parties",
                 maxProgress: 10,
                 isHidden: false,

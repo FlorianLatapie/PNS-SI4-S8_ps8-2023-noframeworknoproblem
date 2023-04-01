@@ -1,4 +1,4 @@
-function achievementRepresentation(nameAchievement, found, advancement, goal, srcImg) {
+function achievementRepresentation(nameAchievement, found, advancement_ratio, goal, srcImg) {
     const imgContainer = document.createElement("div");
     const img = document.createElement("img");
     const info = document.createElement("p");
@@ -10,7 +10,7 @@ function achievementRepresentation(nameAchievement, found, advancement, goal, sr
 
     if (!found) {
         img.classList.add("achievement-notfound");
-        info.innerText = advancementRepresentation(nameAchievement, advancement, goal);
+        info.innerText = advancementRepresentation(nameAchievement, advancement_ratio, goal);
     } else {
         img.classList.add("achievement-found");
         info.innerText = nameAchievement;
@@ -27,8 +27,8 @@ function achievementRepresentation(nameAchievement, found, advancement, goal, sr
     imgContainer.appendChild(info);
     return imgContainer;
 
-    function advancementRepresentation(nameAchievement, advancement, goal) {
-        return `${nameAchievement} : ${advancement} / ${goal} (${advancement / goal * 100}%)`;
+    function advancementRepresentation(nameAchievement, advancement_ratio, goal) {
+        return `${nameAchievement} : ${advancement_ratio * goal} / ${goal} (${advancement_ratio * 100}%)`;
     }
 }
 
