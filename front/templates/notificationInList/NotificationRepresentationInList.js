@@ -2,7 +2,7 @@
 
 import {API_URL, NOTIFICATIONS_API_URL} from "../../util/path.js";
 import {BASE_URL} from "../../util/frontPath.js";
-import {validationPopUp} from "../validationPopUp/validationPopUp.js";
+import {validationPopUp} from "../popUp/validationPopUp/validationPopUp.js";
 
 
 function createNotificationRepresentation(notificationInDB) {

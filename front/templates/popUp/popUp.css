@@ -1,4 +1,4 @@
-.validation-popup {
+.popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -17,6 +17,17 @@
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.img-container > img {
+    width: 18px;
+    height: 18px;
+}
+
+.img-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
 }
 
 

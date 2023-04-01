@@ -2,6 +2,7 @@
 
 import {ACHIEVEMENTS_URL, API_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 class KonamiCode {
     constructor(showHints = false) {
@@ -18,7 +19,7 @@ class KonamiCode {
 
             if (this.positionInKonamiCode === this.code.length) {
                 this.positionInKonamiCode = 0;
-                alert("Bravo tu as fait le Konami Code !")
+                informativePopUp("Bravo tu as fait le Konami Code !")
 
                 fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "add/", {
                     method: "post", headers: {

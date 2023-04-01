@@ -1,5 +1,6 @@
 import Grid from "../../GameLogic/Grid.js";
 import {parseJwt} from "../../util/jwtParser.js";
+import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
 
 class WebPageInteraction {
     #grid
@@ -242,7 +243,7 @@ class WebPageInteraction {
 
     opponentLeaved = () => {
         this.#changeInfoPage("L'adversaire a quitté la partie");
-        alert("L'adversaire a quitté la partie");
+        informativePopUp("L'adversaire a quitté la partie");
     }
 
     waitingForOpponent = (username) => {

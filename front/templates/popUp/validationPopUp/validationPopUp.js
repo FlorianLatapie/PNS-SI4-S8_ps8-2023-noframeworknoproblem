@@ -1,6 +1,8 @@
+import {BASE_URL} from "../../../util/frontPath.js";
+
 function validationPopUp(functionToExecute, text) {
     const validationPopUp = document.createElement("div");
-    validationPopUp.classList.add("validation-popup");
+    validationPopUp.classList.add("popup");
 
     const popUpContainer = document.createElement("div")
     popUpContainer.classList.add("popup-container", "flex-column");
@@ -10,6 +12,16 @@ function validationPopUp(functionToExecute, text) {
 
     const buttonsContainer = document.createElement("div");
     buttonsContainer.classList.add("buttons-popup", "flex-row");
+
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("img-container");
+
+    const closeIcon = document.createElement("img");
+    closeIcon.src = BASE_URL + "/images/cross.png";
+
+    closeIcon.addEventListener("click", () => {
+        validationPopUp.remove();
+    });
 
     const yesButton = document.createElement("button");
     yesButton.innerText = "Oui";
@@ -25,6 +37,9 @@ function validationPopUp(functionToExecute, text) {
     });
 
     // ------------------ Add elements to the DOM ------------------
+
+    imgContainer.appendChild(closeIcon);
+
     const buttonsFragment = document.createDocumentFragment();
 
     buttonsFragment.appendChild(yesButton);
@@ -33,6 +48,7 @@ function validationPopUp(functionToExecute, text) {
     buttonsContainer.appendChild(buttonsFragment);
 
     const popUpFragment = document.createDocumentFragment();
+    popUpFragment.appendChild(imgContainer);
     popUpFragment.appendChild(content);
     popUpFragment.appendChild(buttonsContainer);
 

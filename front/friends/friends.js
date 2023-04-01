@@ -2,7 +2,7 @@ import {API_URL, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../play/challenge/constantsChallenge.js";
-import {validationPopUp} from "../templates/validationPopUp/validationPopUp.js";
+import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
 const friendsListContainer = document.getElementById("users-friends");
 const pendingListContainer = document.getElementById("users-pending");

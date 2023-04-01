@@ -1,6 +1,7 @@
 import {parseJwt} from "../util/jwtParser.js";
 import {API_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 document.getElementById("signup")
     .setAttribute("href",
@@ -19,7 +20,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         }, body: JSON.stringify(values)
     }).then(async (response) => {
         if (!response.ok) {
-            alert("Erreur d'authentification");
+            informativePopUp("La combinaison nom d'utilisateur/mot de passe est incorrecte.");
             return;
         }
         let jwtToken = await response.text();
