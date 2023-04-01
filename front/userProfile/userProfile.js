@@ -33,10 +33,10 @@ let user = await userPromise;
 let username = user.username;
 
 let title = document.getElementById("page-title");
-title.innerHTML = "Profil de " + username;
+title.innerText = "Profil de " + username;
 
 let greeting = document.getElementById("greeting");
-greeting.innerHTML = "Bienvenue sur la page de " + username + " !";
+greeting.innerText = "Bienvenue sur la page de " + username + " !";
 
 let achievementsPromise = fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", {
     method: "post", headers: {
@@ -64,7 +64,7 @@ let achievements = await achievementsPromise;
 
 if (achievements.length === 0) {
     let success = document.getElementById("successes");
-    success.innerHTML = "Aucun succès débloqué pour le moment.";
+    success.innerText = "Aucun succès débloqué pour le moment.";
 }
 
 let achievementsDiv = document.getElementById("achievements");
@@ -135,7 +135,7 @@ async function updateButton() {
 
     switch (status) {
         case "request":
-            friendshipButton.innerHTML = "Annuler la demande d'ami";
+            friendshipButton.innerText = "Annuler la demande d'ami";
             friendshipButton.addEventListener("click", async () => {
                 cancelRequest(userIdOfThisPage).then(() => {
                     updateButton();
@@ -144,7 +144,7 @@ async function updateButton() {
 
             break;
         case "friend":
-            friendshipButton.innerHTML = "Retirer de mes amis";
+            friendshipButton.innerText = "Retirer de mes amis";
             friendshipButton.addEventListener("click", async () => {
                 removeFriend(userIdOfThisPage).then(() => {
                     updateButton();
@@ -153,7 +153,7 @@ async function updateButton() {
 
             break;
         case "pending":
-            friendshipButton.innerHTML = "Accepter la demande";
+            friendshipButton.innerText = "Accepter la demande";
             friendshipButton.addEventListener("click", async () => {
                 acceptFriend(userIdOfThisPage).then(() => {
                     updateButton();
@@ -162,7 +162,7 @@ async function updateButton() {
             break;
 
         case "none":
-            friendshipButton.innerHTML = "Ajouter aux amis";
+            friendshipButton.innerText = "Ajouter aux amis";
             friendshipButton.addEventListener("click", async () => {
                 addFriend(userIdOfThisPage).then(() => {
                     updateButton();

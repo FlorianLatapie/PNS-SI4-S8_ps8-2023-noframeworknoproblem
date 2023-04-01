@@ -25,6 +25,7 @@
     margin-top: 30px;
     width: 250px;
     height: 250px;
+    margin-bottom: 20px;
 }
 
 .popup-container > p {
@@ -50,7 +51,7 @@
     margin-top: 20px;
 }
 
-.buttons-popup > button {
+.buttons-popup > button, .popup-container > button{
     padding: 10px 20px;
     border: none;
     border-radius: 20px;

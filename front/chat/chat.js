@@ -98,10 +98,10 @@ class Chat extends HTMLElement {
             // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
             message.id = "a" + this.#friends[i].userId;
             notif.id = "n" + this.#friends[i].userId;
-            name.innerHTML = this.#friends[i].username;
-            notif.innerHTML = "&#128308;";
+            name.innerText = this.#friends[i].username;
+            notif.innerText = "&#128308;";
             chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
-            message.innerHTML = this.#LastMessage;
+            message.innerText = this.#LastMessage;
             let fragment = document.createDocumentFragment();
             fragment.appendChild(name.cloneNode(true));
             fragment.appendChild(message.cloneNode(true));
@@ -113,7 +113,7 @@ class Chat extends HTMLElement {
         }
         this.#friendSelected = this.#friends[0];
         let name = this.shadowRoot.querySelector("#friendSelected");
-        name.innerHTML = this.#friendSelected.username;
+        name.innerText = this.#friendSelected.username;
         this.#addEventSubmit();
         chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
         this.#getMessagesFromBack();
@@ -129,7 +129,7 @@ class Chat extends HTMLElement {
             if (message.length !== 0) {
                 let id = "#a" + user2;
                 let messageDiv = this.shadowRoot.querySelector(id);
-                messageDiv.innerHTML = "Dernier message : " + message[0].message;
+                messageDiv.innerText = "Dernier message : " + message[0].message;
             }
         });
         chatSocket.on('messageAddedInDb', () => {
@@ -152,7 +152,7 @@ class Chat extends HTMLElement {
                 } else {
                     messageToAdd.classList.add("receiver");
                 }
-                messageToAdd.innerHTML = message[0].message;
+                messageToAdd.innerText = message[0].message;
                 this.#chat.append(messageToAdd);
                 this.#chat.scrollTop = this.#chat.scrollHeight;
             }
@@ -173,10 +173,10 @@ class Chat extends HTMLElement {
             this.#friendSelected = this.#friends.find(friend => friend.username === contact.childNodes[0].textContent);
             let name = this.shadowRoot.querySelector("#friendSelected");
             chatSocket.emit('read', this.#friendSelected.userId, this.#userId);
-            name.innerHTML = this.#friendSelected.username;
+            name.innerText = this.#friendSelected.username;
             this.#messagesToSkip = 0;
             chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
-            this.#chat.innerHTML = "";
+            this.#chat.innerText = "";
             //chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friendSelected.userId);
             this.#getMessagesFromBack();
             let notifId = "#n" + this.#friendSelected.userId;
