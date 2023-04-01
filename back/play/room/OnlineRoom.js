@@ -2,6 +2,7 @@ import Player from "../../../front/GameLogic/Player.js";
 import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
+import {STATSaddGamePlayed} from "../../object/UserStatsDBUtil.js";
 
 class OnlineRoom {
     #player1;
@@ -110,6 +111,9 @@ class OnlineRoom {
     }
 
     #gameIsOver = (winner) => {
+        STATSaddGamePlayed(this.#player1.userId);
+        STATSaddGamePlayed(this.#player2.userId);
+
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
         this.#gameSocket.to(this.#room).emit("timer", 0);
