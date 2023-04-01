@@ -55,10 +55,6 @@ class Chat extends HTMLElement {
     #messagesToSkip;
     #chat;
 
-    /*
-        #scrollTop;
-    */
-
     constructor() {
         super();
         this.attachShadow({mode: "open"});
@@ -113,6 +109,7 @@ class Chat extends HTMLElement {
             contact.appendChild(fragment);
             contacts.appendChild(contact.cloneNode(true));
             this.#addFriendSelector();
+            chatSocket.emit('init', this.#userId, this.#friends[i].userId);
         }
         this.#friendSelected = this.#friends[0];
         let name = this.shadowRoot.querySelector("#friendSelected");
@@ -121,7 +118,7 @@ class Chat extends HTMLElement {
         chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
         this.#getMessagesFromBack();
         this.#chat.addEventListener("scroll", () => {
-            if (this.#chat.scrollTop <= 0) {
+            if (this.#chat.scrollTop <= 0 && this.#messagesToSkip > 10) {
                 this.#getMessagesFromBack();
             }
         });
@@ -161,7 +158,6 @@ class Chat extends HTMLElement {
             }
             else {
                 let notifId = "#n" + user1;
-                console.log(notifId);
                 let notif = this.shadowRoot.querySelector(notifId);
                 notif.style.visibility = "visible";
                 notif.style.display = "block";

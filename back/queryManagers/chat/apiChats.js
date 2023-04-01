@@ -3,7 +3,6 @@ import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "..
 import SchemaValidator from "../../util/SchemaValidator.js";
 
 function messagesApiGet(request, response, urlPathArray) {
-    console.log("Enter in messagesApiGet");
     if (!checkAuthorization(request, response)) {
         return;
     }
@@ -22,7 +21,6 @@ function messagesApiGet(request, response, urlPathArray) {
     }
     switch (urlPathArray[0]) {
         case "get":
-            console.log("Enter in messagesApiGet get case");
             let schemaValidator = new SchemaValidator();
             let validationFunction = schemaValidator.compile(schemaGetQuery);
             let paramsObject = request[PARAMS];

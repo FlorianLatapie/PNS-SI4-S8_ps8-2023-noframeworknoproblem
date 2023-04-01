@@ -12,9 +12,24 @@ class ChatDb {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
             this.chats = this.database.collection(DB_CONF.chatsCollection+"");
+            this.#init();
         } catch (error) {
             console.error(error);
         }
+    }
+
+    /* On initialise la base de données avec un message sinon il y a un
+     problème d'affichage lors de l'envoi du premier message par un
+     utilisateur
+    */
+    #init() {
+        this.chats.insertOne({
+            idSender: "1",
+            idReceiver: "2",
+            message: "Hello",
+            read: false,
+            sentDate: new Date(),
+        });
     }
 
     async verifyConnection() {
@@ -78,8 +93,6 @@ class ChatDb {
                 ]});
             return await messages.sort({sentDate: -1}).limit(1)
                 .toArray();
-            /*console.log("Last Message in db", await messages.toArray());
-            return messages;*/
         } catch (error) {
             console.error(error);
         }

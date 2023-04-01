@@ -27,23 +27,29 @@ class GameDb {
         try {
             if (!await this.existsGameGameEngineId(data)) {
                 return await this.games.insertOne(data);
-            }
-            else {
+            } else {
                 return await this.games.updateOne({gameId: data.gameId}, {$set: data});
             }
         } catch (error) {
             console.error(error);
         }
 
-        throw new Error("Game already exists :" +  JSON.stringify(data))
+        throw new Error("Game already exists :" + JSON.stringify(data))
     }
 
     async getGamePlayerId(player) {
         await this.verifyConnection();
         try {
-            return await this.games.findOne({$or: [{player1: player}, {player2: player}]});
+            let game = await this.games.findOne({$or: [{player1: player}, {player2: player}]});
+            if (game) {
+                if (game.gameEngine.isGameOver) {
+                    await this.removeGame(game.gameId);
+                    return null;
+                }
+            }
+            return game;
         } catch (error) {
-            throw new Error("Game not found for player: " + player);
+            throw new Error("Game not found for player: " + player + error);
         }
     }
 

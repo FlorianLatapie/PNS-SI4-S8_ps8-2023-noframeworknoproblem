@@ -1,16 +1,8 @@
-body, html {
-    font-family: Red hat Display, sans-serif;
-    font-weight: 400;
-    line-height: 1.25em;
-    letter-spacing: 0.025em;
-    color: #333;
-    background: #F7F7F7;
-}
-
 .center {
     position: fixed;
     bottom: 3vh;
-    right: -3vh;
+    right: 3vh;
+
 }
 
 .contact {
@@ -55,12 +47,7 @@ body, html {
     color: #999;
     transition: color 200ms;
 }
-.contacts .fa-bars:hover {
-    color: #666;
-}
-.contacts .contact:last-child {
-    margin: 0;
-}
+
 .contacts:hover {
     transform: translate(-23rem, -50%);
 }

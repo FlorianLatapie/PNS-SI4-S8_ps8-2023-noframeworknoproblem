@@ -14,7 +14,7 @@ fetch(BASE_URL + API_URL + USERS_URL + "getCurrentAIGame/", {
     if (data === null) {
         return;
     }
-
+    console.log(data);
     let userId = localStorage.getItem("userId");
     let url = BASE_URL + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=";
     if (data.player1 === userId){

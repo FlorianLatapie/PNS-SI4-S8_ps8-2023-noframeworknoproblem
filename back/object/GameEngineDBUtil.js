@@ -17,7 +17,7 @@ export default class GameEngineDBUtil {
         }
 
         gamedb.addGame(data).then(function (result) {
-            console.log("The game was saved to the database ! ");
+            console.log("The game was saved to the database ! with ", gameEngineToSave.turns.length, "turns played");
             return result;
         }).catch(function (error) {
             console.log("error while saving the game to the database");

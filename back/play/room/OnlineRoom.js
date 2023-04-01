@@ -137,44 +137,6 @@ class OnlineRoom {
 
     }
 
-
-
-    /*
-    autoPlay = (gameEngineFromDB) => {
-        for (let i = 0; i < gameEngineFromDB.turns.length; i++) {
-            if (i % 2 === 0) {
-                this.#gameEngine.playTurn(this.#HumanPlayer, gameEngineFromDB.turns[i])
-                let sentBoard = {
-                    board: this.#gameEngine.grid.cells
-                }
-                this.#gameSocket.to(this.#player.id).emit("updatedBoard", sentBoard)
-            } else {
-                this.#gameEngine.playTurn(this.#AIPlayer, gameEngineFromDB.turns[i])
-                let sentBoard = {
-                    board: this.#gameEngine.grid.cells
-                }
-                this.#gameSocket.to(this.#player.id).emit("updatedBoard", sentBoard)
-            }
-        }
-        console.log(this.#gameEngine.grid.toString())
-    }
-
-    reloadGameFromDB = (dbResult, userId) => {
-        console.log("game found in the database")
-        // load the game engine from the file system
-        let gameEngineFromDB = dbResult.gameEngine;
-
-        if (gameEngineFromDB.player1.id === userId) {
-            this.#gameEngine = new GameEngine(this.#HumanPlayer, this.#AIPlayer, gameEngineFromDB.id);
-            this.autoPlay(gameEngineFromDB);
-        } else {
-            this.#gameEngine = new GameEngine(this.#AIPlayer, this.#HumanPlayer, gameEngineFromDB.id);
-            this.autoPlay(gameEngineFromDB);
-            console.log(this.#gameEngine.grid.toString())
-        }
-    }
-     */
-
     newGame = () => {
         this.#HumanPlayers[this.#player1.userId] = new Player(this.#player1.username, this.#player1.userId);
         this.#HumanPlayers[this.#player2.userId] = new Player(this.#player2.username, this.#player2.userId);

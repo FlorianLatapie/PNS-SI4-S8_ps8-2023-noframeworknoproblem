@@ -106,6 +106,7 @@ if (AITurn === null) {
 
 function changeInfoPage(text) {
     document.getElementById("info").innerText = text;
+    document.getElementById("page-title").innerText = "";
 }
 
 gameSocket.on("connect", () => {
@@ -135,12 +136,12 @@ gameSocket.on("connect", () => {
     })
 
     gameSocket.on("gameIsOver", (winner) => {
-        //console.log("gameIsOver received winner is :", winner)
+        console.log("gameIsOver received winner is :", winner)
         if (winner === "draw") {
             drawPopUp();
             changeInfoPage("Egalité");
         } else {
-            if (winner === parseJwt(localStorage.getItem("token")).username) {
+            if (winner === "HumanPlayer") {
                 winningPopUp();
                 changeInfoPage("Victoire");
             } else {
@@ -151,10 +152,9 @@ gameSocket.on("connect", () => {
 
         removeListeners();
         let giveUpButton = document.getElementById("give-up-button");
-        giveUpButton.style.cursor = "not-allowed";
-        giveUpButton.addEventListener("click", function () {
-            gameSocket.emit("giveUp");
-        });
+        let newGiveUpButton = giveUpButton.cloneNode(true);
+        giveUpButton.parentNode.replaceChild(newGiveUpButton, giveUpButton);
+        newGiveUpButton.style.cursor = "not-allowed";
     });
 
     gameSocket.on("playError", (Error) => {
