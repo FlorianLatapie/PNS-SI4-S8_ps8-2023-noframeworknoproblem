@@ -239,6 +239,9 @@ class Chat extends HTMLElement {
                     this.#chat.prepend(messageDiv);
                     messageDiv.scrollIntoView();
                 })
+            if(this.#messagesToSkip === 0) {
+                this.#chat.scrollTop = this.#chat.scrollHeight;
+            }
                 this.#messagesToSkip += data.length;
             }
         )
