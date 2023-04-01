@@ -22,7 +22,7 @@ function usersApiGet(request, response, urlPathArray) {
                 sendResponse(response, 404, "Malformed request : userId is undefined");
                 return;
             }
-            getUserById(response, requesterUserId);
+            getUserById(response, urlPathArray[1]);
             break;
         default:
             console.log("URL", urlPathArray, "not supported");
