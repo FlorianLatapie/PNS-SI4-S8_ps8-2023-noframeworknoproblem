@@ -54,10 +54,10 @@ async function getAllUsersByElo() {
     });
     let usersNames = [];
     for (const user of users) {
-        for (const statOfUser in userStats) {
-            if (user.id === statOfUser.userId) {
-                user.elo = statOfUser.elo;
-                usersNames.push({username:user.username, elo:user.elo});
+        for (let i = 0; i < userStats.length; i++) {
+            if (user._id.toString() === userStats[i].userId) {
+                //user.elo = statOfUser.elo;
+                usersNames.push({username:user.username, elo:userStats[i].elo});
                 break;
             }
         }
