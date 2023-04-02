@@ -24,11 +24,3 @@ main {
     grid-template-columns: 1fr auto 1fr;
     justify-items: start;
 }
-
-chat-global {
-    display: none;
-    position: relative;
-    bottom: -20vh;
-    right: -5vh;
-}
-

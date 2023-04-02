@@ -22,8 +22,7 @@ class WebPageInteraction {
         this.#grid = grid;
         console.log("WebPageInteraction constructor grid ", grid)
         this.addAllListeners();
-        this.#muteButtonListener();
-        this.#clickChatButtons();
+        this.#addChatListeners();
     }
 
     setSocketMatchmaking = (socketMatchmaking) => {
@@ -68,12 +67,17 @@ class WebPageInteraction {
     addAllListeners = () => {
         this.#gridListener();
         this.#giveUpListener();
-        this.#tempChatListener();
     }
 
     removeAllListeners = () => {
         this.removeGridListeners();
         this.removeGiveUpListener();
+    }
+
+    #addChatListeners = () => {
+        this.#tempChatListener();
+        this.#muteButtonListener();
+        this.#clickChatButtonsListener();
     }
 
     #gridListener = () => {
@@ -204,6 +208,7 @@ class WebPageInteraction {
     }
 
     #tempChatListener = () => {
+        console.log("tempChatListener executed")
         let tempChat = document.getElementById("chat-temp-button");
         tempChat.style.cursor = "pointer";
         document.getElementById("all-message-container").style.visibility = "hidden";
@@ -218,7 +223,7 @@ class WebPageInteraction {
     }
 
 
-    #clickChatButtons = () => {
+    #clickChatButtonsListener = () => {
         let bulles = document.getElementsByClassName("send");
         Array.from(bulles).forEach(bulle => {
             bulle.addEventListener("click", () => {
