@@ -1,31 +1,33 @@
-import Grid from "../../GameLogic/Grid.js";
-import {parseJwt} from "../../util/jwtParser.js";
-import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
-import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
-import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
-import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
+import Grid from "../GameLogic/Grid.js";
+import {parseJwt} from "../util/jwtParser.js";
+import {winningPopUp} from "../templates/popUp/play/winningPopUp.js";
+import {losingPopUp} from "../templates/popUp/play/losingPopUp.js";
+import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
-class WebPageInteraction {
+class WebPageInteractionPVP {
+
     #grid
-    #socketChallenge;
+    #socket;
 
     #redDiscCSSClass = "red-disc";
     #yellowDiscCSSClass = "yellow-disc";
 
     #muteFlag;
+
     #chatOpponentTmpTimer;
     #chatPlayerTmpTimer;
 
     constructor(grid) {
-        this.#grid = grid;
         this.#muteFlag = false;
-        console.log("WebPageInteraction constructor grid ", grid)
+        this.#grid = grid;
+        console.log("WebPageInteractionPVP constructor grid ", grid)
         this.addAllListeners();
         this.#addChatListeners();
     }
 
-    setSocket = (socket) => {
-        this.#socketChallenge = socket;
+    setSocket = (socketMatchmaking) => {
+        this.#socket = socketMatchmaking;
     }
 
     updateWebPageGrid = (column, row, color) => {
@@ -66,7 +68,6 @@ class WebPageInteraction {
     addAllListeners = () => {
         this.#gridListener();
         this.#giveUpListener();
-        this.#tempChatListener();
     }
 
     removeAllListeners = () => {
@@ -97,7 +98,7 @@ class WebPageInteraction {
     }
 
     #clickGiveUpButton = () => {
-        this.#socketChallenge.giveUpEmit();
+        this.#socket.giveUpEmit();
     }
 
     removeGridListeners = () => {
@@ -115,7 +116,7 @@ class WebPageInteraction {
     play = (clickRow, clickColumn) => {
         let column = clickColumn;
         let row = this.#grid.getRowOfLastDisk(column);
-        this.#socketChallenge.newMoveEmit(column, row);
+        this.#socket.newMoveEmit(column, row);
     }
 
     playerPlay = (column, row, color) => {
@@ -155,6 +156,10 @@ class WebPageInteraction {
     }
     #changeTitlePage = (title) => {
         document.getElementById("page-title").innerText = title;
+    }
+
+    #changeInfoPage = (info) => {
+        document.getElementById("info").innerText = info;
     }
 
     gameIsOver = (winner) => {
@@ -204,6 +209,7 @@ class WebPageInteraction {
     }
 
     #tempChatListener = () => {
+        console.log("tempChatListener executed")
         let tempChat = document.getElementById("chat-temp-button");
         tempChat.style.cursor = "pointer";
         document.getElementById("all-message-container").style.visibility = "hidden";
@@ -218,7 +224,7 @@ class WebPageInteraction {
     }
 
 
-    #clickChatButtons = () => {
+    #clickChatButtonsListener = () => {
         let bulles = document.getElementsByClassName("send");
         Array.from(bulles).forEach(bulle => {
             bulle.addEventListener("click", () => {
@@ -230,7 +236,7 @@ class WebPageInteraction {
 
     #emitMessage = (bulle) => {
         //console.log("message to send", bulle.childNodes[1].childNodes[1].textContent);
-        this.#socketChallenge.chatEmit(bulle.getElementsByClassName("message")[0].textContent);
+        this.#socket.chatEmit(bulle.getElementsByClassName("message")[0].textContent);
     }
 
 
@@ -263,6 +269,10 @@ class WebPageInteraction {
         }
     }
 
+    displayOpponent = (opponent) => {
+        this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : )"); //TODO récupérer l'ELO
+    }
+
     opponentLeaved = () => {
         this.#changeInfoPage("L'adversaire a quitté la partie");
         informativePopUp("L'adversaire a quitté la partie");
@@ -271,14 +281,6 @@ class WebPageInteraction {
     waitingForOpponent = (username) => {
         this.#changeTitlePage("En attente de l'adversaire " + username);
     }
-
-    displayOpponent = (opponent) => {
-        this.#changeTitlePage("Adversaire : " + opponent.name + "(ELO : "); //TODO récupérer l'ELO
-    }
-
-    #changeInfoPage = (info) => {
-        document.getElementById("info").innerText = info;
-    }
 }
 
-export default WebPageInteraction;
+export default WebPageInteractionPVP;
