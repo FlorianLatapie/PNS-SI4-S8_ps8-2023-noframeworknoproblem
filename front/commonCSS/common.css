@@ -31,7 +31,7 @@ h1 {
 
 /* buttons */
 button {
-    background-color: var(--dark-accentuation);
+    background-color: var(--dark-accentuation-color);
     margin: 0.5vw;
     padding: 0.5vw;
     border: none;
@@ -51,11 +51,11 @@ button a {
 }
 
 button:hover {
-    background-color: var(--very-dark-accentuation);
+    background-color: var(--very-dark-accentuation-color);
 }
 
 .text-input {
-    background-color: var(--light-accentuation);
+    background-color: var(--light-accentuation-grey);
     border: none;
     border-radius: 0.5vw;
     padding: 0.5vw;
@@ -95,7 +95,7 @@ button:hover {
 }
 
 .with-background {
-    background-color: var(--light-accentuation);
+    background-color: var(--light-accentuation-color);
 }
 
 .hidden {
@@ -103,7 +103,7 @@ button:hover {
 }
 
 th {
-    background-color: var(--dark-accentuation);
+    background-color: var(--dark-accentuation-color);
 }
 td, th {
     padding: 25px 50px;
@@ -112,4 +112,12 @@ td, th {
 
 table {
     border-collapse: collapse;
+}
+
+.grey {
+    background-color: var(--dark-accentuation-grey);
+}
+
+.grey:hover {
+    background-color: var(--very-dark-accentuation-grey);
 }

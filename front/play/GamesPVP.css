@@ -81,6 +81,10 @@
     margin-bottom: 80px;
 }
 
+#give-up-button:hover {
+    background: var(--very-dark-accentuation-grey);
+}
+
 #grid-container {
     align-items: center;
 }

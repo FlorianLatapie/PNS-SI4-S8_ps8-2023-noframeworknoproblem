@@ -1,15 +1,14 @@
 :root {
     --background-color: white;
-    --light-accentuation: #f5f5f5;
-    --dark-accentuation: #b3b3b3;
-    --very-dark-accentuation: #909090;
+    --light-accentuation-color: #B6FFC0/*#f5f5f5*/;
+    --dark-accentuation-color: #49E66E /*#b3b3b3*/;
+    --very-dark-accentuation-color: #0E993A /*#909090*/;
 
-    /* Color
-    --light-accentuation: #67D887;
-    --dark-accentuation: #60DE84;
-    --very-dark-accentuation: #30A451;
-     */
+    --light-accentuation-grey: #f5f5f5;
+    --dark-accentuation-grey: #b3b3b3;
+    --very-dark-accentuation-grey: #909090;
 
-    --bubble-bg-color: #60DE84;
-    --bubble-bg-color-accentuation: #30A451;
+
+    --bubble-bg-color: #FF94B9; /*#60DE84*/
+    --bubble-bg-color-accentuation: #F03C7B; /*#30A451*/
 }

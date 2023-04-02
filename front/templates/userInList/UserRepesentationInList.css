@@ -7,7 +7,7 @@
 
     width: auto;
     height: auto;
-    background-color: var(--dark-accentuation);
+    background-color: var(--dark-accentuation-color);
     align-items: center;
     border-radius: 20px;
 }
@@ -22,5 +22,5 @@
 }
 
 .user-profile:hover {
-    background-color: var(--very-dark-accentuation);
+    background-color: var(--very-dark-accentuation-color);
 }

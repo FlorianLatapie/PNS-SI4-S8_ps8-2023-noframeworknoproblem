@@ -8,7 +8,7 @@ header {
 /* header not the first child */
 header > *:not(:first-child) {
     margin: 10px;
-    background-color: var(--light-accentuation);
+    background-color: var(--light-accentuation-color);
     display: flex;
     align-items: center;
     justify-content: center;
