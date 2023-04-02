@@ -10,6 +10,7 @@ const PROFILE_URL = 'profile/';
 const NOTIFICATIONS_PAGE_URL = 'notificationCenter/';
 const FRIENDS_URL = "friends/";
 const SEARCH_USERS_URL = 'searchUsers/';
+const RANKING_URL = 'ranking/';
 
 
 //// Game pages --------------------------------------
@@ -48,6 +49,7 @@ export {
     NOTIFICATIONS_PAGE_URL,
     FRIENDS_URL,
     SEARCH_USERS_URL,
+    RANKING_URL,
     PLAY_LOCAL_URL,
     PLAY_AI_URL,
     PLAY_AI_ORDER_URL,

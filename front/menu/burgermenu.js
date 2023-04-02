@@ -1,6 +1,6 @@
 "use strict";
 
-import {HOME_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_PAGE_URL} from "../util/path.js";
+import {HOME_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_PAGE_URL, RANKING_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 
 const house = BASE_URL + "/menu/images/house-solid.svg";
@@ -9,6 +9,7 @@ const notifications = BASE_URL + "/menu/images/bell-solid.svg";
 const friends = BASE_URL + "/menu/images/user-group-solid.svg";
 const addFriend = BASE_URL + "/menu/images/user-plus-solid.svg";
 const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
+const ranking = BASE_URL + "/menu/images/ranking-star-solid.svg";
 const chat = BASE_URL + "/menu/images/chat-icon.svg";
 
 const iconWidth = "36";
@@ -43,6 +44,8 @@ burgerMenuTemplate.innerHTML = `
     <a class="nav-link" id="chat">
         <img alt="chat" src=` + chat + `><button>Chat</button>
     </a>
+    <a class="nav-link" href="` + BASE_URL + RANKING_URL + `">
+        <img alt="Classement" src=` + ranking + `><button>Classement</button>
     <a class="nav-link" id="logout" href="` + BASE_URL + LOGIN_URL + `">
         <img alt="Se déconnecter" src=` + logout + `><button>Se déconnecter</button>
     </a>

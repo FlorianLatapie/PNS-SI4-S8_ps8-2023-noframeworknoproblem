@@ -8,13 +8,14 @@ document.addEventListener("keydown", (e) => {
     }
 );
 
-document.getElementById("play-ai")
-    .setAttribute("href",
-        BASE_URL + PLAY_AI_ORDER_URL);
+document.getElementById("play-ai").addEventListener("click", () => {
+    window.location.href = BASE_URL + PLAY_AI_ORDER_URL;
+});
 
-document.getElementById("play-local")
-    .setAttribute("href",
-        BASE_URL + PLAY_LOCAL_URL);
+document.getElementById("play-local").addEventListener("click", () => {
+    window.location.href = BASE_URL + PLAY_LOCAL_URL;
+});
 
-document.getElementById("play-matchmaking")
-    .setAttribute("href", BASE_URL + PLAY_MATCHMAKING_URL);
+document.getElementById("play-matchmaking").addEventListener("click", () => {
+    window.location.href = BASE_URL + PLAY_MATCHMAKING_URL;
+});
