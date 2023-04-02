@@ -21,8 +21,7 @@ class WebPageInteraction {
         this.#muteFlag = false;
         console.log("WebPageInteraction constructor grid ", grid)
         this.addAllListeners();
-        this.#muteButtonListener();
-        this.#clickChatButtons();
+        this.#addChatListeners();
     }
 
     setSocket = (socket) => {
@@ -73,6 +72,12 @@ class WebPageInteraction {
     removeAllListeners = () => {
         this.removeGridListeners();
         this.removeGiveUpListener();
+    }
+
+    #addChatListeners = () => {
+        this.#tempChatListener();
+        this.#muteButtonListener();
+        this.#clickChatButtonsListener();
     }
 
     #gridListener = () => {
