@@ -132,9 +132,9 @@ async function populateAchievementsDiv(userId) {
 
         let userAchievement = achievements.find(userAchievement => userAchievement.achievementId === achievementId);
 
-        if (userAchievement && (!achievement.isHidden || (achievement.isHidden && userAchievement.obtained))) {
+        if (!achievement.isHidden || (achievement.isHidden && userAchievement && userAchievement.obtained)) {
             let name = achievement.friendlyName;
-            let found = userAchievement.obtained;
+            let found = userAchievement ? userAchievement.obtained : false;
             let advancement_ratio = userAchievement ? userAchievement.progress : 0;
             let goal = achievement.maxProgress;
             let srcImg = BASE_URL + achievement.imgSrc;

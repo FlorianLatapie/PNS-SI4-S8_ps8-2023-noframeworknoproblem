@@ -115,7 +115,7 @@ class SocketChallenge {
             this.#webPageInteraction.playerTurnMessage();
         }
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
-        this.#webPageInteraction.displayOpponent(opponentUsername);
+        this.#webPageInteraction.displayOpponent(opponent);
     }
 
     #opponentLeaved = () => {
