@@ -272,8 +272,8 @@ class WebPageInteraction {
         this.#changeTitlePage("En attente de l'adversaire " + username);
     }
 
-    displayOpponent = (opponentUsername) => {
-        this.#changeTitlePage("Adversaire : " + opponentUsername);
+    displayOpponent = (opponent) => {
+        this.#changeTitlePage("Adversaire : " + opponent.name + "(ELO : "); //TODO récupérer l'ELO
     }
 
     #changeInfoPage = (info) => {

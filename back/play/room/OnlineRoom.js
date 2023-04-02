@@ -70,7 +70,7 @@ class OnlineRoom {
     initPlayer = (socket, playPositionOfOpponent) => {
         this.setListeners(socket);
         console.log("initPlayer function ", this.#gameEngine.getOpponentPlayer(socket.userId).name);
-        socket.emit("setup", playPositionOfOpponent, this.#gameEngine.getOpponentPlayer(socket.userId).name);
+        socket.emit("setup", playPositionOfOpponent, this.#gameEngine.getOpponentPlayer(socket.userId));
     }
 
     /*

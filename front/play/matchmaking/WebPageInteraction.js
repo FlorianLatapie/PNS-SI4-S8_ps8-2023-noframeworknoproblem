@@ -268,8 +268,8 @@ class WebPageInteraction {
         }
     }
 
-    displayOpponent = (opponentUsername) => {
-        this.#changeTitlePage("Adversaire : " + opponentUsername);
+    displayOpponent = (opponent) => {
+        this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : )"); //TODO récupérer l'ELO
     }
 }
 

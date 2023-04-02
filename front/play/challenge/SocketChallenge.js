@@ -75,7 +75,8 @@ class SocketChallenge {
         clearInterval(this.#interval);
     }
 
-    #setupFunction = (OpponentTurn, opponentUsername) => {
+    #setupFunction = (OpponentTurn, opponent) => {
+        let opponentUsername = opponent.name;
         console.log("setup received OpponentTurn: " + OpponentTurn)
         let toPlay;
         let colorPlayer;
