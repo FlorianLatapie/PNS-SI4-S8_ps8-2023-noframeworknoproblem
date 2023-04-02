@@ -18,6 +18,26 @@ class SocketChallenge {
     newChallenge = (opponentId) => {
         console.log("newChallenge : " + opponentId + ")");
         this.#gameSocket.emit("challenge_request", opponentId);
+
+        fetch("/api/users/get/" + opponentId, {
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            this.#webPageInteraction.waitingForOpponent(data.username);
+        }).catch(error => {
+            console.log(error);
+            this.#webPageInteraction.waitingForOpponent("Unknown");
+        })
     }
 
     acceptChallenge = (opponentId) => {
@@ -44,7 +64,7 @@ class SocketChallenge {
                 time -= 1000;
                 this.#webPageInteraction.updateTimer(time, this.#gameState.getToPlay());
             }, 1000);
-        }else{
+        } else {
             this.#webPageInteraction.updateTimer(0, this.#gameState.getToPlay());
             clearInterval(this.#interval);
         }
@@ -77,6 +97,7 @@ class SocketChallenge {
 
     #setupFunction = (OpponentTurn, opponent) => {
         let opponentUsername = opponent.name;
+        console.log("Opponent received: ", opponent)
         console.log("setup received OpponentTurn: " + OpponentTurn)
         let toPlay;
         let colorPlayer;

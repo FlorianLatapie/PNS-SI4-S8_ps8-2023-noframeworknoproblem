@@ -73,6 +73,7 @@ class SocketMatchmaking {
         let opponentUsername = opponent.name;
         console.log("setup received OpponentTurn: " + OpponentTurn)
         console.log("setup received OpponentUsername: " + opponentUsername);
+        console.log("Opponent received ", opponent)
         let toPlay;
         let colorPlayer;
         let colorOtherPlayer;
@@ -91,7 +92,7 @@ class SocketMatchmaking {
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
 
         // Display the opponent name
-        this.#webPageInteraction.displayOpponent(opponent);
+        this.#webPageInteraction.displayOpponent(opponentUsername);
     }
 
     #waitingForOpponentFunction = () => {
