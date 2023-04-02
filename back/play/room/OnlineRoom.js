@@ -112,8 +112,7 @@ class OnlineRoom {
     }
 
     #gameIsOver = async (winner) => {
-        STATSaddGamePlayed(this.#player1.userId);
-        STATSaddGamePlayed(this.#player2.userId);
+
 
         let winnerId;
         let loserId;
@@ -126,6 +125,10 @@ class OnlineRoom {
         }
 
         STATSupdateElo(winnerId, loserId);
+
+        STATSaddGamePlayed(this.#player1.userId);
+        STATSaddGamePlayed(this.#player2.userId);
+
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
         this.#gameSocket.to(this.#room).emit("timer", 0);

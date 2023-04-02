@@ -77,20 +77,36 @@ class AchievementDb {
                 maxProgress: 1,
                 isHidden: false,
                 imgSrc: "images/1.svg"
-            },
-            "10Games": {
+            }, "10Games": {
                 friendlyName: "10 parties en ligne",
                 description: "Joue 10 parties",
                 maxProgress: 10,
                 isHidden: false,
                 imgSrc: "images/10.png"
-            },
-            "konami": {
+            }, "konami": {
                 friendlyName: "Code Konami",
                 description: "Utilise le code Konami",
                 maxProgress: 1,
                 isHidden: true,
                 imgSrc: "images/konami.png"
+            }, "bronze": {
+                friendlyName: "Bronze",
+                description: "Obtient un Elo de 1500",
+                maxProgress: 1,
+                isHidden: true,
+                imgSrc: "images/bronze.png"
+            }, "silver": {
+                friendlyName: "Argent",
+                description: "Obtient un Elo de 2000",
+                maxProgress: 1,
+                isHidden: true,
+                imgSrc: "images/silver.png"
+            }, "gold": {
+                friendlyName: "Or",
+                description: "Obtient un Elo de 3000",
+                maxProgress: 1,
+                isHidden: true,
+                imgSrc: "images/gold.png"
             }
         }
     }
