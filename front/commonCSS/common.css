@@ -5,6 +5,7 @@
 @import "../templates/popUp/popUp.css";
 @import "CSSvariables.css";
 @import "../templates/achievement/achievement.css";
+@import "../chat/chat.css";
 
 * {
     font-family: "Verdana";

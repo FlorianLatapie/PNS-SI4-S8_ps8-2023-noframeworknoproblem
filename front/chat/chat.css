@@ -1,3 +1,10 @@
+chat-global {
+    display: none;
+    position: absolute;
+    bottom: 53vh;
+    right: 21vw;
+}
+
 .contact {
     display: flex;
     margin-bottom: 1rem;
@@ -73,6 +80,7 @@
     display: flex;
     padding: 10px;
     background: #eee;
+    border-radius: 100%;
 }
 .input * {
     padding: 10px;
