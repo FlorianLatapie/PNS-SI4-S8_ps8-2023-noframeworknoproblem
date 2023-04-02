@@ -4,6 +4,8 @@ import {winningPopUp} from "../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../templates/popUp/play/losingPopUp.js";
 import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
+import {BASE_URL} from "../util/frontPath.js";
+import {API_URL, STATS_API_URL} from "../util/path.js";
 
 class WebPageInteractionPVP {
 
@@ -270,7 +272,26 @@ class WebPageInteractionPVP {
     }
 
     displayOpponent = (opponent) => {
-        this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : )"); //TODO récupérer l'ELO
+        let stats =  fetch(BASE_URL + API_URL + STATS_API_URL + "getAll/" + opponent.id, {
+            method: 'get', headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Error while calling API" + response.status)
+            }
+            return response.json();
+        }).then((object) => {
+            return object;
+        }).catch(error => {
+            console.log(error);
+        });
+
+        stats.then((object) => {
+            this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : " + object.elo + ")");
+        });
     }
 
     opponentLeaved = () => {
