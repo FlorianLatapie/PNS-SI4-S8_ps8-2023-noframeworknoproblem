@@ -35,12 +35,14 @@ class WebPageInteractionPVP {
     updateWebPageGrid = (column, row, color) => {
         let cell = document.getElementById(column + "-" + row);
 
-        cell.classList.add("fall");
+        const discAbove = document.createElement("div");
+        discAbove.classList.add("fall");
         if (color === Grid.redCellValue) {
-            cell.classList.add(this.#redDiscCSSClass);
+            discAbove.classList.add(this.#redDiscCSSClass);
         } else {
-            cell.classList.add(this.#yellowDiscCSSClass);
+            discAbove.classList.add(this.#yellowDiscCSSClass);
         }
+        cell.appendChild(discAbove);
     }
 
     updateWebPageEntireGrid = (grid) => {
