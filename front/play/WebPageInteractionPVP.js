@@ -269,8 +269,8 @@ class WebPageInteractionPVP {
         }
     }
 
-    displayOpponent = (opponentUsername) => {
-        this.#changeTitlePage("Adversaire : " + opponentUsername + " (ELO : )"); //TODO récupérer l'ELO
+    displayOpponent = (opponent) => {
+        this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : )"); //TODO récupérer l'ELO
     }
 
     opponentLeaved = () => {

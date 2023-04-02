@@ -92,7 +92,7 @@ class SocketMatchmaking {
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
 
         // Display the opponent name
-        this.#webPageInteraction.displayOpponent(opponentUsername);
+        this.#webPageInteraction.displayOpponent(opponent);
     }
 
     #waitingForOpponentFunction = () => {
