@@ -1,10 +1,6 @@
-.center {
-    bottom: 3vh;
-    right: 3vh;
-}
-
 .contact {
     display: flex;
+    margin-bottom: 1rem;
     flex-direction: column;
     border: 3px solid black;
     border-radius: 1rem;
@@ -15,7 +11,7 @@
     position: fixed;
     transform: translate(-6rem, -50%);
     width: 24rem;
-    height: 32vh;
+    height: 32rem;
     padding: 1rem 2rem 1rem 1rem;
     box-sizing: border-box;
     border-radius: 1rem 0 0 1rem;
@@ -23,6 +19,8 @@
     background: white;
     transition: transform 500ms;
     border: #909090 1px solid;
+    overflow-y: auto;
+    top: 50%;
 }
 
 .contacts:hover {
@@ -35,7 +33,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 24rem;
-    height: 25rem;
+    height: 30rem;
     box-sizing: border-box;
     border-radius: 1rem;
     background: white;
