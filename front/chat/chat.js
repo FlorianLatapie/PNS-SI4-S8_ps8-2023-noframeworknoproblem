@@ -86,41 +86,51 @@ class Chat extends HTMLElement {
         });
         this.#friends = await this.#friends;
         for (let i = 0; i < this.#friends.length; i++) {
-            let contact = document.createElement("div");
-            let name = document.createElement("div");
-            let message = document.createElement("div");
-            let notif = document.createElement("span");
-            contact.classList.add("contact");
-            name.classList.add("name");
-            message.classList.add("message");
-            notif.classList.add("notif");
-            // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
-            message.id = "a" + this.#friends[i].userId;
-            notif.id = "n" + this.#friends[i].userId;
-            name.innerText = this.#friends[i].username;
-            notif.innerText = "&#128308;";
-            chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
-            message.innerText = this.#LastMessage;
-            let fragment = document.createDocumentFragment();
-            fragment.appendChild(name.cloneNode(true));
-            fragment.appendChild(message.cloneNode(true));
-            fragment.appendChild(notif.cloneNode(true));
-            contact.appendChild(fragment);
-            contacts.appendChild(contact.cloneNode(true));
-            this.#addFriendSelector();
-            chatSocket.emit('init', this.#userId, this.#friends[i].userId);
+            this.addFriendToChat(i, contacts);
         }
-        this.#friendSelected = this.#friends[0];
-        let name = this.shadowRoot.querySelector("#friendSelected");
-        name.innerText = this.#friendSelected.username;
-        this.#addEventSubmit();
-        chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
-        this.#getMessagesFromBack();
-        this.#chat.addEventListener("scroll", () => {
-            if (this.#chat.scrollTop <= 0 && this.#messagesToSkip >= 10) {
-                this.#getMessagesFromBack();
-            }
-        });
+        if (this.#friends.length === 0) {
+            let noFriend = document.createElement("div");
+            noFriend.innerText = "Tu n'as aucun ami pour l'instant";
+            contacts.appendChild(noFriend);
+        } else {
+            this.#friendSelected = this.#friends[0];
+            let name = this.shadowRoot.querySelector("#friendSelected");
+            name.innerText = this.#friendSelected.username;
+            this.#addEventSubmit();
+            chatSocket.emit("init", this.#userId, this.#friendSelected.userId);
+            this.#getMessagesFromBack();
+            this.#chat.addEventListener("scroll", () => {
+                if (this.#chat.scrollTop <= 0 && this.#messagesToSkip >= 10) {
+                    this.#getMessagesFromBack();
+                }
+            });
+        }
+    }
+
+    addFriendToChat(i, contacts) {
+        let contact = document.createElement("div");
+        let name = document.createElement("div");
+        let message = document.createElement("div");
+        let notif = document.createElement("span");
+        contact.classList.add("contact");
+        name.classList.add("name");
+        message.classList.add("message");
+        notif.classList.add("notif");
+        // querySelector method uses CSS3 selectors for querying the DOM and CSS3 doesn't support ID selectors that start with a digit:
+        message.id = "a" + this.#friends[i].userId;
+        notif.id = "n" + this.#friends[i].userId;
+        name.innerText = this.#friends[i].username;
+        notif.innerText = "&#128308;";
+        chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
+        message.innerText = this.#LastMessage;
+        let fragment = document.createDocumentFragment();
+        fragment.appendChild(name.cloneNode(true));
+        fragment.appendChild(message.cloneNode(true));
+        fragment.appendChild(notif.cloneNode(true));
+        contact.appendChild(fragment);
+        contacts.appendChild(contact.cloneNode(true));
+        this.#addFriendSelector();
+        chatSocket.emit('init', this.#userId, this.#friends[i].userId);
     }
 
     #addSocketEvent() {
@@ -137,8 +147,7 @@ class Chat extends HTMLElement {
         chatSocket.on('updateLastMessage', (user1, user2) => {
             if (user1 === this.#userId) {
                 chatSocket.emit("getLastMessageForProfile", user1, user2);
-            }
-            else
+            } else
                 chatSocket.emit("getLastMessageForProfile", user2, user1);
         });
 
@@ -154,8 +163,7 @@ class Chat extends HTMLElement {
                 messageToAdd.innerText = message[0].message;
                 this.#chat.append(messageToAdd);
                 this.#chat.scrollTop = this.#chat.scrollHeight;
-            }
-            else {
+            } else {
                 let notifId = "#n" + user1;
                 let notif = this.shadowRoot.querySelector(notifId);
                 notif.style.visibility = "visible";
@@ -234,9 +242,9 @@ class Chat extends HTMLElement {
                     this.#chat.prepend(messageDiv);
                     messageDiv.scrollIntoView();
                 })
-            if(this.#messagesToSkip === 0) {
-                this.#chat.scrollTop = this.#chat.scrollHeight;
-            }
+                if (this.#messagesToSkip === 0) {
+                    this.#chat.scrollTop = this.#chat.scrollHeight;
+                }
                 this.#messagesToSkip += data.length;
             }
         )
