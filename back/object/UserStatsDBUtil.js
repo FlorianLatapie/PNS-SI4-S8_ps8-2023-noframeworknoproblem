@@ -2,6 +2,7 @@
 
 import AchievementsDBUtil from "./AchievementsDBUtil.js";
 import userstatsdb from "../database/userstatsdb.js";
+import updateElo from "./UserEloDBUtil.js";
 
 export function STATSaddGamePlayed(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
@@ -21,5 +22,15 @@ export function STATSaddGamePlayed(userId) {
             console.log("error while saving the stats to the database");
             console.log(error);
         });
+    });
+}
+
+export function STATSupdateElo(winnerId, loserId) {
+    updateElo(winnerId, loserId).then(function (result) {
+        AchievementsDBUtil.updateAchievements(winnerId);
+        AchievementsDBUtil.updateAchievements(loserId);
+    }).catch(function (error) {
+        console.log("error while updating the elo");
+        console.log(error);
     });
 }

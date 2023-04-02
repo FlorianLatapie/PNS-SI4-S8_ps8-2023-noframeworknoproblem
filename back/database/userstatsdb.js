@@ -13,7 +13,7 @@ class UserStatsDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.usersStats = this.database.collection(DB_CONF.userStatsCollection+"");
+            this.usersStats = this.database.collection(DB_CONF.userStatsCollection + "");
         } catch (error) {
             console.error(error);
         }
@@ -24,11 +24,11 @@ class UserStatsDb {
         await this.connect();
     }
 
-    async addStats(userId, stats){
+    async addStats(userId, stats) {
         await this.verifyConnection();
 
         try {
-            if (!await this.existsStatsForThisUser(userId)){
+            if (!await this.existsStatsForThisUser(userId)) {
                 return await this.usersStats.insertOne({userId, ...stats});
             } else {
                 return await this.usersStats.updateOne({userId}, {$set: {userId, ...stats}});
@@ -47,11 +47,12 @@ class UserStatsDb {
             console.error(error);
         }
     }
+
     async getStatsForUser(userId) {
         await this.verifyConnection();
 
         try {
-            if (await this.existsStatsForThisUser(userId)){
+            if (await this.existsStatsForThisUser(userId)) {
                 return await this.usersStats.findOne({userId});
             } else {
                 await this.addStats(userId, this.getDefaultStats());
@@ -72,8 +73,18 @@ class UserStatsDb {
         }
     }
 
-    getDefaultStats(){
-        return {gamesPlayed: 0}
+    getDefaultStats() {
+        return {gamesPlayed: 0, elo: 1500}
+    }
+
+    async updateElo(userId, newElo) {
+        await this.verifyConnection();
+
+        try {
+            return await this.usersStats.updateOne({userId}, {$set: {elo: newElo}});
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
 

@@ -90,7 +90,7 @@ class Chat extends HTMLElement {
         }
         if (this.#friends.length === 0) {
             let noFriend = document.createElement("div");
-            noFriend.innerText = "Tu n'as aucun ami pour l'instant";
+            noFriend.innerText = "Ajoutez des amis pour pouvoir chatter avec eux";
             contacts.appendChild(noFriend);
         } else {
             this.#friendSelected = this.#friends[0];
