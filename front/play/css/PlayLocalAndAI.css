@@ -1,0 +1,12 @@
+@import "play.css";
+
+#left-container {
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 120px;
+}
+
+#grid-container {
+}

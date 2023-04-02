@@ -59,7 +59,8 @@ button:hover {
     border: none;
     border-radius: 0.5vw;
     padding: 0.5vw;
-    font-size: 1.2vw;
+    font-size: 1rem;
+    text-align: center;
 }
 
 #bottom-content {

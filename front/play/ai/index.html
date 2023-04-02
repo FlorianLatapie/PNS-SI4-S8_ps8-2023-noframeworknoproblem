@@ -8,7 +8,7 @@
 
 
     <link href="../../commonCSS/common.css" rel="stylesheet">
-    <link href="./ai.css" rel="stylesheet">
+    <link href="../css/PlayLocalAndAI.css" rel="stylesheet">
 
     <script src="../../util/guards/guard.js" type="module"></script>
     <script src="../../util/updateUsernameDiv.js" type="module"></script>
@@ -32,7 +32,10 @@
 <div id="bottom-content">
     <burger-menu></burger-menu>
     <main>
-
+        <div id="grid-container" class="flex-row-center">
+            <div id="left-container" class="flex-column">
+                <button id="give-up-button" class="grey">Abandonner</button>
+            </div>
         <div id="grid-div">
 
             <div id="grid">
@@ -88,7 +91,7 @@
             </div>
         </div>
 
-        <button id="give-up-button" class="grey">Abandonner</button>
+        </div>
 
     </main>
     <chat-global></chat-global>

@@ -17,15 +17,18 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     /* gap between elements */
     gap: 2%;
 }
 
 form > input {
-    width: calc(100% - 5vh);
+    width: 20vw;
     height: 5vh;
     /* remove default browser suggestion */
     -webkit-appearance: none;
+    text-align: center;
+    font-size: 25px;
 }
 
 form > button {
