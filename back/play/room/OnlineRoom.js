@@ -120,6 +120,7 @@ class OnlineRoom {
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
         this.#gameSocket.to(this.#room).emit("timer", 0);
+        clearTimeout(this.#timer);
         //this.#removeListeners()
     }
 
@@ -141,7 +142,6 @@ class OnlineRoom {
                 this.#giveUpFunction(this.#player2)
             }
         }, this.#timeToPlay);
-
     }
 
     newGame = () => {
