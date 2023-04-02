@@ -120,7 +120,7 @@ class Chat extends HTMLElement {
         message.id = "a" + this.#friends[i].userId;
         notif.id = "n" + this.#friends[i].userId;
         name.innerText = this.#friends[i].username;
-        notif.innerText = "&#128308;";
+        notif.innerHTML = "&#128308;";
         chatSocket.emit("getLastMessageForProfile", this.#userId, this.#friends[i].userId);
         message.innerText = this.#LastMessage;
         let fragment = document.createDocumentFragment();
