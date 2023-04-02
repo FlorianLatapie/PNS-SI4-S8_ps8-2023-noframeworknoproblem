@@ -1,15 +1,19 @@
-@import "play/play.css";
+@import "play.css";
 @import "ai/ai.css";
 
 /* timer */
 
+#timer-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+
+}
+
 #timer {
-    position: absolute;
-    top: 5vw;
-    right: 7vw;
-    font-size: 25px;
-    font-family: 'Arial', sans-serif;
-    z-index: 1;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /* chat */
@@ -22,44 +26,21 @@
     background-color: darkslategrey;
 }
 
-#tempChat {
-    position: relative;
-    top: -30vw;
-    left: 5vw;
-    z-index: 2;
-}
-
-#chatTest {
-    position: relative;
-    top: -50vw;
-    left: 7vw;
-    visibility: hidden;
-}
-
 .bulle {
-    content: ' ';
     height: fit-content;
-    width: fit-content;
-    background-color: var(--bubble-bg-color)
+    width: 120px;
+    padding: 15px;
+    background-color: var(--bubble-bg-color);
+    text-align: center;
+    margin: 5px;
 }
 
-.send {
-    position: relative;
-    top: -35vw;
-    left: 7vw;
-    visibility: hidden;
+.bulle > p {
+    font-size: 1rem;
 }
 
 .round {
     border-radius: 30px;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-}
-
-.spike:after {
-    content: ' ';
-    border: 7px solid;
-    border-color: transparent transparent transparent var(--bubble-bg-color);
 }
 
 .bulle-texte {
@@ -70,4 +51,60 @@
 
 #info {
     margin-top: 10px;
+}
+
+#left-container {
+    justify-items: center;
+    align-items: center;
+}
+
+#left-container {
+    margin-left: 80px;
+    margin-right: 80px;
+    width: 300px;
+    margin-top: 20px;
+}
+
+
+#left-container > img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#chat-temp-button {
+    margin-top: 10px;
+}
+
+#give-up-button {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+#grid-container {
+    align-items: center;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+
+.chat-container > div {
+    margin-left: 30px;
+}
+
+#all-message-container {
+    margin-top: 30px;
+}
+
+.send:hover {
+    background-color: var(--bubble-bg-color-accentuation);
+}
+
+#left-container > button {
+    padding: 10px;
 }

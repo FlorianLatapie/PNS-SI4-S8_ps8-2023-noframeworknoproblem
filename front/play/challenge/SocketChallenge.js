@@ -153,7 +153,7 @@ class SocketChallenge {
         this.#gameSocket.emit("chatToBack", message);
     }
     #chatFunction = (message) => {
-        this.#webPageInteraction.updateChat(message);
+        this.#webPageInteraction.updateChatOpponent(message);
     }
 }
 

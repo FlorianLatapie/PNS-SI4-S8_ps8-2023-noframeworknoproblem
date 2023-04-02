@@ -4,5 +4,12 @@
     --dark-accentuation: #b3b3b3;
     --very-dark-accentuation: #909090;
 
-    --bubble-bg-color: #0084ff;
+    /* Color
+    --light-accentuation: #67D887;
+    --dark-accentuation: #60DE84;
+    --very-dark-accentuation: #30A451;
+     */
+
+    --bubble-bg-color: #60DE84;
+    --bubble-bg-color-accentuation: #30A451;
 }

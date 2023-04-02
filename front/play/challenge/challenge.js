@@ -12,7 +12,7 @@ let grid = new Grid(7, 6);
 
 let webPageInteraction = new WebPageInteraction(grid);
 let socketMatchmaking = new SocketChallenge(webPageInteraction, grid);
-webPageInteraction.setSocketMatchmaking(socketMatchmaking);
+webPageInteraction.setSocket(socketMatchmaking);
 launchChallenge();
 
 function checkData() {

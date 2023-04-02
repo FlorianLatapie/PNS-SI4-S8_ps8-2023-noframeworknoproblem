@@ -46,7 +46,7 @@ function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
     if (index !== -1) {
         let boldElement = document.createElement("b");
         boldElement.innerText = usernameText.substring(index, index + searchName.length);
-        usernameElement.innerText = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
+        usernameElement.innerHTML = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
     }
 }
 function removeUsersListContent() {
