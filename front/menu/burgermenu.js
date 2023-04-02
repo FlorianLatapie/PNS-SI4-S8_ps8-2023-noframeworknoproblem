@@ -9,7 +9,7 @@ const notifications = BASE_URL + "/menu/images/bell-solid.svg";
 const friends = BASE_URL + "/menu/images/user-group-solid.svg";
 const addFriend = BASE_URL + "/menu/images/user-plus-solid.svg";
 const logout = BASE_URL + "/menu/images/right-from-bracket-solid.svg";
-const chat = BASE_URL + "/menu/images/chat-icon.png";
+const chat = BASE_URL + "/menu/images/chat-icon.svg";
 
 const iconWidth = "36";
 
@@ -40,9 +40,9 @@ burgerMenuTemplate.innerHTML = `
     <a class="nav-link" href=` + BASE_URL + SEARCH_USERS_URL + `>
         <img alt="Ajouter un ami" src=` + addFriend + `><button>Ajouter un ami</button>
     </a>
-    <div class="nav-link" id="chat">
-        <img alt="Chat" src="` + chat + `"><button>Chat</button>
-    </div>
+    <a class="nav-link" id="chat">
+        <img alt="chat" src=` + chat + `><button>Chat</button>
+    </a>
     <a class="nav-link" id="logout" href="` + BASE_URL + LOGIN_URL + `">
         <img alt="Se déconnecter" src=` + logout + `><button>Se déconnecter</button>
     </a>
