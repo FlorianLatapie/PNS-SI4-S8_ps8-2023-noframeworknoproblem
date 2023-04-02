@@ -69,7 +69,8 @@ class SocketMatchmaking {
         clearInterval(this.#interval);
     }
 
-    #setupFunction = (OpponentTurn, opponentUsername) => {
+    #setupFunction = (OpponentTurn, opponent) => {
+        let opponentUsername = opponent.name;
         console.log("setup received OpponentTurn: " + OpponentTurn)
         console.log("setup received OpponentUsername: " + opponentUsername);
         let toPlay;
@@ -90,7 +91,7 @@ class SocketMatchmaking {
         this.#gameState = new GameState(colorPlayer, colorOtherPlayer, this.#grid, toPlay);
 
         // Display the opponent name
-        this.#webPageInteraction.displayOpponent(opponentUsername);
+        this.#webPageInteraction.displayOpponent(opponent);
     }
 
     #waitingForOpponentFunction = () => {
