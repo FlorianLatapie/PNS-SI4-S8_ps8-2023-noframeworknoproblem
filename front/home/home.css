@@ -26,6 +26,7 @@ main {
 }
 
 chat-global {
+    display: none;
     position: relative;
     bottom: -20vh;
     right: -5vh;
