@@ -2,7 +2,7 @@
 
 import AchievementsDBUtil from "./AchievementsDBUtil.js";
 import userstatsdb from "../database/userstatsdb.js";
-import updateElo from "./UserEloDBUtil.js";
+import {updateElo} from "./UserEloDBUtil.js";
 
 export function STATSaddGamePlayed(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
