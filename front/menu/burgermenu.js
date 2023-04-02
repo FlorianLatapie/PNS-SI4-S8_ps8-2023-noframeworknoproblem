@@ -88,7 +88,7 @@ class Burgermenu extends HTMLElement {
         chat.style.cursor = "pointer";
         chat.addEventListener("click", () => {
             let chatGlobal = document.getElementsByTagName("chat-global");
-            chatGlobal[0].style.visibility === "hidden" ? chatGlobal[0].style.visibility = "visible" : chatGlobal[0].style.visibility = "hidden";
+            chatGlobal[0].style.display === "none" || chatGlobal[0].style.display === "" ? chatGlobal[0].style.display = "block" : chatGlobal[0].style.display = "none";
         });
     }
 }

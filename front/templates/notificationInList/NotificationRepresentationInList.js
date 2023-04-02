@@ -18,7 +18,6 @@ function createNotificationRepresentation(notificationInDB) {
     messageContainer.classList.add("flex-row", "message-container");
     messageContainer.id = notificationInDB.notificationId;
 
-
     deleteButton.src = "../images/trash-solid.svg";
     deleteButton.alt = "Supprimer la notification";
 
@@ -29,9 +28,11 @@ function createNotificationRepresentation(notificationInDB) {
         deleteNotificationWithValidation(container, messageContainer.id);
     });
 
+
     actionButton.addEventListener("click", () => {
-        deleteNotificationWithValidation(container, messageContainer.id);
+        deleteNotification(container, messageContainer.id);
     });
+
 
     if (notification.action) {
         actionButton.addEventListener("click", () => {
