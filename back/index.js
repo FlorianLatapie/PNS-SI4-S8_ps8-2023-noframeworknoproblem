@@ -65,7 +65,7 @@ const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
 gamedb.removeAllGames().then(() => {
-    console.log("Server started, all the games             have been removed from the database, look for /back/index.js to change this behaviour");
+    console.log("Server started, all the games                 have been removed from the database, look for /back/index.js to change this behaviour");
 });
 
 let wipeDBOnServerStart = false;
