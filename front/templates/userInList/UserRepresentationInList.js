@@ -1,6 +1,6 @@
 "use strict";
 
-import {PROFILE_URL, USER_PROFILE_URL} from "../../util/path.js";
+import {PROFILE_URL} from "../../util/path.js";
 import {BASE_URL} from "../../util/frontPath.js";
 
 function createUserPreviewDiv(userObj) {
@@ -10,7 +10,7 @@ function createUserPreviewDiv(userObj) {
 
     // TODO change the link to redirect to the user page
     container.addEventListener("click", () => {
-        let destination = BASE_URL + USER_PROFILE_URL + "?userId=" + userObj.userId;
+        let destination = BASE_URL + PROFILE_URL + "?userId=" + userObj.userId;
 
         if (localStorage.getItem("userId") === userObj.userId){
             destination = BASE_URL + PROFILE_URL;

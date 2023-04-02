@@ -8,7 +8,7 @@
 @import "../chat/chat.css";
 
 * {
-    font-family: "Verdana";
+    font-family: "Verdana", sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -32,6 +32,8 @@ h1 {
 /* buttons */
 button {
     background-color: var(--dark-accentuation);
+    margin: 0.5vw;
+    padding: 0.5vw;
     border: none;
     border-radius: 100vw;
     font-size: 2.3vh;

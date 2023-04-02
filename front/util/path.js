@@ -7,7 +7,6 @@ const LOGIN_URL = 'login/';
 /// Pages when logged in -----------------------------
 const HOME_URL = 'home/';
 const PROFILE_URL = 'profile/';
-const USER_PROFILE_URL = 'userProfile/';
 const NOTIFICATIONS_PAGE_URL = 'notificationCenter/';
 const FRIENDS_URL = "friends/";
 const SEARCH_USERS_URL = 'searchUsers/';
@@ -44,7 +43,6 @@ export {
     LOGIN_URL,
     HOME_URL,
     PROFILE_URL,
-    USER_PROFILE_URL,
     NOTIFICATIONS_PAGE_URL,
     FRIENDS_URL,
     SEARCH_USERS_URL,
