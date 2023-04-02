@@ -14,25 +14,16 @@ class WebPageInteraction {
 
     #muteFlag;
 
+    #chatOpponentTmpTimer;
+    #chatPlayerTmpTimer;
+
     constructor(grid) {
         this.#muteFlag = false;
         this.#grid = grid;
         console.log("WebPageInteraction constructor grid ", grid)
         this.addAllListeners();
-
-        document.getElementById("mute").addEventListener("click", () => {
-            this.#muteFlag = !this.#muteFlag;
-
-            if (this.#muteFlag) {
-                console.log("muteFlag is true");
-                document.getElementById("mute").src = "../../images/unmute.svg";
-                document.getElementById("tempChat").style.visibility = "hidden";
-            } else {
-                console.log("muteFlag is false");
-                document.getElementById("mute").src = "../../images/mute.svg";
-                document.getElementById("tempChat").style.visibility = "visible";
-            }
-        });
+        this.#muteButtonListener();
+        this.#clickChatButtons();
     }
 
     setSocketMatchmaking = (socketMatchmaking) => {
@@ -195,50 +186,80 @@ class WebPageInteraction {
         }
     }
 
+    #muteButtonListener = () => {
+        document.getElementById("mute").addEventListener("click", () => {
+            this.#muteFlag = !this.#muteFlag;
+
+            if (this.#muteFlag) {
+                console.log("muteFlag is true");
+                document.getElementById("mute").src = "../../images/unmute.svg";
+                document.getElementById("chat-temp-button").style.visibility = "hidden";
+                document.getElementById("all-message-container").style.visibility = "hidden";
+            } else {
+                console.log("muteFlag is false");
+                document.getElementById("mute").src = "../../images/mute.svg";
+                document.getElementById("chat-temp-button").style.visibility = "visible";
+            }
+        });
+    }
+
     #tempChatListener = () => {
-        let tempChat = document.getElementById("tempChat");
+        let tempChat = document.getElementById("chat-temp-button");
         tempChat.style.cursor = "pointer";
-        tempChat.addEventListener("click", this.#clickChatButton);
+        document.getElementById("all-message-container").style.visibility = "hidden";
+        tempChat.addEventListener("click", () => {
+            const chat = document.getElementById("all-message-container");
+            if (chat.style.visibility === "hidden") {
+                chat.style.visibility = "visible";
+            } else {
+                chat.style.visibility = "hidden";
+            }
+        });
     }
 
 
-    #clickChatButton = () => {
+    #clickChatButtons = () => {
         let bulles = document.getElementsByClassName("send");
-        if(bulles[0].style.visibility === "hidden"){
-            for (let i = 0; i < bulles.length; i++) {
-                bulles[i].style.visibility = "visible";
-                bulles[i].style.cursor = "pointer";
-                bulles[i].addEventListener("click", () => {
-                    this.#emitMessage(bulles[i]);
-                });
-            }
-        }
-        else{
-            for (let i = 0; i < bulles.length; i++) {
-                bulles[i].style.visibility = "hidden";
-                bulles[i].style.cursor = "default"
-                bulles[i].removeEventListener("click", () => {
-                    this.#emitMessage(bulles[i].childNodes[1].childNodes[1].textContent);
-                });
-            }
-        }
-
+        Array.from(bulles).forEach(bulle => {
+            bulle.addEventListener("click", () => {
+                this.#emitMessage(bulle);
+                this.updateChatPlayer(bulle.getElementsByClassName("message")[0].textContent);
+            });
+        });
     }
 
     #emitMessage = (bulle) => {
         //console.log("message to send", bulle.childNodes[1].childNodes[1].textContent);
-        this.#socketMatchmaking.chatEmit(bulle.childNodes[1].childNodes[1].textContent);
-        bulle.style.visibility = "hidden";
+        this.#socketMatchmaking.chatEmit(bulle.getElementsByClassName("message")[0].textContent);
     }
 
-    updateChat = (message) => {
+
+
+    updateChatOpponent = (message) => {
         if (!this.#muteFlag) {
-            let chat = document.getElementById("chatTest");
-            setTimeout(() => {
-                chat.style.visibility = "hidden";
+            let opponent_message = document.getElementById("opponent-message-container");
+            if (this.#chatOpponentTmpTimer) {
+                clearTimeout(this.#chatOpponentTmpTimer);
+            }
+            this.#chatOpponentTmpTimer = setTimeout(() => {
+                opponent_message.style.visibility = "hidden";
             }, 5000);
-            chat.childNodes[1].childNodes[1].childNodes[0].textContent = message;
-            chat.style.visibility = "visible";
+            document.getElementById("opponent-message").innerText = message;
+            opponent_message.style.visibility = "visible";
+        }
+    }
+
+    updateChatPlayer = (message) => {
+        if (!this.#muteFlag) {
+            let player_message = document.getElementById("player-message-container");
+            if (this.#chatPlayerTmpTimer) {
+                clearTimeout(this.#chatPlayerTmpTimer);
+            }
+            this.#chatPlayerTmpTimer = setTimeout(() => {
+                player_message.style.visibility = "hidden";
+            }, 5000);
+            document.getElementById("player-message").innerText = message;
+            player_message.style.visibility = "visible";
         }
     }
 

@@ -71,6 +71,12 @@ button:hover {
     flex-direction: row;
 }
 
+.flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .flex-column {
     display: flex;
     flex-direction: column;
@@ -89,4 +95,8 @@ button:hover {
 
 .with-background {
     background-color: var(--light-accentuation);
+}
+
+.hidden {
+    visibility: hidden;
 }

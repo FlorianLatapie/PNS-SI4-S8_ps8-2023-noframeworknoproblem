@@ -53,7 +53,7 @@ class OnlineRoom {
     }
 
     #tempChatFunction = (socket, message) => {
-        this.#gameSocket.to(this.#room).emit("chatToFront", message);
+        socket.broadcast.to(this.#room).emit("chatToFront", message);
     }
 
     #gameIsOverEmit = (winner) => {
