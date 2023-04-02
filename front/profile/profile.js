@@ -1,6 +1,6 @@
 "use strict";
 
-import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, USERS_URL} from "../util/path.js";
+import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, STATS_API_URL, USERS_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
 
@@ -11,16 +11,27 @@ let userIdOfThisPage = url.searchParams.get("userId");
 let itIsMyProfile = !Boolean(userIdOfThisPage);
 
 let userIdWeAreLookingAt = itIsMyProfile ? myUserId : userIdOfThisPage;
+
+getUserStats(userIdWeAreLookingAt).then((stats) => {
+    document.getElementById("elo").innerText = "ELO : " + stats.elo;
+}).catch((error) => {
+    console.log("error while getting the stats for user", error);
+});
+
 if (itIsMyProfile) {
     document.getElementById("salutation").innerText = "Bonjour " + myUserName + " !";
-    populateAchievementsDiv(userIdWeAreLookingAt)
 } else {
     let user = await getUser(userIdWeAreLookingAt);
     document.getElementById("salutation").innerText = "Bienvenue sur la page de " + user.username + " !";
-    populateAchievementsDiv(userIdWeAreLookingAt)
     addFriendshipButton();
     await updateButton();
 }
+
+populateAchievementsDiv(userIdWeAreLookingAt).then(() => {}).catch((error) => {
+    console.log("error while populating achievements div", error);
+});
+
+
 
 // functions ------------------------------------------------------------------------------------------------------------
 function addFriendshipButton() {
@@ -132,6 +143,10 @@ function getAllPossibleAchievements() {
 
 function getUserAchievements(userId) {
     return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/" + userId, "post");
+}
+
+function getUserStats(userId) {
+    return callAPI(BASE_URL + API_URL + STATS_API_URL + "getAll/" + userId, "get");
 }
 
 function callAPI(url, method) {

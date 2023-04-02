@@ -37,6 +37,8 @@ const USERS_URL = "users/";
 const NOTIFICATIONS_API_URL = "notifications/";
 const CHATS_API_URL = "chats/";
 
+const STATS_API_URL = "stats/";
+
 // export all the constants --------------------------------------------------------------------------------------------
 export {
     SIGNUP_URL,
@@ -55,5 +57,6 @@ export {
     USERS_URL,
     NOTIFICATIONS_API_URL,
     PLAY_CHALLENGE_URL,
-    CHATS_API_URL
+    CHATS_API_URL,
+    STATS_API_URL,
 };
