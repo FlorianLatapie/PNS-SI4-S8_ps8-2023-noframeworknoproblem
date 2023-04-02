@@ -21,7 +21,6 @@ chatTemplate.innerHTML = `
 <body>
 <div class="center">
   <div class="contacts">
-    <i class="fas fa-bars fa-2x"></i>
     <h2>
       Contacts
     </h2>
