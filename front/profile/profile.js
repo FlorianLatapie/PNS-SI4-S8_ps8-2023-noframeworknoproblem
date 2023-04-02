@@ -4,11 +4,22 @@ import {ACHIEVEMENTS_URL, API_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
 
-let userId = localStorage.getItem("userId");
-let username = localStorage.getItem("username");
-let token = localStorage.getItem("token");
+let myUserId = localStorage.getItem("userId");
+let myUserName = localStorage.getItem("username");
 
-document.getElementById("salutation").innerText = `Bonjour ${username} !`;
+let url = new URL(window.location.href);
+let userIdOfThisPage = url.searchParams.get("userId");
+
+let itIsMyProfile = myUserId === userIdOfThisPage;
+
+if (itIsMyProfile) {
+    document.getElementById("salutation").innerText = "Bonjour " + myUserName + " !";
+} else {
+
+    document.getElementById("salutation").innerText = "Bienvenue sur la page de " + myUserName + " !";
+}
+
+
 
 let achievements = await getUserAchievements();
 console.log("my achievements", achievements);
@@ -34,7 +45,6 @@ for (let achievementElement of Object.entries(allPossibleAchievements)) {
         let found = userAchievement.obtained;
         let advancement_ratio = userAchievement ? userAchievement.progress : 0;
         let goal = achievement.maxProgress;
-        // let srcImg = allPossibleAchievements[achievementRepresentation.achievementId].imgSrc
         let srcImg = BASE_URL + achievement.imgSrc;
         let achievementDiv = achievementRepresentation(name, found, advancement_ratio, goal, srcImg);
         achievementsDiv.appendChild(achievementDiv);
@@ -43,16 +53,13 @@ for (let achievementElement of Object.entries(allPossibleAchievements)) {
 
 // methods ------------------------------------------------------------------------------------------------------------
 
-function getFriendlyName(achievementId, allAchievementsObject) {
-
-}
-
 function getAllPossibleAchievements() {
     return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAllPossible/", "post");
 }
 
-function getUserAchievements() {
-    return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/", "post");
+function getUserAchievements(userId) {
+    return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/" + userId
+        , "post");
 }
 
 function callAPI(url, method) {

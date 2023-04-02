@@ -15,7 +15,7 @@ export function achievementsManager(request, response, urlPathArray) {
             addAchievements(request, response);
             break;
         case "getAll":
-            getAllAchievements(request, response);
+            getAllAchievements(request, response, urlPathArray[1]);
             break;
         case "getAllPossible":
             getAllPossibleAchievements(request, response);
@@ -51,9 +51,7 @@ function addAchievements(request, response) {
     });
 }
 
-function getAllAchievements(request, response) {
-    let userId = request[USER_ID];
-
+function getAllAchievements(request, response, userId) {
     achievementdb.getAchievementsForUser(userId).then((achievements) => {
         sendResponse(response, 200, JSON.stringify(achievements));
     }).catch((err) => {
