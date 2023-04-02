@@ -26,11 +26,5 @@ export function STATSaddGamePlayed(userId) {
 }
 
 export function STATSupdateElo(winnerId, loserId) {
-    updateElo(winnerId, loserId).then(function (result) {
-        AchievementsDBUtil.updateAchievements(winnerId);
-        AchievementsDBUtil.updateAchievements(loserId);
-    }).catch(function (error) {
-        console.log("error while updating the elo");
-        console.log(error);
-    });
+    updateElo(winnerId, loserId);
 }

@@ -62,7 +62,7 @@ class OnlineRoom {
 
     #updatedBoardEmit = (socket) => {
         this.#gameSocket.to(this.#room).emit("updatedBoard", {board: this.#gameEngine.grid.cells})
-        if(this.#gameEngine.currentPlayingPlayer.id !== socket.id) {
+        if (this.#gameEngine.currentPlayingPlayer.id !== socket.id) {
             this.#timer = this.checkTimer();
         }
     }
@@ -114,10 +114,9 @@ class OnlineRoom {
         STATSaddGamePlayed(this.#player1.userId);
         STATSaddGamePlayed(this.#player2.userId);
 
-        let loser = this.#gameEngine.getOtherPlayer();
-
-        STATSupdateElo(winner.userId, loser.userId);
-
+        let winnerId = this.#gameEngine.getOtherPlayer().id;
+        let loserId = this.#gameEngine.currentPlayingPlayer.id;
+        STATSupdateElo(winnerId, loserId);
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
         this.#gameSocket.to(this.#room).emit("timer", 0);
@@ -136,7 +135,7 @@ class OnlineRoom {
     checkTimer = () => {
         this.#gameSocket.to(this.#room).emit("timer", this.#timeToPlay);
         return setTimeout(() => {
-            if(this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
+            if (this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
                 this.#giveUpFunction(this.#player1)
             } else {
                 this.#giveUpFunction(this.#player2)
@@ -158,7 +157,7 @@ class OnlineRoom {
 
 
     readNewMove = (socket, globalCoordinates) => {
-        if(this.#gameEngine.currentPlayingPlayer.id === socket.userId) {
+        if (this.#gameEngine.currentPlayingPlayer.id === socket.userId) {
             console.log("clear the timeOut")
             clearTimeout(this.#timer);
         }

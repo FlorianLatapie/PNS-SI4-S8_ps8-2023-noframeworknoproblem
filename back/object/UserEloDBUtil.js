@@ -1,6 +1,7 @@
 import userstatsdb from "../database/userstatsdb.js";
 
 function updateElo(winnerId, loserId) {
+    console.log("updating elo");
     let winnerElo = 0;
     let loserElo = 0;
     userstatsdb.getStatsForUser(winnerId).then(function (result) {
@@ -33,4 +34,4 @@ function updateElo(winnerId, loserId) {
     });
 }
 
-export default {updateElo};
+export default updateElo;
