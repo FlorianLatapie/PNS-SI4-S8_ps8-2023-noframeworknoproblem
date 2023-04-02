@@ -51,6 +51,7 @@
 
 #info {
     margin-top: 10px;
+    text-align: center;
 }
 
 #left-container {
@@ -107,4 +108,8 @@
 
 #left-container > button {
     padding: 10px;
+}
+
+#give-up-button {
+    margin-bottom: 0;
 }

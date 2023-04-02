@@ -3,6 +3,7 @@
 import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, STATS_API_URL, USERS_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
+import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
 let myUserId = localStorage.getItem("userId");
 let myUserName = localStorage.getItem("username");
@@ -18,10 +19,11 @@ getUserStats(userIdWeAreLookingAt).then((stats) => {
     console.log("error while getting the stats for user", error);
 });
 
+let user;
 if (itIsMyProfile) {
     document.getElementById("salutation").innerText = "Bonjour " + myUserName + " !";
 } else {
-    let user = await getUser(userIdWeAreLookingAt);
+    user = await getUser(userIdWeAreLookingAt);
     document.getElementById("salutation").innerText = "Bienvenue sur la page de " + user.username + " !";
     addFriendshipButton();
     await updateButton();
@@ -56,25 +58,31 @@ async function updateButton() {
     switch (status) {
         case "request":
             friendshipButton.innerText = "Annuler la demande d'ami";
-            friendshipButton.addEventListener("click", async () => {
+            const functionToExecuteCancelRequest = () => {
                 cancelRequest(userIdOfThisPage).then(() => {
-                    updateButton();
-                });
-            });
+                    updateButton();})
+            };
+            friendshipButton.addEventListener("click",
+                () => validationPopUp(functionToExecuteCancelRequest, `Voulez-vous vraiment annuler la demande d'ami à ${user.username} ?`)
+            );
 
             break;
         case "friend":
             friendshipButton.innerText = "Retirer de mes amis";
-            friendshipButton.addEventListener("click", async () => {
+
+            const functionToExecuteRemoveFriend = () => {
                 removeFriend(userIdOfThisPage).then(() => {
                     updateButton();
                 });
-            });
+            };
+            friendshipButton.addEventListener("click",
+                () => validationPopUp(functionToExecuteRemoveFriend, `Voulez-vous vraiment retirer ${user.username} des amis ?`)
+            );
 
             break;
         case "pending":
             friendshipButton.innerText = "Accepter la demande";
-            friendshipButton.addEventListener("click", async () => {
+            friendshipButton.addEventListener("click",  () => {
                 acceptFriend(userIdOfThisPage).then(() => {
                     updateButton();
                 });
@@ -83,7 +91,7 @@ async function updateButton() {
 
         case "none":
             friendshipButton.innerText = "Ajouter aux amis";
-            friendshipButton.addEventListener("click", async () => {
+            friendshipButton.addEventListener("click",  () => {
                 addFriend(userIdOfThisPage).then(() => {
                     updateButton();
                 });

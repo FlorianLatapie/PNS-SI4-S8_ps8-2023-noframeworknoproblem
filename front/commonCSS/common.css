@@ -15,7 +15,6 @@
 }
 
 body {
-    height: 100vh;
     display: grid;
 
     /* auto height for header then max bottom-content */
