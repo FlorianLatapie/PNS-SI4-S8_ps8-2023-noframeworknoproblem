@@ -3,6 +3,7 @@ import GameEngine from '../../../front/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 import {STATSaddGamePlayed, STATSupdateElo} from "../../object/UserStatsDBUtil.js";
+import userdb from "../../database/userdb.js";
 
 class OnlineRoom {
     #player1;
@@ -110,12 +111,20 @@ class OnlineRoom {
         this.saveOrDeleteGame(gameState);
     }
 
-    #gameIsOver = (winner) => {
+    #gameIsOver = async (winner) => {
         STATSaddGamePlayed(this.#player1.userId);
         STATSaddGamePlayed(this.#player2.userId);
 
-        let winnerId = this.#gameEngine.getOtherPlayer().id;
-        let loserId = this.#gameEngine.currentPlayingPlayer.id;
+        let winnerId;
+        let loserId;
+        if (winner === this.#player1.username) {
+            winnerId = this.#player1.userId;
+            loserId = this.#player2.userId;
+        } else {
+            winnerId = this.#player2.userId;
+            loserId = this.#player1.userId;
+        }
+
         STATSupdateElo(winnerId, loserId);
         this.#gameIsOverEmit(winner)
         this.#matchmakingRoomInstances.gameFinished(this.#player1, this.#player2);
