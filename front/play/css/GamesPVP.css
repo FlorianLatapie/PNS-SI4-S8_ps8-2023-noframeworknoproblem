@@ -94,7 +94,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
+    height: 40px;
 }
 
 
