@@ -11,7 +11,7 @@ main {
     display: flex;
     flex-direction: column;
 
-    padding: 0 10vh;
+    padding: 0 5vh;
 }
 
 #users-friends > div > *, #users-pending > div > *, #users-requests > div > * {
