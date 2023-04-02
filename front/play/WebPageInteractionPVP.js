@@ -152,7 +152,7 @@ class WebPageInteractionPVP {
     }
 
     waitingForOtherPlayerMessage = () => {
-        this.#changeTitlePage("En attente de l'adversaire");
+        this.#changeTitlePage("En attente d'un adversaire");
     }
     #changeTitlePage = (title) => {
         document.getElementById("page-title").innerText = title;
@@ -269,8 +269,8 @@ class WebPageInteractionPVP {
         }
     }
 
-    displayOpponent = (opponent) => {
-        this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : )"); //TODO récupérer l'ELO
+    displayOpponent = (opponentUsername) => {
+        this.#changeTitlePage("Adversaire : " + opponentUsername + " (ELO : )"); //TODO récupérer l'ELO
     }
 
     opponentLeaved = () => {
@@ -279,7 +279,7 @@ class WebPageInteractionPVP {
     }
 
     waitingForOpponent = (username) => {
-        this.#changeTitlePage("En attente de l'adversaire " + username);
+        this.#changeTitlePage("En attente de l'adversaire : " + username);
     }
 }
 
