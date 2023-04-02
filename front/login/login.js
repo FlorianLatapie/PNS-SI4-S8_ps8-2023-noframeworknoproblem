@@ -3,9 +3,9 @@ import {API_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
 import {BASE_URL} from "../util/frontPath.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
-document.getElementById("signup")
-    .setAttribute("href",
-        BASE_URL + "/" + SIGNUP_URL);
+document.getElementById("signup").addEventListener("click", function () {
+    window.location.replace(BASE_URL + SIGNUP_URL);
+});
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
     event.preventDefault();
