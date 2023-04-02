@@ -1,4 +1,5 @@
 import userstatsdb from "../database/userstatsdb.js";
+import userdb from "../database/userdb.js";
 
 async function updateElo(winnerId, loserId) {
     let winnerElo = 0;
@@ -19,7 +20,7 @@ async function updateElo(winnerId, loserId) {
     let loserExpected = 1 / (1 + Math.pow(10, (winnerElo - loserElo) / 400));
     winnerElo = Math.round(winnerElo + 50 * (1 - winnerExpected));
     loserElo = Math.round(loserElo + 50 * (0 - loserExpected));
-    if(loserElo < 0) {
+    if (loserElo < 0) {
         loserElo = 0;
     }
     await userstatsdb.updateElo(winnerId, winnerElo).then(r => {
@@ -36,4 +37,32 @@ async function updateElo(winnerId, loserId) {
     });
 }
 
-export default updateElo;
+async function getAllUsersByElo() {
+    let users = [];
+    await userdb.getAllUsers().then(function (result) {
+        users = result;
+    }).catch(function (error) {
+        console.log("error while retrieving all users");
+        console.log(error);
+    });
+    let userStats = [];
+    await userstatsdb.getUsersByElo().then(function (result) {
+        userStats = result;
+    }).catch(function (error) {
+        console.log("error while retrieving all user stats");
+        console.log(error);
+    });
+    let usersNames = [];
+    for (const user of users) {
+        for (const statOfUser in userStats) {
+            if (user.id === statOfUser.userId) {
+                user.elo = statOfUser.elo;
+                usersNames.push({username:user.username, elo:user.elo});
+                break;
+            }
+        }
+    }
+    return usersNames;
+}
+
+export {updateElo, getAllUsersByElo};

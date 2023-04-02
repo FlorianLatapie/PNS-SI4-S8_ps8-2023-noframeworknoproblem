@@ -86,6 +86,15 @@ class UserStatsDb {
             console.error(error);
         }
     }
+
+    async getUsersByElo() {
+        await this.verifyConnection();
+        try {
+            return await this.usersStats.find({}).sort({elo: -1}).toArray();
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 export default new UserStatsDb();

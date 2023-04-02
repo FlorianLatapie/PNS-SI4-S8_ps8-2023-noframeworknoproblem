@@ -140,6 +140,11 @@ class UserDb {
         await this.verifyConnection();
         return await this.users.findOne({_id: new ObjectId(userId)}, {projection: {username: 1}});
     }
+
+    async getAllUsers(){
+        await this.verifyConnection();
+        return await this.users.find({}).toArray();
+    }
 }
 
 export default new UserDb();
