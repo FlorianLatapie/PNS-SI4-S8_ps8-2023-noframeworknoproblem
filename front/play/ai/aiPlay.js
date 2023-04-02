@@ -21,12 +21,15 @@ function WebPageInteraction() {
 
     this.updateWebPageGrid = function (column, row, color) {
         let cell = document.getElementById(column + "-" + row);
-        cell.classList.add("fall");
+
+        const discAbove = document.createElement("div");
+        discAbove.classList.add("fall");
         if (color === Grid.redCellValue) {
-            cell.classList.add(redDiscCSSClass);
+            discAbove.classList.add(redDiscCSSClass);
         } else {
-            cell.classList.add(yellowDiscCSSClass);
+            discAbove.classList.add(yellowDiscCSSClass);
         }
+        cell.appendChild(discAbove);
     }
 
     this.webPagePlayTurn = function (event) {
