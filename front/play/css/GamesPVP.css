@@ -12,7 +12,7 @@
 }
 
 #timer {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 
@@ -101,6 +101,10 @@
 
 .chat-container > div {
     margin-left: 30px;
+}
+
+.chat-container > p {
+    font-size: 1.3rem;
 }
 
 #all-message-container {
