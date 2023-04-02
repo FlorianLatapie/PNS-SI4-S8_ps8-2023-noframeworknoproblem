@@ -100,3 +100,15 @@ button:hover {
 .hidden {
     visibility: hidden;
 }
+
+th {
+    background-color: var(--dark-accentuation);
+}
+td, th {
+    padding: 25px 50px;
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}

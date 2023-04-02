@@ -25,8 +25,18 @@
 </header>
 <div id="bottom-content">
     <burger-menu></burger-menu>
-    <main>
-        <div id="ranking"></div>
+    <main class="flex-column-center">
+        <table >
+            <thead>
+            <tr>
+                <th>Position</th>
+                <th>Utilisateur</th>
+                <th>Elo</th>
+            </tr>
+            </thead>
+            <tbody id="ranking">
+            </tbody>
+        </table>
     </main>
     <chat-global></chat-global>
 </div>

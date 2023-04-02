@@ -9,26 +9,30 @@ fetch(BASE_URL + API_URL + STATS_API_URL + `getAllElo/`, {
         'Content-Type': 'application/json'
     }
 }).then((response) => {
-    console.log(response)
     if (!response.ok) {
         console.log("Error while retrieving users from back", response.status);
     }
     return response.json();
 }).then(data => {
-    data.forEach(userInDb => {
-            console.log(userInDb)
-            let user = document.createElement("div");
-            user.className = "user";
-            ranking.appendChild(user);
-            let username = document.createElement("div");
-            username.className = "username";
-            username.innerHTML = userInDb.username;
-            user.appendChild(username);
-            let elo = document.createElement("div");
-            elo.className = "elo";
-            elo.innerHTML = userInDb.elo;
-            user.appendChild(elo);
+    // table : <th>Position</th> <th>Pseudo</th> <th>ELO</th>
+    let tbody = document.getElementById("ranking");
 
-        }
-    )
+    let counter = 1;
+    data.forEach(userInDb => {
+        console.log(userInDb); // elo and name
+        let tr = document.createElement("tr");
+        let tdPosition = document.createElement("td");
+        let tdPseudo = document.createElement("td");
+        let tdElo = document.createElement("td");
+
+        tdPosition.innerText = counter++;
+        tdPseudo.innerText = userInDb.username;
+        tdElo.innerText = userInDb.elo;
+
+        tr.appendChild(tdPosition);
+        tr.appendChild(tdPseudo);
+        tr.appendChild(tdElo);
+        tbody.appendChild(tr);
+
+    })
 })
