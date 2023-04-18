@@ -202,7 +202,7 @@ class AI {
                         score -= 100000;
                     }
                     if (index !== -1) {
-                        score -= 1 ** (i + 1);
+                        score -= 2 ** (i + 1);
                     }
                 }
             }
