@@ -32,11 +32,11 @@ h1 {
 /* buttons */
 button {
     background-color: var(--dark-accentuation-color);
-    margin: 0.5vw;
-    padding: 0.5vw;
+    margin: 0.5em;
+    padding: 0.5em;
     border: none;
     border-radius: 100vw;
-    font-size: 2.3vh;
+    font-size: 1.2em;
     cursor: pointer;
 }
 
@@ -58,7 +58,7 @@ button:hover {
     background-color: var(--light-accentuation-grey);
     border: none;
     border-radius: 0.5vw;
-    padding: 0.5vw;
+    padding: 0.5em;
     font-size: 1rem;
     text-align: center;
 }
