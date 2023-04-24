@@ -10,18 +10,18 @@ header {
     justify-content: center;
 
     font-size: 1em;
-    height: 11vh;
+    height: 80px;
 }
 
 #button-container, form{
     display: flex;
     flex-direction: column;
-    grid-gap: 1vw;
-    width: 33vw;
+    grid-gap: 15px;
+    width: 35em;
 }
 
 #button-container form * {
-    height: 8.6vh;
+    height: 4em;
     width: 100%;
 }
 
@@ -33,7 +33,7 @@ header {
 }
 
 #button-container > div > * {
-    height: 8.6vh;
+    height: 4em;
     width: 42%;
 }
 
@@ -42,4 +42,5 @@ p {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    font-size: 1em;
 }
