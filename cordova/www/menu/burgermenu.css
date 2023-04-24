@@ -7,7 +7,7 @@
     --icon-width: 35px;
     --icon-padding: 19px;
 }*/
-@import "commonCSS.css";
+@import "../commonCSS/CSSvariables.css";
 
 nav {
     height: 100%;

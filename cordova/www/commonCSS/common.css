@@ -1,11 +1,11 @@
-@import "burgermenu.css";
+@import "../menu/burgermenu.css";
 @import "header.css";
-@import "UserRepesentationInList.css";
-@import "NotificationRepesentationInList.css";
-@import "popUp.css";
+@import "../templates/userInList/UserRepesentationInList.css";
+@import "../templates/notificationInList/NotificationRepesentationInList.css";
+@import "../templates/popUp/popUp.css";
 @import "CSSvariables.css";
-@import "templatescss";
-@import "chats";
+@import "../templates/achievement/achievement.css";
+@import "../chat/chat.css";
 
 * {
     font-family: "Verdana", sans-serif;
