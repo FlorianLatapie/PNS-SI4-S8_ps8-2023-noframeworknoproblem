@@ -19,13 +19,6 @@ const burgerMenuTemplate = document.createElement("template");
 burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="` + BASE_URL + `/menu/burgermenu.css">
 <nav class="nav-bar top-corner-content">
-    <a>
-        <div class="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-   </a> 
     <a class="nav-link" href=` + BASE_URL + HOME_URL + `>
         <img alt="Accueil" src=` + house + `><button>Accueil</button>
     </a>
@@ -62,27 +55,6 @@ class Burgermenu extends HTMLElement {
     }
 
     connectedCallback() {
-        const hamburger = this.shadowRoot.querySelector(".hamburger");
-        const navBar = this.shadowRoot.querySelector(".nav-bar");
-        hamburger.addEventListener("click", () => {
-            hamburger.classList.toggle("active");
-            navBar.classList.toggle("active");
-
-            let navButtons = this.shadowRoot.querySelectorAll("button");
-            if (hamburger.classList.contains("active")) {
-                navButtons.forEach(button => button.style.display = "block");
-            } else {
-                navButtons.forEach(button => button.style.display = "none");
-            }
-        });
-
-        this.shadowRoot
-            .querySelectorAll(".nav-link")
-            .forEach(n => n.addEventListener("click", () => {
-                hamburger.classList.remove("active");
-                navBar.classList.remove("active");
-            }));
-
         this.shadowRoot.getElementById("logout").addEventListener("click", () => {
             localStorage.clear();
         });

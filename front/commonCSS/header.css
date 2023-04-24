@@ -5,14 +5,22 @@ header {
     min-height: 10vh;
 }
 
-/* header not the first child */
 header > *:not(:first-child) {
+/* header the last child*/
+/*header > *:last-child {*/
     margin: 10px;
     background-color: var(--light-accentuation-color);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+}
+
+header > *:first-child{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: var(--icon-padding);
 }
 
 .page-title {

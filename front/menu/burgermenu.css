@@ -1,11 +1,13 @@
-:root {
+/*:root {
     --background-color: white;
     --light-accentuation-color: #f5f5f5;
     --dark-accentuation-color: #b3b3b3;
     --very-dark-accentuation-color: #909090;
 
     --icon-width: 35px;
-}
+    --icon-padding: 19px;
+}*/
+@import "../commonCSS/CSSvariables.css";
 
 nav {
     height: 100%;
@@ -20,7 +22,7 @@ nav img {
 }
 
 nav > * {
-    padding: 19px;
+    padding: var(--icon-padding);
 }
 
 nav > a {
@@ -81,3 +83,4 @@ nav > * > button:hover {
 .hamburger.active .bar:nth-child(3) {
     transform: translateY(-11px) rotate(-45deg);
 }
+
