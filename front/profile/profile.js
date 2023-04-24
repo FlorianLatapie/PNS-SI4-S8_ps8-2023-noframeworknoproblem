@@ -25,6 +25,7 @@ if (itIsMyProfile) {
 } else {
     user = await getUser(userIdWeAreLookingAt);
     document.getElementById("salutation").innerText = "Bienvenue sur la page de " + user.username + " !";
+    document.getElementById("page-title").innerText = "Profil de " + user.username;
     addFriendshipButton();
     await updateButton();
 }
