@@ -6,8 +6,6 @@ header {
 }
 
 header > *:not(:first-child) {
-/* header the last child*/
-/*header > *:last-child {*/
     margin: 10px;
     background-color: var(--light-accentuation-color);
     display: flex;
@@ -24,7 +22,7 @@ header > *:first-child{
 }
 
 .page-title {
-    width: 40vw;
+    width: 25em;
     font-weight: bold;
     font-size: 1em;
 }
@@ -32,5 +30,5 @@ header > *:first-child{
 }
 
 .top-corner-content {
-    min-width: 20vw;
+    min-width: 12em;
 }
