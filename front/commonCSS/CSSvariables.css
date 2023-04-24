@@ -11,4 +11,7 @@
 
     --bubble-bg-color: #CA6CE6; /*#FF94B9*/ /*#60DE84*/
     --bubble-bg-color-accentuation: #8D3DA6;/*#F03C7B*/ /*#30A451*/
+
+    --icon-width: 35px;
+    --icon-padding: 19px;
 }
