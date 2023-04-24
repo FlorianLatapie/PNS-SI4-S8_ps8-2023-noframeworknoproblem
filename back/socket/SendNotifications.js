@@ -2,7 +2,7 @@ import connectedPlayer from "./PermanentSocketPlayers.js";
 import notificationdb from "../database/notificationdb.js";
 import Action from "../entities/Action.js";
 import Notification from "../entities/Notification.js";
-import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../../front/play/challenge/constantsChallenge.js";
+import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../../cordova/www/play/challenge/constantsChallenge.js";
 
 class SendNotifications {
 

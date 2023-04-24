@@ -7,7 +7,7 @@ COPY ./package*.json ./
 RUN npm install
 
 COPY ./back /.
-COPY ./front /.
+COPY ./cordova/www /.
 
 EXPOSE 8000
 

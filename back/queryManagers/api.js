@@ -11,7 +11,7 @@ import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNot
 import {messagesApiGet} from "./chat/apiChats.js";
 import {
     ACHIEVEMENTS_URL, CHATS_API_URL, FRIENDS_URL, LOGIN_URL, NOTIFICATIONS_API_URL, SIGNUP_URL, STATS_API_URL, USERS_URL
-} from "../../front/util/path.js";
+} from "../../cordova/www/util/path.js";
 import {userStatsGet} from "./user/userStats.js";
 
 function manageRequest(request, response) {

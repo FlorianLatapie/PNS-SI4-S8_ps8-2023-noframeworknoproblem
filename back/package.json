@@ -1,0 +1,32 @@
+{
+  "name": "ps8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "back/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./back/index.js",
+    "dev": "supervisor ./back/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PolytechNS/ps8-2023-noframeworknoproblem.git"
+  },
+  "author": "Quentin DUBOIS, Vinh FAUCHER, Florian LATAPIE",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PolytechNS/ps8-2023-noframeworknoproblem/issues"
+  },
+  "homepage": "https://github.com/PolytechNS/ps8-2023-noframeworknoproblem#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "js-sha256": "^0.9.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.0.0",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4",
+    "supervisor": "^0.12.0"
+  },
+  "type": "module"
+}

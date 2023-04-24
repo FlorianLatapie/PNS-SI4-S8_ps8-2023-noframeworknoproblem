@@ -1,5 +1,5 @@
-import Player from "../../../front/GameLogic/Player.js";
-import GameEngine from '../../../front/GameLogic/GameEngine.js';
+import Player from "../../../cordova/www/GameLogic/Player.js";
+import GameEngine from '../../../cordova/www/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 import {STATSaddGamePlayed, STATSupdateElo} from "../../object/UserStatsDBUtil.js";
