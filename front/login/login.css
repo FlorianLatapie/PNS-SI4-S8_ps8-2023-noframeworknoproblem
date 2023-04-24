@@ -13,14 +13,6 @@ header {
     height: 11vh;
 }
 
-header > * {
-    margin: 10px;
-    background-color: var(--light-accentuation-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 #button-container, form{
     display: flex;
     flex-direction: column;
