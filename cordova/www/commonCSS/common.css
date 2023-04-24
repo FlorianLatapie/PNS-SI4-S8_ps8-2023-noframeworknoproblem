@@ -57,7 +57,7 @@ button:hover {
 .text-input {
     background-color: var(--light-accentuation-grey);
     border: none;
-    border-radius: 0.5vw;
+    border-radius: 1em;
     padding: 0.5em;
     font-size: 1rem;
     text-align: center;
