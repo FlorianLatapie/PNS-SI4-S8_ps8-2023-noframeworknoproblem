@@ -7,16 +7,15 @@ main {
 #button-container {
     display: flex;
     flex-direction: column;
-    grid-gap: 1vw;
+    grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    width: 40vw;
+    width: 20em;
 }
 
 #button-container * {
-    height: 8.6vh;
+    height: 100px;
     width: 100%;
-
 }
 
 #bottom-content{
