@@ -45,6 +45,7 @@ button:hover {
     background-color: var(--very-dark-accentuation-color);
 }
 
+/* input */
 .text-input {
     background-color: var(--light-accentuation-grey);
     border: none;
@@ -59,6 +60,7 @@ button:hover {
     grid-template-columns: auto 1fr;
 }
 
+/* classes */
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -94,6 +96,8 @@ button:hover {
     visibility: hidden;
 }
 
+/* table */
+
 th {
     background-color: var(--dark-accentuation-color);
 }
@@ -104,13 +108,15 @@ td, th {
 
 @media (orientation: portrait) and (width <= 480px) {
     td, th {
-        padding: 20px 2vw;
+        padding: 20px 1vw;
     }
 }
 
 table {
     border-collapse: collapse;
 }
+
+/* colors */
 
 .grey {
     background-color: var(--dark-accentuation-grey);

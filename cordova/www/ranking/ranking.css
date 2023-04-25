@@ -1,10 +1,7 @@
-#ranking-table-head{
-
+#elo {
+    padding: 20px 4vw;
 }
 
-#ranking{
-
-}
-
-#ranking-table{
+td {
+    text-align: center;
 }
