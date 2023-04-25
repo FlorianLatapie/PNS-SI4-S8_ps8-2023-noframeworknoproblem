@@ -12,8 +12,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    /* line red, border 1px */
-    outline: 1px solid red;
 }
 /* header see header.css */
 
