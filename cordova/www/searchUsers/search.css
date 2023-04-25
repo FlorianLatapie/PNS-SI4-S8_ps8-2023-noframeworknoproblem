@@ -42,11 +42,11 @@ form > button > img {
 }
 
 @media (width<=480px) and (orientation: portrait) {
-    form > input {
+    /*form > input {
         width: auto;
     }
     main{
         align-items: flex-start;
         padding: 0;
-    }
+    }*/
 }
