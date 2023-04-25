@@ -9,6 +9,7 @@ main {
     flex-direction: column;
     grid-gap: 15px;
     width: 35em;
+    margin-top: 50px;
 }
 
 #button-container form * {
@@ -26,6 +27,10 @@ main {
 #button-container > div > * {
     height: 4em;
     width: 42%;
+}
+
+.home-button{
+    margin:0;
 }
 
 p {
