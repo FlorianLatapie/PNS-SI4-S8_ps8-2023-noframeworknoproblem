@@ -1,18 +1,31 @@
+@media (width<=400px) {
+    #button-container {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 100px;
+        justify-content: center;
+        align-items: center;
+        width: 200%;
+    }
+}
+
+
 main {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#button-container {
-    display: flex;
-    flex-direction: column;
-    grid-gap: 10px;
-    justify-content: center;
-    align-items: center;
-    width: 33em;
+@media (width > 400px) {
+    #button-container {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 10px;
+        justify-content: center;
+        align-items: center;
+        width: 33em;
+    }
 }
-
 
 #button-container * {
     height: 100px;
