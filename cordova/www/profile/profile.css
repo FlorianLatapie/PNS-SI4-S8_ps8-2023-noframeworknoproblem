@@ -17,14 +17,12 @@ li {
     margin-left: 2em;
 }
 
-#achievements {
-    flex-wrap: wrap;
-
-}
 
 @media (width <= 480px) and (orientation: portrait) {
     #achievements > div {
         width: 50%;
         height: 50%;
+        display: flex;
+        flex-direction: column;
     }
 }
