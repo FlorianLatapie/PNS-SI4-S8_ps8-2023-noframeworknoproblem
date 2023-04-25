@@ -113,3 +113,58 @@ chat-global {
     top: -47px;
     margin: 0;
 }
+
+.back{
+    top : 0;
+    left : 0;
+    width: 50px;
+    height: 50px;
+    display: none;
+}
+
+
+@media (orientation: portrait) {
+    chat-global{
+        bottom: 0;
+        right : 0;
+        position: relative;
+    }
+    .contacts{
+        width: 100%;
+        height: 100%;
+        transition: none;
+        transform: none;
+        top : 0;
+    }
+
+    .contacts:hover {
+        transform: none;
+    }
+
+    .chat {
+        /*display: none;*/
+        visibility: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .back {
+        display: block;
+        padding: 15px;
+    }
+
+    .chat .messages{
+        height: 600px;
+    }
+
+    .chat .contact.bar{
+        margin-top : -60px;
+        margin-bottom : -60px;
+    }
+
+    .chat .messages .message {
+        height: 3rem;
+    }
+}

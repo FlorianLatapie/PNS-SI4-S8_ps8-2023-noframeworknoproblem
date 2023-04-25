@@ -6,6 +6,8 @@ import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 // do not import io, it is imported from the HTML file.
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
 
+const back = BASE_URL_PAGE + "images/arrow-left-solid.svg";
+
 const chatTemplate = document.createElement("template");
 
 chatTemplate.innerHTML = `
@@ -21,11 +23,17 @@ chatTemplate.innerHTML = `
 <body>
 <div class="center">
   <div class="contacts">
+  <div class="back">
+        <img alt="Retour" src=` + back + `>
+    </div>
     <h2>
       Contacts
     </h2>
   </div>
   <div class="chat">
+    <div class="back">
+        <img alt="Retour" src=` + back + `>
+    </div>
     <div class="contact bar">
       <div class="name" id="friendSelected">
       </div>
@@ -104,6 +112,16 @@ class Chat extends HTMLElement {
                 }
             });
         }
+        let back = this.shadowRoot.querySelectorAll(".back");
+        back[0].addEventListener("click", () => {
+                this.style.display = "none";
+            }
+        );
+        back[1].addEventListener("click", () => {
+                let globalChat = this.shadowRoot.querySelector(".chat");
+                globalChat.style.visibility = "hidden";
+            }
+        );
     }
 
     addFriendToChat(i, contacts) {
@@ -188,6 +206,8 @@ class Chat extends HTMLElement {
             let notifId = "#n" + this.#friendSelected.userId;
             let notif = this.shadowRoot.querySelector(notifId);
             notif.style.visibility = "hidden";
+            let chatGlobal = this.shadowRoot.querySelector(".chat");
+            chatGlobal.style.visibility = "visible";
         });
     }
 
