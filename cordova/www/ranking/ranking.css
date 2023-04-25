@@ -1,0 +1,14 @@
+#elo {
+    padding: 20px 4vw;
+}
+
+td {
+    text-align: center;
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+
+    table {
+        width: 78vw;
+    }
+}

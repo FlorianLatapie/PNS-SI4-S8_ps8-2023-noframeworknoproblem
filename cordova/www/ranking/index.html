@@ -3,7 +3,7 @@
 <head>
     <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Classement</title>
 
@@ -28,12 +28,12 @@
 <div id="bottom-content">
     <burger-menu></burger-menu>
     <main class="flex-column-center">
-        <table >
-            <thead>
+        <table id="ranking-table">
+            <thead id="ranking-table-head">
             <tr>
                 <th>Position</th>
                 <th>Utilisateur</th>
-                <th>Elo</th>
+                <th id="elo">Elo</th>
             </tr>
             </thead>
             <tbody id="ranking">

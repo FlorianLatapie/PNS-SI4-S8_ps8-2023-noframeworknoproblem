@@ -3,6 +3,7 @@ header {
     justify-content: space-between;
     font-size: 1em;
     min-height: 100px;
+    width: 100vw;
 }
 
 header > *:not(:first-child) {

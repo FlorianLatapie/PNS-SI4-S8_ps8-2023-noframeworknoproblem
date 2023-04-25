@@ -49,10 +49,13 @@ function addFriendToContainer(friend) {
         window.location.replace(BASE_URL_PAGE + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=true`)
     });
 
+    const buttons_div = document.createElement('div');
+    buttons_div.classList.add("flex-row");
+    buttons_div.appendChild(removeButton);
+    buttons_div.appendChild(challengeButton);
     const fragment = document.createDocumentFragment();
     fragment.appendChild(friendDiv);
-    fragment.appendChild(removeButton);
-    fragment.appendChild(challengeButton);
+    fragment.appendChild(buttons_div);
 
     friendContainer.appendChild(fragment);
     friendsListContainer.appendChild(friendContainer);

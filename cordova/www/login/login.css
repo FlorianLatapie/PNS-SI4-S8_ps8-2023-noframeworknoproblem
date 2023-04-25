@@ -2,13 +2,16 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 20px 20px;
 }
 
 #button-container, form{
     display: flex;
     flex-direction: column;
     grid-gap: 15px;
-    width: 35em;
+    margin-top: 50px;
+    flex-grow: 1;
+    max-width: 600px;
 }
 
 #button-container form * {
@@ -26,6 +29,10 @@ main {
 #button-container > div > * {
     height: 4em;
     width: 42%;
+}
+
+.home-button{
+    margin:0;
 }
 
 p {
