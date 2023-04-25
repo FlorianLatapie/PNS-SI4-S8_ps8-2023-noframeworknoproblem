@@ -32,3 +32,14 @@ header > *:first-child{
 .top-corner-content {
     min-width: 12em;
 }
+
+@media (width <= 600px) {
+    .top-corner-content:last-child {
+        visibility: hidden;
+    }
+    .top-corner-content {
+        min-width: 0;
+        max-width: 0;
+        width: 0;
+    }
+}
