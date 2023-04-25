@@ -41,7 +41,7 @@ header > *:first-child{
         width: 0;
     }
 
-    @media (max-width: var(--mobile-device-max-width)) {
+    @media (width<=480px) {
         .page-title {
             width: 70%;
         }
