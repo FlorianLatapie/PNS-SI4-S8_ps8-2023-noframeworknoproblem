@@ -5,8 +5,8 @@ main {
     flex-direction: column;
 }
 
-#users-friends > div > *:first-child, 
-#users-pending > div > *:first-child, 
+#users-friends > div > *:first-child,
+#users-pending > div > *:first-child,
 #users-requests > div > *:first-child {
     width: 250px;
     min-width: 250px;
@@ -32,20 +32,16 @@ main {
     #friends-main{
         margin: 0;
     }
-    #users-friends > div {
+    #users-friends > div,
+    #users-pending > div,
+    #users-requests > div {
         display: flex;
-        flex-direction: column;
+        flex-flow: wrap;
     }
 
-    #users-friends > div > *:first-child{
-        width: 100%;
-    }
-
-    #users-friends > div > *{
-        width: 100%;
-    }
-
-    #users-friends, #users-friends > *{
+    #users-friends > div > *:first-child,  #users-friends > div > *, #users-friends, #users-friends > *,
+    #users-pending > div > *:first-child, #users-pending > div > *, #users-pending, #users-pending > *,
+    #users-requests > div > *:first-child, #users-requests > div > *, #users-requests, #users-requests > *{
         width: 100%;
     }
 }
