@@ -13,10 +13,14 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "cordova": {
-    "platforms": []
+    "platforms": [],
+    "plugins": {
+      "cordova-plugin-vibration": {}
+    }
   },
   "type": "module",
   "devDependencies": {
-    "cordova-android": "^11.0.0"
+    "cordova-android": "^11.0.0",
+    "cordova-plugin-vibration": "^3.1.1"
   }
 }
