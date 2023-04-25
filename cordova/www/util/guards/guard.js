@@ -5,7 +5,7 @@ import {BASE_URL} from "../frontPath.js";
 window.onload = () => {
     let token = localStorage.getItem("token");
     if (token === null || !isTokenValid(token) || !isURLCorrect()) {
-        window.location.href = BASE_URL + LOGIN_URL
+        window.replace(BASE_URL + LOGIN_URL)
     }
 }
 

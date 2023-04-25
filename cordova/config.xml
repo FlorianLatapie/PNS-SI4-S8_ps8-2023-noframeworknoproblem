@@ -1,11 +1,30 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget id="io.cordova.hellocordova" version="1.0.0"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>NFNP Connect4</name>
     <description>Sample Apache Cordova App</description>
+
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
     </author>
     <content src="index.html" />
+
+    <!--<preference name="hostname" value="nfnp.connect4.academy" />-->
+    <preference name="hostname" value="10.0.2.2:8000" />
+
+    <access origin="http://nfnp.connect4.academy/" />
+    <allow-navigation href="http://nfnp.connect4.academy/"/>
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+
+    <preference name="scheme" value="http" />
+
+    <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:usesCleartextTraffic="true" />
+        </edit-config>
+    </platform>
+
 </widget>
