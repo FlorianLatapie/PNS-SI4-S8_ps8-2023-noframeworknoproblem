@@ -10,7 +10,14 @@ import {usersApiGet} from "./user/usersApi.js";
 import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
 import {messagesApiGet} from "./chat/apiChats.js";
 import {
-    ACHIEVEMENTS_URL, CHATS_API_URL, FRIENDS_URL, LOGIN_URL, NOTIFICATIONS_API_URL, SIGNUP_URL, STATS_API_URL, USERS_URL
+    ACHIEVEMENTS_API,
+    CHATS_API,
+    FRIENDS_API,
+    LOGIN_API,
+    NOTIFICATIONS_API,
+    SIGNUP_API,
+    STATS_API,
+    USERS_API
 } from "../../cordova/www/util/path.js";
 import {userStatsGet} from "./user/userStats.js";
 
@@ -38,17 +45,17 @@ function manageRequest(request, response) {
                 putBodyInRequest(request, body)
 
                 switch (urlPathArray[0] + "/") {
-                    case SIGNUP_URL:
+                    case SIGNUP_API:
                         userSignUp(request, response);
                         break;
-                    case LOGIN_URL:
+                    case LOGIN_API:
                         userLogIn(request, response);
                         break;
-                    case ACHIEVEMENTS_URL:
+                    case ACHIEVEMENTS_API:
                         urlPathArray.shift()
                         achievementsManager(request, response, urlPathArray);
                         break;
-                    case FRIENDS_URL:
+                    case FRIENDS_API:
                         urlPathArray.shift()
                         friendsApiPost(request, response, urlPathArray);
                         break;
@@ -59,23 +66,23 @@ function manageRequest(request, response) {
             break;
         case "GET":
             switch (urlPathArray[0] + "/") {
-                case FRIENDS_URL:
+                case FRIENDS_API:
                     urlPathArray.shift()
                     friendsApiGet(request, response, urlPathArray);
                     break;
-                case USERS_URL:
+                case USERS_API:
                     urlPathArray.shift()
                     usersApiGet(request, response, urlPathArray);
                     break;
-                case NOTIFICATIONS_API_URL:
+                case NOTIFICATIONS_API:
                     urlPathArray.shift()
                     notificationsApiGet(request, response, urlPathArray);
                     break;
-                case CHATS_API_URL:
+                case CHATS_API:
                     urlPathArray.shift()
                     messagesApiGet(request, response, urlPathArray);
                     break;
-                case STATS_API_URL:
+                case STATS_API:
                     urlPathArray.shift()
                     userStatsGet(request, response, urlPathArray);
                     break;
@@ -85,11 +92,11 @@ function manageRequest(request, response) {
             break;
         case "DELETE":
             switch (urlPathArray[0] + "/") {
-                case FRIENDS_URL:
+                case FRIENDS_API:
                     urlPathArray.shift()
                     friendsApiDelete(request, response, urlPathArray);
                     break;
-                case NOTIFICATIONS_API_URL:
+                case NOTIFICATIONS_API:
                     urlPathArray.shift()
                     notificationsApiDelete(request, response, urlPathArray);
                     break;

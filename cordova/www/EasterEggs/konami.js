@@ -1,7 +1,7 @@
 "use strict";
 
-import {ACHIEVEMENTS_URL, API_URL} from "../util/path.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {ACHIEVEMENTS_API, API_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 class KonamiCode {
@@ -21,7 +21,7 @@ class KonamiCode {
                 this.positionInKonamiCode = 0;
                 informativePopUp("Bravo tu as fait le Konami Code !")
 
-                fetch(BASE_URL + API_URL + ACHIEVEMENTS_URL + "add/", {
+                fetch(BASE_URL_API + API_URL + ACHIEVEMENTS_API + "add/", {
                     method: "post", headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                         'Accept': 'application/json',

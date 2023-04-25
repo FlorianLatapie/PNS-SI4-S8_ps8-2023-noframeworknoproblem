@@ -11,8 +11,8 @@
     </author>
     <content src="index.html" />
 
-    <preference name="hostname" value="nfnp.connect4.academy" /> <!-- for application to access online -->
-    <!--<preference name="hostname" value="10.0.2.2:8000" />--> <!-- for application to access localhost -->
+    <!--<preference name="hostname" value="nfnp.connect4.academy" />--> <!-- for application to access online -->
+    <preference name="hostname" value="10.0.2.2:8000" /> <!-- for application to access localhost -->
 
     <access origin="http://nfnp.connect4.academy/" />
     <allow-navigation href="http://nfnp.connect4.academy/"/>
@@ -20,6 +20,9 @@
     <allow-intent href="https://*/*" />
 
     <preference name="scheme" value="http" />
+    <preference name="DisableOverScroll" value="true"/>
+    <preference name="WebViewBounce" value="true"/>
+
 
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">

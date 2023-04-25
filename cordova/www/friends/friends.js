@@ -1,6 +1,6 @@
-import {API_URL, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
+import {API_URL, FRIENDS_API, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../play/challenge/constantsChallenge.js";
 import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
@@ -10,7 +10,7 @@ const requestsListContainer = document.getElementById("users-requests");
 window.addEventListener('load', getAllData);
 
 function getAllData() {
-    fetch(BASE_URL + API_URL + FRIENDS_URL + "getAll", {
+    fetch(BASE_URL_API + API_URL + FRIENDS_API + "getAll", {
         method: "get", headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
@@ -46,7 +46,7 @@ function addFriendToContainer(friend) {
 
     challengeButton.innerText = "Défier";
     challengeButton.addEventListener("click", () => {
-        window.location.replace(BASE_URL + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=true`)
+        window.location.replace(BASE_URL_PAGE + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=true`)
     });
 
     const fragment = document.createDocumentFragment();
@@ -107,7 +107,7 @@ function addRequestToContainer(request) {
 }
 
 function callFriendAPI(method, action, id) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + action + "/" + id, {
+    return fetch(BASE_URL_API + API_URL + FRIENDS_API + action + "/" + id, {
         method: method, headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',

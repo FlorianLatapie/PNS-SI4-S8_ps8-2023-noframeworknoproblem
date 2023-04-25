@@ -1,6 +1,6 @@
 import {createNotificationRepresentation} from "../templates/notificationInList/NotificationRepresentationInList.js";
-import {API_URL, NOTIFICATIONS_API_URL} from "../util/path.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {API_URL, NOTIFICATIONS_API} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 
 let container = document.getElementById("notifications-container")
 const DEFAULT_NUMBER_NOTIFICATIONS_TO_GET = 13;
@@ -37,7 +37,7 @@ permanentSocket.on("connect", () => {
 });
 
 function getMoreNotifications(numberToSkip) {
-    fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "get?"
+    fetch(BASE_URL_API + API_URL + NOTIFICATIONS_API + "get?"
         + `numberNotificationsToGet=${DEFAULT_NUMBER_NOTIFICATIONS_TO_GET}&numberNotificationsToSkip=${numberToSkip}`, {
         method: "get", headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),

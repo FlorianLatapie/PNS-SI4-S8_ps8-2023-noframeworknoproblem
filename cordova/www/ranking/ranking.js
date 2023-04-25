@@ -1,8 +1,8 @@
-import {BASE_URL} from "../util/frontPath.js";
-import {API_URL, STATS_API_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {API_URL, STATS_API} from "../util/path.js";
 
 let ranking = document.getElementById("ranking");
-fetch(BASE_URL + API_URL + STATS_API_URL + `getAllElo/`, {
+fetch(BASE_URL_API + API_URL + STATS_API + `getAllElo/`, {
     method: "get", headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Accept': 'application/json',

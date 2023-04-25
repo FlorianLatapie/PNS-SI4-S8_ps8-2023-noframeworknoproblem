@@ -1,7 +1,7 @@
 "use strict";
 
-import {API_URL, CHATS_API_URL, FRIENDS_URL} from "../util/path.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {API_URL, CHATS_API, FRIENDS_API, FRIENDS_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 
 // do not import io, it is imported from the HTML file.
 const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}});
@@ -9,7 +9,7 @@ const chatSocket = io("/api/chat", {auth: {token: localStorage.getItem("token")}
 const chatTemplate = document.createElement("template");
 
 chatTemplate.innerHTML = `
-<link rel="stylesheet" href="` + BASE_URL + `/chat/chat.css">
+<link rel="stylesheet" href="${BASE_URL_PAGE}chat/chat.css">
 
     <!DOCTYPE html>
 <html lang="fr" >
@@ -42,8 +42,7 @@ chatTemplate.innerHTML = `
 
 </body>
 </html>
-
-    `;
+`;
 
 class Chat extends HTMLElement {
     #userId;
@@ -68,7 +67,7 @@ class Chat extends HTMLElement {
     async connectedCallback() {
         this.#addSocketEvent();
         let contacts = this.shadowRoot.querySelector(".contacts");
-        this.#friends = fetch(BASE_URL + API_URL + FRIENDS_URL + 'getFriends' + "/" + this.#userId, {
+        this.#friends = fetch(BASE_URL_API + API_URL + FRIENDS_API + 'getFriends' + "/" + this.#userId, {
             method: 'get', headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 'Accept': 'application/json',
@@ -217,7 +216,7 @@ class Chat extends HTMLElement {
     }
 
     #getMessagesFromBack() {
-        fetch(BASE_URL + API_URL + CHATS_API_URL + "get?"
+        fetch(BASE_URL_API + API_URL + CHATS_API + "get?"
             + `friendId=${this.#friendSelected.userId}&numberMessagesToGet=${this.#messagesToGet}&numberMessagesToSkip=${this.#messagesToSkip}`, {
             method: "get", headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),

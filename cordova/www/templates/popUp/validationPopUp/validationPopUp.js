@@ -1,4 +1,4 @@
-import {BASE_URL} from "../../../util/frontPath.js";
+import {BASE_URL_PAGE} from "../../../util/frontPath.js";
 
 function validationPopUp(functionToExecute, text) {
     const validationPopUp = document.createElement("div");
@@ -17,7 +17,7 @@ function validationPopUp(functionToExecute, text) {
     imgContainer.classList.add("img-container");
 
     const closeIcon = document.createElement("img");
-    closeIcon.src = BASE_URL + "/images/cross.png";
+    closeIcon.src = BASE_URL_PAGE + "images/cross.png";
 
     closeIcon.addEventListener("click", () => {
         validationPopUp.remove();

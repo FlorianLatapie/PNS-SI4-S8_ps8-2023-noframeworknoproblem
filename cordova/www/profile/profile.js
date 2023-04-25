@@ -1,7 +1,7 @@
 "use strict";
 
-import {ACHIEVEMENTS_URL, API_URL, FRIENDS_URL, STATS_API_URL, USERS_URL} from "../util/path.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {ACHIEVEMENTS_API, API_URL, FRIENDS_API, FRIENDS_URL, STATS_API, USERS_API} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
 import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
@@ -138,7 +138,7 @@ async function populateAchievementsDiv(userId) {
             let found = userAchievement ? userAchievement.obtained : false;
             let advancement_ratio = userAchievement ? userAchievement.progress : 0;
             let goal = achievement.maxProgress;
-            let srcImg = BASE_URL + achievement.imgSrc;
+            let srcImg = BASE_URL_PAGE + achievement.imgSrc;
             let achievementDiv = achievementRepresentation(name, found, advancement_ratio, goal, srcImg);
             achievementsDiv.appendChild(achievementDiv);
         }
@@ -147,15 +147,15 @@ async function populateAchievementsDiv(userId) {
 }
 
 function getAllPossibleAchievements() {
-    return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAllPossible/", "post");
+    return callAPI(BASE_URL_API + API_URL + ACHIEVEMENTS_API + "getAllPossible/", "post");
 }
 
 function getUserAchievements(userId) {
-    return callAPI(BASE_URL + API_URL + ACHIEVEMENTS_URL + "getAll/" + userId, "post");
+    return callAPI(BASE_URL_API + API_URL + ACHIEVEMENTS_API + "getAll/" + userId, "post");
 }
 
 function getUserStats(userId) {
-    return callAPI(BASE_URL + API_URL + STATS_API_URL + "getAll/" + userId, "get");
+    return callAPI(BASE_URL_API + API_URL + STATS_API + "getAll/" + userId, "get");
 }
 
 function callAPI(url, method) {
@@ -178,7 +178,7 @@ function callAPI(url, method) {
 }
 
 function callFriendAPI(method, subUrl, userId) {
-    return fetch(BASE_URL + API_URL + FRIENDS_URL + subUrl + "/" + userId, {
+    return fetch(BASE_URL_API + API_URL + FRIENDS_API + subUrl + "/" + userId, {
         method: method, headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',
@@ -197,5 +197,5 @@ function callFriendAPI(method, subUrl, userId) {
 }
 
 function getUser(userId) {
-    return callAPI(BASE_URL + API_URL + USERS_URL + "get/" + userId, "get");
+    return callAPI(BASE_URL_API + API_URL + USERS_API + "get/" + userId, "get");
 }

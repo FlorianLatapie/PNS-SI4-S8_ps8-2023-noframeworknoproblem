@@ -1,8 +1,8 @@
 import {PARAMETER_NAME_IA_PLAYS} from "../constant.js";
-import {API_URL, PLAY_AI_URL, USERS_URL} from "../../../util/path.js";
-import {BASE_URL} from "../../../util/frontPath.js";
+import {API_URL, PLAY_AI_URL, USERS_API} from "../../../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../../../util/frontPath.js";
 
-fetch(BASE_URL + API_URL + USERS_URL + "getCurrentAIGame/", {
+fetch(BASE_URL_API + API_URL + USERS_API + "getCurrentAIGame/", {
     method: "get", headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
         'Accept': 'application/json',
@@ -16,7 +16,7 @@ fetch(BASE_URL + API_URL + USERS_URL + "getCurrentAIGame/", {
     }
     console.log(data);
     let userId = localStorage.getItem("userId");
-    let url = BASE_URL + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=";
+    let url = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=";
     if (data.player1 === userId){
         window.location.href = url + "2";
     } else if (data.player2 === userId){
@@ -29,6 +29,6 @@ form.addEventListener("submit", function (event) {
     event.preventDefault();
     let AIplays = document.querySelector("input[name=\"AIplays\"]:checked").value;
     form.method = "get";
-    form.action = BASE_URL + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=" + AIplays;
+    form.action = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=" + AIplays;
     form.submit();
 });

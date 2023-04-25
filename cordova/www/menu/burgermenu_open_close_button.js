@@ -1,11 +1,12 @@
 "use strict";
 
-import {BASE_URL} from "../util/frontPath.js";
+
+import {BASE_URL_PAGE} from "../util/frontPath.js";
 
 const burgerMenuOpenCloseTemplate = document.createElement("template");
 
 burgerMenuOpenCloseTemplate.innerHTML = `
-<link rel="stylesheet" href="` + BASE_URL + `/menu/burgermenu.css">
+<link rel="stylesheet" href="${BASE_URL_PAGE}menu/burgermenu.css">
 <a>
     <div class="hamburger">
         <span class="bar"></span>

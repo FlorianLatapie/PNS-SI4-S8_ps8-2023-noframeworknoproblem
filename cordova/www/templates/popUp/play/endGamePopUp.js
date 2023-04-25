@@ -1,4 +1,4 @@
-import {BASE_URL} from "../../../util/frontPath.js";
+import {BASE_URL_PAGE} from "../../../util/frontPath.js";
 import {HOME_URL} from "../../../util/path.js";
 
 function endGamePopUp(text, imgSrc) {
@@ -18,7 +18,7 @@ function endGamePopUp(text, imgSrc) {
     img.src = imgSrc;
 
     const closeIcon = document.createElement("img");
-    closeIcon.src = BASE_URL + "/images/cross.png";
+    closeIcon.src = BASE_URL_PAGE + "images/cross.png";
 
     closeIcon.addEventListener("click", () => {
         validationPopUp.remove();
@@ -27,7 +27,7 @@ function endGamePopUp(text, imgSrc) {
     const homeButton = document.createElement("button");
     homeButton.innerText = "Retour à l'accueil";
     homeButton.addEventListener("click", () => {
-        window.location.replace(BASE_URL + HOME_URL);
+        window.location.replace(BASE_URL_PAGE + HOME_URL);
     });
 
     // ------------------ Add elements to the DOM ------------------

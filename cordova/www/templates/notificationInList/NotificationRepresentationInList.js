@@ -1,7 +1,7 @@
 "use strict";
 
-import {API_URL, NOTIFICATIONS_API_URL} from "../../util/path.js";
-import {BASE_URL} from "../../util/frontPath.js";
+import {API_URL, NOTIFICATIONS_API} from "../../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../../util/frontPath.js";
 import {validationPopUp} from "../popUp/validationPopUp/validationPopUp.js";
 
 
@@ -18,10 +18,10 @@ function createNotificationRepresentation(notificationInDB) {
     messageContainer.classList.add("flex-row", "message-container");
     messageContainer.id = notificationInDB.notificationId;
 
-    deleteButton.src = "../images/trash-solid.svg";
+    deleteButton.src = `${BASE_URL_PAGE}images/trash-solid.svg`;
     deleteButton.alt = "Supprimer la notification";
 
-    actionButton.src = "../images/check-solid.svg";
+    actionButton.src = `${BASE_URL_PAGE}images/check-solid.svg`;
     actionButton.alt = "Valider l'action de la notification";
 
     deleteButton.addEventListener("click", () => {
@@ -36,7 +36,7 @@ function createNotificationRepresentation(notificationInDB) {
 
     if (notification.action) {
         actionButton.addEventListener("click", () => {
-            fetch(BASE_URL + API_URL + notification.action.url, {
+            fetch(BASE_URL_API + API_URL + notification.action.url, {
                 method: notification.action.method,
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -60,7 +60,7 @@ function createNotificationRepresentation(notificationInDB) {
 
     if (notification.link) {
         actionButton.addEventListener("click", () => {
-            window.location.replace(BASE_URL + notification.link);
+            window.location.replace(BASE_URL_PAGE + notification.link);
         })
     }
 
@@ -80,7 +80,7 @@ function createNotificationRepresentation(notificationInDB) {
 }
 
 function deleteNotification(container, notificationId) {
-    fetch(BASE_URL + API_URL + NOTIFICATIONS_API_URL + "delete/" + notificationId, {
+    fetch(BASE_URL_API + API_URL + NOTIFICATIONS_API + "delete/" + notificationId, {
         method: "delete", headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Accept': 'application/json',

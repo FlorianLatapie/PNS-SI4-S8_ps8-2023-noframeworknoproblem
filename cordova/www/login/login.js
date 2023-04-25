@@ -1,10 +1,10 @@
 import {parseJwt} from "../util/jwtParser.js";
-import {API_URL, HOME_URL, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
-import {BASE_URL} from "../util/frontPath.js";
+import {API_URL, HOME_URL, LOGIN_API, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 document.getElementById("signup").addEventListener("click", function () {
-    window.location.replace(BASE_URL + SIGNUP_URL);
+    window.location.replace(BASE_URL_PAGE + SIGNUP_URL);
 });
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
@@ -14,7 +14,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: document.getElementById("login-password").value,
     }
 
-    fetch(BASE_URL + API_URL + LOGIN_URL, {
+    fetch(BASE_URL_API + API_URL + LOGIN_API, {
         method: "post", headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(values)
@@ -34,6 +34,6 @@ document.getElementById("login-form").addEventListener("submit", function (event
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
         //console.log("userId: " + userId);
-        window.location.replace(BASE_URL + HOME_URL);
+        window.location.replace(BASE_URL_PAGE + HOME_URL);
     });
 });

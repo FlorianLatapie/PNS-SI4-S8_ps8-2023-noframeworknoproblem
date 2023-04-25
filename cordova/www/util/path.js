@@ -1,31 +1,31 @@
 "use strict";
 
 // Pages ---------------------------------------------------------------------------------------------------------------
-const SIGNUP_URL = 'signup/';
-const LOGIN_URL = 'login/';
+const SIGNUP_URL = 'signup/index.html';
+const LOGIN_URL = 'login/index.html';
 
 /// Pages when logged in -----------------------------
-const HOME_URL = 'home/';
-const PROFILE_URL = 'profile/';
-const NOTIFICATIONS_PAGE_URL = 'notificationCenter/';
-const FRIENDS_URL = "friends/";
-const SEARCH_USERS_URL = 'searchUsers/';
-const RANKING_URL = 'ranking/';
+const HOME_URL = 'home/index.html';
+const PROFILE_URL = 'profile/index.html';
+const NOTIFICATIONS_PAGE_URL = 'notificationCenter/index.html';
+const FRIENDS_URL = "friends/index.html";
+const SEARCH_USERS_URL = 'searchUsers/index.html';
+const RANKING_URL = 'ranking/index.html';
 
 
 //// Game pages --------------------------------------
 ///// local
-const PLAY_LOCAL_URL = 'play/local/';
+const PLAY_LOCAL_URL = 'play/local/index.html';
 
 ///// AI
-const PLAY_AI_URL = 'play/ai/';
-const PLAY_AI_ORDER_URL = 'play/ai/order/';
+const PLAY_AI_URL = 'play/ai/index.html';
+const PLAY_AI_ORDER_URL = 'play/ai/order/index.html';
 
 ///// Matchmaking
-const PLAY_MATCHMAKING_URL = 'play/matchmaking/';
+const PLAY_MATCHMAKING_URL = 'play/matchmaking/index.html';
 
 //// Challenge
-const PLAY_CHALLENGE_URL = 'play/challenge/';
+const PLAY_CHALLENGE_URL = 'play/challenge/index.html';
 
 // API -----------------------------------------------------------------------------------------------------------------
 
@@ -33,12 +33,18 @@ const PLAY_CHALLENGE_URL = 'play/challenge/';
 // are defined above
 
 const API_URL = 'api/';
-const ACHIEVEMENTS_URL = "achievements/";
-const USERS_URL = "users/";
-const NOTIFICATIONS_API_URL = "notifications/";
-const CHATS_API_URL = "chats/";
+const ACHIEVEMENTS_API = "achievements/";
+const USERS_API = "users/";
+const NOTIFICATIONS_API = "notifications/";
+const CHATS_API = "chats/";
 
-const STATS_API_URL = "stats/";
+const STATS_API = "stats/";
+
+const FRIENDS_API = "friends/";
+
+const LOGIN_API = "login/"
+
+const SIGNUP_API = "signup/"
 
 // export all the constants --------------------------------------------------------------------------------------------
 export {
@@ -55,10 +61,13 @@ export {
     PLAY_AI_ORDER_URL,
     PLAY_MATCHMAKING_URL,
     API_URL,
-    ACHIEVEMENTS_URL,
-    USERS_URL,
-    NOTIFICATIONS_API_URL,
+    ACHIEVEMENTS_API,
+    USERS_API,
+    NOTIFICATIONS_API,
     PLAY_CHALLENGE_URL,
-    CHATS_API_URL,
-    STATS_API_URL,
+    CHATS_API,
+    STATS_API,
+    FRIENDS_API,
+    LOGIN_API,
+    SIGNUP_API,
 };

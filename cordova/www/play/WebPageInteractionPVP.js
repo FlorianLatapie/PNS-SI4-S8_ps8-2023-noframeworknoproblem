@@ -4,8 +4,8 @@ import {winningPopUp} from "../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../templates/popUp/play/losingPopUp.js";
 import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
-import {BASE_URL} from "../util/frontPath.js";
-import {API_URL, STATS_API_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {API_URL, STATS_API} from "../util/path.js";
 
 class WebPageInteractionPVP {
 
@@ -201,12 +201,12 @@ class WebPageInteractionPVP {
 
             if (this.#muteFlag) {
                 console.log("muteFlag is true");
-                document.getElementById("mute").src = "../../images/unmute.svg";
+                document.getElementById("mute").src = BASE_URL_PAGE + "images/unmute.svg";
                 document.getElementById("chat-temp-button").style.visibility = "hidden";
                 document.getElementById("all-message-container").style.visibility = "hidden";
             } else {
                 console.log("muteFlag is false");
-                document.getElementById("mute").src = "../../images/mute.svg";
+                document.getElementById("mute").src = BASE_URL_PAGE + "images/mute.svg";
                 document.getElementById("chat-temp-button").style.visibility = "visible";
             }
         });
@@ -274,7 +274,7 @@ class WebPageInteractionPVP {
     }
 
     displayOpponent = (opponent) => {
-        let stats =  fetch(BASE_URL + API_URL + STATS_API_URL + "getAll/" + opponent.id, {
+        let stats =  fetch(BASE_URL_API + API_URL + STATS_API + "getAll/" + opponent.id, {
             method: 'get', headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 'Accept': 'application/json',
