@@ -22,13 +22,14 @@ fetch(BASE_URL_API + API_URL + USERS_API + "getCurrentAIGame/", {
     } else if (data.player2 === userId){
         window.location.href = url + "1";
     }
-})
+});
 
-let form = document.getElementById("form-position")
-form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let AIplays = document.querySelector("input[name=\"AIplays\"]:checked").value;
-    form.method = "get";
-    form.action = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=" + AIplays;
-    form.submit();
+let firstButton = document.getElementById("first");
+let secondButton = document.getElementById("second");
+firstButton.addEventListener("click", function (event) {
+    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=1"
+});
+
+secondButton.addEventListener("click", function (event) {
+    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=2"
 });

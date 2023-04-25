@@ -3,7 +3,7 @@
 <head>
     <link href="../../../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <title>Réglages partie</title>
 
@@ -30,24 +30,11 @@
 <div id="bottom-content">
     <burger-menu></burger-menu>
     <main>
-        <form id="form-position">
-            <h2>Choisissez votre ordre de jeu</h2>
-            <div id="choice">
-                <div>
-                    <input id="first" name="AIplays"
-                           type="radio" value="2">
-                    <label for="first">Premier</label>
-                </div>
-                <div>
-                    <input id="second" name="AIplays"
-                           type="radio" value="1">
-                    <label for="second">Second</label>
-                </div>
-            </div>
-            <div>
-                <button id="send-button" type="submit">Jouer !</button>
-            </div>
-        </form>
+        <h2>Choisissez votre ordre de jeu</h2>
+        <div>
+            <button id="first">Premier</button>
+            <button id="second">Second</button>
+        </div>
     </main>
     <chat-global></chat-global>
 </div>
