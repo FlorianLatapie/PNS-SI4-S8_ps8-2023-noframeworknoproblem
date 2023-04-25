@@ -13,7 +13,7 @@ main {
     width: 33em;
 }
 
-@media (width<=480px) and (orientation: portrait) {
+@media (max-width: var(--mobile-device-max-width)) and (orientation: portrait) {
     #button-container {
         width: 80%;
     }
