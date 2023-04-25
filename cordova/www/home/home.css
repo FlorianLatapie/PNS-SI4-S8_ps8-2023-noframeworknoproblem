@@ -10,8 +10,9 @@ main {
     grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    width: 20em;
+    width: 33em;
 }
+
 
 #button-container * {
     height: 100px;
