@@ -11,8 +11,8 @@
     </author>
     <content src="index.html" />
 
-    <!--<preference name="hostname" value="nfnp.connect4.academy" />--> <!-- for application to access online -->
-    <preference name="hostname" value="10.0.2.2:8000" /> <!-- for application to access localhost -->
+    <preference name="hostname" value="nfnp.connect4.academy" /> <!-- for application to access online -->
+    <!--<preference name="hostname" value="10.0.2.2:8000" />--> <!-- for application to access localhost -->
 
     <access origin="http://nfnp.connect4.academy/" />
     <allow-navigation href="http://nfnp.connect4.academy/"/>

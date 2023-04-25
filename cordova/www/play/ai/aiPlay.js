@@ -7,6 +7,7 @@ import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 import {parseJwt} from "../../util/jwtParser.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
+import {drawVibration, losingVibration, winningVibration} from "../../templates/vibrationsTypes.js";
 
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
@@ -143,13 +144,17 @@ gameSocket.on("connect", () => {
         if (winner === "draw") {
             drawPopUp();
             changeInfoPage("Egalité");
+            drawVibration();
         } else {
             if (winner === "HumanPlayer") {
                 winningPopUp();
                 changeInfoPage("Victoire");
+                winningVibration()
+
             } else {
                 losingPopUp();
                 changeInfoPage("Défaite");
+                losingVibration();
             }
         }
 
