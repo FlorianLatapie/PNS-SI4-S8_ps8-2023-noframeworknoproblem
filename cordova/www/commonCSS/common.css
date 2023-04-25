@@ -102,6 +102,14 @@ td, th {
     border: 1px solid black;
 }
 
+@media (orientation: portrait) and (width <= 480px) {
+    td, th {
+        padding: 20px 40px;
+    }
+}
+
+}
+
 table {
     border-collapse: collapse;
 }
