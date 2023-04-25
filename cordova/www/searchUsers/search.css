@@ -3,10 +3,10 @@ main {
 
     display: flex;
     align-items: center;
+    /* align-items: center; */
     flex-direction: column;
     /* gap between elements */
     gap: 2%;
-
     height: 100%;
     width: 100%;
 }
@@ -39,4 +39,13 @@ form > button {
 form > button > img {
     height: 70.7%; /* max ratio square inside a circle */
     aspect-ratio: 1/1;
+}
+
+@media (width<=480px) and (orientation: portrait) {
+    form > input {
+        width: auto;
+    }
+    main{
+        align-items: flex-start;
+    }
 }
