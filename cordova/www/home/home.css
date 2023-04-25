@@ -13,10 +13,9 @@ main {
     width: 33em;
 }
 
-@media (width<=400px) and (orientation: portrait) {
+@media (width<=480px) and (orientation: portrait) {
     #button-container {
         width: 80%;
-        overflow: auto;
     }
 }
 
