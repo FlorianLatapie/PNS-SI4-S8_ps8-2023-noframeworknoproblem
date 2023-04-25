@@ -33,7 +33,7 @@ header > *:first-child{
     min-width: 12em;
 }
 
-@media (width <= 600px) {
+@media (orientation: portrait) {
     .top-corner-content:last-child {
         visibility: hidden;
     }
