@@ -2,14 +2,16 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 #button-container, form{
     display: flex;
     flex-direction: column;
     grid-gap: 15px;
-    width: 35em;
     margin-top: 50px;
+    flex-grow: 1;
+    max-width: 600px;
 }
 
 #button-container form * {
