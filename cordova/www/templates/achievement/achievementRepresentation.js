@@ -3,10 +3,10 @@ function achievementRepresentation(nameAchievement, found, advancement_ratio, go
     const img = document.createElement("img");
     const info = document.createElement("p");
 
-    imgContainer.classList.add("flex-column-center");
     img.src = srcImg;
     img.classList.add("achievement-img");
     info.style.visibility = "hidden";
+    info.classList.add("achievement-info");
 
     if (!found) {
         img.classList.add("achievement-notfound");

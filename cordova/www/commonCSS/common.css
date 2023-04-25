@@ -13,15 +13,6 @@
     margin: 0;
     padding: 0;
 }
-
-body {
-    height: 100vh;
-    display: grid;
-
-    /* auto height for header then max bottom-content */
-    grid-template-rows: auto 1fr;
-}
-
 /* header see header.css */
 
 /* main depends on every page, check each page css */

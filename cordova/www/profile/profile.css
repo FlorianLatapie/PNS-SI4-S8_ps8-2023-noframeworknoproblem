@@ -1,9 +1,11 @@
 main{
-    padding: 0 10vh;
+    padding: 0 0;
+
 }
 
 main > * {
-    margin: 0.5em;
+    margin-top: 50px;
+    text-align: center;
 }
 
 #salutation {
@@ -15,6 +17,12 @@ li {
     margin-left: 2em;
 }
 
-main > div {
-    margin: 50px
+
+@media (width <= 480px) and (orientation: portrait) {
+    #achievements > div {
+        width: 50%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+    }
 }

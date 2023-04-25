@@ -1,17 +1,30 @@
+:root {
+    --image-width: 80px;
+}
 .achievement-img {
-    margin-bottom: 15px;
-    margin-inline: 50px;
-    width : 100px;
-    height : 100px;
+    margin-top: 25px;
+    width : var(--image-width);
+    aspect-ratio: 1/1;
 }
 
 .achievement-notfound {
     filter: opacity(0.5);
 }
 
+.achievement-info{
+    width: var(--image-width);
+    aspect-ratio: 1/1;
+    /*center the inner text*/
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
 #achievements {
-    margin-top : 50px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-left: 50px;
 }
