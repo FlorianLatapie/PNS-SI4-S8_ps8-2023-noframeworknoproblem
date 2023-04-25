@@ -26,8 +26,6 @@ header > *:first-child{
     font-weight: bold;
     font-size: 1em;
 }
-#username {
-}
 
 .top-corner-content {
     min-width: 12em;
@@ -41,5 +39,11 @@ header > *:first-child{
         min-width: 0;
         max-width: 0;
         width: 0;
+    }
+
+    @media (width <= 480px) {
+        .page-title {
+            width: 70%;
+        }
     }
 }
