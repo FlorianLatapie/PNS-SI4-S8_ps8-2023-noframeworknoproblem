@@ -27,5 +27,5 @@ button {
 #choice > * {
     padding: 10px;
     background-color: var(--dark-accentuation-color);
-    border-radius: 100vw;
+    border-radius: 1000px;
 }
