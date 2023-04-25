@@ -14,18 +14,4 @@
 
     --icon-width: 35px;
     --icon-padding: 22px;
-
-    --mobile-device-min-width: 320px;
-    --mobile-device-max-width: 480px;
-
-    --tablet-device-min-width: 481px;
-    --tablet-device-max-width: 768px;
-
-    --desktop-device-min-width: 769px;
-    --desktop-device-max-width: 1024px;
-
-    --large-desktop-device-min-width: 1025px;
-    --large-desktop-device-max-width: 1280px;
-
-    --extra-large-desktop-device-min-width: 1281px;
 }
