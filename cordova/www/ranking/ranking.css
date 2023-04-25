@@ -5,3 +5,10 @@
 td {
     text-align: center;
 }
+
+@media (width <= 480px) and (orientation: portrait) {
+
+    table {
+        width: 80vw;
+    }
+}
