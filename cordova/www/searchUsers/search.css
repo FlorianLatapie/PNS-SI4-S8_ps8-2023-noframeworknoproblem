@@ -23,8 +23,8 @@ form {
 }
 
 form > input {
-    width: 20vw;
-    height: 5vh;
+    width: 50em;
+    height: 100%;
     /* remove default browser suggestion */
     -webkit-appearance: none;
     text-align: center;
@@ -32,7 +32,7 @@ form > input {
 }
 
 form > button {
-    height: 5vh;
+    height: 100%;
     aspect-ratio: 1/1;
 }
 

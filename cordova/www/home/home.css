@@ -4,13 +4,19 @@ main {
     justify-content: center;
 }
 
-#button-container {
+#button-container{
     display: flex;
     flex-direction: column;
     grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    width: 20em;
+    width: 33em;
+}
+
+@media (width<=480px) and (orientation: portrait) {
+    #button-container {
+        width: 80%;
+    }
 }
 
 #button-container * {
