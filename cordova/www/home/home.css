@@ -28,4 +28,6 @@ main {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     justify-items: start;
+    height: calc(100vh - 200px);
+
 }
