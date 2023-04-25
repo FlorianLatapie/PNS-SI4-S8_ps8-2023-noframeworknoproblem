@@ -9,6 +9,6 @@ td {
 @media (width <= 480px) and (orientation: portrait) {
 
     table {
-        width: 80vw;
+        width: 78vw;
     }
 }
