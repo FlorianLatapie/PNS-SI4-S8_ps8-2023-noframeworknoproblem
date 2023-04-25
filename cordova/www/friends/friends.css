@@ -1,6 +1,4 @@
 main {
-    width: 90%;
-    height: 90%;
     display: flex;
     flex-direction: column;
 }
@@ -42,6 +40,13 @@ main {
     #users-friends > div > *:first-child,  #users-friends > div > *, #users-friends, #users-friends > *,
     #users-pending > div > *:first-child, #users-pending > div > *, #users-pending, #users-pending > *,
     #users-requests > div > *:first-child, #users-requests > div > *, #users-requests, #users-requests > *{
-        width: 100%;
+        width: 80vw;
+        min-width: 250px;
+    }
+
+    #users-friends > div > div > button,
+    #users-pending > div > div > button,
+    #users-requests > div > div > button {
+        width: 37vw;
     }
 }
