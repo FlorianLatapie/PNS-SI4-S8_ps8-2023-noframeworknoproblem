@@ -12,21 +12,9 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* line red, border 1px */
+    outline: 1px solid red;
 }
-
-html{
-    height: 100%;
-}
-
-body {
-    height: 100vh;
-    max-height: 100vh;
-    display: grid;
-
-    /* auto height for header then max bottom-content */
-    grid-template-rows: auto 1fr;
-}
-
 /* header see header.css */
 
 /* main depends on every page, check each page css */
