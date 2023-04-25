@@ -28,7 +28,7 @@ nav > * > button {
     display: none;
     cursor: pointer;
 
-    margin-left: 2em;
+    margin-left: 1em;
 
     border: none;
     border-radius: 1000px;
@@ -75,3 +75,9 @@ nav > * > button:hover {
     transform: translateY(-11px) rotate(-45deg);
 }
 
+@media (width<=480px) and (orientation: portrait) {
+    nav > * > button {
+        font-size: 2em;
+        width: 70vw;
+    }
+}
