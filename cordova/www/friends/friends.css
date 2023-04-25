@@ -5,11 +5,16 @@ main {
     flex-direction: column;
 }
 
-#users-friends > div > *:first-child, #users-pending > div > *:first-child, #users-requests > div > *:first-child {
+#users-friends > div > *:first-child, 
+#users-pending > div > *:first-child, 
+#users-requests > div > *:first-child {
     width: 250px;
+    min-width: 250px;
 }
 
-#users-friends > div > *:not(:first-child), #users-pending > div > *:not(:first-child), #users-requests > div > *:not(:first-child) {
+#users-friends > div > div > button,
+#users-pending > div > div > button,
+#users-requests > div > div > button {
     width: 150px;
 }
 
@@ -21,4 +26,26 @@ main {
 #friends-main > h2 {
     margin-top: 25px;
     margin-bottom: 5px;
+}
+
+@media (width<=480px) and (orientation: portrait) {
+    #friends-main{
+        margin: 0;
+    }
+    #users-friends > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #users-friends > div > *:first-child{
+        width: 100%;
+    }
+
+    #users-friends > div > *{
+        width: 100%;
+    }
+
+    #users-friends, #users-friends > *{
+        width: 100%;
+    }
 }
