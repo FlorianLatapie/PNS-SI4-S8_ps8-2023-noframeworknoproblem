@@ -2,9 +2,7 @@ main {
     padding: 5%;
     display: flex;
     align-items: center;
-    /* align-items: center; */
     flex-direction: column;
-    /* gap between elements */
     gap: 2%;
     height: 100%;
 }
@@ -14,7 +12,6 @@ form {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* gap between elements */
     gap: 2%;
 }
 
