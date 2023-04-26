@@ -11,6 +11,7 @@ const NOTIFICATIONS_PAGE_URL = 'notificationCenter/index.html';
 const FRIENDS_URL = "friends/index.html";
 const SEARCH_USERS_URL = 'searchUsers/index.html';
 const RANKING_URL = 'ranking/index.html';
+const OTHER_MENU_URL = 'otherMenu/index.html';
 
 
 //// Game pages --------------------------------------
@@ -56,6 +57,7 @@ export {
     FRIENDS_URL,
     SEARCH_USERS_URL,
     RANKING_URL,
+    OTHER_MENU_URL,
     PLAY_LOCAL_URL,
     PLAY_AI_URL,
     PLAY_AI_ORDER_URL,
