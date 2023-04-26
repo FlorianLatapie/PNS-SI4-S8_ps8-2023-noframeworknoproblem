@@ -12,23 +12,33 @@ main {
 
 #users-friends > div > div > button,
 #users-pending > div > div > button,
-#users-requests > div > div > button {
-    width: 150px;
+#users-requests > div > button {
+    min-width: 80px;
+    width: 15vw;
+    max-width: 150px;
+    font-size: 0.90em;
 }
 
 #friends-main {
-    margin-top: 30px;
-    margin-left: 100px;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 #friends-main > h2 {
-    margin-top: 25px;
+    margin-top: 35px;
     margin-bottom: 5px;
 }
 
-@media (width<=480px) and (orientation: portrait) {
+@media (width<=580px) and (orientation: portrait) {
     #friends-main{
         margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #friends-main > h2 {
+        text-align: center;
     }
     #users-friends > div,
     #users-pending > div,
@@ -40,14 +50,21 @@ main {
     #users-friends > div > *:first-child,  #users-friends > div > *, #users-friends, #users-friends > *,
     #users-pending > div > *:first-child, #users-pending > div > *, #users-pending, #users-pending > *,
     #users-requests > div > *:first-child, #users-requests > div > *, #users-requests, #users-requests > *{
-        width: 80vw;
+        max-width: 350px;
         min-width: 250px;
+        width: 80vw;
     }
 
     #users-friends > div > div > button,
     #users-pending > div > div > button,
-    #users-requests > div > div > button {
+    #users-requests > div > button {
         width: 37vw;
+    }
+
+    #users-friends > div > div,
+    #users-pending > div > div,
+    #users-requests > div {
+        justify-content: center;
     }
 }
 
