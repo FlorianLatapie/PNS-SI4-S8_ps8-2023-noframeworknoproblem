@@ -1,2 +1,24 @@
 @import "../commonCSS/CSSvariables.css";
 
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+main > * {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+main img {
+    width: var(--icon-width);
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
