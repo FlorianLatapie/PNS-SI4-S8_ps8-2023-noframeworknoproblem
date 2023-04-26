@@ -1,40 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Puissance 4 - Autre Menu</title>
+    <title>Puissance 4 - Autre Menu</title>
 
-  <script src="otherMenu.js" type="module"></script>
+    <script src="otherMenu.js" type="module"></script>
 
-  <link href="../commonCSS/common.css" rel="stylesheet">
-  <link href="otherMenu.css" rel="stylesheet">
+    <link href="../commonCSS/common.css" rel="stylesheet">
+    <link href="otherMenu.css" rel="stylesheet">
 
-  <script src="../util/guards/guard.js" type="module"></script>
-  <script src="../util/updateUsernameDiv.js" type="module"></script>
-  <script src="../menu/burgermenu.js" type="module"></script>
-  <script src="../menu/burgermenu_open_close_button.js" type="module"></script>
-  <script src="../chat/chat.js" type="module"></script>
-  <script src="/socket.io/socket.io.js"></script>
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="../menu/burgermenu.js" type="module"></script>
+    <script src="../menu/burgermenu_open_close_button.js" type="module"></script>
+    <script src="../chat/chat.js" type="module"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 
 <header>
-  <burger-menu-open-close class="top-corner-content"></burger-menu-open-close>
-  <div class="page-title"><h1>Autres</h1></div>
-  <div class="top-corner-content" id="username"></div>
+    <burger-menu-open-close class="top-corner-content"></burger-menu-open-close>
+    <div class="page-title"><h1>Autres</h1></div>
+    <div class="top-corner-content" id="username"></div>
 </header>
 
 <div id="bottom-content">
-  <burger-menu></burger-menu>
-  <main>
-    <div id="button-container">
-
-    </div>
-  </main>
-  <chat-global></chat-global>
+    <burger-menu></burger-menu>
+    <main>
+        <div>
+            <a class="nav-link menu" href="../profile/index.html">
+                <img alt="Profil" src="../menu/images/user-solid.svg">
+                <button>Profil</button>
+            </a>
+            <a class="nav-link menu" href="../friends/index.html">
+                <img alt="Amis" src="../menu/images/user-group-solid.svg">
+                <button>Mes amis</button>
+            </a>
+            <a class="nav-link menu" href="../searchUsers/index.html">
+                <img alt="Ajouter un ami" src="../menu/images/user-plus-solid.svg">
+                <button>Ajouter un ami</button>
+            </a>
+        </div>
+        <div>
+            <a class="nav-link menu" href="../ranking/index.html">
+                <img alt="Classement" src="../menu/images/ranking-star-solid.svg">
+                <button>Classement</button>
+            </a>
+            <a class="nav-link menu" id="logoutMenu" href="../login/index.html">
+                <img alt="Se déconnecter" src="../menu/images/right-from-bracket-solid.svg">
+                <button>Se déconnecter</button>
+            </a>
+        </div>
+    </main>
+    <chat-global></chat-global>
 </div>
 
 </body>
