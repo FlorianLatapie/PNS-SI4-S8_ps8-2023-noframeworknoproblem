@@ -1,6 +1,5 @@
 main {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -13,15 +12,29 @@ main {
     width: 33em;
 }
 
+#button-container * {
+    height: 20%;
+    width: 100%;
+}
+
+
 @media (width<=480px) and (orientation: portrait) {
     #button-container {
         width: 80%;
     }
 }
 
-#button-container * {
-    height: 100px;
-    width: 100%;
+@media (height<=480px) and (orientation: landscape) {
+    #button-container {
+        width: 80%;
+        height: 100%;
+    }
+
+    #button-container * {
+        height: initial;
+        width: 100%;
+    }
+
 }
 
 
