@@ -1,6 +1,5 @@
 @import "../commonCSS/CSSvariables.css";
 
-
 main {
     display: flex;
     flex-direction: column;
@@ -10,15 +9,30 @@ main {
 main > * {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-top: 15px;
 }
 
 main img {
     width: var(--icon-width);
+    aspect-ratio: 1/1;
 }
 
-.menu{
+.nav-link.menu{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-link.menu > button {
+    border: none;
+    border-radius: 1000px;
+
+    width: 180px;
+    height: 40px;
+
+    padding: 10px;
 }
