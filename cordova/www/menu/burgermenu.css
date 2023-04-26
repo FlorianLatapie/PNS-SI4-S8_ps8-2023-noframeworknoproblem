@@ -74,7 +74,7 @@ nav > div >a {
     height: 100%;
     background: var(--light-accentuation-grey);
     display: none;
-    position: fixed;
+    position: absolute;
     left: calc(var(--icon-width) + 2*var(--icon-padding));
 }
 /* hamburger icon animation */
