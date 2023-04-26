@@ -29,6 +29,8 @@ main {
     #button-container {
         width: 80%;
         height: 100%;
+        grid-gap: 2px;
+
     }
 
     #button-container * {
