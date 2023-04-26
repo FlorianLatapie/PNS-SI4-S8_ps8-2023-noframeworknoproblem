@@ -33,8 +33,6 @@ nav > * > button {
     height: 50px;
     padding: 10px;
     background-color: var(--dark-accentuation-color);
-    z-index: 80;
-    position: fixed;
 }
 
 nav > * > button:hover {
