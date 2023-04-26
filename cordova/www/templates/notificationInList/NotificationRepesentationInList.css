@@ -1,6 +1,6 @@
 .message-container {
     padding: 10px;
-    width: 200px;
+    width: 24em;
     background-color: var(--dark-accentuation-color);
     border-radius: 20px;
     display: flex;
@@ -13,12 +13,15 @@
 .notification-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
 }
 
+#notifications-container {
+    padding: 20px;
+}
+
 .message-container > p {
-    font-size: 13px;
+    font-size: 0.96em;
 }
 
 .message-container > img {
@@ -37,4 +40,15 @@
 
 .notification-container > img:hover {
     filter: opacity(40%);
+}
+
+@media (width<=480px) and (orientation: portrait) {
+    main {
+        margin: 0;
+    }
+
+    .message-container {
+        width: 12em;
+        height: auto;
+    }
 }

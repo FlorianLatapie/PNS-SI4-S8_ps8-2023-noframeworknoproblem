@@ -70,10 +70,10 @@ function createNotificationRepresentation(notificationInDB) {
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(messageContainer);
+    fragment.appendChild(deleteButton);
     if (notification.action || notification.link) {
         fragment.appendChild(actionButton);
     }
-    fragment.appendChild(deleteButton);
     container.appendChild(fragment);
 
     return container;
