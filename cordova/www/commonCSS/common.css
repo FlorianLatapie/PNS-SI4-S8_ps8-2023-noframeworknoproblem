@@ -27,7 +27,7 @@ button {
     padding: 1em;
     border: none;
     border-radius: 1000px;
-    /* font-size: 1.2em; */
+    font-size: 1.2em;
     cursor: pointer;
 }
 
