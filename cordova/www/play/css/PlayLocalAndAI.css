@@ -24,10 +24,6 @@ main {
 }
 
 @media (width <= 480px) and (orientation: portrait) {
-    #quit-button {
-        display: none;
-    }
-
     #buttons-container {
         width: 100%;
     }
