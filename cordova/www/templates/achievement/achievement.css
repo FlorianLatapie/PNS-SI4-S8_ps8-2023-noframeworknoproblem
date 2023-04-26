@@ -13,9 +13,7 @@
 .achievement-info{
     width: var(--image-width);
     aspect-ratio: 1/1;
-    /*center the inner text*/
     display: flex;
-    /* align-items: center; */
     text-align: center;
     justify-content: center;
 }

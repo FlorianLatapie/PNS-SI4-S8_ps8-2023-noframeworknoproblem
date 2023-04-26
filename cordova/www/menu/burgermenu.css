@@ -1,34 +1,5 @@
 @import "../commonCSS/CSSvariables.css";
-/*
-nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    background: white;
-}
 
-nav img {
-    width: var(--icon-width);
-}
-
-nav > * {
-    padding: var(--icon-padding);
-}
-
-nav > a {
-    height: var(--icon-width);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    text-decoration: none;
-}
-
-
-
-nav > * > button:hover {
-    background-color: var(--very-dark-accentuation-color);
-}
-*/
 #menu-buttons>  * > button {
     cursor: pointer;
     border: none;
@@ -109,14 +80,7 @@ nav > div >a {
 #other-button, #other {
     display: none;
 }
-/*
-@media (width <= 480px) and (orientation: portrait) {
-    nav > * > button {
-        font-size: 2em;
-        width: 70vw;
-    }
-}
-*/
+
 @media (orientation: landscape) and (height <= 480px) {
     #other, #other-button {
         display: inherit;
@@ -129,17 +93,5 @@ nav > div >a {
     #logout, #logout-button {
         display: none;
     }
-
-    /*nav > * {
-        margin-top: -12px;
-    }
-
-    nav > * > button {
-        font-size: 1.3em;
-
-        width: 80%;
-        height: 40px;
-
-    }*/
 }
 

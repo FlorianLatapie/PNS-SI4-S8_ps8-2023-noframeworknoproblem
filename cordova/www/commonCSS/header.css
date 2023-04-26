@@ -14,7 +14,6 @@ header > *:not(:first-child) {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    /* justify-content: center; */
 }
 
 header > *:first-child{
@@ -43,7 +42,7 @@ header > *:first-child{
     }
 
     .top-corner-content {
-        /* min-width: 0; */
+        /* min-width: 0; */ /* todo quentin*/
         /* max-width: 0; */
         width: 79px;
         /* width: 20px; */
