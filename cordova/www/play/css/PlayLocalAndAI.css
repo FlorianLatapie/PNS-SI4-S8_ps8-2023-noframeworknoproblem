@@ -1,12 +1,16 @@
 @import "play.css";
 
 #left-container {
-    height: 450px;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     margin: 120px;
 }
 
-#grid-container {
+@media (width <= 480px) and (orientation: portrait) {
+    /* reverse order of child of #grid-container     */
+    #grid-container {
+        flex-direction: column-reverse;
+    }
 }

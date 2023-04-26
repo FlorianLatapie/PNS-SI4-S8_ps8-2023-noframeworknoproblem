@@ -50,3 +50,7 @@ main {
         width: 37vw;
     }
 }
+
+.flex-column{
+    padding: 0;
+}

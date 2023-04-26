@@ -5,10 +5,6 @@ main {
     align-items: center;
 }
 
-main > h2 {
- margin-bottom: 30px;
-}
-
 @media (width<=480px) and (orientation: portrait) {
     main {
         margin: 0;

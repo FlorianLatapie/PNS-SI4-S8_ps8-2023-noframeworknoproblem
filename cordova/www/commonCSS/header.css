@@ -3,6 +3,7 @@ header {
     justify-content: space-between;
     font-size: 1em;
     min-height: 100px;
+    min-width: 100vw;
     width: 100vw;
 }
 
@@ -23,7 +24,7 @@ header > *:first-child{
 }
 
 .page-title {
-    width: 25em;
+    width: 30em;
     font-weight: bold;
     font-size: 1em;
 }
