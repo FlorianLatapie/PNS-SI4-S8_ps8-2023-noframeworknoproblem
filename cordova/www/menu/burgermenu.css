@@ -4,6 +4,7 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    background: white;
 }
 
 nav img {
@@ -29,7 +30,7 @@ nav > * > button {
     border: none;
     border-radius: 1000px;
     font-size: 1.7em;
-    width: 17%;
+    width: 100%;
     height: 50px;
     padding: 10px;
     background-color: var(--dark-accentuation-color);

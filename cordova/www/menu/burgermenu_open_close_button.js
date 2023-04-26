@@ -33,13 +33,19 @@ class BurgermenuOpenClose extends HTMLElement {
 
             let navButtons = burgerMenu.shadowRoot.querySelectorAll("button");
             if (hamburger.classList.contains("active")) {
-                navBar.style.position = "fixed";
-                navBar.style.zIndex = "100";
-                navButtons.forEach(button => button.style.display = "block");
+                /*navBar.style.position = "fixed";
+                navBar.style.zIndex = "0";*/
+                navButtons.forEach(button => {
+                    button.style.display = "block"
+                    /*button.style.position = "fixed";*/
+                });
             } else {
-                navBar.style.position = "relative";
-                navBar.style.zIndex = "0";
-                navButtons.forEach(button => button.style.display = "none");
+                /*navBar.style.position = "relative";
+                navBar.style.zIndex = "0";*/
+                navButtons.forEach(button => {
+                    button.style.display = "none"
+                    /*button.style.position = "relative";*/
+                });
             }
         });
 
