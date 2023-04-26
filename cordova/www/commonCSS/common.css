@@ -120,7 +120,7 @@ table {
 /* colors */
 
 .grey {
-    background-color: var(--dark-accentuation-grey);
+    background-color: var(--light-accentuation-grey);
 }
 
 .grey:hover {

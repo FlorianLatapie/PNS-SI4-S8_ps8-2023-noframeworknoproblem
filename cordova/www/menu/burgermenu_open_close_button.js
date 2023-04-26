@@ -26,26 +26,18 @@ class BurgermenuOpenClose extends HTMLElement {
         const hamburger = this.shadowRoot.querySelector(".hamburger");
         const burgerMenu = document.querySelector("burger-menu");
         const navBar = burgerMenu.shadowRoot.querySelector(".nav-bar");
+        const navButtonsDiv = burgerMenu.shadowRoot.querySelector("#menu-buttons");
 
         hamburger.addEventListener("click", () => {
             hamburger.classList.toggle("active");
             navBar.classList.toggle("active");
 
+
             let navButtons = burgerMenu.shadowRoot.querySelectorAll("button");
             if (hamburger.classList.contains("active")) {
-                /*navBar.style.position = "fixed";
-                navBar.style.zIndex = "0";*/
-                navButtons.forEach(button => {
-                    button.style.display = "block"
-                    /*button.style.position = "fixed";*/
-                });
+                navButtonsDiv.style.display = "block";
             } else {
-                /*navBar.style.position = "relative";
-                navBar.style.zIndex = "0";*/
-                navButtons.forEach(button => {
-                    button.style.display = "none"
-                    /*button.style.position = "relative";*/
-                });
+                navButtonsDiv.style.display = "none";
             }
         });
 

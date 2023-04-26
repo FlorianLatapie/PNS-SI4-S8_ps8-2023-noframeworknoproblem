@@ -33,32 +33,62 @@ burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="${BASE_URL_PAGE}menu/burgermenu.css">
 
 <nav class="nav-bar top-corner-content">
-    <a class="nav-link" id="accueil" href="${BASE_URL_PAGE}${HOME_URL}">
-        <img alt="Accueil" src="${house}"><button>Accueil</button>
-    </a>
-    <a class="nav-link" id="profile" href="${BASE_URL_PAGE}${PROFILE_URL}">
-        <img alt="Profil" src="${profile}"><button>Profil</button>
-    </a>
-    <a class="nav-link" id="notifications" href="${BASE_URL_PAGE}${NOTIFICATIONS_PAGE_URL}" >
-        <img alt="Notifications" src="${notifications}"><button>Notifications</button>
-    </a>
-    <a class="nav-link" id="friends" href="${BASE_URL_PAGE}${FRIENDS_URL}">
-        <img alt="Amis" src="${friends}"><button>Mes amis</button>
-    </a>
-    <a class="nav-link" id="addFriends" href="${BASE_URL_PAGE}${SEARCH_USERS_URL}" >
-        <img alt="Ajouter un ami" src="${addFriend}"><button>Ajouter un ami</button>
-    </a>
-    <a class="nav-link" id="chat">
-        <img alt="chat" src="${chat}"><button>Chat</button>
-    </a>
-    <a class="nav-link" id="other" href="${BASE_URL_PAGE}${OTHER_MENU_URL}" >
-        <img alt="Autres" src="${other}"><button>Autres</button>
-    </a>
-    <a class="nav-link" id="ranking" href="${BASE_URL_PAGE}${RANKING_URL}">
-        <img alt="Classement" src="${ranking}"><button>Classement</button>
-    <a class="nav-link" id="logout" href="${BASE_URL_PAGE}${LOGIN_URL}">
-        <img alt="Se déconnecter" src="${logout}"><button>Se déconnecter</button>
-    </a>
+    <div id="menu-icons">
+        <a class="nav-link" id="accueil" href="${BASE_URL_PAGE}${HOME_URL}">
+            <img alt="Accueil" src="${house}">
+        </a>
+        <a class="nav-link" id="profile" href="${BASE_URL_PAGE}${PROFILE_URL}">
+            <img alt="Profil" src="${profile}">
+        </a>
+        <a class="nav-link" id="notifications" href="${BASE_URL_PAGE}${NOTIFICATIONS_PAGE_URL}" >
+            <img alt="Notifications" src="${notifications}">
+        </a>
+        <a class="nav-link" id="friends" href="${BASE_URL_PAGE}${FRIENDS_URL}">
+            <img alt="Amis" src="${friends}">
+        </a>
+        <a class="nav-link" id="addFriends" href="${BASE_URL_PAGE}${SEARCH_USERS_URL}" >
+            <img alt="Ajouter un ami" src="${addFriend}">
+        </a>
+        <a class="nav-link" id="chat">
+            <img alt="chat" src="${chat}">
+        </a>
+        <a class="nav-link" id="other" href="${BASE_URL_PAGE}${OTHER_MENU_URL}" >
+            <img alt="Autres" src="${other}">
+        </a>
+        <a class="nav-link" id="ranking" href="${BASE_URL_PAGE}${RANKING_URL}">
+            <img alt="Classement" src="${ranking}">
+        <a class="nav-link" id="logout" href="${BASE_URL_PAGE}${LOGIN_URL}">
+            <img alt="Se déconnecter" src="${logout}">
+        </a>
+    </div>
+    <div id="menu-buttons">
+        <a class="nav-link" id="accueil-button" href="${BASE_URL_PAGE}${HOME_URL}">
+            <button>Accueil</button>
+        </a>
+        <a class="nav-link" id="profile-button" href="${BASE_URL_PAGE}${PROFILE_URL}">
+            <button>Profil</button>
+        </a>
+        <a class="nav-link" id="notifications-button" href="${BASE_URL_PAGE}${NOTIFICATIONS_PAGE_URL}" >
+            <button>Notifications</button>
+        </a>
+        <a class="nav-link" id="friends-button" href="${BASE_URL_PAGE}${FRIENDS_URL}">
+            <button>Mes amis</button>
+        </a>
+        <a class="nav-link" id="addFriends-button" href="${BASE_URL_PAGE}${SEARCH_USERS_URL}" >
+            <button>Ajouter un ami</button>
+        </a>
+        <a class="nav-link" id="chat-button">
+            <button>Chat</button>
+        </a>
+        <a class="nav-link" id="other-button" href="${BASE_URL_PAGE}${OTHER_MENU_URL}" >
+            <button>Autres</button>
+        </a>
+        <a class="nav-link" id="ranking-button" href="${BASE_URL_PAGE}${RANKING_URL}">
+            <button>Classement</button>
+        <a class="nav-link" id="logout-button" href="${BASE_URL_PAGE}${LOGIN_URL}">
+            <button>Se déconnecter</button>
+        </a>        
+    </div>
 </nav>
 `;
 export default burgerMenuTemplate;

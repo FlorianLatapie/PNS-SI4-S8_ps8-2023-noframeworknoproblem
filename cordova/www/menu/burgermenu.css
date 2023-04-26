@@ -1,5 +1,5 @@
 @import "../commonCSS/CSSvariables.css";
-
+/*
 nav {
     display: flex;
     flex-direction: column;
@@ -23,10 +23,14 @@ nav > a {
     text-decoration: none;
 }
 
-nav > * > button {
-    display: none;
+
+
+nav > * > button:hover {
+    background-color: var(--very-dark-accentuation-color);
+}
+*/
+#menu-buttons>  * > button {
     cursor: pointer;
-    margin-left: 1.8em;
     border: none;
     border-radius: 1000px;
     font-size: 1.7em;
@@ -35,11 +39,44 @@ nav > * > button {
     padding: 10px;
     background-color: var(--dark-accentuation-color);
 }
-
-nav > * > button:hover {
-    background-color: var(--very-dark-accentuation-color);
+nav {
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: row;
 }
 
+nav > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+nav >div img {
+    width: var(--icon-width);
+}
+
+nav > div > * {
+    padding: var(--icon-padding);
+}
+nav > div >a {
+    height: var(--icon-width);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: none;
+}
+#menu-icons {
+    height: 100%;
+    background: var(--light-accentuation-grey)
+}
+
+#menu-buttons {
+    width: calc(100% - var(--icon-width) - 2*var(--icon-padding));
+    height: 100%;
+    background: var(--light-accentuation-grey);
+    display: none;
+    position: fixed;
+    left: calc(var(--icon-width) + 2*var(--icon-padding));
+}
 /* hamburger icon animation */
 .bar {
     display: block;
@@ -69,27 +106,31 @@ nav > * > button:hover {
     transform: translateY(-11px) rotate(-45deg);
 }
 
-#other {
+#other-button, #other {
     display: none;
 }
-
+/*
 @media (width <= 480px) and (orientation: portrait) {
     nav > * > button {
         font-size: 2em;
         width: 70vw;
     }
 }
-
+*/
 @media (orientation: landscape) and (height <= 480px) {
-    #other {
+    #other, #other-button {
         display: inherit;
     }
 
-    #profile, #friends, #addFriends, #ranking, #logout {
+    #profile, #profile-button,
+    #friends, #friends-button,
+    #addFriends, #addFriends-button,
+    #ranking, #ranking-button,
+    #logout, #logout-button {
         display: none;
     }
 
-    nav > * {
+    /*nav > * {
         margin-top: -12px;
     }
 
@@ -99,5 +140,6 @@ nav > * > button:hover {
         width: 80%;
         height: 40px;
 
-    }
+    }*/
 }
+*/
