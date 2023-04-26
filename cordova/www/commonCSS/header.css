@@ -33,7 +33,7 @@ header > *:first-child{
 }
 
 .top-corner-content {
-    min-width: 10.5em;
+    min-width: 13em;
 }
 
 @media (orientation: portrait) {
@@ -41,6 +41,7 @@ header > *:first-child{
         visibility: hidden;
         font-size: 0;
     }
+
     .top-corner-content {
         /* min-width: 0; */
         /* max-width: 0; */
@@ -71,7 +72,7 @@ header > *:first-child{
 
 @media (width < 777px) {
     .top-corner-content {
-        font-size: 0.6em;
+        font-size: 0.75em;
     }
 }
 
