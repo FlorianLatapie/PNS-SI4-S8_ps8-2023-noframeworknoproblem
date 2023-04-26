@@ -56,3 +56,27 @@ header > *:first-child{
         }
     }
 }
+
+@media (width<=840px) {
+    .top-corner-content {
+        font-size: 0.9em;
+    }
+}
+
+@media (width<=820px) {
+    .top-corner-content {
+        font-size: 0.8em;
+    }
+}
+
+@media (width < 777px) {
+    .top-corner-content {
+        font-size: 0.6em;
+    }
+}
+
+@media (width <= 730px) {
+    .top-corner-content {
+        visibility: hidden;
+    }
+}
