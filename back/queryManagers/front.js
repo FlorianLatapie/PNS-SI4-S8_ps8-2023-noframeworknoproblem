@@ -50,8 +50,11 @@ function manageRequest(request, response) {
     // Let's check if the file exists.
     fs.exists(pathName, async function (exist) {
         if (!exist) {
-            if (pathName.includes("cordova.js")) {
-                sendResponse("", response, 200, "text/javascript");
+
+            let regex = new RegExp(`${baseFrontPath}/cordova.js`);
+            if (pathName.match(regex)) {
+                sendResponse(response, 200, "");
+                return;
             }
             send404(pathName, response);
             return;
