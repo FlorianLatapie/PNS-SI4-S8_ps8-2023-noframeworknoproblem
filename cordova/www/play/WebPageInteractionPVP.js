@@ -6,6 +6,7 @@ import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {API_URL, STATS_API} from "../util/path.js";
+import {drawVibration, losingVibration, winningVibration} from "../templates/cordana/vibrationsTypes.js";
 
 class WebPageInteractionPVP {
 
@@ -169,13 +170,16 @@ class WebPageInteractionPVP {
     gameIsOver = (winner) => {
         if (winner === "draw") {
             drawPopUp();
+            drawVibration();
             this.#changeInfoPage("Egalité");
         } else {
             if (winner === parseJwt(localStorage.getItem("token")).username) {
                 winningPopUp();
+                winningVibration()
                 this.#changeInfoPage("Victoire");
             } else {
                 losingPopUp();
+                losingVibration();
                 this.#changeInfoPage("Défaite");
             }
         }
@@ -183,7 +187,9 @@ class WebPageInteractionPVP {
     }
 
     alreadyConnectedMessage = () => {
-        this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
+        const text = "Tu possèdes déjà une connexion en cours"
+        this.#changeTitlePage(text);
+        informativePopUp(text);
     }
 
     updateTimer = (time, boolean) => {

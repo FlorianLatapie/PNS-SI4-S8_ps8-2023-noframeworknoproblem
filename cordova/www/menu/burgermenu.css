@@ -75,9 +75,36 @@ nav > * > button:hover {
     transform: translateY(-11px) rotate(-45deg);
 }
 
-@media (width<=480px) and (orientation: portrait) {
+#other {
+    display: none;
+}
+
+@media (width <= 480px) and (orientation: portrait) {
     nav > * > button {
         font-size: 2em;
         width: 70vw;
     }
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    #other {
+        display: inherit;
+    }
+
+    #profile, #friends, #addFriends, #ranking, #logout {
+        display: none;
+    }
+
+    nav > * {
+        margin-top: -12px;
+    }
+
+    nav > * > button {
+        font-size: 1.3em;
+
+        width: 80%;
+        height: 40px;
+
+    }
+
 }
