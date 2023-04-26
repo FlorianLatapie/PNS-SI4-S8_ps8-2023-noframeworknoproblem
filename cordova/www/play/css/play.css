@@ -42,10 +42,6 @@
 }
 
 /* game grid */
-#grid-div {
-    display: flex;
-    justify-content: center;
-}
 
 #grid {
     margin-top: 100px;

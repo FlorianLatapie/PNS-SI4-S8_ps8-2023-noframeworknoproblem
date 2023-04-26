@@ -1,18 +1,25 @@
 @import "play.css";
 
-/* timer */
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
+main > * {
+    margin-top: 50px;
+}
+
+/* timer */
 #timer-container {
-    margin-top: 10px;
     display: flex;
     justify-content: flex-end;
-    margin-right: 40px;
-
 }
 
 #timer {
     font-size: 1.3rem;
     font-weight: bold;
+    text-align: right;
 }
 
 /* chat */
@@ -26,12 +33,15 @@
 }
 
 .bulle {
-    height: fit-content;
+    height: 55px;
     width: 120px;
     padding: 15px;
     background-color: var(--bubble-bg-color);
     text-align: center;
     margin: 5px;
+
+    display: flex;
+    justify-content: center;
 }
 
 .bulle > p {
@@ -53,39 +63,8 @@
     text-align: center;
 }
 
-#left-container {
-    justify-items: center;
-    align-items: center;
-}
-
-#left-container {
-    margin-left: 80px;
-    margin-right: 80px;
-    width: 300px;
-    margin-top: 20px;
-}
-
-
-#left-container > img {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#chat-temp-button {
-    margin-top: 10px;
-}
-
-#give-up-button {
-    margin-top: 80px;
-    margin-bottom: 80px;
-}
-
 #give-up-button:hover {
     background: var(--very-dark-accentuation-grey);
-}
-
-#grid-container {
-    align-items: center;
 }
 
 .chat-container {
@@ -107,17 +86,49 @@
 }
 
 #all-message-container {
-    margin-top: 30px;
+    /* margin-top: 30px; */
 }
 
 .send:hover {
     background-color: var(--bubble-bg-color-accentuation);
 }
 
+#left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
 #left-container > button {
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 #give-up-button {
     margin-bottom: 0;
+}
+
+#buttons-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#chat-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--light-accentuation-grey);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+#opponent-chat-container > p,
+#player-chat-container > p {
+    text-align: center;
+}
+
+#chat-display-container > div > div {
+    margin: 20px
 }
