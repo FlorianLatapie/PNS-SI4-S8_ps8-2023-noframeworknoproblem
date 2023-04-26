@@ -39,6 +39,7 @@ main {
 
     #friends-main > h2 {
         text-align: center;
+        width: 90%;
     }
     #users-friends > div,
     #users-pending > div,
@@ -52,7 +53,7 @@ main {
     #users-requests > div > *:first-child, #users-requests > div > *, #users-requests, #users-requests > *{
         max-width: 350px;
         min-width: 250px;
-        width: 80vw;
+        width: 70vw;
     }
 
     #users-friends > div > div > button,
