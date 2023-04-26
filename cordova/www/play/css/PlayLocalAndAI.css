@@ -1,5 +1,12 @@
 @import "play.css";
 
+#grid-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (width <= 480px) and (orientation: portrait) {
     #quit-button {
         display: none;
