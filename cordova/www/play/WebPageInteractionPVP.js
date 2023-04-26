@@ -183,7 +183,9 @@ class WebPageInteractionPVP {
     }
 
     alreadyConnectedMessage = () => {
-        this.#changeTitlePage("Tu possèdes déjà une connexion en cours");
+        const text = "Tu possèdes déjà une connexion en cours"
+        this.#changeTitlePage(text);
+        informativePopUp(text);
     }
 
     updateTimer = (time, boolean) => {
