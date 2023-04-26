@@ -6,6 +6,7 @@ import Grid from "../../GameLogic/Grid.js";
 import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
+import {drawVibration, winningVibration} from "../../templates/cordana/vibrationsTypes.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
@@ -26,9 +27,11 @@ function WebPageInteraction() {
         let winner = gameState.winner;
         if (winner === "draw") {
             drawPopUp();
+            drawVibration();
             changeInfoPage("Egalité");
         } else {
             winningPopUp();
+            winningVibration()
             if (winner === undefined) {
                 winner = gameState.currentPlayingPlayer.name;
             }

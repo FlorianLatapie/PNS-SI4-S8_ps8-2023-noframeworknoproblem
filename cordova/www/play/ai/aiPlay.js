@@ -16,6 +16,8 @@ let toPlay;
 let colorPlayer;
 let colorOtherPlayer;
 
+let hasGivenUp = false;
+
 function WebPageInteraction() {
     const redDiscCSSClass = "red-disc";
     const yellowDiscCSSClass = "yellow-disc";
@@ -53,7 +55,14 @@ function WebPageInteraction() {
 
     let giveUpButton = document.getElementById("give-up-button");
     giveUpButton.addEventListener("click", function () {
+        if (!hasGivenUp){
         gameSocket.emit("giveUp");
+        hasGivenUp = true;
+        } else {
+            losingPopUp();
+            changeInfoPage("Défaite");
+            losingVibration();
+        }
     });
 
     this.addListeners();
@@ -157,12 +166,7 @@ gameSocket.on("connect", () => {
                 losingVibration();
             }
         }
-
         removeListeners();
-        let giveUpButton = document.getElementById("give-up-button");
-        let newGiveUpButton = giveUpButton.cloneNode(true);
-        giveUpButton.parentNode.replaceChild(newGiveUpButton, giveUpButton);
-        newGiveUpButton.style.cursor = "not-allowed";
     });
 
     gameSocket.on("playError", (Error) => {
