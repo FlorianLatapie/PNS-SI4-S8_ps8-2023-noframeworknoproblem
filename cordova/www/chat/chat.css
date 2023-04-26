@@ -3,6 +3,7 @@ chat-global {
     position: absolute;
     bottom: 550px;
     right: 395px;
+    z-index: 9999;
 }
 
 .contact {
