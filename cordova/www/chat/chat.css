@@ -161,12 +161,13 @@ chat-global {
     }
 
     .chat .messages{
-        height: 450px;
+        height: 75%;
+        margin-top: 10%;
     }
 
     .chat .contact.bar{
-        margin-top : -60px;
-        margin-bottom : -60px;
+        margin-top : 0;
+        margin-bottom : 0;
     }
 
     .chat .messages .message {
