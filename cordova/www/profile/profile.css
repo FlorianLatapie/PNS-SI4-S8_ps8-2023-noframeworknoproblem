@@ -1,16 +1,23 @@
-main{
+main {
     padding: 0 0;
 
 }
 
 main > * {
-    margin-top: 50px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-top: 35px;
+    margin-bottom: 35px;
     text-align: center;
 }
 
 #salutation {
     font-size: 1.4rem;
     font-weight: bold;
+}
+
+#success-title {
+    margin-top: 60px;
 }
 
 li {
@@ -24,5 +31,19 @@ li {
         height: 50%;
         display: flex;
         flex-direction: column;
+    }
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+
+    #achievements {
+        flex-wrap: wrap;
+    }
+
+    #achievements > div {
+        flex: 1 0 33%;
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
     }
 }

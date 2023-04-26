@@ -2,7 +2,6 @@
     --image-width: 80px;
 }
 .achievement-img {
-    margin-top: 25px;
     width : var(--image-width);
     aspect-ratio: 1/1;
 }
@@ -16,9 +15,12 @@
     aspect-ratio: 1/1;
     /*center the inner text*/
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     text-align: center;
+    justify-content: center;
 }
+
+p.achievement-info {}
 
 #achievements {
     display: flex;
@@ -26,5 +28,21 @@
     align-items: flex-start;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    margin-left: 50px;
+}
+
+#achievements > div {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    #achievements > div {
+        padding-left: 70px;
+    }
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+#achievements > div {
+        padding-left: 30px;
+    }
 }
