@@ -1,14 +1,34 @@
-#elo {
-    padding: 20px 4vw;
+/* table */
+
+table {
+    border-collapse: collapse;
 }
 
+th {
+    padding: 15px 8vw;
+    border: 1px solid black;
+    background-color: var(--dark-accentuation-color);
+}
+
+
 td {
-    text-align: center;
+    padding: 10px 4vw;
+    border: 1px solid black;
 }
 
 @media (width <= 480px) and (orientation: portrait) {
+    th {
+        padding: 20px 1vw;
+    }
+
 
     table {
-        width: 78vw;
+        width: 74vw;
+    }
+}
+
+@media (height <= 480px) and (orientation: landscape) {
+    th {
+        padding: 20px 1vw;
     }
 }

@@ -14,13 +14,16 @@ header > *:not(:first-child) {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+    /* justify-content: center; */
 }
 
 header > *:first-child{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: var(--icon-padding);
+    margin-right: var(--icon-padding);
+    margin-left: var(--icon-padding);
+    width: var(--icon-width);
 }
 
 .page-title {
@@ -30,7 +33,7 @@ header > *:first-child{
 }
 
 .top-corner-content {
-    min-width: 12em;
+    min-width: 10.5em;
 }
 
 @media (orientation: portrait) {
@@ -39,9 +42,12 @@ header > *:first-child{
         font-size: 0;
     }
     .top-corner-content {
-        min-width: 0;
-        max-width: 0;
-        width: 0;
+        /* min-width: 0; */
+        /* max-width: 0; */
+        width: 79px;
+        /* width: 20px; */
+        padding: 0;
+        margin: 0;
     }
 
     @media (width<=480px) {
