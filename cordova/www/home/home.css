@@ -9,7 +9,8 @@ main {
     grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    width: 33em;
+    width: 65vw;
+    max-width: 33em;
 }
 
 #button-container * {
