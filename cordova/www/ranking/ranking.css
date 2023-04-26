@@ -28,6 +28,10 @@ td {
 }
 
 @media (height <= 480px) and (orientation: landscape) {
+    main {
+        padding-top: 30px;
+    }
+
     th {
         padding: 20px 1vw;
     }

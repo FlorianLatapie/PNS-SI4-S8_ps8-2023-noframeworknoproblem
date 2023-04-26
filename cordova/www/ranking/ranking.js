@@ -1,7 +1,7 @@
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {API_URL, STATS_API} from "../util/path.js";
 
-let ranking = document.getElementById("ranking");
+let ranking = document.getElementById("ranking-table-body");
 fetch(BASE_URL_API + API_URL + STATS_API + `getAllElo/`, {
     method: "get", headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -15,7 +15,7 @@ fetch(BASE_URL_API + API_URL + STATS_API + `getAllElo/`, {
     return response.json();
 }).then(data => {
     // table : <th>Position</th> <th>Pseudo</th> <th>ELO</th>
-    let tbody = document.getElementById("ranking");
+    let tbody = document.getElementById("ranking-table-body");
 
     let counter = 1;
     data.forEach(userInDb => {
