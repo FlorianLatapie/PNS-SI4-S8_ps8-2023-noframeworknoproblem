@@ -87,6 +87,7 @@ chat-global {
     padding: 10px;
     border: none;
     font-size: 1em;
+    border-radius: 1000px;
 }
 .message-input {
     flex: 1;
@@ -99,6 +100,7 @@ chat-global {
     font-weight: bold;
     cursor: pointer;
     transition: background 0.23s;
+    border-radius: 1000px;
 }
 .send-button:hover {
     background: blue;
