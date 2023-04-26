@@ -16,12 +16,11 @@ nav > * {
 
 nav > a {
     height: var(--icon-width);
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     text-decoration: none;
+    /* z-index: 500; */
 }
 
 nav > * > button {
