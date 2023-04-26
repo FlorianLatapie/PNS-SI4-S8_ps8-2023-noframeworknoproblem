@@ -10,3 +10,10 @@
 
 #grid-container {
 }
+
+@media (width <= 480px) and (orientation: portrait) {
+    /* reverse order of child of #grid-container     */
+    #grid-container {
+        flex-direction: column-reverse;
+    }
+}
