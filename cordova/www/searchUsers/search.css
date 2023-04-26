@@ -36,6 +36,10 @@ form > button > img {
     aspect-ratio: 1/1;
 }
 
+button {
+    font-size: unset;
+}
+
 @media (width<=480px) and (orientation: portrait) {
     form > input {
         width: 60vw;

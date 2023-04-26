@@ -5,7 +5,7 @@ import {losingPopUp} from "../templates/popUp/play/losingPopUp.js";
 import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
-import {API_URL, STATS_API} from "../util/path.js";
+import {API_URL, HOME_URL, STATS_API} from "../util/path.js";
 import {drawVibration, losingVibration, winningVibration} from "../templates/cordana/vibrationsTypes.js";
 
 class WebPageInteractionPVP {
@@ -73,6 +73,7 @@ class WebPageInteractionPVP {
     addAllListeners = () => {
         this.#gridListener();
         this.#giveUpListener();
+        this.#quitListener();
     }
 
     removeAllListeners = () => {
@@ -104,6 +105,15 @@ class WebPageInteractionPVP {
 
     #clickGiveUpButton = () => {
         this.#socket.giveUpEmit();
+    }
+
+    #quitListener = () => {
+        let quitButton = document.getElementById("quit-button");
+        quitButton.addEventListener("click", this.#clickQuitButton);
+    }
+
+    #clickQuitButton = () => {
+        window.location.replace(BASE_URL_PAGE + HOME_URL);
     }
 
     removeGridListeners = () => {
@@ -206,14 +216,14 @@ class WebPageInteractionPVP {
             this.#muteFlag = !this.#muteFlag;
 
             if (this.#muteFlag) {
-                console.log("muteFlag is true");
                 document.getElementById("mute").src = BASE_URL_PAGE + "images/unmute.svg";
                 document.getElementById("chat-temp-button").style.visibility = "hidden";
                 document.getElementById("all-message-container").style.visibility = "hidden";
+                document.getElementById("chat-buttons").style.background = "none";
             } else {
-                console.log("muteFlag is false");
                 document.getElementById("mute").src = BASE_URL_PAGE + "images/mute.svg";
                 document.getElementById("chat-temp-button").style.visibility = "visible";
+                document.getElementById("chat-buttons").style.background = "#f5f5f5";
             }
         });
     }

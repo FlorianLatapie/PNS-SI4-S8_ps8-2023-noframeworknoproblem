@@ -87,6 +87,7 @@ chat-global {
     padding: 10px;
     border: none;
     font-size: 1em;
+    border-radius: 1000px;
 }
 .message-input {
     flex: 1;
@@ -99,6 +100,7 @@ chat-global {
     font-weight: bold;
     cursor: pointer;
     transition: background 0.23s;
+    border-radius: 1000px;
 }
 .send-button:hover {
     background: blue;
@@ -157,6 +159,52 @@ chat-global {
 
     .chat .messages{
         height: 450px;
+    }
+
+    .chat .contact.bar{
+        margin-top : -60px;
+        margin-bottom : -60px;
+    }
+
+    .chat .messages .message {
+        height: 3rem;
+    }
+}
+
+@media (orientation: landscape) and (height<=480px){
+    chat-global{
+        bottom: 0;
+        right : 0;
+        position: relative;
+    }
+    .contacts{
+        width: 100%;
+        height: 100%;
+        transition: none;
+        transform: none;
+        top : 0;
+    }
+
+    .contacts:hover {
+        transform: none;
+    }
+
+    .chat {
+        /*display: none;*/
+        visibility: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .back {
+        display: block;
+        padding: 15px;
+    }
+
+    .chat .messages{
+        height: 150px;
     }
 
     .chat .contact.bar{
