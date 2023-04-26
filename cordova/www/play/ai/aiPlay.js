@@ -8,6 +8,8 @@ import {parseJwt} from "../../util/jwtParser.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
 import {drawVibration, losingVibration, winningVibration} from "../../templates/cordana/vibrationsTypes.js";
+import {BASE_URL_PAGE} from "../../util/frontPath.js";
+import {HOME_URL} from "../../util/path.js";
 
 const gameSocket = io("/api/game", {auth: {token: localStorage.getItem("token")}});
 let grid = new Grid(7, 6);
@@ -63,6 +65,11 @@ function WebPageInteraction() {
             changeInfoPage("Défaite");
             losingVibration();
         }
+    });
+
+    let quitButton = document.getElementById("quit-button");
+    quitButton.addEventListener("click", () => {
+        window.location.replace(BASE_URL_PAGE + HOME_URL);
     });
 
     this.addListeners();

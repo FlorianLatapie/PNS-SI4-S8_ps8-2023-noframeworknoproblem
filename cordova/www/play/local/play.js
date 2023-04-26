@@ -7,6 +7,8 @@ import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {drawVibration, winningVibration} from "../../templates/cordana/vibrationsTypes.js";
+import {BASE_URL_PAGE} from "../../util/frontPath.js";
+import {HOME_URL} from "../../util/path.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
@@ -90,6 +92,11 @@ function WebPageInteraction() {
         showWinner(ge);
     }
     giveUpButton.addEventListener("click", giveUp);
+
+    let quitButton = document.getElementById("quit-button");
+    quitButton.addEventListener("click", () => {
+        window.location.replace(BASE_URL_PAGE + HOME_URL);
+    });
 
     function convertIntToColor(color) {
         if (color === "1") {
