@@ -24,10 +24,6 @@ main {
 }
 
 @media (width <= 480px) and (orientation: portrait) {
-    #quit-button {
-        display: none;
-    }
-
     #buttons-container {
         width: 100%;
     }
@@ -35,10 +31,11 @@ main {
     main {
         display: flex;
         flex-direction: column-reverse;
+        justify-content: space-around;
     }
 
-    #give-up-button {
-        margin: 50px 7vw
+    #buttons-container > * {
+        margin: 30px 3vw
     }
 }
 
