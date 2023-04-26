@@ -31,10 +31,11 @@ main {
     main {
         display: flex;
         flex-direction: column-reverse;
+        justify-content: space-around;
     }
 
-    #give-up-button {
-        margin: 50px 7vw
+    #buttons-container > * {
+        margin: 30px 3vw
     }
 }
 
