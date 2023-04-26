@@ -1,10 +1,26 @@
 @import "play.css";
 
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #grid-div{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#buttons-container{
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+}
+
+.left-right-padding{
+    width: 200px;
 }
 
 @media (width <= 480px) and (orientation: portrait) {
@@ -13,12 +29,21 @@
     }
 
     #buttons-container {
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
+        width: 100%;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column-reverse;
     }
 
     #give-up-button {
         margin: 50px 7vw
+    }
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    #grid{
+        margin-top: 0;
     }
 }

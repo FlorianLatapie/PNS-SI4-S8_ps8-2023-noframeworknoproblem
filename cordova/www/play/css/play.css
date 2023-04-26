@@ -52,6 +52,7 @@
     width: max-content;
     background-color: blue;
     border-radius: calc(var(--disc-size)/2) calc(var(--disc-size)/2) 0 0;
+    flex: 10;
 }
 
 /* winner pop up */
@@ -105,5 +106,11 @@
 
     :root{
         --disc-size: 10vw;
+    }
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    :root{
+        --disc-size: 11.4vh;
     }
 }
