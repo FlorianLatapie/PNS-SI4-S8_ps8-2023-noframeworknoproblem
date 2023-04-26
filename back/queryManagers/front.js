@@ -8,6 +8,7 @@ import * as fs from 'fs';
 // path is used only for its parse method, which creates an object containing useful information about the path.
 //const path = require('path');
 import * as path from 'path';
+import {sendResponse} from "./utilsApi.js";
 
 // We will limit the search of files in the front folder (../../front from here).
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
@@ -49,6 +50,9 @@ function manageRequest(request, response) {
     // Let's check if the file exists.
     fs.exists(pathName, async function (exist) {
         if (!exist) {
+            if (pathName.includes("cordova.js")) {
+                sendResponse("", response, 200, "text/javascript");
+            }
             send404(pathName, response);
             return;
         }

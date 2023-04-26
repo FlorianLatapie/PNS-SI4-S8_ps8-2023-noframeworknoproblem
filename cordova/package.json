@@ -18,12 +18,14 @@
     ],
     "plugins": {
       "cordova-plugin-vibration": {},
-      "cordova-plugin-media": {}
+      "cordova-plugin-media": {},
+      "cordova-plugin-dialogs": {}
     }
   },
   "type": "module",
   "devDependencies": {
     "cordova-android": "^11.0.0",
+    "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-media": "^6.1.0",
     "cordova-plugin-vibration": "^3.1.1"
