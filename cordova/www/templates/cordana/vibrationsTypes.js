@@ -1,4 +1,4 @@
-import {vibrateDevice} from "../util/cordova/vibrationDevice.js";
+import {vibrateDevice} from "../../util/cordova/vibrationDevice.js";
 
 function winningVibration() {
     vibrateDevice([800, 600, 800])

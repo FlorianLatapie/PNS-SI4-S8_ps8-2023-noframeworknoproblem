@@ -14,6 +14,9 @@
     <preference name="hostname" value="nfnp.connect4.academy" /> <!-- for application to access online -->
     <!--<preference name="hostname" value="10.0.2.2:8000" />--> <!-- for application to access localhost -->
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <access origin="http://nfnp.connect4.academy/" />
     <allow-navigation href="http://nfnp.connect4.academy/"/>
     <allow-intent href="http://*/*" />
@@ -27,6 +30,7 @@
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
+            <!--<application android:requestLegacyExternalStorage="true" />-->
         </edit-config>
     </platform>
 

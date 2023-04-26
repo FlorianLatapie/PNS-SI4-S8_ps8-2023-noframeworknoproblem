@@ -2,6 +2,7 @@
 
 import {HOME_URL, PROFILE_URL, FRIENDS_URL, SEARCH_USERS_URL, LOGIN_URL, NOTIFICATIONS_PAGE_URL, RANKING_URL} from "../util/path.js";
 import {BASE_URL_PAGE} from "../util/frontPath.js";
+// import {playSoundMessageReceived} from "../templates/cordana/soundTypes.js";
 
 const house = BASE_URL_PAGE + "menu/images/house-solid.svg";
 const profile = BASE_URL_PAGE + "menu/images/user-solid.svg";
@@ -18,6 +19,8 @@ const burgerMenuTemplate = document.createElement("template");
 
 burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="${BASE_URL_PAGE}menu/burgermenu.css">
+<script src="/cordova.js"></script>
+
 <nav class="nav-bar top-corner-content">
     <a class="nav-link" href="${BASE_URL_PAGE}${HOME_URL}">
         <img alt="Accueil" src="${house}"><button>Accueil</button>
