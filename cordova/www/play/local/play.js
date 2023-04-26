@@ -5,6 +5,7 @@ import GameEngine from "../../GameLogic/GameEngine.js";
 import Grid from "../../GameLogic/Grid.js";
 import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
+import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 
 let p1 = new Player("Jaune", 0)
 let p2 = new Player("Rouge", 1)
@@ -27,14 +28,13 @@ function WebPageInteraction() {
             drawPopUp();
             changeInfoPage("Egalité");
         } else {
-            informativePopUp("Le joueur " + ge.getOtherPlayer().name + " a gagné !");
+            winningPopUp();
+            if (winner === undefined) {
+                winner = gameState.currentPlayingPlayer.name;
+            }
+            changeInfoPage("Le joueur " + winner + " a gagné !");
         }
-
         console.log("Game is over");
-        //showWinner.style.display = "block";
-        giveUpButton.removeEventListener("click", giveUp);
-        giveUpButton.style.cursor = "not-allowed";
-
     }
 
     this.webPagePlayTurn = function () {
