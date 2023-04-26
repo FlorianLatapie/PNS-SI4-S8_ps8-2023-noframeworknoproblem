@@ -75,6 +75,7 @@ button:hover {
 .flex-column {
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 .flex-column-center {

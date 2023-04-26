@@ -42,6 +42,6 @@ form > button > img {
     }
     main{
         align-items: flex-start;
-        padding: 0;
+        padding: 20px;
     }
 }
