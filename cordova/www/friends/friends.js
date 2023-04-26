@@ -49,13 +49,14 @@ function addFriendToContainer(friend) {
         window.location.replace(BASE_URL_PAGE + PLAY_CHALLENGE_URL + `?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=true`)
     });
 
-    const buttons_div = document.createElement('div');
-    buttons_div.classList.add("flex-row");
-    buttons_div.appendChild(removeButton);
-    buttons_div.appendChild(challengeButton);
+    const buttonsDiv = document.createElement('div');
+
+    buttonsDiv.classList.add("flex-row");
+    buttonsDiv.appendChild(removeButton);
+    buttonsDiv.appendChild(challengeButton);
     const fragment = document.createDocumentFragment();
     fragment.appendChild(friendDiv);
-    fragment.appendChild(buttons_div);
+    fragment.appendChild(buttonsDiv);
 
     friendContainer.appendChild(fragment);
     friendsListContainer.appendChild(friendContainer);
@@ -78,10 +79,15 @@ function addPendingToContainer(pending) {
     acceptButton.innerText = "Accepter";
     acceptButton.addEventListener("click", () => addFriendApi("accept", userId, pendingContainer));
 
+    const buttonsDiv = document.createElement('div');
+
+    buttonsDiv.classList.add("flex-row");
+    buttonsDiv.appendChild(removeButton);
+    buttonsDiv.appendChild(acceptButton);
+
     const fragment = document.createDocumentFragment();
     fragment.appendChild(pendingDiv);
-    fragment.appendChild(removeButton);
-    fragment.appendChild(acceptButton);
+    fragment.appendChild(buttonsDiv);
 
     pendingContainer.appendChild(fragment);
     pendingListContainer.appendChild(pendingContainer);

@@ -1,4 +1,7 @@
 @import "../commonCSS/CSSvariables.css";
+burger-menu {
+    background: var(--light-accentuation-grey);
+}
 
 #menu-buttons>  * > button {
     cursor: pointer;
