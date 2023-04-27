@@ -29,6 +29,7 @@ function WebPageInteraction() {
 
         const discAbove = document.createElement("div");
         discAbove.classList.add("fall");
+        discAbove.id = cell.id + "n";
         if (color === Grid.redCellValue) {
             discAbove.classList.add(redDiscCSSClass);
         } else {
@@ -38,7 +39,11 @@ function WebPageInteraction() {
     }
 
     this.webPagePlayTurn = function (event) {
-        let clickCoords = event.target.id.split("-");
+        let elemId = event.target.id;
+        if (event.target.id.includes("n")) {
+            elemId = event.target.id.substring(0, event.target.id.length - 1);
+        }
+        let clickCoords = elemId.split("-");
         let column = clickCoords[1];
         let row = clickCoords[0];
         play(column, row);
