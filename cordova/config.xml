@@ -32,16 +32,17 @@
             <application android:usesCleartextTraffic="true"/>
             <!--<application android:requestLegacyExternalStorage="true" />-->
         </edit-config>
-        <splash src="res/screen/android/naruto.png" density="port"/>
+        <splash src="res/screen/android/background.png" density="port"/>
 
-        <splash src="res/screen/android/pikachu.png" density="land"/>
+        <splash src="res/screen/android/background.png" density="land"/>
 
         <preference name="SplashScreenBackgroundColor" value="black"/>
         <preference name="SplashScreenDelay" value="7000"/>
         <preference name="AutoHideSplashScreen" value="true"/>
         <preference name="SplashMaintainAspectRatio" value="true"/>
 
-
+        <preference name="ShowSplashScreenSpinner" value="false"/>
+        
         <icon src="res/screen/android/icon.png"/>
     </platform>
 
