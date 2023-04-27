@@ -19,7 +19,7 @@ burger-menu-open-close {
     background-color: var(--dark-accentuation-color);
 }
 nav {
-    height: calc(100vh - 100px);
+    height: calc(100vh - var(--header-height));
     display: flex;
     flex-direction: row;
 }
@@ -59,15 +59,13 @@ nav > div >a {
 }
 
 #menu-buttons {
-    /*width: calc(100% - var(--icon-width) - 2*var(--icon-padding));*/
     height: 100%;
     background: var(--light-accentuation-grey);
     display: none;
     position: absolute;
     left: calc(var(--icon-width) + 2*var(--icon-padding));
-    padding-top: 100px;
-    /* move up by 100px to hide the hamburger icon */
-    top: -0px;
+    padding-top: var(--header-height);
+    top: 0;
 }
 /* hamburger icon animation */
 .bar {

@@ -44,7 +44,7 @@
 /* game grid */
 
 #grid {
-    margin-top: 100px;
+    margin-top: var(--header-height);
     padding: 1%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
