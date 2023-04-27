@@ -28,10 +28,6 @@
     margin: 10px;
 }
 
-.message-container:hover {
-    background-color: var(--very-dark-accentuation-color);
-}
-
 .notification-container > img {
     height: 25px;
     width: 25px;
