@@ -34,8 +34,16 @@ cd cordova
 cordova platform add android
 ```
 
-Build and run
+### Build and run 
+
+#### On android device
 
 ```bash
 cordova run android
+```
+
+#### On android emulator
+
+```bash
+cordova emulate android
 ```
