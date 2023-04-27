@@ -39,7 +39,6 @@ function WebPageInteraction() {
             }
             changeInfoPage("Le joueur " + winner + " a gagné !");
         }
-        console.log("Game is over");
     }
 
     this.webPagePlayTurn = function () {

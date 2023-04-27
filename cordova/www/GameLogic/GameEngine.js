@@ -3,7 +3,7 @@ import GridChecker from "./GridChecker.js";
 import GameState from "../DataExanges/GameState.js";
 
 
-export default function GameEngine(player1, player2, gameID, debug = true) {
+export default function GameEngine(player1, player2, gameID, debug = false) {
     // Attributes ------------------------------------------------------------------------------------------------------
     this.id = gameID;
     this.player1 = player1

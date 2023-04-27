@@ -9,7 +9,6 @@ class OnlineRoomInstances {
     newGame(player1, player2, matchMakingRoom) {
         this.players.set(player1.userId, matchMakingRoom);
         this.players.set(player2.userId, matchMakingRoom);
-        // console.log("New game entered in the map ", this.players)
     }
 
     removePlayer(player) {
@@ -27,7 +26,6 @@ class OnlineRoomInstances {
     gameFinished(player1, player2) {
         this.removePlayer(player1);
         this.removePlayer(player2);
-        console.log("New game finished in the map ", this.players)
     }
 
     // need to do something

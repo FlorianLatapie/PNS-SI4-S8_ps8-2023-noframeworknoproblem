@@ -28,7 +28,6 @@ class AI {
     nextMove(lastMove) {
         this.startTimer = Date.now();
         if (JSON.stringify(lastMove) === JSON.stringify([])) {
-            console.log("first if")
             this.grid[height-1][3] = this.player;
             return [3, 0];
         } else {
@@ -36,20 +35,15 @@ class AI {
             // need to convert the coordinates to the ai coordinates
             this.grid[height - 1 - lastMove[1]][lastMove[0]] = this.otherPlayer;
 
-            //console.log("After Human update : ", this.grid);
-
             // make play the AI
             let bestMove = this.minMaxInit(4);
-            //console.log("res of minMaxInit : ", bestMove);
 
             // update the grid with the AI move
             this.grid[bestMove[1]][bestMove[0]] = this.player;
 
             // need to convert the coordinates to the api coordinates
             bestMove = [bestMove[0], height - 1 - bestMove[1]];
-            //console.log("move play by AI : ", bestMove);
 
-            //console.log("After AI update : ", this.grid);
             return bestMove;
         }
     }
@@ -61,7 +55,6 @@ class AI {
         let maxEval = Number.NEGATIVE_INFINITY;
         let bestMove = null;
         // for each possible move
-        //console.log("possible moves : ", moves);
         for (let move of GridMoves.possibleMoves(this.grid)) {
             if (Date.now() - this.startTimer < 75) {
                 // make a shadow copy of the grid
@@ -79,7 +72,6 @@ class AI {
                 }
             }
         }
-        //console.log("maxEval : ", maxEval);
         return bestMove;
     }
 
@@ -106,7 +98,6 @@ class AI {
             let maxEval = Number.NEGATIVE_INFINITY;
             // for each possible move
             for (let move of GridMoves.possibleMoves(grid)) {
-                //console.log(move);
                 // make a shadow copy of the grid
                 let newGrid = grid.map(row => row.slice());
                 newGrid[move[1]][move[0]] = this.player;
@@ -274,33 +265,6 @@ class AI {
                 score += this.findWinningMovesOnALine(line, isAiPlayingFirst) * (grid.length - j);
             }
         }
-
-        /*
-        // Not working well
-        let weightGrid = [
-            [2, 3, 4, 5, 4, 3, 2],
-            [3, 4, 5, 6, 5, 4, 3],
-            [4, 5, 6, 7, 6, 5, 4],
-            [5, 6, 7, 8, 7, 6, 5],
-            [4, 5, 6, 7, 6, 5, 4],
-            [3, 4, 5, 6, 5, 4, 3],
-            [2, 3, 4, 5, 4, 3, 2]
-        ];
-
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] === this.player) {
-                    score += weightGrid[i][j];
-                } else if (grid[i][j] === this.otherPlayer) {
-                    score -= weightGrid[i][j] * 5;
-                }
-            }
-        }*/
-        /*console.log("printGrids >>>>>>>>>>>>>>>>>>>>>>>>>>");
-        for (let i = 0; i < grids.length; i++) {
-            printGrid(grids[i])
-        }
-*/
         return score;
     }
 
@@ -315,7 +279,6 @@ class GridMoves {
 
         for (let row = height - 1; row >= 0; row--) {
             if (grid[row][middle] === 0) {
-                //console.log("row middle ", row);
                 moves.push([middle, row]);
                 break;
             }
@@ -342,7 +305,6 @@ class GridMoves {
                 }
             }
         }
-        //console.log("Res possibles moves ", moves);
         return moves;
     }
 }

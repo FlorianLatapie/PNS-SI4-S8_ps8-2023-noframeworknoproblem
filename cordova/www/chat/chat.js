@@ -188,9 +188,7 @@ class Chat extends HTMLElement {
                 notif.style.visibility = "visible";
                 notif.style.display = "block";
             }
-            console.log("Message received from back")
             beepDevice(1);
-            console.log("Beeped");
         });
     }
 

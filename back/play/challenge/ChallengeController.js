@@ -18,10 +18,8 @@ class ChallengeController {
     challengeRequest(player, id_receiver) {
         // If a player is already connected, we don't add him to the queue
         player.removeAllListeners();
-        console.log("Player sending challenge ", player.userId);
 
         if (this.#connectedPlayers.isPlayerConnected(player.userId)) {
-            console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
             this.#gameSocket.to(player.id).emit("alreadyConnected");
             this.#connectedPlayers.removePlayer(player.userId);
             player.disconnect();
@@ -30,7 +28,6 @@ class ChallengeController {
 
         // If the player has already sent a challenge, we don't went to add him
         if (challengeManager.hasSentChallenge(player.userId)) {
-            console.log(`The player : ${player.username} (id : ${player.userId}) is already connected`);
             this.#gameSocket.to(player.id).emit("alreadyConnected");
             this.#connectedPlayers.removePlayer(player.userId);
             player.disconnect();
@@ -44,7 +41,6 @@ class ChallengeController {
         frienddb.isInFriends(player.userId, id_receiver).then(() => {
             // add the challenge to the challenge manager
             challengeManager.newChallenge(player.userId, id_receiver);
-            console.log("Before sending the notification");
             SendNotifications.sendNotificationChallengeRequest(id_receiver, player.userId, player.username);
         }).catch((err) => {
             this.#gameSocket.to(player.id).emit("error", err + "");

@@ -8,7 +8,6 @@ export function STATSaddGamePlayed(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
         let gamesPlayed = result.gamesPlayed;
 
-        console.log("gamesPlayed", gamesPlayed)
         if (!Number.isFinite(gamesPlayed)) {
             console.log("no previous stats found for this user, creating new stats");
             gamesPlayed = 0;

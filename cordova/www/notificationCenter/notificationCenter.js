@@ -23,7 +23,6 @@ window.addEventListener('scroll', () => {
 });
 
 permanentSocket.on("connect", () => {
-    console.log("Socket connected");
 
     permanentSocket.on("notificationReceived", (notification) => {
         // We want to display the notification at the top because it is the most recent

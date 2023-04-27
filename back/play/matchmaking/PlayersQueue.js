@@ -18,12 +18,10 @@ class PlayersQueue {
       if (this.#queue.length === 0) {
           this.#queue.push(player);
           this.#gameSocket.to(player.id).emit("waitingForOpponent");
-          console.log(`The player : ${player.username} (id : ${player.userId}) is waiting for an opponent`);
       } else {
           let otherPlayer = this.#queue.pop();
           let matchm = new OnlineRoom(otherPlayer, player, this.#gameSocket);
           this.#matchmakingRoomInstances.newGame(otherPlayer, player, matchm);
-          console.log(`Game is starting between ${otherPlayer.username} (id : ${otherPlayer.userId}) and ${player.username} (id : ${player.userId})`);
       }
   }
 

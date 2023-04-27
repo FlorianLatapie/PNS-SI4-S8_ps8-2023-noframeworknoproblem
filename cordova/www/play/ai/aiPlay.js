@@ -109,7 +109,6 @@ let setupAI = function (AIplayTurn) {
     }
 
     gameSocket.emit("setup", {AIplays: AIplayTurn})
-    //console.log("setup", {AIplays: AIplayTurn})
 }
 
 let play = function (clickRow, clickColumn) {
@@ -118,7 +117,6 @@ let play = function (clickRow, clickColumn) {
 
     // emit the event of the play not working yet
     gameSocket.emit("newMove", [+column, +row]);
-    //console.log("newMove", [column, row]);
     return new Position(column, row)
 }
 
@@ -135,9 +133,6 @@ function changeInfoPage(text) {
 }
 
 gameSocket.on("connect", () => {
-    //console.log("Connected as human for a game vs AI with socket.id: " + gameSocket.id);
-    //console.log("token: " + localStorage.getItem("token"));
-
     setupAI(+AITurn);
 
     gameSocket.on("updatedBoard", globalCoordsGrid => {
@@ -161,7 +156,6 @@ gameSocket.on("connect", () => {
     })
 
     gameSocket.on("gameIsOver", (winner) => {
-        console.log("gameIsOver received winner is :", winner)
         if (winner === "draw") {
             drawPopUp();
             changeInfoPage("Egalité");

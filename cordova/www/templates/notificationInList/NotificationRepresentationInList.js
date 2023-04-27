@@ -88,12 +88,10 @@ function deleteNotification(container, notificationId) {
             'Content-Type': 'application/json'
         }
     }).then((response) => {
-        console.log("Get a response ", response.status);
         if (!response.ok) {
             console.log("Error while deleting notifications", response.status, response.text())
             // There is an error
         }
-        console.log(response.text());
         container.remove();
     }).catch(error => {
         console.log(error);
