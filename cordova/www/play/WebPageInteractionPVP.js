@@ -101,6 +101,8 @@ class WebPageInteractionPVP {
     #giveUpListener = () => {
         let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.addEventListener("click", this.#clickGiveUpButton);
+        let giveUpButton2 = document.getElementById("give-up-button2");
+        giveUpButton2.addEventListener("click", this.#clickGiveUpButton);
     }
 
     #clickGiveUpButton = () => {
@@ -110,6 +112,8 @@ class WebPageInteractionPVP {
     #quitListener = () => {
         let quitButton = document.getElementById("quit-button");
         quitButton.addEventListener("click", this.#clickQuitButton);
+        let quitButton2 = document.getElementById("quit-button2");
+        quitButton2.addEventListener("click", this.#clickQuitButton);
     }
 
     #clickQuitButton = () => {
@@ -126,6 +130,8 @@ class WebPageInteractionPVP {
     removeGiveUpListener = () => {
         let giveUpButton = document.getElementById("give-up-button");
         giveUpButton.removeEventListener("click", this.#clickGiveUpButton);
+        let giveUpButton2 = document.getElementById("give-up-button2");
+        giveUpButton2.removeEventListener("click", this.#clickGiveUpButton);
     }
 
     play = (clickRow, clickColumn) => {

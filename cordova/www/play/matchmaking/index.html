@@ -7,7 +7,6 @@
 
     <title>Puissance 4 vs joueur</title>
 
-
     <link href="../../commonCSS/common.css" rel="stylesheet">
     <link href="../css/GamesPVP.css" rel="stylesheet">
 
@@ -32,7 +31,10 @@
 </header>
 
 <div id="bottom-content">
-    <burger-menu></burger-menu>
+    <div id="menu-div">
+        <burger-menu-open-close></burger-menu-open-close>
+        <burger-menu></burger-menu>
+    </div>
     <main>
 
 
@@ -143,6 +145,10 @@
 
         <div id="timer-container">
             <div id="timer">Temps pour jouer 0:10</div>
+            <div id="buttons-container2">
+                <button class="grey" id="give-up-button2">Abandonner</button>
+                <button class="grey" id="quit-button2">Quitter</button>
+            </div>
         </div>
     </main>
     <chat-global></chat-global>
