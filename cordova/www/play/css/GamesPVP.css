@@ -43,12 +43,8 @@ main > * {
     justify-content: center;
 }
 
-.bulle > p {
-    font-size: 1rem;
-}
-
 .round {
-    border-radius: 30px;
+    border-radius: 1000px;
 }
 
 .bulle-texte {
@@ -93,6 +89,7 @@ main > * {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin: 20px;
 }
 
 #give-up-button {
@@ -214,6 +211,7 @@ burger-menu-open-close{
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 20px;
     }
     #timer{
         margin: 10px;

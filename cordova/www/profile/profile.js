@@ -25,7 +25,7 @@ if (itIsMyProfile) {
 } else {
     user = await getUser(userIdWeAreLookingAt);
     document.getElementById("salutation").innerText = "Bienvenue sur la page de " + user.username + " !";
-    document.getElementById("page-title").innerText = "Profil de " + user.username;
+    document.getElementsByClassName("page-title")[0].innerText = "Profil de " + user.username;
     addFriendshipButton();
     await updateButton();
 }
@@ -74,6 +74,7 @@ async function updateButton() {
             const functionToExecuteRemoveFriend = () => {
                 removeFriend(userIdOfThisPage).then(() => {
                     updateButton();
+                    location.reload();
                 });
             };
             friendshipButton.addEventListener("click",
@@ -86,6 +87,7 @@ async function updateButton() {
             friendshipButton.addEventListener("click",  () => {
                 acceptFriend(userIdOfThisPage).then(() => {
                     updateButton();
+                    location.reload();
                 });
             });
             break;
