@@ -43,7 +43,11 @@ function WebPageInteraction() {
     }
 
     this.webPagePlayTurn = function () {
-        let clickCoords = this.id.split("-");
+        let elemId = this.id;
+        if (this.id.includes("n")) {
+            elemId = this.id.substring(0, this.id.length - 1);
+        }
+        let clickCoords = elemId.split("-");
         let column = clickCoords[0];
         let row = ge.grid.getRowOfLastDisk(column);
         let cell = document.getElementById(column + "-" + row);
@@ -53,6 +57,7 @@ function WebPageInteraction() {
 
         const discAbove = document.createElement("div");
         discAbove.classList.add("fall");
+        discAbove.id= cell.id + "n";
         if (ge.getOtherPlayer().color === Grid.redCellValue) {
             discAbove.classList.add(redDiscCSSClass);
         } else {
