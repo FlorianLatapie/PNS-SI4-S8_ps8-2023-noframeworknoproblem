@@ -56,6 +56,12 @@ header {
     height: 100px;
 }
 
+@media (orientation: landscape), (orientation: portrait){
+    .page-title{
+        font-size: 1em;
+    }
+}
+
 @media (width <= 840px) {
     .top-corner-content {
         font-size: 0.9em;
@@ -75,9 +81,6 @@ header {
 }
 
 @media (width <= 730px) {
-    .page-title{
-        font-size: 1em;
-    }
     header > .top-page > .top-corner-content {
         display: none;
         font-size: 0;
