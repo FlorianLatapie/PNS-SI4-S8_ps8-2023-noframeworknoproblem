@@ -31,6 +31,7 @@ const burgerMenuTemplate = document.createElement("template");
 
 burgerMenuTemplate.innerHTML = `
 <link rel="stylesheet" href="${BASE_URL_PAGE}menu/burgermenu.css">
+<!--<script src="/cordova.js"></script>-->
 
 <nav class="nav-bar top-corner-content">
     <div id="menu-icons">
@@ -112,6 +113,20 @@ class Burgermenu extends HTMLElement {
             chatGlobal[0].style.display === "none" || chatGlobal[0].style.display === "" ? chatGlobal[0].style.display = "block" : chatGlobal[0].style.display = "none";
         });
     }
+
 }
+
+// this.shadowRoot.addEventListener("deviceready", onDeviceReady, false);
+// function onDeviceReady() {
+//     console.log("device ready");
+//     let accueil = this.shadowRoot.getElementById("accueil");
+//     let notifications = this.shadowRoot.getElementById("notifications");
+//     accueil.addEventListener("click", () => {
+//         screen.orientation.unlock();
+//     });
+//     notifications.addEventListener("click", () => {
+//         screen.orientation.unlock();
+//     });
+// }
 
 window.customElements.define('burger-menu', Burgermenu);

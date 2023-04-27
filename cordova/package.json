@@ -21,6 +21,7 @@
       "cordova-plugin-media": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-splashscreen": {},
+      "cordova-plugin-screen-orientation": {},
       "cordova-plugin-network-information": {}
     }
   },
@@ -31,7 +32,9 @@
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-media": "^6.1.0",
     "cordova-plugin-network-information": "^3.0.0",
+    "cordova-plugin-screen-orientation": "^3.0.3",
     "cordova-plugin-splashscreen": "^6.0.1",
-    "cordova-plugin-vibration": "^3.1.1"
+    "cordova-plugin-vibration": "^3.1.1",
+    "es6-promise-plugin": "^4.2.2"
   }
 }
