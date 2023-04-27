@@ -7,7 +7,7 @@ import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
 import {parseJwt} from "../../util/jwtParser.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
-import {drawVibration, losingVibration, winningVibration} from "../../templates/cordana/vibrationsTypes.js";
+import {drawVibration, losingVibration, winningVibration} from "../../templates/cordova/vibrationsTypes.js";
 import {BASE_URL_PAGE} from "../../util/frontPath.js";
 import {HOME_URL} from "../../util/path.js";
 
