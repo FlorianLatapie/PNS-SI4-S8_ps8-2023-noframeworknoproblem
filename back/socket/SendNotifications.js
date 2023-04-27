@@ -9,7 +9,6 @@ class SendNotifications {
     static #sendNotification = (receiverId, notification) => {
         SendNotifications.#addNotificationToDatabase(receiverId, notification).then((notificationFromDB) => {
             delete notificationFromDB.userId;
-            console.log("notificationFromDB", notificationFromDB);
             SendNotifications.#sendNotificationToSocketPlayer(receiverId, notificationFromDB);
         });
     }

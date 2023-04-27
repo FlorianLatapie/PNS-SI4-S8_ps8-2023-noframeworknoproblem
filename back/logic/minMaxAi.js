@@ -26,8 +26,6 @@ class AI {
     }
 
     nextMove(lastMove) {
-        //console.log("lastMove : ", lastMove);
-        //console.log("Before Human update : ", this.grid);
         this.startTimer = Date.now();
         if (JSON.stringify(lastMove) === JSON.stringify([])) {
             console.log("first if")

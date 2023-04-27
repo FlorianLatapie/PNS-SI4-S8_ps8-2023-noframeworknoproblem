@@ -20,7 +20,6 @@ export default class UserValidator {
     }
 
     static validateEmail(email) {
-        console.log("Validating email: ", email);
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
     }

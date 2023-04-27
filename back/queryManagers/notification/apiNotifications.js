@@ -4,7 +4,6 @@ import SchemaValidator from "../../util/SchemaValidator.js";
 
 
 function notificationsApiGet(request, response, urlPathArray) {
-    console.log("Enter in notificationsApiGet");
     if (!checkAuthorization(request, response)) {
         return;
     }
@@ -23,7 +22,6 @@ function notificationsApiGet(request, response, urlPathArray) {
 
     switch (urlPathArray[0]) {
         case "get":
-            console.log("Enter in notificationsApiGet get case");
             let schemaValidator = new SchemaValidator();
             let validationFunction = schemaValidator.compile(schemaGetQuery);
             let paramsObject = request[PARAMS];
@@ -67,7 +65,6 @@ function notificationsApiDelete(request, response, urlPathArray) {
 
     switch (urlPathArray[0]) {
         case "delete" :
-            console.log("Enter in notificationsApiDelete delete case");
             let notificationId = urlPathArray[1];
             deleteNotification(userIdEmitTheRequest, notificationId, response);
             break;
@@ -78,10 +75,8 @@ function notificationsApiDelete(request, response, urlPathArray) {
 }
 
 function deleteNotification(userIdEmitTheRequest, notificationId, response) {
-    console.log("Enter in deleteNotification")
     notificationdb.deleteNotification(notificationId).then((result) => {
         sendResponse(response, 200, "Notification deleted");
-        console.log("Notification deleted")
     }).catch((err) => {
         sendResponse(response, 404, "Notification not deleted : " + err);
         console.log("Notification not deleted : " + err)
