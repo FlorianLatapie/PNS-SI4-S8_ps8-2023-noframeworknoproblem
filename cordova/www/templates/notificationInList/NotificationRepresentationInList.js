@@ -20,9 +20,11 @@ function createNotificationRepresentation(notificationInDB) {
 
     deleteButton.src = `${BASE_URL_PAGE}images/trash-solid.svg`;
     deleteButton.alt = "Supprimer la notification";
+    deleteButton.style.cursor = "pointer";
 
     actionButton.src = `${BASE_URL_PAGE}images/check-solid.svg`;
     actionButton.alt = "Valider l'action de la notification";
+    actionButton.style.cursor = "pointer";
 
     deleteButton.addEventListener("click", () => {
         deleteNotificationWithValidation(container, messageContainer.id);
