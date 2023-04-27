@@ -32,3 +32,9 @@ h2 {
         margin-top: 50px;
     }
 }
+
+@media (orientation: landscape) and (height <= 480px) {
+    main {
+        padding: 0;
+    }
+}
