@@ -177,6 +177,10 @@ burger-menu-open-close{
 }
 
 @media (orientation: landscape) and (height <= 480px) {
+    main * {
+        font-size: 0.8rem;
+    }
+
     header {
         display: none;
     }
