@@ -124,3 +124,41 @@ main > * {
 #chat-display-container > div > div {
     margin: 20px
 }
+
+#chat-temp-button {
+    background: var(--dark-accentuation-grey);
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+    main {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-start;
+    }
+
+    #grid-div {
+        margin: 15px auto 0 auto;
+    }
+    main > * {
+        margin-top: 15px;
+    }
+
+    #grid {
+        margin: 0;
+    }
+
+    #timer-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    #timer {
+        text-align: center;
+    }
+
+
+    #chat-display-container{
+        display:flex;
+        flex-direction:row;
+    }
+}
