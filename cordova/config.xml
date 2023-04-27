@@ -9,29 +9,63 @@
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
+    <content src="index.html"/>
 
-    <preference name="hostname" value="nfnp.connect4.academy" /> <!-- for application to access online -->
+    <preference name="hostname" value="nfnp.connect4.academy"/> <!-- for application to access online -->
     <!--<preference name="hostname" value="10.0.2.2:8000" />--> <!-- for application to access localhost -->
 
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
-    <access origin="http://nfnp.connect4.academy/" />
+    <access origin="http://nfnp.connect4.academy/"/>
     <allow-navigation href="http://nfnp.connect4.academy/"/>
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
 
-    <preference name="scheme" value="http" />
+    <preference name="scheme" value="http"/>
     <preference name="DisableOverScroll" value="true"/>
     <preference name="WebViewBounce" value="true"/>
 
 
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
-            <application android:usesCleartextTraffic="true" />
+            <application android:usesCleartextTraffic="true"/>
             <!--<application android:requestLegacyExternalStorage="true" />-->
         </edit-config>
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-hdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-ldpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-mdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-xhdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-xxhdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/naruto.png" density="port-xxxhdpi"/>-->
+
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-hdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-ldpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-mdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-xhdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-xxhdpi"/>-->
+<!--        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/pikachu.png" density="land-xxxhdpi"/>-->
+
+
+
+        <splash src="res/screen/android/naruto.png" density="port-hdpi"/>
+        <splash src="res/screen/android/naruto.png" density="port-ldpi"/>
+        <splash src="res/screen/android/naruto.png" density="port-mdpi"/>
+        <splash src="res/screen/android/naruto.png" density="port-xhdpi"/>
+        <splash src="res/screen/android/naruto.png" density="port-xxhdpi"/>
+        <splash src="res/screen/android/naruto.png" density="port-xxxhdpi"/>
+
+        <splash src="res/screen/android/pikachu.png" density="land-hdpi"/>
+        <splash src="res/screen/android/pikachu.png" density="land-ldpi"/>
+        <splash src="res/screen/android/pikachu.png" density="land-mdpi"/>
+        <splash src="res/screen/android/pikachu.png" density="land-xhdpi"/>
+        <splash src="res/screen/android/pikachu.png" density="land-xxhdpi"/>
+        <splash src="res/screen/android/pikachu.png" density="land-xxxhdpi"/>
+
+        <preference name="SplashScreenBackgroundColor" value="black" />
+        <preference name="SplashScreenDelay" value="7000" />
+        <preference name="AutoHideSplashScreen" value="true"/>
     </platform>
 
 </widget>
