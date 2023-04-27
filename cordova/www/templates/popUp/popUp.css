@@ -63,6 +63,11 @@
     background-color: var(--very-dark-accentuation-color);
 }
 
+.img-container:hover {
+    cursor: pointer;
+    filter: opacity(40%);
+}
+
 @media (orientation: landscape) and (height<=480px) {
     .popup-container > img{
         height: 50%;
