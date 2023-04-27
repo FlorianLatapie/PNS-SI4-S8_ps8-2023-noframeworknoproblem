@@ -1,0 +1,1 @@
+cordova platform add android
