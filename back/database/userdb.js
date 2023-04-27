@@ -40,7 +40,6 @@ class UserDb {
     async getUser(data) {
         await this.verifyConnection();
         let user;
-        console.log("Searching for user: ", data)
 
         // our front only send the property username, but it can be the username or the email
         if (data.hasOwnProperty("username")) {

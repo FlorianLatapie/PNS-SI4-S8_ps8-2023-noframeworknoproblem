@@ -16,7 +16,6 @@ class SocketChallenge {
     }
 
     newChallenge = (opponentId) => {
-        console.log("newChallenge : " + opponentId + ")");
         this.#gameSocket.emit("challenge_request", opponentId);
 
         fetch("/api/users/get/" + opponentId, {
@@ -41,7 +40,6 @@ class SocketChallenge {
     }
 
     acceptChallenge = (opponentId) => {
-        console.log("acceptChallenge : " + opponentId + ")");
         this.#gameSocket.emit("challenge_accepted", opponentId);
     }
 

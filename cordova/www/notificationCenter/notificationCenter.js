@@ -18,8 +18,6 @@ window.window.addEventListener('load', () => {
 window.addEventListener('scroll', () => {
     const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight - 1;
     if (window.scrollY >= scrollableHeight) {
-        console.log("Scroll reached the bottom")
-        console.log("Number of notifications received", nbNotificationsReceived)
         getMoreNotifications(nbNotificationsReceived);
     }
 });
@@ -28,8 +26,6 @@ permanentSocket.on("connect", () => {
     console.log("Socket connected");
 
     permanentSocket.on("notificationReceived", (notification) => {
-        console.log("Notification received from Socket", notification);
-
         // We want to display the notification at the top because it is the most recent
         container.insertBefore(createNotificationRepresentation(notification), container.firstChild);
         nbNotificationsReceived++;
@@ -52,8 +48,6 @@ function getMoreNotifications(numberToSkip) {
         return response.json()
     }).then(data => data.forEach(notificationInDB => {
         // Add a user case on the web page
-        console.log("Notification received from HTTP", notificationInDB);
-
         // Notifications are received from the most recent to the oldest
         // We want to display them from the more recent at the top to the oldest at the bottom
         container.appendChild(createNotificationRepresentation(notificationInDB));

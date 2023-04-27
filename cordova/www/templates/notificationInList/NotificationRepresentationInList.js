@@ -52,7 +52,6 @@ function createNotificationRepresentation(notificationInDB) {
                     console.log("Error while retrieving notifications", response.status)
                     // There is an error
                 }
-                console.log(response.text());
                 messageContainer.remove();
             }).catch(error => {
                 console.log(error);

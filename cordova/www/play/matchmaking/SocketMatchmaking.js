@@ -46,7 +46,6 @@ class SocketMatchmaking {
 
     #updatedBoardFunction = (globalCoordsGrid) => {
         clearInterval(this.#interval);
-        console.log("updatedBoard received", globalCoordsGrid);
         let move = this.#grid.findMove(globalCoordsGrid.board)
         this.#grid.cells = globalCoordsGrid.board
 
@@ -71,9 +70,6 @@ class SocketMatchmaking {
 
     #setupFunction = (OpponentTurn, opponent) => {
         let opponentUsername = opponent.name;
-        console.log("setup received OpponentTurn: " + OpponentTurn)
-        console.log("setup received OpponentUsername: " + opponentUsername);
-        console.log("Opponent received ", opponent)
         let toPlay;
         let colorPlayer;
         let colorOtherPlayer;

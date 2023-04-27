@@ -33,7 +33,6 @@ document.getElementById("login-form").addEventListener("submit", function (event
 
         let userId = parsedJwt.userId;
         localStorage.setItem("userId", userId);
-        //console.log("userId: " + userId);
         window.location.replace(BASE_URL_PAGE + HOME_URL);
     });
 });

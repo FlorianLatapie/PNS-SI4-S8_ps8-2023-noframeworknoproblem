@@ -37,10 +37,8 @@ function launchChallenge() {
 
     // Here the data are valid
     if (is_new_challenge === 'true') {
-        console.log("New challenge");
         socketMatchmaking.newChallenge(opponent_id);
     } else if (is_new_challenge === 'false') {
-        console.log("Accept challenge");
         socketMatchmaking.acceptChallenge(opponent_id);
     }
 }
