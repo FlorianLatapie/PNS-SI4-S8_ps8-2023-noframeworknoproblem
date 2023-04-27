@@ -2,7 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     font-size: 1em;
-    min-height: 100px;
+    min-height: var(--header-height);
     min-width: 100vw;
     width: 100vw;
 }
@@ -36,6 +36,10 @@ header > *:first-child {
 
 .top-corner-content {
     min-width: 13em;
+}
+
+#username{
+    cursor: pointer;
 }
 
 @media (orientation: portrait) {

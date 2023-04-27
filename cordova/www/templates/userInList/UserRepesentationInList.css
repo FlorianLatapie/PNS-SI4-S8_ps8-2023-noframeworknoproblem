@@ -8,6 +8,7 @@
     background-color: var(--dark-accentuation-color);
     align-items: center;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .user-profile > * {

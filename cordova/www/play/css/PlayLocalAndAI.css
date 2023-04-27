@@ -6,13 +6,6 @@ main {
     justify-content: space-around;
 }
 
-#grid-div{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 #buttons-container{
     display: flex;
     justify-content: end;
@@ -36,6 +29,12 @@ main {
 
     #buttons-container > * {
         margin: 30px 3vw
+    }
+    #grid-div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
 
