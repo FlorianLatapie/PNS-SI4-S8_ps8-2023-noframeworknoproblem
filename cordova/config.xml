@@ -42,7 +42,7 @@
         <preference name="SplashMaintainAspectRatio" value="true"/>
 
         <preference name="ShowSplashScreenSpinner" value="false"/>
-        
+
         <icon src="res/screen/android/icon.png"/>
     </platform>
 
