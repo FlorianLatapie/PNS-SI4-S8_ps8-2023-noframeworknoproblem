@@ -1,15 +1,14 @@
 import challengeManager from "./ChallengeManager.js";
 import onlineRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 import {OnlineRoom} from "../room/OnlineRoom.js";
-import userdb from "../../database/userdb.js";
 import frienddb from "../../database/frienddb.js";
 import SendNotifications from "../../socket/SendNotifications.js";
-import notificationdb from "../../database/notificationdb.js";
 
 // TODO : need  to handle you can send challenge to only connected friends
 class ChallengeController {
     #gameSocket;
     #connectedPlayers;
+
     constructor(gameSocket, connectedPlayers) {
         this.#gameSocket = gameSocket;
         this.#connectedPlayers = connectedPlayers;
@@ -59,7 +58,7 @@ class ChallengeController {
             return;
         }
 
-        if (! challengeManager.acceptChallenge(player.userId, id_challenge_sender)) {
+        if (!challengeManager.acceptChallenge(player.userId, id_challenge_sender)) {
             this.#gameSocket.to(player.id).emit("invalidChallenge", "The challenge is not valid");
             this.#connectedPlayers.removePlayer(player.userId);
             player.disconnect();

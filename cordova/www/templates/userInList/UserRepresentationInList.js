@@ -12,7 +12,7 @@ function createUserPreviewDiv(userObj) {
     container.addEventListener("click", () => {
         let destination = BASE_URL_PAGE + PROFILE_URL + "?userId=" + userObj.userId;
 
-        if (localStorage.getItem("userId") === userObj.userId){
+        if (localStorage.getItem("userId") === userObj.userId) {
             destination = BASE_URL_PAGE + PROFILE_URL;
         }
         window.location.replace(destination);

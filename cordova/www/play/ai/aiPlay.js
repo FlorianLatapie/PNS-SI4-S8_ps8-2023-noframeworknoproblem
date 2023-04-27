@@ -4,7 +4,6 @@ import {Position} from "../../GameLogic/Position.js";
 import Grid from "../../GameLogic/Grid.js";
 import {PARAMETER_NAME_IA_PLAYS} from "./constant.js";
 import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
-import {parseJwt} from "../../util/jwtParser.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {losingPopUp} from "../../templates/popUp/play/losingPopUp.js";
 import {drawVibration, losingVibration, winningVibration} from "../../templates/cordova/vibrationsTypes.js";
@@ -62,9 +61,9 @@ function WebPageInteraction() {
 
     let giveUpButton = document.getElementById("give-up-button");
     giveUpButton.addEventListener("click", function () {
-        if (!hasGivenUp){
-        gameSocket.emit("giveUp");
-        hasGivenUp = true;
+        if (!hasGivenUp) {
+            gameSocket.emit("giveUp");
+            hasGivenUp = true;
         } else {
             losingPopUp();
             changeInfoPage("Défaite");

@@ -20,7 +20,7 @@ window.addEventListener('load', function () {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(values)
         }).then((response) => {
-            if (!response.ok){
+            if (!response.ok) {
                 informativePopUp("Le nom d'utilisateur ou l'adresse mail est déjà utilisé.")
                 return;
             }

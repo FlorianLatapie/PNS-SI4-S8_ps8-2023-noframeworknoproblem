@@ -5,4 +5,4 @@ function drawPopUp() {
     endGamePopUp("Egalité !", BASE_URL_PAGE + "images/draw.png")
 }
 
-export { drawPopUp };
+export {drawPopUp};

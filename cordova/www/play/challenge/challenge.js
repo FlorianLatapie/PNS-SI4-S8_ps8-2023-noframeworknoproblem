@@ -1,6 +1,6 @@
 import Grid from "../../GameLogic/Grid.js";
 import SocketChallenge from "./SocketChallenge.js";
-import {OPPONENT_ID, IS_NEW_CHALLENGE} from "./constantsChallenge.js";
+import {IS_NEW_CHALLENGE, OPPONENT_ID} from "./constantsChallenge.js";
 import WebPageInteractionPVP from "../WebPageInteractionPVP.js";
 
 const url = new URL(window.location.href);

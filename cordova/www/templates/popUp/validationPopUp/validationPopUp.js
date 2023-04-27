@@ -58,4 +58,4 @@ function validationPopUp(functionToExecute, text) {
     document.body.appendChild(validationPopUp);
 }
 
-export { validationPopUp };
+export {validationPopUp};

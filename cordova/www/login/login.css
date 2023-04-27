@@ -5,7 +5,7 @@ main {
     margin: 0 20px 20px;
 }
 
-#button-container, form{
+#button-container, form {
     display: flex;
     flex-direction: column;
     grid-gap: 15px;
@@ -19,7 +19,7 @@ main {
     width: 100%;
 }
 
-#button-container > div{
+#button-container > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -31,8 +31,8 @@ main {
     width: 42%;
 }
 
-.home-button{
-    margin:0;
+.home-button {
+    margin: 0;
 }
 
 p {
@@ -75,7 +75,7 @@ header > .top-page {
 
 
 @media (orientation: landscape) and (height < 480px) {
-    #button-container, form{
+    #button-container, form {
         margin-top: 25px;
     }
 }

@@ -1,6 +1,7 @@
 class ConnectedPlayers {
 
     #mapPlayers
+
     constructor() {
         this.#mapPlayers = new Map();
     }

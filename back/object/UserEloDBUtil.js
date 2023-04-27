@@ -53,10 +53,10 @@ async function getAllUsersByElo() {
         console.log(error);
     });
     let usersNames = [];
-    for (let i = 0; i < userStats.length; i++){
-        for (const user of users){
+    for (let i = 0; i < userStats.length; i++) {
+        for (const user of users) {
             if (user._id.toString() === userStats[i].userId) {
-                usersNames.push({username:user.username, elo:userStats[i].elo});
+                usersNames.push({username: user.username, elo: userStats[i].elo});
                 break;
             }
         }

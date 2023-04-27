@@ -1,6 +1,6 @@
 "use strict";
 
-import {ACHIEVEMENTS_API, API_URL, FRIENDS_API, FRIENDS_URL, STATS_API, USERS_API} from "../util/path.js";
+import {ACHIEVEMENTS_API, API_URL, FRIENDS_API, STATS_API, USERS_API} from "../util/path.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
 import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
@@ -30,10 +30,10 @@ if (itIsMyProfile) {
     await updateButton();
 }
 
-populateAchievementsDiv(userIdWeAreLookingAt).then(() => {}).catch((error) => {
+populateAchievementsDiv(userIdWeAreLookingAt).then(() => {
+}).catch((error) => {
     console.log("error while populating achievements div", error);
 });
-
 
 
 // functions ------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,8 @@ async function updateButton() {
             friendshipButton.innerText = "Annuler la demande d'ami";
             const functionToExecuteCancelRequest = () => {
                 cancelRequest(userIdOfThisPage).then(() => {
-                    updateButton();})
+                    updateButton();
+                })
             };
             friendshipButton.addEventListener("click",
                 () => validationPopUp(functionToExecuteCancelRequest, `Voulez-vous vraiment annuler la demande d'ami à ${user.username} ?`)
@@ -84,7 +85,7 @@ async function updateButton() {
             break;
         case "pending":
             friendshipButton.innerText = "Accepter la demande";
-            friendshipButton.addEventListener("click",  () => {
+            friendshipButton.addEventListener("click", () => {
                 acceptFriend(userIdOfThisPage).then(() => {
                     updateButton();
                     location.reload();
@@ -94,7 +95,7 @@ async function updateButton() {
 
         case "none":
             friendshipButton.innerText = "Ajouter aux amis";
-            friendshipButton.addEventListener("click",  () => {
+            friendshipButton.addEventListener("click", () => {
                 addFriend(userIdOfThisPage).then(() => {
                     updateButton();
                 });

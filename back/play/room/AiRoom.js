@@ -129,7 +129,7 @@ class AiRoom {
     autoPlay = (gameEngineFromDB) => {
         let firstPlayer, secondPlayer;
 
-        if (gameEngineFromDB.player1.id === this.#HumanPlayer.id){
+        if (gameEngineFromDB.player1.id === this.#HumanPlayer.id) {
             firstPlayer = this.#HumanPlayer;
             secondPlayer = this.#AIPlayer;
         } else {

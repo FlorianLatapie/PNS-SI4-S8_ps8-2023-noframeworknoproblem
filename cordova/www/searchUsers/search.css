@@ -47,7 +47,7 @@ button {
 
 }
 
-@media (width<=480px) and (orientation: portrait) {
+@media (width <= 480px) and (orientation: portrait) {
     form > input {
         width: 60vw;
     }
@@ -57,7 +57,7 @@ button {
     }
 }
 
-@media (width<=560px) and (orientation: portrait) {
+@media (width <= 560px) and (orientation: portrait) {
     #search-result > div > p {
         font-size: 0.8em;
     }

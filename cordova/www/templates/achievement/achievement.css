@@ -1,8 +1,9 @@
 :root {
     --image-width: 80px;
 }
+
 .achievement-img {
-    width : var(--image-width);
+    width: var(--image-width);
     aspect-ratio: 1/1;
 }
 
@@ -10,7 +11,7 @@
     filter: opacity(0.5);
 }
 
-.achievement-info{
+.achievement-info {
     width: var(--image-width);
     aspect-ratio: 1/1;
     display: flex;
@@ -18,7 +19,8 @@
     justify-content: center;
 }
 
-p.achievement-info {}
+p.achievement-info {
+}
 
 #achievements {
     display: flex;
@@ -40,7 +42,7 @@ p.achievement-info {}
 }
 
 @media (width <= 480px) and (orientation: portrait) {
-#achievements > div {
+    #achievements > div {
         padding-left: 30px;
     }
 }

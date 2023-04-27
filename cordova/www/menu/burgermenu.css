@@ -1,4 +1,5 @@
 @import "../commonCSS/CSSvariables.css";
+
 burger-menu {
     background: var(--light-accentuation-grey);
 }
@@ -8,7 +9,7 @@ burger-menu-open-close {
     /* display: none; */
 }
 
-#menu-buttons>  * > button {
+#menu-buttons > * > button {
     cursor: pointer;
     border: none;
     border-radius: 1000px;
@@ -18,44 +19,48 @@ burger-menu-open-close {
     padding: 10px;
     background-color: var(--dark-accentuation-color);
 }
+
 nav {
     height: calc(100vh - var(--header-height));
     display: flex;
     flex-direction: row;
 }
 
-nav > div{
+nav > div {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
-nav >div img {
+
+nav > div img {
     width: var(--icon-width);
 }
 
 nav > div > * {
     padding: var(--icon-padding);
 }
-nav > div >a {
+
+nav > div > a {
     height: var(--icon-width);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     text-decoration: none;
 }
+
 #menu-icons {
     height: 100%;
     background: var(--light-accentuation-grey)
 }
 
-#menu-icons *:first-child, 
+#menu-icons *:first-child,
 #menu-buttons *:first-child {
-    padding-top : 0px;
+    padding-top: 0px;
 }
 
 #menu-icons *:last-child,
 #menu-buttons *:last-child {
-    padding-bottom : 0;
+    padding-bottom: 0;
 }
 
 #menu-buttons {
@@ -63,10 +68,11 @@ nav > div >a {
     background: var(--light-accentuation-grey);
     display: none;
     position: absolute;
-    left: calc(var(--icon-width) + 2*var(--icon-padding));
+    left: calc(var(--icon-width) + 2 * var(--icon-padding));
     padding-top: var(--header-height);
     top: 0;
 }
+
 /* hamburger icon animation */
 .bar {
     display: block;
@@ -100,9 +106,9 @@ nav > div >a {
     display: none;
 }
 
-@media (orientation: portrait) and (width <= 480px){
+@media (orientation: portrait) and (width <= 480px) {
     #menu-buttons {
-        width: calc(100% - var(--icon-width) - 2*var(--icon-padding));
+        width: calc(100% - var(--icon-width) - 2 * var(--icon-padding));
     }
 }
 
@@ -119,7 +125,7 @@ nav > div >a {
         display: none;
     }
 
-    #menu-icons > a, #menu-buttons >a {
+    #menu-icons > a, #menu-buttons > a {
         padding: 15px 22px;
     }
 }

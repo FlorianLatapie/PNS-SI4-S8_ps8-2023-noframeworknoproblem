@@ -1,8 +1,7 @@
 "use strict";
 
-import {BODY, checkAuthorization, sendResponse, USER_ID} from "../utilsApi.js";
+import {BODY, checkAuthorization, sendResponse} from "../utilsApi.js";
 import jwt from "jsonwebtoken";
-import {JWTSecretCode} from "../../credentials/credentials.js";
 import achievementdb from "../../database/achievementdb.js";
 
 export function achievementsManager(request, response, urlPathArray) {
@@ -36,7 +35,6 @@ function authorizeRequest(request, response) {
 }
 
 
-
 function addAchievements(request, response) {
     let data = request[BODY];
     let token = data.token;
@@ -60,5 +58,5 @@ function getAllAchievements(request, response, userId) {
 }
 
 function getAllPossibleAchievements(request, response) {
-   sendResponse(response, 200, JSON.stringify(achievementdb.getAllPossibleAchievements()));
+    sendResponse(response, 200, JSON.stringify(achievementdb.getAllPossibleAchievements()));
 }

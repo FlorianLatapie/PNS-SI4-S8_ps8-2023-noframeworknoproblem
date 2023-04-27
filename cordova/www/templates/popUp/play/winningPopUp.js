@@ -5,4 +5,4 @@ function winningPopUp() {
     endGamePopUp("Tu as gagné !", BASE_URL_PAGE + "images/win.png")
 }
 
-export { winningPopUp };
+export {winningPopUp};

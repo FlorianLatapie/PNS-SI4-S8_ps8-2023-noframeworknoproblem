@@ -223,6 +223,7 @@ class FriendDb {
         }
         return objectInDB;
     }
+
     async isInPending(userID, friendID) {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
@@ -231,6 +232,7 @@ class FriendDb {
         }
         return objectInDB;
     }
+
     async isInFriends(userID, friendID) {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);

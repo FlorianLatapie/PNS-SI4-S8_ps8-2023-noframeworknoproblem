@@ -116,7 +116,7 @@ export default function GameEngine(player1, player2, gameID, debug = false) {
 
         // Check win condition
         if (this.checkWin(positionCell.row, positionCell.column, player.color)) {
-            if (debug){
+            if (debug) {
                 console.log("Game Finished : " + player.name + " won");
             }
             return new GameState(true, player.name);
@@ -125,7 +125,7 @@ export default function GameEngine(player1, player2, gameID, debug = false) {
         // Check equality condition
         if (this.gridChecker.checkDraw()) {
             this.isGameOver = true;
-            if (debug){
+            if (debug) {
                 console.log("Game Finished : draw");
             }
             return new GameState(true, "draw");

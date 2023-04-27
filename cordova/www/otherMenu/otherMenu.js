@@ -6,6 +6,7 @@ document.getElementById("logoutMenu").addEventListener("click", () => {
 window.onbeforeunload = function () {
     screen.orientation.unlock();
 }
+
 function onDeviceReady() {
     screen.orientation.lock('landscape');
 }

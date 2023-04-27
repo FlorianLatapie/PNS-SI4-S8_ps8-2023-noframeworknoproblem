@@ -1,17 +1,16 @@
 "use strict";
 
 import {
-    HOME_URL,
-    PROFILE_URL,
     FRIENDS_URL,
-    SEARCH_USERS_URL,
+    HOME_URL,
     LOGIN_URL,
     NOTIFICATIONS_PAGE_URL,
+    OTHER_MENU_URL,
+    PROFILE_URL,
     RANKING_URL,
-    OTHER_MENU_URL
+    SEARCH_USERS_URL
 } from "../util/path.js";
 import {BASE_URL_PAGE} from "../util/frontPath.js";
-import {beepDevice} from "../util/cordova/beepDevice.js";
 // import {playSoundMessageReceived} from "../templates/cordova/soundTypes.js";
 
 const house = BASE_URL_PAGE + "menu/images/house-solid.svg";

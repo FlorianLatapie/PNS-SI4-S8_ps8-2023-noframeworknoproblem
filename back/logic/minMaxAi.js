@@ -28,7 +28,7 @@ class AI {
     nextMove(lastMove) {
         this.startTimer = Date.now();
         if (JSON.stringify(lastMove) === JSON.stringify([])) {
-            this.grid[height-1][3] = this.player;
+            this.grid[height - 1][3] = this.player;
             return [3, 0];
         } else {
             // update the grid with the last move
@@ -206,8 +206,7 @@ class AI {
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (let i = 0; i < knownWinningMoves1.length; i++) {
                 for (let j = 0; j < knownWinningMoves1[i].length; j++) {
                     let index = lineOfConnect4.indexOf(knownWinningMoves1[i][j]);

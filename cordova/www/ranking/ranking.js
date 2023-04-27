@@ -1,4 +1,4 @@
-import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 import {API_URL, STATS_API} from "../util/path.js";
 
 let ranking = document.getElementById("ranking-table-body");

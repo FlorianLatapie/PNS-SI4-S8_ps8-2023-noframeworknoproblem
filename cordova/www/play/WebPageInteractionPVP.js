@@ -213,10 +213,9 @@ class WebPageInteractionPVP {
     }
 
     updateTimer = (time, boolean) => {
-        if(boolean){
+        if (boolean) {
             document.getElementById("timer").innerText = "Temps restant pour toi 0:0" + time / 1000;
-        }
-        else{
+        } else {
             document.getElementById("timer").innerText = "Temps restant pour l'adversaire 0:0" + time / 1000;
         }
     }
@@ -268,7 +267,6 @@ class WebPageInteractionPVP {
     }
 
 
-
     updateChatOpponent = (message) => {
         if (!this.#muteFlag) {
             let opponent_message = document.getElementById("opponent-message-container");
@@ -298,7 +296,7 @@ class WebPageInteractionPVP {
     }
 
     displayOpponent = (opponent) => {
-        let stats =  fetch(BASE_URL_API + API_URL + STATS_API + "getAll/" + opponent.id, {
+        let stats = fetch(BASE_URL_API + API_URL + STATS_API + "getAll/" + opponent.id, {
             method: 'get', headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 'Accept': 'application/json',

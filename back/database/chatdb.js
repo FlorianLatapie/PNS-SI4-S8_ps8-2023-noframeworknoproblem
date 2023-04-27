@@ -11,7 +11,7 @@ class ChatDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.chats = this.database.collection(DB_CONF.chatsCollection+"");
+            this.chats = this.database.collection(DB_CONF.chatsCollection + "");
             this.#init();
         } catch (error) {
             console.error(error);
@@ -37,7 +37,7 @@ class ChatDb {
         await this.connect();
     }
 
-    async addMessage(idSender, idReceiver, message){
+    async addMessage(idSender, idReceiver, message) {
         await this.verifyConnection();
         try {
             this.chats.insertOne({
@@ -59,15 +59,16 @@ class ChatDb {
                 $or: [
                     {idSender: idSender, idReceiver: idReceiver},
                     {idSender: idReceiver, idReceiver: idSender}
-                ]});
+                ]
+            });
             return await messages.sort({sentDate: -1}).skip(numberMessagesToSkip).limit(numberMessagesToGet)
-            .toArray();
+                .toArray();
         } catch (error) {
             console.error(error);
         }
     }
 
-    async readMessages(idSender, idReceiver){
+    async readMessages(idSender, idReceiver) {
         await this.verifyConnection();
         try {
             this.chats.updateMany({
@@ -83,14 +84,15 @@ class ChatDb {
         }
     }
 
-    async getLastReceivedMessage(idSender, idReceiver){
+    async getLastReceivedMessage(idSender, idReceiver) {
         await this.verifyConnection();
         try {
             let messages = await this.chats.find({
                 $or: [
                     {idSender: idSender, idReceiver: idReceiver},
                     {idSender: idReceiver, idReceiver: idSender}
-                ]});
+                ]
+            });
             return await messages.sort({sentDate: -1}).limit(1)
                 .toArray();
         } catch (error) {

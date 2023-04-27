@@ -32,7 +32,7 @@ function validateJwt(token) {
 
 function isTokenValid(token) {
     let parsedJwt = validateJwt(token);
-    if (parsedJwt === null){
+    if (parsedJwt === null) {
         return false;
     }
     let expirationTime = parsedJwt.exp;

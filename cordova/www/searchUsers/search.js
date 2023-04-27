@@ -1,6 +1,6 @@
 import {API_URL, USERS_API} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
-import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 
 const usersListContainer = document.getElementById("search-result");
 
@@ -10,7 +10,7 @@ window.addEventListener('load', function () {
         removeUsersListContent();
 
         let name = document.getElementById("form-username").value
-        fetch(BASE_URL_API+ API_URL + USERS_API + "getName?" + new URLSearchParams({
+        fetch(BASE_URL_API + API_URL + USERS_API + "getName?" + new URLSearchParams({
             name: name
         }), {
             method: "get", headers: {
@@ -49,6 +49,7 @@ function makeTextBoldFromSearch(userDiv, completeUser, searchName) {
         usernameElement.innerHTML = usernameText.substring(0, index) + boldElement.outerHTML + usernameText.substring(index + searchName.length);
     }
 }
+
 function removeUsersListContent() {
     usersListContainer.innerHTML = ""
 }

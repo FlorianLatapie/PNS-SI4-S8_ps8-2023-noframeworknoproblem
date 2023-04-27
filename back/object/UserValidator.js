@@ -25,7 +25,7 @@ export default class UserValidator {
     }
 
     static checkUserConstraints(user) {
-        if (user.username.length > 16 ||user.username.length === 0) {
+        if (user.username.length > 16 || user.username.length === 0) {
             throw new Error(`The length of username field ${user.username.length} is invalid, should be between 1 and 16`)
         }
 

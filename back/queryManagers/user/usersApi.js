@@ -51,10 +51,10 @@ function getUserById(response, userId) {
     });
 }
 
-function getCurrentAIGame(response, userId){
+function getCurrentAIGame(response, userId) {
     gamedb.getGamePlayerId(userId).then((game) => {
         sendResponse(response, 200, JSON.stringify(game));
-    }).catch((err) =>{
+    }).catch((err) => {
         sendResponse(response, 404, "Malformed request : " + err);
     });
 }

@@ -30,7 +30,7 @@ chat-global {
     top: 50%;
 }
 
-.contacts .contact{
+.contacts .contact {
     cursor: pointer;
 }
 
@@ -50,12 +50,14 @@ chat-global {
     background: white;
     border: #909090 1px solid;
 }
+
 .chat .contact.bar {
     flex-basis: 3.5rem;
     flex-shrink: 0;
     margin: 1rem;
     box-sizing: border-box;
 }
+
 .chat .messages {
     overflow-y: auto;
     box-shadow: inset 0 2rem 2rem -2rem rgba(0, 0, 0, 0.05), inset 0 -2rem 2rem -2rem rgba(0, 0, 0, 0.05);
@@ -72,8 +74,9 @@ chat-global {
     min-height: 2.25rem;
     width: fit-content;
     max-width: 66%;
-    color : white;
+    color: white;
 }
+
 .chat .messages .message.sender {
     margin: 1rem 1rem 1rem auto;
     border-radius: 1.125rem 1.125rem 0 1.125rem;
@@ -88,16 +91,19 @@ chat-global {
     /* rounded corners */
     border-radius: 0 0 17px 17px;
 }
+
 .input * {
     padding: 10px;
     border: none;
     font-size: 1em;
     border-radius: 1000px;
 }
+
 .message-input {
     flex: 1;
     background: #ddd;
 }
+
 .send-button {
     margin-left: 10px;
     background: grey;
@@ -107,6 +113,7 @@ chat-global {
     transition: background 0.23s;
     border-radius: 1000px;
 }
+
 .send-button:hover {
     background: blue;
 }
@@ -121,7 +128,7 @@ chat-global {
     margin: 0;
 }
 
-.back{
+.back {
     width: 2em;
     height: 2em;
     display: none;
@@ -129,17 +136,18 @@ chat-global {
 
 
 @media (orientation: portrait) {
-    chat-global{
+    chat-global {
         bottom: 0;
-        right : 0;
+        right: 0;
         position: relative;
     }
-    .contacts{
+
+    .contacts {
         width: 100%;
         height: 100%;
         transition: none;
         transform: none;
-        top : 0;
+        top: 0;
         border-radius: 0;
     }
 
@@ -162,14 +170,14 @@ chat-global {
         display: block;
     }
 
-    .chat .messages{
+    .chat .messages {
         height: 75%;
         margin-top: 10%;
     }
 
-    .chat .contact.bar{
-        margin-top : 0;
-        margin-bottom : 0;
+    .chat .contact.bar {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .chat .messages .message {
@@ -177,18 +185,19 @@ chat-global {
     }
 }
 
-@media (orientation: landscape) and (height<=480px){
-    chat-global{
+@media (orientation: landscape) and (height <= 480px) {
+    chat-global {
         bottom: 0;
-        right : 0;
+        right: 0;
         position: relative;
     }
-    .contacts{
+
+    .contacts {
         width: 100%;
         height: 100%;
         transition: none;
         transform: none;
-        top : 0;
+        top: 0;
         border-radius: 0;
     }
 
@@ -211,13 +220,13 @@ chat-global {
         display: block;
     }
 
-    .chat .messages{
+    .chat .messages {
         height: 55%;
         margin-top: 4em;
     }
 
-    .chat .contact.bar{
-        margin-bottom : -60px;
+    .chat .contact.bar {
+        margin-bottom: -60px;
     }
 
     .chat .messages .message {

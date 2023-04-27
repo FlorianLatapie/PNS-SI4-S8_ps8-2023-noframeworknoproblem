@@ -38,7 +38,7 @@ class SocketMatchmaking {
                 time -= 1000;
                 this.#webPageInteraction.updateTimer(time, this.#gameState.getToPlay());
             }, 1000);
-        }else{
+        } else {
             this.#webPageInteraction.updateTimer(0, this.#gameState.getToPlay());
             clearInterval(this.#interval);
         }

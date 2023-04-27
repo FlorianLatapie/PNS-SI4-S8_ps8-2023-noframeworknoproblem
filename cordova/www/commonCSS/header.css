@@ -30,7 +30,7 @@ header > *:first-child {
 }
 
 #header-center-div {
-    margin-left: 0 ;
+    margin-left: 0;
     background-color: white;
 }
 
@@ -44,11 +44,11 @@ header > *:first-child {
     min-width: 13em;
 }
 
-#username{
+#username {
     cursor: pointer;
 }
 
-#username:hover{
+#username:hover {
     background-color: var(--dark-accentuation-color);
 }
 
@@ -56,13 +56,13 @@ header {
     height: 100px;
 }
 
-@media (width<=840px) {
+@media (width <= 840px) {
     .top-corner-content {
         font-size: 0.9em;
     }
 }
 
-@media (width<=820px) {
+@media (width <= 820px) {
     .top-corner-content {
         font-size: 0.8em;
     }

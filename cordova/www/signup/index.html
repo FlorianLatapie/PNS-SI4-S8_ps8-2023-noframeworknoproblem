@@ -3,7 +3,7 @@
 <head>
     <link href="../images/icon.png" rel="icon" sizes="32x32" type="image/png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <title>S'inscrire</title>
 
@@ -28,10 +28,12 @@
 <main>
     <div id="button-container">
         <form id="signup-form">
-            <input class="text-input" id="signup-email" name="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$" placeholder="Email"
+            <input class="text-input" id="signup-email" name="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$"
+                   placeholder="Email"
                    required
                    type="email">
-            <input class="text-input" id="signup-username" maxlength="16" name="username" placeholder="Nom d'utilisateur"
+            <input class="text-input" id="signup-username" maxlength="16" name="username"
+                   placeholder="Nom d'utilisateur"
                    required
                    type="text">
             <input class="text-input" id="signup-password" name="password" placeholder="Mot de passe" required
@@ -41,7 +43,7 @@
 
         <div class="text half-home-button bottom">
             <p>Vous possédez un compte ?</p>
-            <button id="login" class="signup half-home-button"><a>Connectez-vous !</a></button>
+            <button class="signup half-home-button" id="login"><a>Connectez-vous !</a></button>
         </div>
     </div>
 

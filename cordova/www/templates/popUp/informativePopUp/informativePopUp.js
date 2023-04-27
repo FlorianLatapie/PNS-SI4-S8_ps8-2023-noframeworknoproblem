@@ -36,4 +36,4 @@ function informativePopUp(text, functionToExecute) {
     document.body.appendChild(validationPopUp);
 }
 
-export { informativePopUp };
+export {informativePopUp};

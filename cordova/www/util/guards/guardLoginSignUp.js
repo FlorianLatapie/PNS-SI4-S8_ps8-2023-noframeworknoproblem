@@ -1,5 +1,5 @@
 import {isTokenValid} from "../jwtParser.js";
-import {HOME_URL, LOGIN_URL} from "../path.js";
+import {HOME_URL} from "../path.js";
 import {BASE_URL_PAGE} from "../frontPath.js";
 
 window.onload = () => {

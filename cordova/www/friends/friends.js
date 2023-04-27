@@ -1,7 +1,7 @@
-import {API_URL, FRIENDS_API, FRIENDS_URL, PLAY_CHALLENGE_URL} from "../util/path.js";
+import {API_URL, FRIENDS_API, PLAY_CHALLENGE_URL} from "../util/path.js";
 import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
-import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../play/challenge/constantsChallenge.js";
+import {IS_NEW_CHALLENGE, OPPONENT_ID} from "../play/challenge/constantsChallenge.js";
 import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
 const friendsListContainer = document.getElementById("users-friends");
@@ -73,7 +73,7 @@ function addPendingToContainer(pending) {
 
     removeButton.innerText = "Décliner";
     removeButton.addEventListener("click", () => {
-        const functionToExecute  = () => deleteFriendApi("removePending", userId, pendingContainer)
+        const functionToExecute = () => deleteFriendApi("removePending", userId, pendingContainer)
         validationPopUp(functionToExecute, `Voulez-vous vraiment décliner la demande d'ami de ${pending.username} ?`);
     });
     acceptButton.innerText = "Accepter";
@@ -131,8 +131,10 @@ function addFriendApi(action, id, container) {
             throw new Error("Error while calling API (button) " + response.status)
         }
         addFriendToContainer(
-            {userId: container.getAttribute("id"),
-                username: container.getElementsByClassName("username")[0].innerText})
+            {
+                userId: container.getAttribute("id"),
+                username: container.getElementsByClassName("username")[0].innerText
+            })
         container.remove();
         location.reload();
     }).catch(error => {

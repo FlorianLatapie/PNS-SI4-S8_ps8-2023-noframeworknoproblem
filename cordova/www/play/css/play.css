@@ -1,6 +1,6 @@
 /* discs */
 
-:root{
+:root {
     --disc-size: 9vh;
 }
 
@@ -34,7 +34,7 @@
 
 @keyframes fall-animation {
     from {
-        transform: translateY(calc(-6*100%));
+        transform: translateY(calc(-6 * 100%));
     }
     to {
         transform: translateY(0);
@@ -51,7 +51,7 @@
     grid-template-rows: repeat(6, 1fr);
     width: max-content;
     background-color: blue;
-    border-radius: calc(var(--disc-size)/2) calc(var(--disc-size)/2) 0 0;
+    border-radius: calc(var(--disc-size) / 2) calc(var(--disc-size) / 2) 0 0;
     flex: 10;
 }
 
@@ -91,7 +91,7 @@
 }
 
 @media (width <= 480px) and (orientation: portrait) {
-    main{
+    main {
         width: 100vw;
     }
 
@@ -104,7 +104,7 @@
         display: none;
     }
 
-    :root{
+    :root {
         --disc-size: 10vw;
     }
 
@@ -116,7 +116,7 @@
 }
 
 @media (orientation: landscape) and (height <= 480px) {
-    :root{
+    :root {
         --disc-size: 10.5vh;
     }
 }

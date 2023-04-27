@@ -6,8 +6,7 @@ main img {
 }
 
 
-
-.nav-link.menu{
+.nav-link.menu {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -25,16 +24,16 @@ main img {
     padding: 10px;
 }
 
-main{
-    margin:5%;
+main {
+    margin: 5%;
 }
 
-@media (orientation: landscape) and (height<=480px){
+@media (orientation: landscape) and (height <= 480px) {
     main {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin:0;
+        margin: 0;
     }
 
     main > * {
@@ -47,7 +46,7 @@ main{
 }
 
 @media (orientation: portrait) {
-    main{
-        margin:25%;
+    main {
+        margin: 25%;
     }
 }

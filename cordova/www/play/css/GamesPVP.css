@@ -125,7 +125,7 @@ main > * {
     background: var(--dark-accentuation-grey);
 }
 
-#timer-container{
+#timer-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -147,8 +147,8 @@ main > * {
     cursor: pointer;
 }
 
-burger-menu-open-close{
-   display: none;
+burger-menu-open-close {
+    display: none;
 }
 
 @media (width <= 480px) and (orientation: portrait) {
@@ -161,6 +161,7 @@ burger-menu-open-close{
     #grid-div {
         margin: 15px auto 0 auto;
     }
+
     main > * {
         margin-top: 15px;
     }
@@ -179,9 +180,9 @@ burger-menu-open-close{
     }
 
 
-    #chat-display-container{
-        display:flex;
-        flex-direction:row;
+    #chat-display-container {
+        display: flex;
+        flex-direction: row;
     }
 
     h1 {
@@ -197,36 +198,43 @@ burger-menu-open-close{
     header {
         display: none;
     }
+
     main > * {
         margin: 0;
     }
-    #chat-display-container{
-        display:flex;
-        flex-direction:row;
+
+    #chat-display-container {
+        display: flex;
+        flex-direction: row;
     }
+
     #chat-display-container > div > div {
         margin: 3px;
     }
 
-    #buttons-container{
+    #buttons-container {
         display: none;
     }
+
     #buttons-container2 {
         display: flex;
         flex-direction: column;
         justify-content: center;
         padding: 20px;
     }
-    #timer{
+
+    #timer {
         margin: 10px;
     }
-    burger-menu-open-close{
+
+    burger-menu-open-close {
         display: inline;
         padding: var(--icon-padding);
         width: var(--icon-width);
         aspect-ratio: 1/1;
     }
-    #menu-div{
+
+    #menu-div {
         background: var(--light-accentuation-grey);
     }
 }

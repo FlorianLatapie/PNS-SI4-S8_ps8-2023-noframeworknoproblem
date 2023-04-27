@@ -1,7 +1,7 @@
 "use strict";
 
 import {ACHIEVEMENTS_API, API_URL} from "../util/path.js";
-import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 class KonamiCode {

@@ -26,7 +26,7 @@
 }
 
 .popup-container > p {
-    font-size : 1.4rem;
+    font-size: 1.4rem;
 }
 
 .cross-container > img {
@@ -48,7 +48,7 @@
     margin-top: 20px;
 }
 
-.buttons-popup > button, .popup-container > button{
+.buttons-popup > button, .popup-container > button {
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
@@ -65,7 +65,7 @@
     filter: opacity(40%);
 }
 
-.img-container{
+.img-container {
     display: flex;
     justify-content: center;
     align-items: center;

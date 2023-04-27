@@ -1,6 +1,6 @@
 import {createNotificationRepresentation} from "../templates/notificationInList/NotificationRepresentationInList.js";
 import {API_URL, NOTIFICATIONS_API} from "../util/path.js";
-import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 
 let container = document.getElementById("notifications-container")
 const DEFAULT_NUMBER_NOTIFICATIONS_TO_GET = 13;

@@ -37,7 +37,7 @@ class GameDb {
         const projection = [
             {"$match": query},
             {"$addFields": {notificationId: "$_id"}},
-            {"$project":  {_id: 0, userId: 0}},
+            {"$project": {_id: 0, userId: 0}},
         ];
         return await this.notifications.aggregate(projection).sort({date: -1}).skip(numberNotificationsToSkip).limit(numberNotificationsToGet).toArray();
     }

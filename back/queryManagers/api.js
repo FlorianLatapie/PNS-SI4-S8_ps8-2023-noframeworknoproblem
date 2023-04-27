@@ -5,7 +5,7 @@
 import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
 import {userLogIn, userSignUp} from "./user/accountApi.js";
 import {achievementsManager} from "./user/userAchievements.js";
-import {friendsApiGet, friendsApiDelete, friendsApiPost} from "./friends/apiFriends.js";
+import {friendsApiDelete, friendsApiGet, friendsApiPost} from "./friends/apiFriends.js";
 import {usersApiGet} from "./user/usersApi.js";
 import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
 import {messagesApiGet} from "./chat/apiChats.js";

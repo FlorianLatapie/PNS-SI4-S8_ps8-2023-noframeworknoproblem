@@ -1,5 +1,5 @@
 import {parseJwt} from "../util/jwtParser.js";
-import {API_URL, HOME_URL, LOGIN_API, LOGIN_URL, SIGNUP_URL} from "../util/path.js";
+import {API_URL, HOME_URL, LOGIN_API, SIGNUP_URL} from "../util/path.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 

@@ -6,6 +6,7 @@
 class ChallengeManager {
 
     #challenges
+
     constructor() {
         this.#challenges = new Map();
     }

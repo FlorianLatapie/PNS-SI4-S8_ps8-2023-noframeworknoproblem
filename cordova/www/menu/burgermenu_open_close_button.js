@@ -15,6 +15,7 @@ burgerMenuOpenCloseTemplate.innerHTML = `
     </div>
 </a> 
 `;
+
 class BurgermenuOpenClose extends HTMLElement {
     constructor() {
         super();

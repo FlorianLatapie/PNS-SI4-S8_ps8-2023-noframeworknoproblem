@@ -12,7 +12,6 @@ function endGamePopUp(text, imgSrc) {
     content.innerText = text
 
 
-
     const img = document.createElement("img");
     img.src = imgSrc;
 
@@ -53,4 +52,4 @@ function endGamePopUp(text, imgSrc) {
     document.body.appendChild(validationPopUp);
 }
 
-export { endGamePopUp };
+export {endGamePopUp};

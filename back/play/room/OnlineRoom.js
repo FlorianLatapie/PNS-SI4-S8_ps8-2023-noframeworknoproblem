@@ -3,7 +3,6 @@ import GameEngine from '../../../cordova/www/GameLogic/GameEngine.js';
 import * as crypto from "crypto";
 import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 import {STATSaddGamePlayed, STATSupdateElo} from "../../object/UserStatsDBUtil.js";
-import userdb from "../../database/userdb.js";
 
 const SECOND = 1000;
 

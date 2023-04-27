@@ -13,7 +13,7 @@ export default class Grid {
     }
 
     // Methods ---------------------------------------------------------------------------------------------------------
-    createGrid = () =>  {
+    createGrid = () => {
         let cells = new Array(this.height);
 
         for (let i = 0; i < this.height; i++) {

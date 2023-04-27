@@ -1,6 +1,7 @@
 let media_is_defined = false;
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
     console.log("Device is ready")
     media_is_defined = true;

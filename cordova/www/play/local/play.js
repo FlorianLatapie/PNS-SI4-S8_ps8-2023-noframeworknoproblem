@@ -4,7 +4,6 @@ import Player from "../../GameLogic/Player.js";
 import GameEngine from "../../GameLogic/GameEngine.js";
 import Grid from "../../GameLogic/Grid.js";
 import {drawPopUp} from "../../templates/popUp/play/drawPopUp.js";
-import {informativePopUp} from "../../templates/popUp/informativePopUp/informativePopUp.js";
 import {winningPopUp} from "../../templates/popUp/play/winningPopUp.js";
 import {drawVibration, winningVibration} from "../../templates/cordova/vibrationsTypes.js";
 import {BASE_URL_PAGE} from "../../util/frontPath.js";
@@ -56,7 +55,7 @@ function WebPageInteraction() {
 
         const discAbove = document.createElement("div");
         discAbove.classList.add("fall");
-        discAbove.id= cell.id + "n";
+        discAbove.id = cell.id + "n";
         if (ge.getOtherPlayer().color === Grid.redCellValue) {
             discAbove.classList.add(redDiscCSSClass);
         } else {
@@ -90,11 +89,13 @@ function WebPageInteraction() {
     }
 
     let giveUpButton = document.getElementById("give-up-button");
+
     function giveUp() {
         ge.getOtherPlayer();
         ge.isGameOver = true;
         showWinner(ge);
     }
+
     giveUpButton.addEventListener("click", giveUp);
 
     let quitButton = document.getElementById("quit-button");

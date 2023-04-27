@@ -5,4 +5,4 @@ function losingPopUp() {
     endGamePopUp("Tu as perdu !", BASE_URL_PAGE + "images/lose.png")
 }
 
-export { losingPopUp };
+export {losingPopUp};

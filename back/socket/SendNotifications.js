@@ -2,7 +2,7 @@ import connectedPlayer from "./PermanentSocketPlayers.js";
 import notificationdb from "../database/notificationdb.js";
 import Action from "../entities/Action.js";
 import Notification from "../entities/Notification.js";
-import {OPPONENT_ID, IS_NEW_CHALLENGE} from "../../cordova/www/play/challenge/constantsChallenge.js";
+import {IS_NEW_CHALLENGE, OPPONENT_ID} from "../../cordova/www/play/challenge/constantsChallenge.js";
 
 class SendNotifications {
 
@@ -50,7 +50,7 @@ class SendNotifications {
         // Those are the same as in the challenge.js file in the front
 
         let url = `play/challenge/?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
-        let notification = new Notification(`Demande de défi reçu par ${username}` , null, url);
+        let notification = new Notification(`Demande de défi reçu par ${username}`, null, url);
         SendNotifications.#sendNotification(receiverId, notification);
     }
 }

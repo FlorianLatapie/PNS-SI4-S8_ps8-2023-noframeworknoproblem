@@ -5,9 +5,9 @@ function updateAchievements(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
         nbGamesAchievement(userId, "1stGame", 1, result.gamesPlayed);
         nbGamesAchievement(userId, "10Games", 10, result.gamesPlayed);
-        eloAchievement(userId, "bronze", 1500,result.elo);
-        eloAchievement(userId, "silver", 2000,result.elo);
-        eloAchievement(userId, "gold", 3000,result.elo);
+        eloAchievement(userId, "bronze", 1500, result.elo);
+        eloAchievement(userId, "silver", 2000, result.elo);
+        eloAchievement(userId, "gold", 3000, result.elo);
     }).catch(function (error) {
         console.log("error while retrieving the user stats");
         console.log(error);

@@ -3,7 +3,7 @@ main {
     justify-content: center;
 }
 
-#button-container{
+#button-container {
     display: flex;
     flex-direction: column;
     grid-gap: 10px;
@@ -39,7 +39,7 @@ main {
 }
 
 
-@media (width<=480px) and (orientation: portrait) {
+@media (width <= 480px) and (orientation: portrait) {
     #button-container {
         width: 80%;
     }
@@ -56,7 +56,7 @@ main {
     }
 }
 
-@media (height<=480px) and (orientation: landscape) {
+@media (height <= 480px) and (orientation: landscape) {
     #button-container {
         width: 80%;
         height: 100%;

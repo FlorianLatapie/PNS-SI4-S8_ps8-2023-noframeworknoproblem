@@ -9,16 +9,16 @@ fetch(BASE_URL_API + API_URL + USERS_API + "getCurrentAIGame/", {
         'Content-Type': 'application/json'
     }
 }).then((response) => {
-    return  response.json();
+    return response.json();
 }).then(data => {
     if (data === null) {
         return;
     }
     let userId = localStorage.getItem("userId");
     let url = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=";
-    if (data.player1 === userId){
+    if (data.player1 === userId) {
         window.location.href = url + "2";
-    } else if (data.player2 === userId){
+    } else if (data.player2 === userId) {
         window.location.href = url + "1";
     }
 });
@@ -26,9 +26,9 @@ fetch(BASE_URL_API + API_URL + USERS_API + "getCurrentAIGame/", {
 let firstButton = document.getElementById("first");
 let secondButton = document.getElementById("second");
 firstButton.addEventListener("click", function (event) {
-    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=2"
+    window.location.href = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=2"
 });
 secondButton.addEventListener("click", function (event) {
-    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=1"
+    window.location.href = BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=1"
 });
 

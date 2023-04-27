@@ -11,7 +11,7 @@ class UserDb {
         try {
             await this.client.connect();
             this.database = this.client.db(DB_CONF.dbName);
-            this.users = this.database.collection(DB_CONF.userCollection+"");
+            this.users = this.database.collection(DB_CONF.userCollection + "");
         } catch (error) {
             console.error(error);
         }
@@ -119,7 +119,8 @@ class UserDb {
         // flags i for case-insensitive
         let res = await this.users.find(
             {username: new RegExp(name, 'i')},
-            {projection:
+            {
+                projection:
                     {password: 0, mail: 0}
             }
         ).toArray();
@@ -137,7 +138,7 @@ class UserDb {
         return await this.users.findOne({_id: new ObjectId(userId)}, {projection: {username: 1}});
     }
 
-    async getAllUsers(){
+    async getAllUsers() {
         await this.verifyConnection();
         return await this.users.find({}).toArray();
     }
