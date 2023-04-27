@@ -48,6 +48,10 @@ header > *:first-child {
     cursor: pointer;
 }
 
+#username:hover{
+    background-color: var(--dark-accentuation-color);
+}
+
 header {
     height: 100px;
 }

@@ -137,6 +137,19 @@ main > * {
 #buttons-container2 {
     display: none;
 }
+
+#chat-temp-button {
+    background-color: var(--light-accentuation-color)
+}
+
+#chat-temp-button:hover {
+    background-color: var(--dark-accentuation-color);
+}
+
+#mute:hover {
+    cursor: pointer;
+}
+
 burger-menu-open-close{
    display: none;
 }

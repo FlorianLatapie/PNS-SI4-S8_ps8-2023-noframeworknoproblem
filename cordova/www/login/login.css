@@ -54,6 +54,10 @@ header > .top-page > .top-corner-content {
     display: none;
 }
 
+header > .top-page > .page-title {
+    height: var(--header-height);
+}
+
 header > .top-page {
     width: 100%;
     display: flex;

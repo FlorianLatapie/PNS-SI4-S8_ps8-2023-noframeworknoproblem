@@ -18,6 +18,14 @@ main {
     width: 100%;
 }
 
+#button-container > button {
+    background-color: var(--dark-accentuation-color);
+}
+
+#button-container > button:hover {
+    background-color: var(--very-dark-accentuation-color);
+}
+
 
 @media (width<=480px) and (orientation: portrait) {
     #button-container {

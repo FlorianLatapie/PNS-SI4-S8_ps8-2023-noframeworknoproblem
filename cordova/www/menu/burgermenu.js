@@ -110,7 +110,6 @@ class Burgermenu extends HTMLElement {
         chat.addEventListener("click", () => {
             let chatGlobal = document.getElementsByTagName("chat-global");
             chatGlobal[0].style.display === "none" || chatGlobal[0].style.display === "" ? chatGlobal[0].style.display = "block" : chatGlobal[0].style.display = "none";
-            beepDevice(1);
         });
     }
 }
