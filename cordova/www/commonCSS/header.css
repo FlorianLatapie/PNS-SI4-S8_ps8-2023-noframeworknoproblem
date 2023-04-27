@@ -20,9 +20,8 @@ header > *:first-child{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-right: var(--icon-padding);
-    margin-left: var(--icon-padding);
-    width: var(--icon-width);
+    padding-right: var(--icon-padding);
+    padding-left: var(--icon-padding);
 }
 
 .page-title {

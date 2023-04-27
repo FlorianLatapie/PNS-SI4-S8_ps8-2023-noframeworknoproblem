@@ -42,7 +42,18 @@
     filter: opacity(40%);
 }
 
-@media (width<=480px) and (orientation: portrait) {
+@media (width<=600px) and (orientation: portrait) {
+    main {
+        margin: 0;
+    }
+
+    .message-container {
+        width: 18em;
+        height: auto;
+    }
+}
+
+@media (width<=495px) and (orientation: portrait) {
     main {
         margin: 0;
     }

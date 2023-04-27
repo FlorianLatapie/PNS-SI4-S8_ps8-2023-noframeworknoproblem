@@ -3,6 +3,10 @@ burger-menu {
     background: var(--light-accentuation-grey);
 }
 
+burger-menu-open-close {
+    background: var(--light-accentuation-grey);
+}
+
 #menu-buttons>  * > button {
     cursor: pointer;
     border: none;
