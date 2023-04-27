@@ -11,6 +11,7 @@ main {
     align-items: center;
     width: 65vw;
     max-width: 33em;
+    margin: 30px;
 }
 
 #button-container * {
@@ -20,16 +21,35 @@ main {
 
 #button-container > button {
     background-color: var(--dark-accentuation-color);
+    height: 17vh;
+    width: 50vw;
 }
 
 #button-container > button:hover {
     background-color: var(--very-dark-accentuation-color);
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 @media (width<=480px) and (orientation: portrait) {
     #button-container {
         width: 80%;
+    }
+
+    #offline-info {
+        display: none;
+        margin-bottom: 10px;
+        font-size: 1.28em;
+        text-align: center;
+    }
+
+    #offline-info {
+        margin-top: 28vh;
     }
 }
 
@@ -46,6 +66,9 @@ main {
         width: 100%;
     }
 
+    #offline-info {
+        margin-top: 15vh;
+    }
 }
 
 

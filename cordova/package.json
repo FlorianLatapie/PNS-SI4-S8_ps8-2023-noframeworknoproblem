@@ -20,7 +20,8 @@
       "cordova-plugin-vibration": {},
       "cordova-plugin-media": {},
       "cordova-plugin-dialogs": {},
-      "cordova-plugin-splashscreen": {}
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-network-information": {}
     }
   },
   "type": "module",
@@ -29,6 +30,7 @@
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-media": "^6.1.0",
+    "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-splashscreen": "^6.0.1",
     "cordova-plugin-vibration": "^3.1.1"
   }
