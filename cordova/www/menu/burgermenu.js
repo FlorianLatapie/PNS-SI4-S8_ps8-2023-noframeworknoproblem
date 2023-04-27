@@ -12,7 +12,7 @@ import {
 } from "../util/path.js";
 import {BASE_URL_PAGE} from "../util/frontPath.js";
 import {beepDevice} from "../util/cordova/beepDevice.js";
-// import {playSoundMessageReceived} from "../templates/cordana/soundTypes.js";
+// import {playSoundMessageReceived} from "../templates/cordova/soundTypes.js";
 
 const house = BASE_URL_PAGE + "menu/images/house-solid.svg";
 const profile = BASE_URL_PAGE + "menu/images/user-solid.svg";

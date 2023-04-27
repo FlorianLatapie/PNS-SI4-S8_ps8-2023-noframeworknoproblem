@@ -14,7 +14,7 @@ function validationPopUp(functionToExecute, text) {
     buttonsContainer.classList.add("buttons-popup", "flex-row");
 
     const imgContainer = document.createElement("div");
-    imgContainer.classList.add("img-container");
+    imgContainer.classList.add("cross-container");
 
     const closeIcon = document.createElement("img");
     closeIcon.src = BASE_URL_PAGE + "images/cross.png";

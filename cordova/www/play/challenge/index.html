@@ -7,8 +7,6 @@
 
     <title>Puissance 4 Challenge</title>
 
-
-
     <link href="../../commonCSS/common.css" rel="stylesheet">
     <link href="../css/GamesPVP.css" rel="stylesheet">
 
@@ -17,9 +15,9 @@
     <script src="../../menu/burgermenu.js" type="module"></script>
     <script src="../../menu/burgermenu_open_close_button.js" type="module"></script>
     <script src="../../chat/chat.js" type="module"></script>
-    <script src="/cordova.js"></script>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/cordova.js"></script>
 </head>
 <body>
 
@@ -29,35 +27,36 @@
         <div class="top-corner-content" id="header-center-div"></div>
         <div class="page-title flex-column">
             <h1 id="page-title">Partie en ligne challenge</h1>
-            <h2 id="info"></h2>
         </div>
         <div class="top-corner-content" id="username"></div>
     </div>
 </header>
 
 <div id="bottom-content">
-    <burger-menu></burger-menu>
+    <div id="menu-div">
+        <burger-menu-open-close></burger-menu-open-close>
+        <burger-menu></burger-menu>
+    </div>
     <main>
-        <div id="timer-container">
-            <div id="timer">Temps pour jouer 0:10</div>
-        </div>
 
-        <div id="grid-container" class="flex-row-center">
-            <div id="left-container" class="flex-column">
-                <div id="opponent-chat-container" class="chat-container">
-                    <p>Adversaire : </p>
-                    <div id="opponent-message-container" class="bulle round hidden">
+
+        <div id="left-container">
+            <div id="chat-display-container">
+                <div id="opponent-chat-container">
+                    <p>Adversaire</p>
+                    <div class="bulle round hidden" id="opponent-message-container">
                         <p id="opponent-message"></p>
                     </div>
                 </div>
-
-                <div id="player-chat-container" class="chat-container">
-                    <p>Toi : </p>
-                    <div id="player-message-container" class="bulle round hidden">
+                <div id="player-chat-container">
+                    <p>Toi</p>
+                    <div class="bulle round hidden" id="player-message-container">
                         <p id="player-message"></p>
                     </div>
                 </div>
-                <div id="all-message-container" class="hidden">
+            </div>
+            <div id="chat-buttons">
+                <div class="hidden" id="all-message-container">
                     <div class="flex-row">
                         <div class="bulle send round">
                             <p class="message">Coucou</p>
@@ -83,63 +82,75 @@
                         </div>
                     </div>
                 </div>
-                <button id="chat-temp-button" class="grey">Chat</button>
-                <img id="mute" src="../../images/mute.svg" alt="mute" width="32" height="32">
-                <button id="give-up-button" class="grey">Abandonner</button>
+                <button class="grey" id="chat-temp-button">Afficher chat</button>
+                <img alt="mute" height="32" id="mute" src="../../images/mute.svg" width="32">
             </div>
+            <div id="buttons-container">
+                <button class="grey" id="give-up-button">Abandonner</button>
+                <button class="grey" id="quit-button">Quitter</button>
+            </div>
+        </div>
 
-            <div id="grid-div">
-                <div id="grid">
-                    <div class="grid-item" id="0-5"></div>
-                    <div class="grid-item" id="1-5"></div>
-                    <div class="grid-item" id="2-5"></div>
-                    <div class="grid-item" id="3-5"></div>
-                    <div class="grid-item" id="4-5"></div>
-                    <div class="grid-item" id="5-5"></div>
-                    <div class="grid-item" id="6-5"></div>
+        <div id="grid-div">
+            <h2 id="info"></h2>
+            <div id="grid">
+                <div class="grid-item" id="0-5"></div>
+                <div class="grid-item" id="1-5"></div>
+                <div class="grid-item" id="2-5"></div>
+                <div class="grid-item" id="3-5"></div>
+                <div class="grid-item" id="4-5"></div>
+                <div class="grid-item" id="5-5"></div>
+                <div class="grid-item" id="6-5"></div>
 
-                    <div class="grid-item" id="0-4"></div>
-                    <div class="grid-item" id="1-4"></div>
-                    <div class="grid-item" id="2-4"></div>
-                    <div class="grid-item" id="3-4"></div>
-                    <div class="grid-item" id="4-4"></div>
-                    <div class="grid-item" id="5-4"></div>
-                    <div class="grid-item" id="6-4"></div>
-
-
-                    <div class="grid-item" id="0-3"></div>
-                    <div class="grid-item" id="1-3"></div>
-                    <div class="grid-item" id="2-3"></div>
-                    <div class="grid-item" id="3-3"></div>
-                    <div class="grid-item" id="4-3"></div>
-                    <div class="grid-item" id="5-3"></div>
-                    <div class="grid-item" id="6-3"></div>
-
-                    <div class="grid-item" id="0-2"></div>
-                    <div class="grid-item" id="1-2"></div>
-                    <div class="grid-item" id="2-2"></div>
-                    <div class="grid-item" id="3-2"></div>
-                    <div class="grid-item" id="4-2"></div>
-                    <div class="grid-item" id="5-2"></div>
-                    <div class="grid-item" id="6-2"></div>
+                <div class="grid-item" id="0-4"></div>
+                <div class="grid-item" id="1-4"></div>
+                <div class="grid-item" id="2-4"></div>
+                <div class="grid-item" id="3-4"></div>
+                <div class="grid-item" id="4-4"></div>
+                <div class="grid-item" id="5-4"></div>
+                <div class="grid-item" id="6-4"></div>
 
 
-                    <div class="grid-item" id="0-1"></div>
-                    <div class="grid-item" id="1-1"></div>
-                    <div class="grid-item" id="2-1"></div>
-                    <div class="grid-item" id="3-1"></div>
-                    <div class="grid-item" id="4-1"></div>
-                    <div class="grid-item" id="5-1"></div>
-                    <div class="grid-item" id="6-1"></div>
+                <div class="grid-item" id="0-3"></div>
+                <div class="grid-item" id="1-3"></div>
+                <div class="grid-item" id="2-3"></div>
+                <div class="grid-item" id="3-3"></div>
+                <div class="grid-item" id="4-3"></div>
+                <div class="grid-item" id="5-3"></div>
+                <div class="grid-item" id="6-3"></div>
 
-                    <div class="grid-item" id="0-0"></div>
-                    <div class="grid-item" id="1-0"></div>
-                    <div class="grid-item" id="2-0"></div>
-                    <div class="grid-item" id="3-0"></div>
-                    <div class="grid-item" id="4-0"></div>
-                    <div class="grid-item" id="5-0"></div>
-                    <div class="grid-item" id="6-0"></div>
-                </div>
+                <div class="grid-item" id="0-2"></div>
+                <div class="grid-item" id="1-2"></div>
+                <div class="grid-item" id="2-2"></div>
+                <div class="grid-item" id="3-2"></div>
+                <div class="grid-item" id="4-2"></div>
+                <div class="grid-item" id="5-2"></div>
+                <div class="grid-item" id="6-2"></div>
+
+
+                <div class="grid-item" id="0-1"></div>
+                <div class="grid-item" id="1-1"></div>
+                <div class="grid-item" id="2-1"></div>
+                <div class="grid-item" id="3-1"></div>
+                <div class="grid-item" id="4-1"></div>
+                <div class="grid-item" id="5-1"></div>
+                <div class="grid-item" id="6-1"></div>
+
+                <div class="grid-item" id="0-0"></div>
+                <div class="grid-item" id="1-0"></div>
+                <div class="grid-item" id="2-0"></div>
+                <div class="grid-item" id="3-0"></div>
+                <div class="grid-item" id="4-0"></div>
+                <div class="grid-item" id="5-0"></div>
+                <div class="grid-item" id="6-0"></div>
+            </div>
+        </div>
+
+        <div id="timer-container">
+            <div id="timer">Temps pour jouer 0:10</div>
+            <div id="buttons-container2">
+                <button class="grey" id="give-up-button2">Abandonner</button>
+                <button class="grey" id="quit-button2">Quitter</button>
             </div>
         </div>
     </main>

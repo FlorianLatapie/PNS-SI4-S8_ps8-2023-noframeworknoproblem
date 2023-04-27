@@ -6,7 +6,7 @@ import {drawPopUp} from "../templates/popUp/play/drawPopUp.js";
 import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 import {API_URL, HOME_URL, STATS_API} from "../util/path.js";
-import {drawVibration, losingVibration, winningVibration} from "../templates/cordana/vibrationsTypes.js";
+import {drawVibration, losingVibration, winningVibration} from "../templates/cordova/vibrationsTypes.js";
 
 class WebPageInteractionPVP {
 

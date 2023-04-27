@@ -183,6 +183,10 @@ burger-menu-open-close{
         display:flex;
         flex-direction:row;
     }
+
+    h1 {
+        font-size: 1.3rem;
+    }
 }
 
 @media (orientation: landscape) and (height <= 480px) {

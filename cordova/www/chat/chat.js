@@ -2,7 +2,7 @@
 
 import {API_URL, CHATS_API, FRIENDS_API, FRIENDS_URL} from "../util/path.js";
 import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
-import {playSoundMessageReceived} from "../templates/cordana/soundTypes.js";
+import {playSoundMessageReceived} from "../templates/cordova/soundTypes.js";
 import {beepDevice} from "../util/cordova/beepDevice.js";
 
 // do not import io, it is imported from the HTML file.
