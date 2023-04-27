@@ -126,3 +126,8 @@ table {
 .grey:hover {
     background-color: var(--very-dark-accentuation-grey);
 }
+
+.not-scrolling {
+    overflow: hidden;
+    height: 100vh;
+}

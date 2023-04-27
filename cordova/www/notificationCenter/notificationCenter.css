@@ -4,8 +4,3 @@ main {
     flex-direction: column;
     align-items: center;
 }
-
-html {
-    overflow-x: hidden;
-    height: 100vw;
-}

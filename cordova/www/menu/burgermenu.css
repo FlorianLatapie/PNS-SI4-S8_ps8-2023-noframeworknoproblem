@@ -47,6 +47,14 @@ nav > div >a {
     background: var(--light-accentuation-grey)
 }
 
+#menu-icons *:first-child {
+    padding-top : 0px;
+}
+
+#menu-icons *:last-child {
+    padding-bottom : 0;
+}
+
 #menu-buttons {
     width: calc(100% - var(--icon-width) - 2*var(--icon-padding));
     height: 100%;
@@ -89,6 +97,14 @@ nav > div >a {
 }
 
 @media (orientation: landscape) and (height <= 480px) {
+
+    /*
+    :root {
+        --icon-padding: 15px;
+    }
+
+     */
+
     #other, #other-button {
         display: inherit;
     }
@@ -100,5 +116,16 @@ nav > div >a {
     #logout, #logout-button {
         display: none;
     }
+
+    #menu-icons > a {
+        padding: 15px 22px;
+    }
+
+    /*
+    nav > div > * {
+        padding: var(--icon-padding);
+    }
+
+     */
 }
 
