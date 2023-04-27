@@ -37,7 +37,7 @@ header > *:first-child {
 .page-title {
     width: 30em;
     font-weight: bold;
-    font-size: 1em;
+    font-size: 2em;
 }
 
 .top-corner-content {
@@ -75,6 +75,9 @@ header {
 }
 
 @media (width <= 730px) {
+    .page-title{
+        font-size: 1em;
+    }
     header > .top-page > .top-corner-content {
         display: none;
         font-size: 0;
