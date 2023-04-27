@@ -134,6 +134,7 @@ function addFriendApi(action, id, container) {
             {userId: container.getAttribute("id"),
                 username: container.getElementsByClassName("username")[0].innerText})
         container.remove();
+        location.reload();
     }).catch(error => {
         console.log(error);
     });
@@ -145,6 +146,7 @@ function deleteFriendApi(action, id, container) {
             throw new Error("Error while calling API (button) " + response.status)
         }
         container.remove();
+        location.reload();
     }).catch(error => {
         console.log(error);
     });
