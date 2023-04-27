@@ -188,7 +188,10 @@ class Chat extends HTMLElement {
                 notif.style.visibility = "visible";
                 notif.style.display = "block";
             }
-            beepDevice(1);
+
+            if (message[0].idReceiver === this.#userId) {
+                beepDevice(1);
+            }
         });
     }
 
