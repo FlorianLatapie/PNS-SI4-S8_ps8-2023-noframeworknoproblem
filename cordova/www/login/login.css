@@ -42,3 +42,29 @@ p {
     text-align: center;
     font-size: 1em;
 }
+
+
+header > *:first-child {
+    display: none;
+    background: white;
+}
+
+header > .top-page > .top-corner-content {
+    background: white;
+    display: none;
+}
+
+header > .top-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+@media (width <= 730px) {
+    header > .top-page > .page-title {
+        width: 50%;
+        min-width: 250px;
+    }
+}
