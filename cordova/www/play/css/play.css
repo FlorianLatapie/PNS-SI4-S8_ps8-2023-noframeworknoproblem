@@ -117,6 +117,6 @@
 
 @media (orientation: landscape) and (height <= 480px) {
     :root{
-        --disc-size: 11vh;
+        --disc-size: 10.5vh;
     }
 }
