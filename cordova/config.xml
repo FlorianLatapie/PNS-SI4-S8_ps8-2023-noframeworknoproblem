@@ -34,7 +34,7 @@
         </edit-config>
         <splash src="res/screen/android/background.png" density="port"/>
 
-        <splash src="res/screen/android/background.png" density="land"/>
+        <splash src="res/screen/android/background-landscape.png" density="land"/>
 
         <preference name="SplashScreenBackgroundColor" value="black"/>
         <preference name="SplashScreenDelay" value="3000"/>
