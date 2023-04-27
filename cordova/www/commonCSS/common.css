@@ -124,7 +124,7 @@ table {
 }
 
 .grey:hover {
-    background-color: var(--very-dark-accentuation-grey);
+    background-color: var(--dark-accentuation-grey);
 }
 
 .not-scrolling {
