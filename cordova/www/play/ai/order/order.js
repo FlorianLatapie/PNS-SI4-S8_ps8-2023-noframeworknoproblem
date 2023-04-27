@@ -27,9 +27,9 @@ fetch(BASE_URL_API + API_URL + USERS_API + "getCurrentAIGame/", {
 let firstButton = document.getElementById("first");
 let secondButton = document.getElementById("second");
 firstButton.addEventListener("click", function (event) {
+    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=2"
+});
+secondButton.addEventListener("click", function (event) {
     window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=1"
 });
 
-secondButton.addEventListener("click", function (event) {
-    window.location.href= BASE_URL_PAGE + PLAY_AI_URL + "?" + PARAMETER_NAME_IA_PLAYS + "=2"
-});
