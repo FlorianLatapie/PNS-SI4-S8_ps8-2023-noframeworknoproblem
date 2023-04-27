@@ -27,15 +27,13 @@ docker-compose --env-file ./env/docker-prod.env up -d
 Add android platform
 ```bash
 cd cordova
+```
+
+```bash
 cordova platform add android
 ```
 
-Build project
-```bash
-cordova build android
-```
-
-Run project
+Build and run
 ```bash
 cordova run android
 ```
