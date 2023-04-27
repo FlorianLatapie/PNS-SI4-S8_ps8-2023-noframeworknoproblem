@@ -1,13 +1,18 @@
 header {
     display: flex;
+    flex-direction: row;
+}
+
+
+header > .top-page {
+    display: flex;
     justify-content: space-between;
     font-size: 1em;
     min-height: var(--header-height);
-    min-width: 100vw;
-    width: 100vw;
+    width: calc(100% - 79px);
 }
 
-header > *:not(:first-child) {
+header > .top-page > *:not(:first-child) {
     margin: 10px;
     background-color: var(--light-accentuation-color);
     display: flex;
@@ -25,6 +30,7 @@ header > *:first-child {
 }
 
 #header-center-div {
+    margin-left: 0 ;
     background-color: white;
 }
 
@@ -42,12 +48,8 @@ header > *:first-child {
     cursor: pointer;
 }
 
-@media (orientation: portrait) {
-    .top-corner-content {
-        width: 79px;
-        padding: 0;
-        margin: 0;
-    }
+header {
+    height: 100px;
 }
 
 @media (width<=840px) {
@@ -69,20 +71,26 @@ header > *:first-child {
 }
 
 @media (width <= 730px) {
-    header > .top-corner-content {
+    header > .top-page > .top-corner-content {
         display: none;
         font-size: 0;
     }
 
-    header > .page-title {
+    header > .top-page > .page-title {
         width: 100%;
         margin: 10px 15%;
     }
 }
 
-@media (width<=560px) {
-    header > *:nth-child(3) {
+@media (width <= 560px) {
+    header > .top-page > *:nth-child(3) {
         width: 100%;
         margin: 10px 10%;
+    }
+}
+
+@media (width <= 480px) {
+    .page-title {
+        margin: 0;
     }
 }
