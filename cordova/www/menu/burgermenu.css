@@ -48,21 +48,26 @@ nav > div >a {
     background: var(--light-accentuation-grey)
 }
 
-#menu-icons *:first-child {
+#menu-icons *:first-child, 
+#menu-buttons *:first-child {
     padding-top : 0px;
 }
 
-#menu-icons *:last-child {
+#menu-icons *:last-child,
+#menu-buttons *:last-child {
     padding-bottom : 0;
 }
 
 #menu-buttons {
-    width: calc(100% - var(--icon-width) - 2*var(--icon-padding));
+    /*width: calc(100% - var(--icon-width) - 2*var(--icon-padding));*/
     height: 100%;
     background: var(--light-accentuation-grey);
     display: none;
     position: absolute;
     left: calc(var(--icon-width) + 2*var(--icon-padding));
+    padding-top: 100px;
+    /* move up by 100px to hide the hamburger icon */
+    top: -0px;
 }
 /* hamburger icon animation */
 .bar {
@@ -97,15 +102,13 @@ nav > div >a {
     display: none;
 }
 
-@media (orientation: landscape) and (height <= 480px) {
-
-    /*
-    :root {
-        --icon-padding: 15px;
+@media (orientation: portrait) and (width <= 480px){
+    #menu-buttons {
+        width: calc(100% - var(--icon-width) - 2*var(--icon-padding));
     }
+}
 
-     */
-
+@media (orientation: landscape) and (height <= 480px) {
     #other, #other-button {
         display: inherit;
     }
@@ -118,15 +121,8 @@ nav > div >a {
         display: none;
     }
 
-    #menu-icons > a {
+    #menu-icons > a, #menu-buttons >a {
         padding: 15px 22px;
     }
-
-    /*
-    nav > div > * {
-        padding: var(--icon-padding);
-    }
-
-     */
 }
 
