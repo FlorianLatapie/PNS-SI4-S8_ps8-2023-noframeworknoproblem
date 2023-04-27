@@ -314,7 +314,9 @@ class WebPageInteractionPVP {
         });
 
         stats.then((object) => {
-            this.#changeTitlePage("Adversaire : " + opponent.name + " (ELO : " + object.elo + ")");
+            this.#changeTitlePage("Adversaire : " + opponent.name + "\n(ELO : " + object.elo + ")");
+            document.getElementById("adversaire").innerText = opponent.name;
+            document.getElementById("toi").innerText = parseJwt(localStorage.getItem("token")).username;
         });
     }
 
