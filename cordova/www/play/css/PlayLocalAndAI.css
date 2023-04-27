@@ -37,6 +37,10 @@ main {
         justify-content: center;
         align-items: center;
     }
+
+    h1 {
+        font-size: 1.3rem;
+    }
 }
 
 @media (orientation: landscape) and (height <= 480px) {
