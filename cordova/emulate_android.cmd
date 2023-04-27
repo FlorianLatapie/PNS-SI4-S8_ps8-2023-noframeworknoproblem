@@ -1,0 +1,1 @@
+cordova emulate android
