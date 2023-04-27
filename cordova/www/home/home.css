@@ -11,7 +11,10 @@ main {
     align-items: center;
     width: 65vw;
     max-width: 33em;
-    margin: 30px;
+}
+
+#offline-info {
+    display: none;
 }
 
 #button-container * {
@@ -22,7 +25,7 @@ main {
 #button-container > button {
     background-color: var(--dark-accentuation-color);
     height: 17vh;
-    width: 50vw;
+    width: 65vw;
 }
 
 #button-container > button:hover {
