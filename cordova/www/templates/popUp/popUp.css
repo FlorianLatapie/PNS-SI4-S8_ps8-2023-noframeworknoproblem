@@ -19,7 +19,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     /* display: flex; */
     /* flex-direction: column; */
-    height: 90%;
 }
 
 .popup-container > img {
@@ -69,5 +68,9 @@
         height: 50%;
         width: 70%;
         margin-left: 2.2em;
+    }
+
+    .popup-container {
+        height: 90%;
     }
 }
