@@ -40,7 +40,6 @@ class UserDb {
     async getUser(data) {
         await this.verifyConnection();
         let user;
-        console.log("Searching for user: ", data)
 
         // our front only send the property username, but it can be the username or the email
         if (data.hasOwnProperty("username")) {
@@ -80,7 +79,6 @@ class UserDb {
         try {
             const sameUserName = await this.users.findOne({username: data.username});
             const sameEmail = await this.users.findOne({mail: data.mail});
-            //console.log("UserValidator db: ", sameUserName, sameEmail);
             return !(sameUserName === null && sameEmail === null);
         } catch (error) {
             console.error(error);
@@ -90,7 +88,6 @@ class UserDb {
     async checkUserExists(userId) {
         await this.verifyConnection();
         // findOne returns null if no data was not found
-        //console.log("Checking if user exists: ", await this.users.findOne({_id: userId}));
         if (await this.users.findOne({_id: new ObjectId(userId)}) === null) {
             throw new Error("User " + userId + " doesn't exist");
         }
@@ -99,7 +96,6 @@ class UserDb {
     async getUsersByIds(arrayUserId) {
         await this.verifyConnection();
         arrayUserId = arrayUserId.map((userId) => new ObjectId(userId));
-        console.log(arrayUserId)
         let res = await this.users.find({_id: {$in: arrayUserId}}, {projection: {password: 0, mail: 0}}).toArray();
         res.forEach(e => {
             e["userId"] = e["_id"].toString();

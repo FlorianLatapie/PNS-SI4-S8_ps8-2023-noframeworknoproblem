@@ -27,7 +27,6 @@ class AchievementDb {
     async addAchievement(userId, achievementId, progress, obtained) {
         if (!this.isAchievementValid(achievementId)) throw new Error("Invalid achievementRepresentation id: " + achievementId)
 
-        console.log("Adding achievementRepresentation: ", achievementId, " for user: ", userId)
         await this.verifyConnection()
         try {
             if (!await this.existsAchievementForThisUser(userId, achievementId)) {

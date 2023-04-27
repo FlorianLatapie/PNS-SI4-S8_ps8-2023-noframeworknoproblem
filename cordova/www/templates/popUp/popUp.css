@@ -1,7 +1,6 @@
 .popup {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
@@ -17,8 +16,6 @@
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    /* display: flex; */
-    /* flex-direction: column; */
 }
 
 .popup-container > img {
@@ -74,6 +71,7 @@
         width: 70%;
         margin-left: 2.2em;
         margin-bottom: 10px;
+        aspect-ratio: 1/1;
     }
 
     .popup-container {

@@ -15,7 +15,6 @@ function updateAchievements(userId) {
 }
 
 function nbGamesAchievement(userId, achievementId, goal, actual) {
-    console.log("adding achievementRepresentation: " + achievementId + " for user: " + userId + " with goal: " + goal + " and actual: " + actual);
     if (actual < goal) {
         let percentage = actual / goal;
         achievementdb.addAchievement(userId, achievementId, percentage, false).then(function (result) {

@@ -14,10 +14,8 @@ function userSignUp(request, response) {
         sendResponse(response, 400, "The object user is malformed " + JSON.stringify(err));
     }
 
-    console.log("Adding the user:", user);
     userdb.addUser(user).then((userCreated) => {
         // Everything went well, we can send a response.
-        console.log("User added: ", userCreated);
         sendResponse(response, 201, "OK");
     }).catch((err) => {
         console.log("User not added: ", err);

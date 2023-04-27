@@ -24,7 +24,6 @@ class WebPageInteractionPVP {
     constructor(grid) {
         this.#muteFlag = false;
         this.#grid = grid;
-        console.log("WebPageInteractionPVP constructor grid ", grid)
         this.addAllListeners();
         this.#addChatListeners();
     }
@@ -240,7 +239,6 @@ class WebPageInteractionPVP {
     }
 
     #tempChatListener = () => {
-        console.log("tempChatListener executed")
         let tempChat = document.getElementById("chat-temp-button");
         tempChat.style.cursor = "pointer";
         document.getElementById("all-message-container").style.visibility = "hidden";
@@ -266,7 +264,6 @@ class WebPageInteractionPVP {
     }
 
     #emitMessage = (bulle) => {
-        //console.log("message to send", bulle.childNodes[1].childNodes[1].textContent);
         this.#socket.chatEmit(bulle.getElementsByClassName("message")[0].textContent);
     }
 

@@ -19,7 +19,6 @@ fetch(BASE_URL_API + API_URL + STATS_API + `getAllElo/`, {
 
     let counter = 1;
     data.forEach(userInDb => {
-        console.log(userInDb); // elo and name
         let tr = document.createElement("tr");
         let tdPosition = document.createElement("td");
         let tdPseudo = document.createElement("td");

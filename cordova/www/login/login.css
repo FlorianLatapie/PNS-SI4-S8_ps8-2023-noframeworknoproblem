@@ -72,3 +72,11 @@ header > .top-page {
         min-width: 250px;
     }
 }
+
+
+@media (orientation: landscape) and (height < 480px) {
+    #button-container, form{
+        margin-top: 25px;
+    }
+}
+

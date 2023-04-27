@@ -16,7 +16,6 @@ class SocketChallenge {
     }
 
     newChallenge = (opponentId) => {
-        console.log("newChallenge : " + opponentId + ")");
         this.#gameSocket.emit("challenge_request", opponentId);
 
         fetch("/api/users/get/" + opponentId, {
@@ -41,7 +40,6 @@ class SocketChallenge {
     }
 
     acceptChallenge = (opponentId) => {
-        console.log("acceptChallenge : " + opponentId + ")");
         this.#gameSocket.emit("challenge_accepted", opponentId);
     }
 
@@ -72,7 +70,6 @@ class SocketChallenge {
 
     #updatedBoardFunction = (globalCoordsGrid) => {
         clearInterval(this.#interval);
-        console.log("updatedBoard received", globalCoordsGrid);
         let move = this.#grid.findMove(globalCoordsGrid.board)
         this.#grid.cells = globalCoordsGrid.board
 
@@ -97,8 +94,6 @@ class SocketChallenge {
 
     #setupFunction = (OpponentTurn, opponent) => {
         let opponentUsername = opponent.name;
-        console.log("Opponent received: ", opponent)
-        console.log("setup received OpponentTurn: " + OpponentTurn)
         let toPlay;
         let colorPlayer;
         let colorOtherPlayer;
@@ -119,18 +114,15 @@ class SocketChallenge {
     }
 
     #opponentLeaved = () => {
-        console.log("opponent leaved received");
         this.#webPageInteraction.opponentLeaved();
     }
 
     #waitingForOpponentFunction = () => {
-        console.log("waitingForOpponent event received");
         this.#webPageInteraction.waitingForOtherPlayerMessage();
     }
 
     //TODO : change the event for transmitting the color of the player to play
     #reconnectFunction = (gridReceived, toPlay, color, nameOtherPlayer) => {
-        console.log("reconnect received", gridReceived, toPlay)
         this.#grid.cells = gridReceived.board;
         // need to change the color later
 
@@ -157,18 +149,15 @@ class SocketChallenge {
     }
 
     #alreadyConnectedFunction = () => {
-        console.log("alreadyConnected event received");
         this.#webPageInteraction.alreadyConnectedMessage();
     }
 
     newMoveEmit = (column, row) => {
         this.#gameSocket.emit("newMove", [+column, +row]);
-        console.log("newMove", [column, row]);
     }
 
     giveUpEmit = () => {
         this.#gameSocket.emit("giveUp");
-        console.log("giveUp");
     }
 
     chatEmit = (message) => {

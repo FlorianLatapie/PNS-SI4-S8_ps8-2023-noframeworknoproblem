@@ -27,18 +27,14 @@ class FriendDb {
         await this.verifyConnection();
 
         // test conditions and recover the object from the database
-        console.log("addFriends ", userID, friendID)
         let [userObject, friendObject] = await Promise.all([
             this.isInPending(userID, friendID), this.isInRequests(friendID, userID)]);
 
-        console.log("addFriends ", userObject, friendObject)
         userObject.friends.push(friendID);
         userObject.pending = userObject.pending.filter((user) => user !== friendID)
 
-        console.log("userObject modifications ", userObject)
         friendObject.friends.push(userID);
         friendObject.requests = friendObject.requests.filter((user) => user !== userID)
-        console.log("friendObject modifications ", friendObject)
 
         // put the object in the database
         let objUpdateUser = {
@@ -55,14 +51,11 @@ class FriendDb {
             }
         }
 
-        console.log("Before sending promise ")
-
         await Promise.all([
             await this.friends.updateOne({userId: userID}, objUpdateUser),
             await this.friends.updateOne({userId: friendID}, objUpdateFriend)
         ]);
 
-        console.log("After sending promise ")
     }
 
     // Use it after addRequest to populate correctly the database
@@ -72,7 +65,6 @@ class FriendDb {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
 
-        console.log("addPending objectInDB", objectInDB)
         if (objectInDB.pending.includes(friendID)) {
             throw new Error(userID + " have already pending from " + friendID);
         } else if (objectInDB.friends.includes(friendID)) {
@@ -95,7 +87,6 @@ class FriendDb {
 
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
-        console.log("addRequest objectInDB", objectInDB)
         if (objectInDB.requests.includes(friendID)) {
             throw new Error(userID + " have already request from " + friendID);
         } else if (objectInDB.friends.includes(friendID)) {
@@ -227,7 +218,6 @@ class FriendDb {
     async isInRequests(userID, friendID) {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
-        console.log("isInRequests objectInDB", objectInDB)
         if (!objectInDB.requests.includes(friendID)) {
             throw new Error("Friend request from " + friendID + " not found for " + userID);
         }
@@ -236,7 +226,6 @@ class FriendDb {
     async isInPending(userID, friendID) {
         await this.verifyConnection();
         let objectInDB = await this.recoverFriendWithInit(userID);
-        console.log("isInPending objectInDB", objectInDB)
         if (!objectInDB.pending.includes(friendID)) {
             throw new Error("Friend pending from " + friendID + " not found for " + userID);
         }

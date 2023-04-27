@@ -73,12 +73,10 @@ function addFriend(request, response, friendId) {
     let userIdEmitTheRequest = request[USER_ID];
     let username = request[USERNAME];
 
-    console.log("add Friend start", userIdEmitTheRequest, friendId)
     checkUserIds(userIdEmitTheRequest, friendId).then((values) => {
         let requestPromise = frienddb.addRequest(userIdEmitTheRequest, friendId);
         let pendingPromise = frienddb.addPending(friendId, userIdEmitTheRequest);
         Promise.all([requestPromise, pendingPromise]).then(() => {
-            console.log("add Friend end 1")
             sendResponse(response, 200, "Friend request sent to " + friendId + " from " + userIdEmitTheRequest);
 
             try {
@@ -94,7 +92,6 @@ function addFriend(request, response, friendId) {
         console.log("add Friend end 3" + err)
         sendResponse(response, 404, err);
     });
-    console.log("add Friend end")
 }
 
 function acceptFriend(request, response, friendId) {
@@ -115,7 +112,6 @@ function acceptFriend(request, response, friendId) {
 
 function getFriends(request, response) {
     let userIdEmitTheRequest = request[USER_ID];
-    console.log("getFriends", userIdEmitTheRequest);
     getFriendsInternal(userIdEmitTheRequest).then(friends => {
         sendResponse(response, 200, JSON.stringify(friends));
     }).catch(err => {
@@ -219,17 +215,14 @@ function friendshipStatus(request, response, friendId) {
     Promise.all([test]).then((values) => {
         let friends = values[0];
         if (friends.friends.includes(friendId)) {
-            console.log("friendshipStatus", "friend")
             sendResponse(response, 200, "friend");
             return;
         }
         if (friends.pending.includes(friendId)) {
-            console.log("friendshipStatus", "pending")
             sendResponse(response, 200, "pending");
             return;
         }
         if (friends.requests.includes(friendId)) {
-            console.log("friendshipStatus", "request")
             sendResponse(response, 200, "request");
             return;
         }

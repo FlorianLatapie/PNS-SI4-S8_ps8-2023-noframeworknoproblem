@@ -56,7 +56,6 @@ class GameDb {
     async existsGameGameEngineId(data) {
         await this.verifyConnection();
         try {
-            //console.log("Checking if game exists: ", data.gameId)
             return await this.games.findOne({gameId: data.gameId}) !== null;
         } catch (error) {
             console.error(error);

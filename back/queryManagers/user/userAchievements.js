@@ -44,7 +44,6 @@ function addAchievements(request, response) {
     let achievement = data.achievement;
     let userId = jwt.decode(token).userId;
     achievementdb.addAchievement(userId, achievement, 1, true).then((achievementAdded) => {
-        console.log("Achievement added: ", achievementAdded);
         sendResponse(response, 201, "OK");
     }).catch((err) => {
         sendResponse(response, 409, "Achievement not added: " + JSON.stringify(err));

@@ -9,7 +9,6 @@ class SendNotifications {
     static #sendNotification = (receiverId, notification) => {
         SendNotifications.#addNotificationToDatabase(receiverId, notification).then((notificationFromDB) => {
             delete notificationFromDB.userId;
-            console.log("notificationFromDB", notificationFromDB);
             SendNotifications.#sendNotificationToSocketPlayer(receiverId, notificationFromDB);
         });
     }
@@ -49,8 +48,6 @@ class SendNotifications {
     // ----------------------------------------- CHALLENGE REQUEST ----------------------------------------------
     static sendNotificationChallengeRequest(receiverId, userId, username) {
         // Those are the same as in the challenge.js file in the front
-
-        console.log("sendNotificationChallengeRequest", receiverId, userId, username)
 
         let url = `play/challenge/?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
         let notification = new Notification(`Demande de défi reçu par ${username}` , null, url);
