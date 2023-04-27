@@ -17,8 +17,9 @@
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
+    /* display: flex; */
+    /* flex-direction: column; */
+    height: 90%;
 }
 
 .popup-container > img {
@@ -61,4 +62,12 @@
 
 .buttons-popup > button:hover {
     background-color: var(--very-dark-accentuation-color);
+}
+
+@media (orientation: landscape) and (height<=480px) {
+    .popup-container > img{
+        height: 50%;
+        width: 70%;
+        margin-left: 2.2em;
+    }
 }
