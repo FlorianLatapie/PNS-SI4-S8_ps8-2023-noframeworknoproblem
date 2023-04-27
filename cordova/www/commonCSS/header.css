@@ -24,6 +24,10 @@ header > *:first-child {
     padding-left: var(--icon-padding);
 }
 
+#header-center-div {
+    background-color: white;
+}
+
 .page-title {
     width: 30em;
     font-weight: bold;
@@ -35,24 +39,10 @@ header > *:first-child {
 }
 
 @media (orientation: portrait) {
-    .top-corner-content:last-child {
-        visibility: hidden;
-        font-size: 0;
-    }
-
     .top-corner-content {
-        /* min-width: 0; */ /* todo quentin*/
-        /* max-width: 0; */
         width: 79px;
-        /* width: 20px; */
         padding: 0;
         margin: 0;
-    }
-
-    @media (width<=480px) {
-        .page-title {
-            width: 70%;
-        }
     }
 }
 
@@ -75,7 +65,20 @@ header > *:first-child {
 }
 
 @media (width <= 730px) {
-    .top-corner-content {
-        visibility: hidden;
+    header > .top-corner-content {
+        display: none;
+        font-size: 0;
+    }
+
+    header > .page-title {
+        width: 100%;
+        margin: 10px 15%;
+    }
+}
+
+@media (width<=560px) {
+    header > *:nth-child(3) {
+        width: 100%;
+        margin: 10px 10%;
     }
 }
