@@ -1,6 +1,6 @@
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     font-size: 1em;
     min-height: 100px;
     min-width: 100vw;
@@ -16,7 +16,7 @@ header > *:not(:first-child) {
     border-radius: 8px;
 }
 
-header > *:first-child{
+header > *:first-child {
     display: flex;
     align-items: center;
     justify-content: flex-start;

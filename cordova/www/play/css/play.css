@@ -95,7 +95,7 @@
         width: 100vw;
     }
 
-    burger-menu-open-close {
+    header > *:first-child {
         display: none;
         visibility: hidden;
     }
@@ -106,6 +106,16 @@
 
     :root{
         --disc-size: 10vw;
+    }
+
+    header > div:last-child {
+        display: none;
+    }
+
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
 }
 

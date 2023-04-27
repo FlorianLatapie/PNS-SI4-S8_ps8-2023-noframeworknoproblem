@@ -5,6 +5,7 @@ burger-menu {
 
 burger-menu-open-close {
     background: var(--light-accentuation-grey);
+    /* display: none; */
 }
 
 #menu-buttons>  * > button {
