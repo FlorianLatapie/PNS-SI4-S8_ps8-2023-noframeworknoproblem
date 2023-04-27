@@ -37,7 +37,7 @@
         <splash src="res/screen/android/background.png" density="land"/>
 
         <preference name="SplashScreenBackgroundColor" value="black"/>
-        <preference name="SplashScreenDelay" value="7000"/>
+        <preference name="SplashScreenDelay" value="3000"/>
         <preference name="AutoHideSplashScreen" value="true"/>
         <preference name="SplashMaintainAspectRatio" value="true"/>
 
