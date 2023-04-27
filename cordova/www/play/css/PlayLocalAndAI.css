@@ -30,6 +30,12 @@ main {
     #buttons-container > * {
         margin: 30px 3vw
     }
+    #grid-div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media (orientation: landscape) and (height <= 480px) {
