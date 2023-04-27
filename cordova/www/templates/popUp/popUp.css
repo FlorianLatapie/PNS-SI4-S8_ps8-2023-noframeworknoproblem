@@ -29,12 +29,12 @@
     font-size : 1.4rem;
 }
 
-.img-container > img {
+.cross-container > img {
     width: 18px;
     height: 18px;
 }
 
-.img-container {
+.cross-container {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
@@ -60,21 +60,19 @@
     background-color: var(--very-dark-accentuation-color);
 }
 
-.img-container:hover {
+.cross-container:hover {
     cursor: pointer;
     filter: opacity(40%);
 }
 
-@media (orientation: landscape) and (height<=480px) {
-    .popup-container > img{
-        height: 50%;
-        width: 70%;
-        margin-left: 2.2em;
-        margin-bottom: 10px;
-        aspect-ratio: 1/1;
-    }
+.img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .popup-container {
-        height: 90%;
-    }
+.img-container > img {
+    padding: 10px;
+    height: 30vh;
+    aspect-ratio: 1/1;
 }

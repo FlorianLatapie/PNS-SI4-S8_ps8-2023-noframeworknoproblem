@@ -11,11 +11,17 @@ function endGamePopUp(text, imgSrc) {
     const content = document.createElement("p")
     content.innerText = text
 
-    const imgContainer = document.createElement("div");
-    imgContainer.classList.add("img-container");
+
 
     const img = document.createElement("img");
     img.src = imgSrc;
+
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("img-container");
+    imgContainer.appendChild(img);
+
+    const closeIconContainer = document.createElement("div");
+    closeIconContainer.classList.add("cross-container");
 
     const closeIcon = document.createElement("img");
     closeIcon.src = BASE_URL_PAGE + "images/cross.png";
@@ -32,13 +38,13 @@ function endGamePopUp(text, imgSrc) {
 
     // ------------------ Add elements to the DOM ------------------
 
-    imgContainer.appendChild(closeIcon);
+    closeIconContainer.appendChild(closeIcon);
 
 
     const popUpFragment = document.createDocumentFragment();
-    popUpFragment.appendChild(imgContainer);
+    popUpFragment.appendChild(closeIconContainer);
     popUpFragment.appendChild(content);
-    popUpFragment.appendChild(img);
+    popUpFragment.appendChild(imgContainer);
     popUpFragment.appendChild(homeButton);
 
     popUpContainer.appendChild(popUpFragment);
