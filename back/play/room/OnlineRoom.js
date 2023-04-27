@@ -5,6 +5,8 @@ import matchmakingRoomInstances from "../matchmaking/OnlineRoomInstances.js";
 import {STATSaddGamePlayed, STATSupdateElo} from "../../object/UserStatsDBUtil.js";
 import userdb from "../../database/userdb.js";
 
+const SECOND = 1000;
+
 class OnlineRoom {
     #player1;
 
@@ -23,7 +25,7 @@ class OnlineRoom {
     #timer;
 
     // In milliseconds
-    #timeToPlay = 10000;
+    #timeForEachPlayerTurn = 10 * SECOND;
 
 
     constructor(player1, player2, gameSocket) {
@@ -146,14 +148,14 @@ class OnlineRoom {
     }
 
     checkTimer = () => {
-        this.#gameSocket.to(this.#room).emit("timer", this.#timeToPlay);
+        this.#gameSocket.to(this.#room).emit("timer", this.#timeForEachPlayerTurn);
         return setTimeout(() => {
             if (this.#gameEngine.currentPlayingPlayer.id === this.#player1.userId) {
                 this.#giveUpFunction(this.#player1)
             } else {
                 this.#giveUpFunction(this.#player2)
             }
-        }, this.#timeToPlay);
+        }, this.#timeForEachPlayerTurn);
     }
 
     newGame = () => {
