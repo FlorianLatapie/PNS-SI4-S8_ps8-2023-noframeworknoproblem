@@ -33,7 +33,6 @@ main > * {
 }
 
 .bulle {
-    height: 55px;
     width: 120px;
     padding: 15px;
     background-color: var(--bubble-bg-color);
@@ -178,7 +177,7 @@ burger-menu-open-close{
 
 @media (orientation: landscape) and (height <= 480px) {
     main * {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     header {
