@@ -25,6 +25,7 @@ docker-compose --env-file ./env/docker-prod.env up -d
 ## Cordova version
 
 Add android platform
+
 ```bash
 cd cordova
 ```
@@ -34,6 +35,7 @@ cordova platform add android
 ```
 
 Build and run
+
 ```bash
 cordova run android
 ```
